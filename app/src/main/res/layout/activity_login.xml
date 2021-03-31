@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glLogin1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glLogin2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glLoginLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glLoginRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
+    <TextView
+        android:id="@+id/tvLoginEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/glLogin1" />
+
+    <EditText
+        android:id="@+id/edtLoginEmail"
+        style="@style/FormLoginStyle"
+        android:hint="Your email"
+        android:inputType="textPersonName"
+        android:drawableStart="@drawable/ic_email"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvLoginEmail"
+        app:layout_constraintTop_toBottomOf="@+id/tvLoginEmail" />
+
+    <TextView
+        android:id="@+id/tvLoginPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Password"
+        app:layout_constraintStart_toStartOf="@+id/edtLoginEmail"
+        app:layout_constraintTop_toBottomOf="@+id/edtLoginEmail" />
+
+    <EditText
+        android:id="@+id/edtLoginPassword"
+        style="@style/FormLoginStyle"
+        android:hint="Enter Password"
+        android:inputType="textPassword"
+        android:drawableStart="@drawable/ic_lock"
+        android:drawablePadding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvLoginPassword"
+        app:layout_constraintTop_toBottomOf="@+id/tvLoginPassword" />
+
+    <TextView
+        android:id="@+id/tvLoginForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/forgot_password"
+        app:layout_constraintEnd_toEndOf="@+id/btnLogin"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnLogin"
+        style="@style/ButtonStyle"
+        android:layout_marginTop="32dp"
+        android:text="Login"
+        app:layout_constraintEnd_toEndOf="@+id/edtLoginPassword"
+        app:layout_constraintStart_toStartOf="@+id/edtLoginPassword"
+        app:layout_constraintTop_toBottomOf="@+id/edtLoginPassword" />
+
+    <TextView
+        android:id="@+id/tvQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="You don't have account? "
+        app:layout_constraintStart_toStartOf="@+id/glLoginLeft"
+        app:layout_constraintTop_toTopOf="@+id/glLogin2" />
+
+    <TextView
+        android:id="@+id/tvSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="24dp"
+        android:text="Sign up here"
+        android:textColor="@color/blue"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toStartOf="@+id/glLoginRight"
+        app:layout_constraintStart_toEndOf="@+id/tvQuestion"
+        app:layout_constraintTop_toTopOf="@+id/glLogin2" />
+
+    <ProgressBar
+        android:id="@+id/pBLogin"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationZ="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/glLoginRight"
+        app:layout_constraintStart_toStartOf="@+id/glLoginLeft"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

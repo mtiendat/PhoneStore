@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbarSignUp"
+        layout="@layout/app_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glSignUpTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glSignUpFoot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.75" />
+
+
+    <EditText
+        android:id="@+id/edtSignUpFullName"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        style="@style/FormLoginStyle"
+        android:inputType="textPersonName"
+        android:hint="Full name"
+        android:drawableStart="@drawable/ic_person"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/glSignUpTop" />
+
+    <EditText
+        android:id="@+id/edtSignUpEmail"
+        style="@style/FormLoginStyle"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:drawableStart="@drawable/ic_email"
+        android:hint="Enter your mail"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtSignUpFullName" />
+
+    <EditText
+        android:id="@+id/edtSignUpPassword"
+        style="@style/FormLoginStyle"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:drawableStart="@drawable/ic_lock"
+        android:hint="Enter your password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtSignUpEmail" />
+
+    <CheckBox
+        android:id="@+id/cbPrivacy"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="24dp"
+        android:backgroundTintMode="@color/blue"
+        app:layout_constraintStart_toStartOf="@+id/edtSignUpPassword"
+        app:layout_constraintTop_toBottomOf="@+id/edtSignUpPassword" />
+
+    <TextView
+        android:id="@+id/tvSignUpPrivacy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="By creating an account, you agree to PhoneStore's Conditions of Use and Privacy Notice."
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="@+id/edtSignUpPassword"
+        app:layout_constraintStart_toEndOf="@+id/cbPrivacy"
+        app:layout_constraintTop_toTopOf="@id/cbPrivacy" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSignUp"
+        style="@style/ButtonStyle"
+        android:text="Sign up"
+        app:layout_constraintBottom_toTopOf="@+id/glSignUpFoot"
+        app:layout_constraintEnd_toEndOf="@id/edtSignUpPassword"
+        app:layout_constraintStart_toStartOf="@id/edtSignUpPassword" />
+</androidx.constraintlayout.widget.ConstraintLayout>

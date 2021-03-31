@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsvDetail"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/ctrlFeature"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/little_dray">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ctlDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ivDetailPhoto"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@+id/glDetailTop"
+                    app:layout_constraintTop_toTopOf="@+id/ctlDetail"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:layout_editor_absoluteX="29dp"
+                    tools:srcCompat="@drawable/iphone_12_mini_green" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/glDetailTop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="320dp" />
+
+                <TextView
+                    android:id="@+id/tvDetailName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="iPhone 12 "
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivDetailPhoto" />
+
+                <RatingBar
+                    android:id="@+id/ratingBarDetail"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:numStars="5"
+                    android:progressTint="@color/gold"
+                    android:rating="0.1"
+                    android:stepSize="0.1"
+                    app:layout_constraintStart_toStartOf="@+id/tvDetailName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDetailName" />
+
+                <TextView
+                    android:id="@+id/tvDetailPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:text="32.990.990"
+                    android:textColor="@color/red"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/ratingBarDetail"
+                    app:layout_constraintTop_toBottomOf="@+id/ratingBarDetail" />
+
+                <TextView
+                    android:id="@+id/tvDetaiPriceOld"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="35.990.990"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvDetailPrice"
+                    app:layout_constraintStart_toEndOf="@+id/tvDetailPrice"
+                    app:layout_constraintTop_toTopOf="@+id/tvDetailPrice" />
+
+                <Spinner
+                    android:id="@+id/spDetailStorage"
+                    android:layout_width="112dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="@+id/guideline3"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDetailName" />
+
+                <Spinner
+                    android:id="@+id/spDetailColor"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="@+id/spDetailStorage"
+                    app:layout_constraintStart_toStartOf="@+id/spDetailStorage"
+                    app:layout_constraintTop_toBottomOf="@+id/spDetailStorage" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glDetailBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="448dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ctrlServiceDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/glDetailBottom">
+
+                <ImageView
+                    android:id="@+id/ivCompensation"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toStartOf="@+id/ivWarranty"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/compensation" />
+
+                <ImageView
+                    android:id="@+id/ivWarranty"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="24dp"
+                    app:layout_constraintEnd_toStartOf="@+id/ivRefund"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/ivCompensation"
+                    app:layout_constraintTop_toTopOf="@+id/ivCompensation"
+                    app:srcCompat="@drawable/wanrranty" />
+
+                <ImageView
+                    android:id="@+id/ivRefund"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/ivWarranty"
+                    app:layout_constraintTop_toTopOf="@+id/ivWarranty"
+                    app:srcCompat="@drawable/refund" />
+
+                <TextView
+                    android:id="@+id/tvCompensation"
+                    android:layout_width="96dp"
+                    android:layout_height="37dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Hoàn tiền 100% nếu giả"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tvWarranty"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivCompensation" />
+
+                <TextView
+                    android:id="@+id/tvWarranty"
+                    android:layout_width="90dp"
+                    android:layout_height="38dp"
+                    android:text="Mở hộp kiểm tra nhận hàng"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toStartOf="@+id/tvRefund"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/tvCompensation"
+                    app:layout_constraintTop_toTopOf="@+id/tvCompensation" />
+
+                <TextView
+                    android:id="@+id/tvRefund"
+                    android:layout_width="106dp"
+                    android:layout_height="39dp"
+                    android:text="Đổi trả trong 30 ngày nếu sp lỗi"
+                    android:textAlignment="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/tvWarranty"
+                    app:layout_constraintTop_toTopOf="@+id/tvWarranty" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glDetailSupplier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="560dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ctrlSupplier"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/glDetailSupplier">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/mcvLogoSupplier"
+                    android:layout_width="104dp"
+                    android:layout_height="104dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    app:cardCornerRadius="50dp"
+                    app:layout_constraintStart_toStartOf="@+id/ctrlSupplier"
+                    app:layout_constraintTop_toTopOf="@id/ctrlSupplier"
+                    app:strokeColor="@color/little_dray"
+                    app:strokeWidth="1dp">
+
+                    <ImageView
+                        android:id="@+id/ivSupplierLogo"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:src="@drawable/logo" />
+                </androidx.cardview.widget.CardView>
+
+                <View
+                    android:id="@+id/viewSupplier"
+                    android:layout_width="1dp"
+                    android:layout_height="104dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/little_dray"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toStartOf="@id/tvSupplierName"
+                    app:layout_constraintStart_toEndOf="@id/mcvLogoSupplier"
+                    app:layout_constraintTop_toTopOf="@+id/mcvLogoSupplier" />
+
+                <TextView
+                    android:id="@+id/tvSupplierName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Apple Flagship Offical Store"
+                    app:layout_constraintStart_toEndOf="@+id/viewSupplier"
+                    app:layout_constraintTop_toTopOf="@+id/mcvLogoSupplier" />
+
+                <TextView
+                    android:id="@+id/tvVoteSupplier2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="46 đánh giá"
+                    app:layout_constraintEnd_toEndOf="@+id/tvVoteSupplier"
+                    app:layout_constraintStart_toStartOf="@+id/tvVoteSupplier"
+                    app:layout_constraintTop_toBottomOf="@+id/tvVoteSupplier" />
+
+                <TextView
+                    android:id="@+id/tvFlowSupplier2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Người theo dõi"
+                    app:layout_constraintEnd_toEndOf="@+id/tvSupplierFollow"
+                    app:layout_constraintStart_toStartOf="@+id/tvSupplierFollow"
+                    app:layout_constraintTop_toTopOf="@+id/tvVoteSupplier2" />
+
+                <TextView
+                    android:id="@+id/tvVoteSupplier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:text="4.8/5.0"
+                    app:layout_constraintStart_toStartOf="@+id/tvSupplierName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSupplierName" />
+
+                <TextView
+                    android:id="@+id/tvSupplierFollow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/tvVoteSupplier"
+                    app:layout_constraintTop_toTopOf="@+id/tvVoteSupplier" />
+
+                <TextView
+                    android:id="@+id/tvRelatedProductTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Sản phẩm liên quan"
+                    app:layout_constraintStart_toStartOf="@id/mcvLogoSupplier"
+                    app:layout_constraintTop_toBottomOf="@id/mcvLogoSupplier" />
+
+                <View
+                    android:id="@+id/viewRelatedProduct"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/little_dray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvRelatedProductTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRelatedProductTitle" />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerLayoutRelated"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="@+id/viewRelatedProduct"
+                    app:layout_constraintStart_toStartOf="@+id/viewRelatedProduct"
+                    app:layout_constraintTop_toBottomOf="@+id/viewRelatedProduct"
+                    app:shimmer_repeat_mode="restart"
+                    app:shimmer_shape="radial">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <include layout="@layout/shimmer_realated_product" />
+
+                        <include layout="@layout/shimmer_realated_product" />
+
+                        <include layout="@layout/shimmer_realated_product" />
+
+                        <include layout="@layout/shimmer_realated_product" />
+                    </LinearLayout>
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvRelatedProduct"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="@+id/viewRelatedProduct"
+                    app:layout_constraintStart_toStartOf="@+id/viewRelatedProduct"
+                    app:layout_constraintTop_toBottomOf="@+id/viewRelatedProduct" />
+
+                <ImageView
+                    android:id="@+id/ivAuth"
+                    android:layout_width="87dp"
+                    android:layout_height="24dp"
+                    app:layout_constraintStart_toStartOf="@+id/tvSupplierName"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSupplierName"
+                    app:srcCompat="@drawable/auth" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glDetailTechnology"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="898dp" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ctrlTechnology"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:layout_constraintTop_toTopOf="@+id/glDetailTechnology">
+
+                <TextView
+                    android:id="@+id/tvTechnologyTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Thông số kỹ thuật"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvDetailTechnology"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="TextView"
+                    app:layout_constraintStart_toStartOf="@+id/tvTechnologyTitle"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTechnologyTitle" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bộ nhớ trong: "
+                    app:layout_constraintStart_toStartOf="@+id/tvDetailTechnology"
+                    app:layout_constraintTop_toBottomOf="@+id/tvDetailTechnology" />
+
+                <TextView
+                    android:id="@+id/tvStorageDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView"
+                    app:layout_constraintStart_toEndOf="@+id/textView" />
+
+                <FrameLayout
+                    android:id="@+id/ytTrailer"
+                    android:layout_width="match_parent"
+                    android:layout_height="208dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctrlFeature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAddToCart"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_stroke_button"
+            android:text="Thêm vào giỏ hàng"
+            android:textColor="@color/blue"
+            app:layout_constraintEnd_toStartOf="@+id/btnBuyNow"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toEndOf="@+id/glFeature"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ctrlFeature" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glFeature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBuyNow"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/blue"
+            android:text="Mua Ngay"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/glFeature"
+            app:layout_constraintTop_toTopOf="@+id/btnAddToCart" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
