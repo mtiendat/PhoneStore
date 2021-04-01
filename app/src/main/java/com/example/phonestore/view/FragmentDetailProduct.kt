@@ -20,6 +20,7 @@ import com.example.phonestore.services.Constant
 import com.example.phonestore.services.DetailProductAdapter
 import com.example.phonestore.viewmodel.CartViewModel
 import com.example.phonestore.viewmodel.DetailProductViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerSupportFragment
@@ -43,6 +44,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private var color: String? = null
     private var storage: String? = null
     private var idYT: String? = null
+    private var countAddToCart: Int = 0
     private lateinit var youtubePlayerFragment: YouTubePlayerSupportFragmentX
     private var relatedProductAdapter: DetailProductAdapter<CateProductInfo>? = null
     private var listRelatedProduct: ArrayList<CateProductInfo>? = arrayListOf()
@@ -64,7 +66,10 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         detailViewModel.getRelatedProduct(idCate)
         bindingProductDetail.btnAddToCart.setOnClickListener {
             if(checkSelectSpinner()){
-                cartViewModel.addToCart(idProduct)
+                if(countAddToCart<2) {
+                    countAddToCart++
+                    cartViewModel.addToCart(idProduct)
+                }else view?.let { it1 -> Snackbar.make(it1, "Bạn được mua tối đa 2 sản phẩm", Snackbar.LENGTH_SHORT).show() }
             }
         }
     }
@@ -200,7 +205,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             if(it) {
                 makeToast("Thêm vào giỏ hàng thành công")
                 cartViewModel.getTotalProduct()
-            }
+            }else view?.let { it1 -> Snackbar.make(it1, "Bạn được mua tối đa 2 sản phẩm", Snackbar.LENGTH_SHORT).show() }
         }
         cartViewModel.resultAddToCart.observe(viewLifecycleOwner, resultsObserve)
     }
@@ -277,45 +282,5 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        Log.d("TEST", "onPause")
-    }
-    override fun onResume() {
-        super.onResume()
-        Log.d("TEST", "onResume")
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        Log.d("TEST", "onDestroyView")
-    }
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Log.d("TEST", "onAttach")
-    }
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("TEST", "onDestroy")
-    }
 
-    override fun onDetach() {
-        super.onDetach()
-        Log.d("TEST", "onDetach")
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d("TEST", "onStart")
-
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("TEST", "onStop")
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d("TEST", "onCreate")
-    }
 }

@@ -101,7 +101,6 @@ class FragmentHome : BaseFragment(){
         }
     }
     private fun getData(){
-
         bindingHome.shimmerLayoutHotSale.startShimmer()
         bindingHome.shimmerLayoutRecommend.startShimmer()
         Handler(Looper.getMainLooper()).postDelayed({
@@ -114,6 +113,10 @@ class FragmentHome : BaseFragment(){
     }
     override fun setViewModel(){
         homeViewModel = ViewModelProvider(this@FragmentHome).get(ProductViewModel::class.java)
+
+    }
+
+    override fun setObserve() {
         val hotSaleProductObserve = Observer<ArrayList<ProductInfo>?>{
             //listProduct.addAll(it)
             hotSaleAdapter?.setItems(it)
@@ -286,8 +289,6 @@ class FragmentHome : BaseFragment(){
         clearList()
         sliderItem.clear()
         sliderAdapter.notifyDataSetChanged()
-
-
     }
 
 

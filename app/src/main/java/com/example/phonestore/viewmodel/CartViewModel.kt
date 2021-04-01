@@ -4,11 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.phonestore.model.Cart
 import com.example.phonestore.model.DetailCart
+import com.example.phonestore.model.Order
 import com.example.phonestore.repo.CartRepo
 
 class CartViewModel: ViewModel() {
     var resultAddToCart: MutableLiveData<Boolean> = MutableLiveData()
     var resultDeleteItem: MutableLiveData<Boolean> = MutableLiveData()
+    var resultOrder: MutableLiveData<Boolean> = MutableLiveData()
     var message: MutableLiveData<String> = MutableLiveData()
     var cartRepo: CartRepo = CartRepo()
     var totalProduct: MutableLiveData<Int> = MutableLiveData()
@@ -26,11 +28,17 @@ class CartViewModel: ViewModel() {
     fun deleteItem(idProduct: Int? = 0){
         cartRepo.deleteItem(idProduct, this::onSuccessDeleteItemCart, this::onError)
     }
-    private fun onSuccessAddToCart(s: Boolean?){
-        resultAddToCart.value = s
+    fun order(order: Order){
+        cartRepo.order(order, this::onSuccessOrder, this::onError)
+    }
+    private fun onSuccessAddToCart(a: Boolean?){
+        resultAddToCart.value = a
     }
     private fun onSuccessDeleteItemCart(s: Boolean?){
         resultDeleteItem.value = s
+    }
+    private fun onSuccessOrder(o: Boolean?){
+        resultOrder.value = o
     }
     private fun onSuccessTotalProduct(t: Int?){
         totalProduct.value = t

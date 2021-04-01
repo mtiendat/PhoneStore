@@ -44,20 +44,23 @@ interface APIServices {
     @GET("nha-cung-cap")
     fun getSupplier(): Call<SupplierReponse>
     @GET("loai-san-pham")
-    fun getCateProduct(@Query("page") page: Int? = 0, @Query("per_page") per_page: Int? = 0): Call<CateProductReponse>
+    fun getCateProduct(@Query("page") page: Int?= 0, @Query("per_page") per_page: Int? = 0): Call<CateProductReponse>
     @GET("loai-san-pham/{id}")
-    fun getCateProductByID(@Path("id") id: Int? =0): Call<CateProductResponseByID>
+    fun getCateProductByID(@Path("id") id: Int?= 0): Call<CateProductResponseByID>
     @GET("san-pham/{id}")
-    fun getProductByColor(@Path("id") id: Int? =0, @Query("MauSac") color: String? ="", @Query("DungLuong") storage: String? =""): Call<ProductReponse>
+    fun getProductByColor(@Path("id") id: Int?= 0, @Query("MauSac") color: String? ="", @Query("DungLuong") storage: String? =""): Call<ProductReponse>
     @GET("san-pham-lien-quan/{id}")
-    fun getRelatedProduct(@Path("id") id: Int? =0): Call<CateProductReponse>
+    fun getRelatedProduct(@Path("id") id: Int?= 0): Call<CateProductReponse>
     @GET("tong-san-pham/{id}")
-    fun getTotalProductInCart(@Path("id") idUser: Int?=0): Call<CartResponse>
+    fun getTotalProductInCart(@Path("id") idUser: Int?= 0): Call<CartResponse>
     @POST("them-vao-gio/{id}")
-    fun addToCart(@Path("id") idProduct: Int? =0, @Query("id") idUser: Int?=0): Call<CartResponse>
+    fun addToCart(@Path("id") idProduct: Int?= 0, @Query("id") idUser: Int?=0): Call<CartResponse>
     @GET("gio-hang/{id}")
-    fun getMyCart(@Path("id") idUser: Int?=0): Call<DetailCartResponse>
+    fun getMyCart(@Path("id") idUser: Int?= 0): Call<DetailCartResponse>
     @DELETE("xoa-item/{id}")
-    fun deleteItem(@Path("id")idUser: Int?=0, @Query("MaSP") idProduct: Int?= 0): Call<DetailCartResponse>
+    fun deleteItem(@Path("id")idUser: Int?= 0, @Query("MaSP") idProduct: Int?= 0): Call<DetailCartResponse>
+    @POST("dat-hang/{id}")
+    fun order(@Path("id") idUser: Int?= 0, @Body order: Order): Call<OrderResponse>
+
 
 }

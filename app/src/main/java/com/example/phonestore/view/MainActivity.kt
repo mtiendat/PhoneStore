@@ -62,7 +62,7 @@ class MainActivity : BaseActivity() {
     override fun setToolBar() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentMain) as NavHostFragment
         navController = navHostFragment.navController
-        appBarConfiguration = AppBarConfiguration.Builder(R.id.fragmentHome)
+        appBarConfiguration = AppBarConfiguration.Builder(R.id.fragmentHome, R.id.fragmentSuccessOrder)
                 .build()
         setSupportActionBar(bindingMain.toolbarMain.toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -80,6 +80,12 @@ class MainActivity : BaseActivity() {
                     hideBottomNavigation()
                 }
                 R.id.fragmentDetailCart -> {
+                    hideBottomNavigation()
+                }
+                R.id.fragmentOrder -> {
+                    hideBottomNavigation()
+                }
+                R.id.fragmentSuccessOrder -> {
                     hideBottomNavigation()
                 }
                 else-> showBottomNavigation()

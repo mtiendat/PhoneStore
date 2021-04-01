@@ -25,5 +25,28 @@
     <fragment
         android:id="@+id/fragmentDetailCart"
         android:name="com.example.phonestore.view.FragmentDetailCart"
-        android:label="Giỏ hàng của bạn" />
+        tools:layout="@layout/fragment_detail_cart"
+        android:label="Giỏ hàng của bạn" >
+        <action
+            android:id="@+id/action_fragmentDetailCart_to_fragmentOrder"
+            app:destination="@id/fragmentOrder" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentOrder"
+        android:name="com.example.phonestore.view.FragmentOrder"
+        tools:layout="@layout/fragment_order"
+        android:label="Kiểm tra" >
+        <action
+            android:id="@+id/action_fragmentOrder_to_fragmentSuccessOrder"
+            app:destination="@id/fragmentSuccessOrder" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSuccessOrder"
+        android:name="com.example.phonestore.view.FragmentSuccessOrder"
+        tools:layout="@layout/fragment_success_order"
+        android:label="Đặt hàng thành công" >
+        <action
+            android:id="@+id/action_fragmentSuccessOrder_to_fragmentHome"
+            app:destination="@id/fragmentHome" />
+    </fragment>
 </navigation>

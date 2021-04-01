@@ -12,13 +12,16 @@ import com.example.phonestore.Extension.toVND
 import com.example.phonestore.R
 import com.example.phonestore.databinding.ActivityLoginBinding.inflate
 import com.example.phonestore.databinding.ItemProductInCartBinding
+import com.example.phonestore.databinding.ItemProductOrderBinding
 import com.example.phonestore.databinding.ItemRelatedProductBinding
 import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.model.DetailCart
+import com.example.phonestore.model.ProductOrder
 
 class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var clickCheckBox: ((Int, Boolean)->Unit)? = null
+    var clickCheckBox: ((Int, Boolean, DetailCart, Int)->Unit)? = null
     var clickMaxMin: ((Int?, Boolean)->Unit)? = null
+    var check: Boolean? = null
     var updateProductInList: ((Int?, Int)-> Unit)? = null
     fun setItems(listItem: ArrayList<T>) {
         val currentSize: Int? = list?.size
@@ -32,12 +35,15 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
     }
     class ItemRelatedProductViewHolder(val bindingRelated: ItemRelatedProductBinding): RecyclerView.ViewHolder(bindingRelated.root)
     class ItemProductInCartViewHolder(val bindingProductInCart: ItemProductInCartBinding): RecyclerView.ViewHolder(bindingProductInCart.root)
+    class ItemProductOrderViewHolder(val bindingProductOrder: ItemProductOrderBinding): RecyclerView.ViewHolder(bindingProductOrder.root)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if(viewType == Constant.VIEW_CATEPRODUCT){
             ItemRelatedProductViewHolder(ItemRelatedProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         }else if(viewType == Constant.VIEW_MYCART){
             ItemProductInCartViewHolder(ItemProductInCartBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-        }else ItemRelatedProductViewHolder(ItemRelatedProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        }else if(viewType == Constant.VIEW_PRODUCT_ORDER) {
+            ItemProductOrderViewHolder(ItemProductOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        } else ItemRelatedProductViewHolder(ItemRelatedProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -54,7 +60,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             var qty: Int?
             val price: Int?  = product.price
             var total: Int
-            var check: Boolean = false
+
             holder.bindingProductInCart.tvProInCartName.text = product.nameProduct
             holder.bindingProductInCart.tvProInCartColor.text = product.color
             holder.bindingProductInCart.tvProInCartStorage.text = product.storage
@@ -65,7 +71,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                     qty--
                     updateProductInList?.invoke(product.id, qty)
                     holder.bindingProductInCart.tvProInCartQty.text = qty.toString()
-                    if(qty>=0&&check) {
+                    if(qty>=0&& check == true) {
                         clickMaxMin?.invoke(price, false)
                     }
                 }
@@ -75,7 +81,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                     qty++
                     updateProductInList?.invoke(product.id, qty)
                     holder.bindingProductInCart.tvProInCartQty.text = qty.toString()
-                    if(check) {
+                    if(check == true) {
                         clickMaxMin?.invoke(price, true)
                     }
                 }else Toast.makeText(holder.itemView.context, "Bạn chỉ mua tối đa 2 sản phẩm", Toast.LENGTH_SHORT).show()
@@ -85,16 +91,15 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                     when(isChecked){
                         true -> {
                             total = price * qty
-                            clickCheckBox?.invoke(total, true)
+                            clickCheckBox?.invoke(total, true, product, qty)
                             check = true
                         }
                         false ->{
                             total = price * qty
-                            clickCheckBox?.invoke(total, false)
+                            clickCheckBox?.invoke(total, false, product, qty)
                             check = false
                         }
                     }
-
 
                 }
             }
@@ -102,6 +107,17 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                     .load(product.img)
                     .error(R.drawable.noimage)
                     .into(holder.bindingProductInCart.ivProInCart)
+        }
+        if(holder is ItemProductOrderViewHolder && product is ProductOrder){
+            holder.bindingProductOrder.tvOrderNameProduct.text = product.product?.nameProduct
+            holder.bindingProductOrder.tvOrderQty.text = product.qty.toString()
+            holder.bindingProductOrder.tvOderColorProduct.text = product.product?.color
+            holder.bindingProductOrder.tvOrderStorageProduct.text = product.product?.storage
+            holder.bindingProductOrder.tvOrderPriceProduct.text = product.product?.price.toVND()
+            Glide.with(holder.itemView.context)
+                    .load(product.product?.img)
+                    .error(R.drawable.noimage)
+                    .into(holder.bindingProductOrder.ivOrderProduct)
         }
     }
 
@@ -113,6 +129,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
         return when(list?.get(0)){
             is CateProductInfo -> Constant.VIEW_CATEPRODUCT
             is DetailCart -> Constant.VIEW_MYCART
+            is ProductOrder -> Constant.VIEW_PRODUCT_ORDER
             else -> 1
         }
     }

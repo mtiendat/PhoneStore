@@ -25,6 +25,7 @@ class UserViewModel: ViewModel() {
         user.value = loginResponse?.user
         Constant.TOKEN = loginResponse?.token
         Constant.idUser = loginResponse?.user?.id ?: 0
+        Constant.user = loginResponse?.user
     }
     private fun onSignUpSuccess(loginResponse: LoginResponse?){
         message.value = loginResponse?.message

@@ -12,9 +12,13 @@ abstract class BaseFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-            setViewModel()
             setObserve()
             setUI()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setViewModel()
     }
     abstract fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View
     open fun setViewModel(){}
