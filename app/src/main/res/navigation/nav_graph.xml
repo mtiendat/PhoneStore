@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_fragmentHome_to_fragmentDetailProduct"
             app:destination="@id/fragmentDetailProduct" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentSearch"
+            app:destination="@id/fragmentSearch" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailProduct"
@@ -21,6 +24,9 @@
         <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentHome"
             app:destination="@id/fragmentHome" />
+        <action
+            android:id="@+id/action_fragmentDetailProduct_to_fragmentOrder"
+            app:destination="@id/fragmentOrder" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailCart"
@@ -39,6 +45,14 @@
         <action
             android:id="@+id/action_fragmentOrder_to_fragmentSuccessOrder"
             app:destination="@id/fragmentSuccessOrder" />
+        <action
+            android:id="@+id/action_fragmentOrder_to_fragmentFollowOrder"
+            app:destination="@id/fragmentFollowOrder"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/fragmentOrder"/>
+        <action
+            android:id="@+id/action_fragmentOrder_to_fragmentAllFollowOrder"
+            app:destination="@id/fragmentAllFollowOrder" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSuccessOrder"
@@ -49,4 +63,46 @@
             android:id="@+id/action_fragmentSuccessOrder_to_fragmentHome"
             app:destination="@id/fragmentHome" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentMe"
+        android:name="com.example.phonestore.view.FragmentMe"
+        tools:layout="@layout/fragment_me"
+        android:label="" >
+        <action
+            android:id="@+id/action_fragmentMe_to_fragmentFollowOrder"
+            app:destination="@id/fragmentFollowOrder" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentFollowOrder"
+        android:name="com.example.phonestore.view.FragmentFollowOrder"
+        tools:layout="@layout/fragment_follow_order"
+        android:label="Đơn hàng của bạn" >
+        <action
+            android:id="@+id/action_fragmentFollowOrder_to_fragmentOrder"
+            app:destination="@id/fragmentOrder" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentAllFollowOrder"
+        android:name="com.example.phonestore.view.FragmentAllOrder"
+        tools:layout="@layout/fragment_all_follow_order"
+        android:label="FragmentAllFollowOrder" />
+    <action android:id="@+id/action_global_fragmentFollowOrder" app:destination="@id/fragmentFollowOrder"/>
+    <action android:id="@+id/action_global_fragmentOrder" app:destination="@id/fragmentOrder"/>
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.phonestore.view.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/fragmentSearch"
+        android:name="com.example.phonestore.view.FragmentSearch"
+        android:label="" >
+        <action
+            android:id="@+id/action_fragmentSearch_to_fragmentSearchResult"
+            app:destination="@id/fragmentSearchResult" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSearchResult"
+        android:name="com.example.phonestore.view.FragmentSearchResult"
+        android:label="FragmentSearchResult" /><action android:id="@+id/action_global_fragmentDetailProduct" app:destination="@id/fragmentDetailProduct"/>
 </navigation>

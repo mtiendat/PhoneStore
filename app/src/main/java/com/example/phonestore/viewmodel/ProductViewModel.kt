@@ -12,12 +12,13 @@ import com.example.phonestore.repo.ProductRepo
 class ProductViewModel: ViewModel() {
     var listProduct: MutableLiveData<ArrayList<ProductInfo>?> = MutableLiveData()
     var listCateProduct: MutableLiveData<ArrayList<CateProductInfo>?> = MutableLiveData()
-
+    var listResultSearch: MutableLiveData<ArrayList<CateProductInfo>?> = MutableLiveData()
     var listSupplier: MutableLiveData<ArrayList<Supplier>?> = MutableLiveData()
     var messageError:  MutableLiveData<String> = MutableLiveData()
     private var productRepo: ProductRepo = ProductRepo()
     fun getListHotSaleProduct(){
         if(listProduct.value?.size  == null) { //Nếu đã có dữ liệu thì không call api trong trường hợp back fragment
+
             productRepo.callHotSaleProduct(1, this::onSuccessListHotSaleProduct, this::onError)
         }
     }
@@ -34,15 +35,18 @@ class ProductViewModel: ViewModel() {
     fun getMoreListCateProduct(page: Int = 1){
         if(listCateProduct.value?.size  == null|| page > 1) {
             productRepo.callCateProduct(page, this::onSuccessListCateProduct, this::onError)
-
         }
     }
-
+    fun searchName(q: String?){
+        productRepo.searchName(q, this::onSuccessResultSearch, this::onError)
+    }
+    private fun onSuccessResultSearch(list: ArrayList<CateProductInfo>?){
+        listResultSearch.value = list
+    }
     private fun onSuccessListHotSaleProduct(list:ArrayList<ProductInfo>?){
         listProduct.value = list
     }
     private fun onSuccessListCateProduct(list: ArrayList<CateProductInfo>?){
-        Log.d("jajaaj", "ÁDsada")
         this.listCateProduct.value = list
     }
 

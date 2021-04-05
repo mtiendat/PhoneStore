@@ -1,5 +1,6 @@
 package com.example.phonestore.view
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -51,7 +52,8 @@ class FragmentHome : BaseFragment(){
     private var listCateProduct: ArrayList<CateProductInfo>? = arrayListOf()
     private var listSaveCateProductPrevious: ArrayList<CateProductInfo>? = arrayListOf()
     private var sizeSlider: Int = 0
-    var savePage: Int = 2
+    private var savePage: Int = 2
+    private var flag = 0
     private var slideRunnable = Runnable {
         bindingHome.vpSlideShow.currentItem = bindingHome.vpSlideShow.currentItem + 1
     }
@@ -69,14 +71,15 @@ class FragmentHome : BaseFragment(){
             listSaveCateProductPrevious?.let { listCateProduct?.addAll(it) }
         }
         listSaveCateProductPrevious?.clear()
-            initSlider()
-            setUpIndicator()
-            setCurrentIndicator(0)
-            init()
-            swipeRefresh()
+        initSlider()
+        setUpIndicator()
+        setCurrentIndicator(0)
+        init()
+        swipeRefresh()
+        if(flag==0) {
             getData()
-        Log.d("c", "2")
-
+        }
+        flag++
 //        cateProductAdapter.onItemClick = { id ->
 //                            it.findNavController().navigate(R.id.action_fragmentHome_to_fragmentDetailProduct, id)
 //
@@ -96,6 +99,7 @@ class FragmentHome : BaseFragment(){
             bindingHome.shimmerLayoutHotSale.visible()
             bindingHome.shimmerLayoutRecommend.visible()
             setViewModel()
+            setObserve()
             getData()
             bindingHome.swipe.isRefreshing = false
         }
@@ -105,11 +109,11 @@ class FragmentHome : BaseFragment(){
         bindingHome.shimmerLayoutRecommend.startShimmer()
         Handler(Looper.getMainLooper()).postDelayed({
             homeViewModel.getListHotSaleProduct()
-        }, 3000)
+        }, 2000)
         homeViewModel.getListSupplier()
         Handler(Looper.getMainLooper()).postDelayed({
             homeViewModel.getListCateProduct(1)
-        }, 3000)
+        }, 2000)
     }
     override fun setViewModel(){
         homeViewModel = ViewModelProvider(this@FragmentHome).get(ProductViewModel::class.java)
@@ -118,19 +122,17 @@ class FragmentHome : BaseFragment(){
 
     override fun setObserve() {
         val hotSaleProductObserve = Observer<ArrayList<ProductInfo>?>{
-            //listProduct.addAll(it)
+            listProduct?.addAll(it)
             hotSaleAdapter?.setItems(it)
             bindingHome.shimmerLayoutHotSale.stopShimmer()
             bindingHome.shimmerLayoutHotSale.gone()
         }
         homeViewModel.listProduct.observe(requireActivity(), hotSaleProductObserve)
         val logoSupplierObserver = Observer<ArrayList<Supplier>?>{
-
             supplierAdapter?.setItems(it)
         }
         homeViewModel.listSupplier.observe(viewLifecycleOwner, logoSupplierObserver)
         val cateListProduct = Observer<ArrayList<CateProductInfo>?> {
-            Log.d("dsachsp", it.size.toString())
             listCateProduct?.addAll(it)
             cateProductAdapter?.notifyDataSetChanged()
             bindingHome.shimmerLayoutRecommend.stopShimmer()
@@ -271,19 +273,43 @@ class FragmentHome : BaseFragment(){
             }
         }
     }
+
     override fun onPause() {
         super.onPause()
         Log.d("TEST", "onPause")
-        slideHandler.removeCallbacks(slideRunnable)
     }
     override fun onResume() {
         super.onResume()
         Log.d("TEST", "onResume")
-        slideHandler.postDelayed(slideRunnable, 3000)
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.d("TEST", "onAttach")
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("TEST", "onDestroy")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d("TEST", "onDetach")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("TEST", "onStart")
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("TEST", "onStop")
+    }
     override fun onDestroyView() {
         super.onDestroyView()
+        Log.d("TEST", "onDESTROYVIEW  ")
         //gán lại rổng, để không bị tăng item khi backPress
         listCateProduct?.let { listSaveCateProductPrevious?.addAll(it) }
         clearList()
@@ -291,6 +317,10 @@ class FragmentHome : BaseFragment(){
         sliderAdapter.notifyDataSetChanged()
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("TEST", "onDESTROYVIEW  ")
+    }
 
 }
 

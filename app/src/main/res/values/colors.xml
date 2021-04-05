@@ -15,4 +15,5 @@
     <color name="dray">#A9A9A9</color>
     <color name="transparent">@android:color/transparent</color>
     <color name="gold">#FF9800</color>
+    <color name="green">#4CAF50</color>
 </resources>

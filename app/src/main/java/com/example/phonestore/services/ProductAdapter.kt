@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.phonestore.Extension.gone
@@ -41,6 +42,9 @@ class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Re
     class CateProductViewHolder(val bindingCate: ItemProductBinding): RecyclerView.ViewHolder(
             bindingCate.root
     )
+    class ItemSearchNameViewHolder(val bindingSearch: ItemSearchNameBinding): RecyclerView.ViewHolder(
+            bindingSearch.root
+    )
     class ShimmerRecommendViewHolder(val bindingShimmer: ItemShimmerRecomendProductBinding): RecyclerView.ViewHolder(bindingShimmer.root)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType){
@@ -67,6 +71,13 @@ class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Re
             )
             Constant.VIEW_SHIMMER -> ShimmerRecommendViewHolder(
                     ItemShimmerRecomendProductBinding.inflate(
+                            LayoutInflater.from(parent.context),
+                            parent,
+                            false
+                    )
+            )
+            Constant.VIEW_SEARCH_NAME -> ItemSearchNameViewHolder(
+                    ItemSearchNameBinding.inflate(
                             LayoutInflater.from(parent.context),
                             parent,
                             false
@@ -106,7 +117,7 @@ class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Re
             setImg(item.img, holder.bindingCate.ivProductCate, holder.itemView.context)
 
             holder.bindingCate.ivProductCate.setOnClickListener {
-                FragmentDetailProduct.actionToFragmentDetail(it, bundleOf("idCate" to item.id))
+                it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("idCate" to item.id))
             }
         }
         if(holder is ShimmerRecommendViewHolder){
@@ -115,6 +126,7 @@ class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Re
             }, 5000)
 
         }
+
     }
 
     override fun getItemCount(): Int {
@@ -125,10 +137,11 @@ class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Re
         return if(listProduct?.get(position) == listProduct?.size?.minus(1)?.let { listProduct?.get(it)} &&listProduct?.get(position) is CateProductInfo) {
             Constant.VIEW_SHIMMER
         }else{
-            when (listProduct?.get(0)) {
+            return when (listProduct?.get(0)) {
                 is ProductInfo -> Constant.VIEW_HOTSALE_PRODUCT
                 is Supplier -> Constant.VIEW_LOGO_SUPPLIER
                 is CateProductInfo -> Constant.VIEW_CATEPRODUCT
+                is String -> Constant.VIEW_SEARCH_NAME
                 else -> Constant.VIEW_HOTSALE_PRODUCT
             }
         }

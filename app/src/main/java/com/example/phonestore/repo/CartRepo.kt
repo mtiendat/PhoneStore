@@ -36,11 +36,5 @@ class CartRepo {
                 onError = {err -> onError.invoke(err)}
         )
     }
-    fun order(order: Order, onSuccess: (Boolean?)-> Unit, onError: (String?) -> Unit ){
-        APIRequest.callRequest(
-                call = APIServices.getInstance()?.order(Constant.idUser, order),
-                onSuccess = {results -> onSuccess.invoke(results?.status)},
-                onError = {err -> onError.invoke(err)}
-        )
-    }
+
 }

@@ -40,7 +40,7 @@ interface APIServices {
     @POST("sign-up")
     fun postSignUp(@Body user: User): Call<LoginResponse>
     @GET("danh-muc")
-    fun getTopProduct(@Query("danhmuc") q: Int): Call<ProductReponse>
+    fun getTopProduct(@Query("danhmuc") q: Int): Call<ProductResponse>
     @GET("nha-cung-cap")
     fun getSupplier(): Call<SupplierReponse>
     @GET("loai-san-pham")
@@ -48,7 +48,7 @@ interface APIServices {
     @GET("loai-san-pham/{id}")
     fun getCateProductByID(@Path("id") id: Int?= 0): Call<CateProductResponseByID>
     @GET("san-pham/{id}")
-    fun getProductByColor(@Path("id") id: Int?= 0, @Query("MauSac") color: String? ="", @Query("DungLuong") storage: String? =""): Call<ProductReponse>
+    fun getProductByColor(@Path("id") id: Int?= 0, @Query("MauSac") color: String? ="", @Query("DungLuong") storage: String? =""): Call<ProductResponse>
     @GET("san-pham-lien-quan/{id}")
     fun getRelatedProduct(@Path("id") id: Int?= 0): Call<CateProductReponse>
     @GET("tong-san-pham/{id}")
@@ -61,6 +61,14 @@ interface APIServices {
     fun deleteItem(@Path("id")idUser: Int?= 0, @Query("MaSP") idProduct: Int?= 0): Call<DetailCartResponse>
     @POST("dat-hang/{id}")
     fun order(@Path("id") idUser: Int?= 0, @Body order: Order): Call<OrderResponse>
-
-
+    @GET("don-hang/{id}")
+    fun getMyOrder(@Path("id") idUser: Int?= 0, @Query("state") s: String? ="all"): Call<MyOrderResponse>
+    @GET("chi-tiet-don-hang/{id}")
+    fun getDetailOrder(@Path("id") idOrder: Int?= 0): Call<DetailOrderResponse>
+    @POST("huy-don-hang/{id}")
+    fun cancelOrder(@Path("id") idOrder: Int?= 0): Call<MyOrderResponse>
+    @GET("tim-kiem-ten")
+    fun searchName(@Query("q") q: String? =""): Call<SearchResponse>
+    @GET("tim-kiem-ds")
+    fun search(@Query("q") q: String? =""): Call<SearchResponse>
 }

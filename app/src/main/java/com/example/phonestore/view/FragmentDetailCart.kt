@@ -1,5 +1,6 @@
 package com.example.phonestore.view
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -161,7 +162,8 @@ class FragmentDetailCart: BaseFragment() {
                 "Delete",
                 14.0f,
                 android.R.color.holo_red_light,
-                this::handle
+                this::handle,
+
 
         )
     }
@@ -172,6 +174,8 @@ class FragmentDetailCart: BaseFragment() {
                 }
             }
     }
+
+
     override fun onPause() {
         super.onPause()
         Log.d("TEST", "onPause")

@@ -33,7 +33,7 @@ abstract class SwipeHelper(private val recyclerView: RecyclerView): ItemTouchHel
             return@OnTouchListener false
         }
 
-        //buttonBuffer[swipedPosition]?.forEach { it.handle(event) }
+
         recoverQueue.add(swipedPosition)
         swipedPosition = -1
         recoverSwipeItem()
@@ -102,7 +102,8 @@ abstract class SwipeHelper(private val recyclerView: RecyclerView): ItemTouchHel
             private val title: String,
             textSize: Float,
             private val colorRes: Int,
-            private val clickListener: (Int)->Unit
+            private val clickListener: (Int)->Unit,
+
     ){
         private var clickableRegion: RectF? = null
         private val textSizeInPixel: Float = textSize * context.resources.displayMetrics.density // convert dp to px
@@ -135,6 +136,7 @@ abstract class SwipeHelper(private val recyclerView: RecyclerView): ItemTouchHel
         fun handle(position: Int){
                     clickListener.invoke(position)
         }
+
     }
     private fun List<SwipeHelper.UnderlayButton>.intrinsicWidth(): Float {
         if (isEmpty()) return 0.0f

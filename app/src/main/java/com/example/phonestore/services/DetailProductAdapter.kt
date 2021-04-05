@@ -4,18 +4,22 @@ import android.icu.number.IntegerWidth
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.phonestore.Extension.ratingBar
 import com.example.phonestore.Extension.toVND
 import com.example.phonestore.R
 import com.example.phonestore.databinding.ActivityLoginBinding.inflate
+import com.example.phonestore.databinding.ItemOrderBinding
 import com.example.phonestore.databinding.ItemProductInCartBinding
 import com.example.phonestore.databinding.ItemProductOrderBinding
 import com.example.phonestore.databinding.ItemRelatedProductBinding
 import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.model.DetailCart
+import com.example.phonestore.model.MyOrder
 import com.example.phonestore.model.ProductOrder
 
 class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -23,6 +27,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
     var clickMaxMin: ((Int?, Boolean)->Unit)? = null
     var check: Boolean? = null
     var updateProductInList: ((Int?, Int)-> Unit)? = null
+    var nextInfoOrder: ((Int, String?)-> Unit)? = null
     fun setItems(listItem: ArrayList<T>) {
         val currentSize: Int? = list?.size
         list?.clear()
@@ -36,6 +41,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
     class ItemRelatedProductViewHolder(val bindingRelated: ItemRelatedProductBinding): RecyclerView.ViewHolder(bindingRelated.root)
     class ItemProductInCartViewHolder(val bindingProductInCart: ItemProductInCartBinding): RecyclerView.ViewHolder(bindingProductInCart.root)
     class ItemProductOrderViewHolder(val bindingProductOrder: ItemProductOrderBinding): RecyclerView.ViewHolder(bindingProductOrder.root)
+    class ItemMyOrderViewHolder(val bingdingMyOrder: ItemOrderBinding): RecyclerView.ViewHolder(bingdingMyOrder.root)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if(viewType == Constant.VIEW_CATEPRODUCT){
             ItemRelatedProductViewHolder(ItemRelatedProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -43,33 +49,35 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             ItemProductInCartViewHolder(ItemProductInCartBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         }else if(viewType == Constant.VIEW_PRODUCT_ORDER) {
             ItemProductOrderViewHolder(ItemProductOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        }else if(viewType == Constant.VIEW_MY_ORDER) {
+            ItemMyOrderViewHolder(ItemOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         } else ItemRelatedProductViewHolder(ItemRelatedProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val product = list?.get(position)
-        if(holder is ItemRelatedProductViewHolder && product is CateProductInfo){
-            holder.bindingRelated.tvPriceRelatedProduct.text = product.priceNew.toVND()
-            holder.bindingRelated.ratingBarRelatedProduct.rating = product.vote?.ratingBar() ?: 0.1f
+        val item = list?.get(position)
+        if(holder is ItemRelatedProductViewHolder && item is CateProductInfo){
+            holder.bindingRelated.tvPriceRelatedProduct.text = item.priceNew.toVND()
+            holder.bindingRelated.ratingBarRelatedProduct.rating = item.vote?.ratingBar() ?: 0.1f
             Glide.with(holder.itemView.context)
-                    .load(product.img)
+                    .load(item.img)
                     .error(R.drawable.noimage)
                     .into(holder.bindingRelated.ivRelatedProduct)
         }
-        if(holder is ItemProductInCartViewHolder && product is DetailCart){
+        if(holder is ItemProductInCartViewHolder && item is DetailCart){
             var qty: Int?
-            val price: Int?  = product.price
+            val price: Int?  = item.price
             var total: Int
 
-            holder.bindingProductInCart.tvProInCartName.text = product.nameProduct
-            holder.bindingProductInCart.tvProInCartColor.text = product.color
-            holder.bindingProductInCart.tvProInCartStorage.text = product.storage
-            holder.bindingProductInCart.tvProInCartQty.text = product.qty.toString()
+            holder.bindingProductInCart.tvProInCartName.text = item.nameProduct
+            holder.bindingProductInCart.tvProInCartColor.text = item.color
+            holder.bindingProductInCart.tvProInCartStorage.text = item.storage
+            holder.bindingProductInCart.tvProInCartQty.text = item.qty.toString()
             qty =  holder.bindingProductInCart.tvProInCartQty.text.toString().toInt()
             holder.bindingProductInCart.cvMin.setOnClickListener {
                 if(qty > 0) {
                     qty--
-                    updateProductInList?.invoke(product.id, qty)
+                    updateProductInList?.invoke(item.id, qty)
                     holder.bindingProductInCart.tvProInCartQty.text = qty.toString()
                     if(qty>=0&& check == true) {
                         clickMaxMin?.invoke(price, false)
@@ -79,7 +87,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             holder.bindingProductInCart.cvMax.setOnClickListener {
                 if(qty < 2) {
                     qty++
-                    updateProductInList?.invoke(product.id, qty)
+                    updateProductInList?.invoke(item.id, qty)
                     holder.bindingProductInCart.tvProInCartQty.text = qty.toString()
                     if(check == true) {
                         clickMaxMin?.invoke(price, true)
@@ -91,12 +99,12 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                     when(isChecked){
                         true -> {
                             total = price * qty
-                            clickCheckBox?.invoke(total, true, product, qty)
+                            clickCheckBox?.invoke(total, true, item, qty)
                             check = true
                         }
                         false ->{
                             total = price * qty
-                            clickCheckBox?.invoke(total, false, product, qty)
+                            clickCheckBox?.invoke(total, false, item, qty)
                             check = false
                         }
                     }
@@ -104,20 +112,30 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                 }
             }
             Glide.with(holder.itemView.context)
-                    .load(product.img)
+                    .load(item.img)
                     .error(R.drawable.noimage)
                     .into(holder.bindingProductInCart.ivProInCart)
         }
-        if(holder is ItemProductOrderViewHolder && product is ProductOrder){
-            holder.bindingProductOrder.tvOrderNameProduct.text = product.product?.nameProduct
-            holder.bindingProductOrder.tvOrderQty.text = product.qty.toString()
-            holder.bindingProductOrder.tvOderColorProduct.text = product.product?.color
-            holder.bindingProductOrder.tvOrderStorageProduct.text = product.product?.storage
-            holder.bindingProductOrder.tvOrderPriceProduct.text = product.product?.price.toVND()
+        if(holder is ItemProductOrderViewHolder && item is ProductOrder){
+            holder.bindingProductOrder.tvOrderNameProduct.text = item.product?.nameProduct
+            holder.bindingProductOrder.tvOrderQty.text = item.qty.toString()
+            holder.bindingProductOrder.tvOderColorProduct.text = item.product?.color
+            holder.bindingProductOrder.tvOrderStorageProduct.text = item.product?.storage
+            holder.bindingProductOrder.tvOrderPriceProduct.text = item.product?.price.toVND()
             Glide.with(holder.itemView.context)
-                    .load(product.product?.img)
+                    .load(item.product?.img)
                     .error(R.drawable.noimage)
                     .into(holder.bindingProductOrder.ivOrderProduct)
+        }
+        if(holder is ItemMyOrderViewHolder && item is MyOrder){
+            holder.bingdingMyOrder.tvOderID.text = item.id.toString()
+            holder.bingdingMyOrder.tvOrderDate.text = item.date
+            holder.bingdingMyOrder.tvOrderQtyProduct.text = item.qty.toString()
+            holder.bingdingMyOrder.tvOrderTotal.text = item.totalMoney.toVND()
+            checkStateOrder(item.state.toString(), holder.bingdingMyOrder.btnStateOrder)
+            holder.bingdingMyOrder.cvMyOrder.setOnClickListener {
+                nextInfoOrder?.invoke(item.id, item.state)
+            }
         }
     }
 
@@ -130,8 +148,28 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             is CateProductInfo -> Constant.VIEW_CATEPRODUCT
             is DetailCart -> Constant.VIEW_MYCART
             is ProductOrder -> Constant.VIEW_PRODUCT_ORDER
+            is MyOrder -> Constant.VIEW_MY_ORDER
             else -> 1
         }
     }
-
+    private fun checkStateOrder(s: String, btn: Button){
+        when(s){
+            Constant.RECEIVED ->{
+                btn.setBackgroundResource(R.drawable.custom_state_order_received)
+                btn.text = s
+            }
+            Constant.TRANSPORTED ->{
+                btn.setBackgroundResource(R.drawable.custom_state_order_transported)
+                btn.text = s
+            }
+            Constant.DELIVERED ->{
+                btn.setBackgroundResource(R.drawable.custom_state_order_delivered)
+                btn.text = s
+            }
+            Constant.CANCEL ->{
+                btn.setBackgroundResource(R.drawable.custom_state_order_cancel)
+                btn.text = s
+            }
+        }
+    }
 }

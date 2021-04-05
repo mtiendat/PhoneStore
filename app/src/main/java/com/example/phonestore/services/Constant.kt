@@ -14,8 +14,15 @@ object Constant {
     const val VIEW_SHIMMER = 3
     const val VIEW_MYCART = 4
     const val VIEW_PRODUCT_ORDER = 5
+    const val VIEW_MY_ORDER = 6
+    const val VIEW_SEARCH_NAME = 7
     const val TITLE_COLOR = "M.Sắc"
     const val TITLE_STORAGE = "D.Lượng"
     const val PLEASE_CHOOSE_COLOR = "Bạn chưa chọn màu"
     const val PLEASE_CHOOSE_STORAGE ="Bạn chưa chọn dung lượng"
+    const val RECEIVED = "Đã tiếp nhận"
+    const val TRANSPORTED = "Đang giao hàng"
+    const val DELIVERED = "Đã giao hàng"
+    const val CANCEL = "Đã hủy"
+
 }

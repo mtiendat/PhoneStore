@@ -4,8 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.LayerDrawable
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -20,10 +23,14 @@ import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivityMainBinding
 import com.example.phonestore.services.BadgeDrawable
 import com.example.phonestore.viewmodel.CartViewModel
+import java.lang.ref.WeakReference
 
 class MainActivity : BaseActivity() {
     companion object{
         var icon: LayerDrawable? = null
+        var searchView: WeakReference<SearchView>? = null
+        var itemCart: MenuItem? = null
+        var itemSearch: MenuItem? = null
         fun intentFor(context: Context): Intent =
                 Intent(context, MainActivity::class.java)
         fun setBadgeCount(context: Context, icon: LayerDrawable, count: String){
@@ -43,6 +50,7 @@ class MainActivity : BaseActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var cartViewModel: CartViewModel
+
     override fun setBinding() {
         bindingMain = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bindingMain.root)
@@ -62,7 +70,7 @@ class MainActivity : BaseActivity() {
     override fun setToolBar() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentMain) as NavHostFragment
         navController = navHostFragment.navController
-        appBarConfiguration = AppBarConfiguration.Builder(R.id.fragmentHome, R.id.fragmentSuccessOrder)
+        appBarConfiguration = AppBarConfiguration.Builder(R.id.fragmentHome, R.id.fragmentSuccessOrder, R.id.fragmentMe)
                 .build()
         setSupportActionBar(bindingMain.toolbarMain.toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -78,26 +86,52 @@ class MainActivity : BaseActivity() {
             when(destination.id){
                 R.id.fragmentDetailProduct -> {
                     hideBottomNavigation()
+                    hideIconSearch()
                 }
                 R.id.fragmentDetailCart -> {
                     hideBottomNavigation()
+                    hideIconSearch()
                 }
                 R.id.fragmentOrder -> {
                     hideBottomNavigation()
+                    hideIconCart()
+                    hideIconSearch()
                 }
                 R.id.fragmentSuccessOrder -> {
                     hideBottomNavigation()
+                    hideIconCart()
+                    hideIconSearch()
                 }
-                else-> showBottomNavigation()
+                R.id.fragmentSearch -> {
+                    hideBottomNavigation()
+                    hideIconCart()
+                    showIconSearch()
+                }
+                else-> {
+                    showBottomNavigation()
+                    showIconCart()
+                    showIconSearch()
+                }
             }
         }
     }
-    fun setToolBarColor(colorID: Int){
-        supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, colorID)))
+    private fun showIconCart(){
+        itemCart?.isVisible = true
     }
+    private fun hideIconCart(){
+        itemCart?.isVisible = false
+    }
+    private fun showIconSearch(){
+        itemSearch?.isVisible = true
+    }
+    private fun hideIconSearch(){
+        itemSearch?.isVisible = false
+    }
+
     private fun hideBottomNavigation(){
         bindingMain.bottomNavigationView.gone()
     }
+
     private fun showBottomNavigation(){
         bindingMain.bottomNavigationView.visible()
         setUpNavigation()
@@ -107,27 +141,19 @@ class MainActivity : BaseActivity() {
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
-        val searchItem = menu?.findItem(R.id.action_search)
-        val itemCart = menu?.findItem(R.id.fragmentDetailCart)
+        itemSearch = menu?.findItem(R.id.fragmentSearch)
+        itemCart = menu?.findItem(R.id.fragmentDetailCart)
         icon = itemCart?.icon as LayerDrawable
-        val searchView = searchItem?.actionView as SearchView
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-        })
+        val s = itemSearch?.actionView as SearchView
+        val clearButton =s.findViewById(R.id.search_close_btn) as ImageView
+        clearButton.setImageResource(R.drawable.ic_clear)
+        s.queryHint ="Bạn cần tìm gì ?"
+        searchView = WeakReference(s)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
-
-
 
 }

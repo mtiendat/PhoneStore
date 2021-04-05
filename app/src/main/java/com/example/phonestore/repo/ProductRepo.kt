@@ -1,9 +1,7 @@
 package com.example.phonestore.repo
 
-import android.util.Log
 import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.model.ProductInfo
-import com.example.phonestore.model.ProductReponse
 import com.example.phonestore.model.Supplier
 import com.example.phonestore.services.APIRequest
 import com.example.phonestore.services.APIServices
@@ -30,5 +28,11 @@ class ProductRepo {
                 onError = {message -> onError.invoke(message)}
         )
     }
-
+    fun searchName(q: String? ="", onSuccess: (ArrayList<CateProductInfo>?) -> Unit, onError: (String?) -> Unit){
+        APIRequest.callRequest(
+                call = APIServices.getInstance()?.searchName(q),
+                onSuccess = {results -> onSuccess.invoke(results?.listSearch)},
+                onError = {message -> onError.invoke(message)}
+        )
+    }
 }
