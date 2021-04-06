@@ -7,10 +7,12 @@ import androidx.compose.runtime.internal.composableLambda
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.phonestore.Extension.visible
+import com.example.phonestore.R
 import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivityLoginBinding
 import com.example.phonestore.model.FormLogin
 import com.example.phonestore.viewmodel.UserViewModel
+import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
 
 class ActivityLogin: BaseActivity() {
 
@@ -22,6 +24,9 @@ class ActivityLogin: BaseActivity() {
     }
 
     override fun setUI() {
+        bindingLogin.pBLogin.setIndeterminateDrawableTiled(
+            FoldingCirclesDrawable.Builder(this).colors(resources.getIntArray(
+                R.array.google_colors)).build())
         bindingLogin.btnLogin.setOnClickListener {
             if(validate()) {
                 bindingLogin.pBLogin.visible()

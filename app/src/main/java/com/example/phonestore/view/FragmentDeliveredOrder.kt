@@ -32,10 +32,7 @@ class FragmentDeliveredOrder: BaseFragment() {
     }
     override fun setUI() {
         initRecyclerView()
-        myOrderAdapter?.nextInfoOrder = {it, _ ->
-            orderViewModel.getListProductOrder(it)
-        }
-        orderViewModel.getMyOrder(Constant.DELIVERED)
+
     }
     override fun setObserve() {
         val allOrderObserve = Observer<ArrayList<MyOrder>>{
@@ -52,6 +49,10 @@ class FragmentDeliveredOrder: BaseFragment() {
     }
     private fun initRecyclerView(){
         myOrderAdapter = DetailProductAdapter(listMyOrder)
+        myOrderAdapter?.nextInfoOrder = {it, _ ->
+            orderViewModel.getListProductOrder(it)
+        }
+        orderViewModel.getMyOrder(Constant.DELIVERED)
         bindingDeliveredOrder.rvDeliveredOrder.adapter = myOrderAdapter
         bindingDeliveredOrder.rvDeliveredOrder.layoutManager = LinearLayoutManager(context)
     }

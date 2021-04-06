@@ -35,9 +35,9 @@ class FragmentSuccessOrder: BaseFragment() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true /* enabled by default */) {
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true ) {
             override fun handleOnBackPressed() {
-                view?.findNavController()?.popBackStack(R.id.fragmentDetailProduct, true)
+                view?.findNavController()?.navigate(FragmentSuccessOrderDirections.actionFragmentSuccessOrderToFragmentHome())
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)

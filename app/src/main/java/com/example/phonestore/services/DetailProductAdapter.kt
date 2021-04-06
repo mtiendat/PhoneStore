@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.phonestore.Extension.ratingBar
@@ -59,6 +61,9 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
         if(holder is ItemRelatedProductViewHolder && item is CateProductInfo){
             holder.bindingRelated.tvPriceRelatedProduct.text = item.priceNew.toVND()
             holder.bindingRelated.ratingBarRelatedProduct.rating = item.vote?.ratingBar() ?: 0.1f
+            holder.bindingRelated.ivRelatedProduct.setOnClickListener {
+                it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("idCate" to item.id, "name" to item.name))
+            }
             Glide.with(holder.itemView.context)
                     .load(item.img)
                     .error(R.drawable.noimage)

@@ -65,6 +65,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setUI() {
+
         cartViewModel.getTotalProduct()
     }
     override fun setToolBar() {
@@ -103,6 +104,11 @@ class MainActivity : BaseActivity() {
                     hideIconSearch()
                 }
                 R.id.fragmentSearch -> {
+                    hideBottomNavigation()
+                    hideIconCart()
+                    showIconSearch()
+                }
+                R.id.fragmentAllFollowOrder -> {
                     hideBottomNavigation()
                     hideIconCart()
                     showIconSearch()

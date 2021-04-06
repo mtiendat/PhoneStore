@@ -11,4 +11,4 @@ class ProductInfo(var id: Int = 0,
                   @SerializedName("HinhAnh1") var img: String?= "",
                   @SerializedName("MauSac") var color: String?= "",
                   @SerializedName("TenSP") var name: String? = "",
-                  @SerializedName("MaLoai") var idCate: Int)
+                  @SerializedName("MaLoai") var idCate: Int? = 0)

@@ -53,6 +53,10 @@ class FragmentTransportedOrder: BaseFragment() {
     }
     private fun initRecyclerView(){
         myOrderAdapter = DetailProductAdapter(listMyOrder)
+        myOrderAdapter?.nextInfoOrder = {it, _ ->
+            orderViewModel.getListProductOrder(it)
+        }
+        orderViewModel.getMyOrder(Constant.DELIVERED)
         bindingTransportedOrder.rvTransportedOrder.adapter = myOrderAdapter
         bindingTransportedOrder.rvTransportedOrder.layoutManager = LinearLayoutManager(context)
     }

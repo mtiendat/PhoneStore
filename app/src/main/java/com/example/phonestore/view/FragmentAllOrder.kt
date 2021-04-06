@@ -35,11 +35,7 @@ class FragmentAllOrder: BaseFragment() {
     }
     override fun setUI() {
         initRecyclerView()
-        myOrderAdapter?.nextInfoOrder = { idOrder, state ->
-            this.idOrder = idOrder
-            this.state = state
-            orderViewModel.getListProductOrder(idOrder)
-        }
+
         orderViewModel.getMyOrder()
     }
     override fun setObserve() {
@@ -57,6 +53,11 @@ class FragmentAllOrder: BaseFragment() {
     }
     private fun initRecyclerView(){
         myOrderAdapter = DetailProductAdapter(listMyOrder)
+        myOrderAdapter?.nextInfoOrder = { idOrder, state ->
+            this.idOrder = idOrder
+            this.state = state
+            orderViewModel.getListProductOrder(idOrder)
+        }
         bindingAllFollow.rvAllOrder.adapter = myOrderAdapter
         bindingAllFollow.rvAllOrder.layoutManager = LinearLayoutManager(context)
     }

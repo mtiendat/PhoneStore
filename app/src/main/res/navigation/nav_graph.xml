@@ -61,7 +61,10 @@
         android:label="Đặt hàng thành công" >
         <action
             android:id="@+id/action_fragmentSuccessOrder_to_fragmentHome"
-            app:destination="@id/fragmentHome" />
+            app:destination="@id/fragmentHome"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/fragmentMe"

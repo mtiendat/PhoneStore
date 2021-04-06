@@ -51,7 +51,62 @@ class FragmentDetailCart: BaseFragment() {
             val item = bundleOf("listProduct" to listProductChoose)
             it.findNavController().navigate(R.id.action_fragmentDetailCart_to_fragmentOrder, item)
         }
-        //set checkbox
+
+
+    }
+
+    override fun setViewModel() {
+        detailCartViewModel = ViewModelProvider(this@FragmentDetailCart).get(CartViewModel::class.java)
+    }
+
+    override fun setObserve() {
+        val deleteItemObserve = Observer<Boolean>{
+            if(it){
+                view?.let { it1 -> Snackbar.make(it1, "Đã xóa sản phẩm", Snackbar.LENGTH_SHORT).show()
+                    detailCartViewModel.getTotalProduct()
+                    detailCartViewModel.getMyCart()
+                }
+            }
+        }
+        detailCartViewModel.resultDeleteItem.observe(viewLifecycleOwner, deleteItemObserve)
+        val totalProductObserver = Observer<Int?>{
+            context?.let { it1 -> MainActivity.icon?.let { it2 -> MainActivity.setBadgeCount(it1, icon = it2, it.toString())
+                }
+            }
+        }
+        detailCartViewModel.totalProduct.observe(viewLifecycleOwner, totalProductObserver)
+        val listProductObserve = Observer<ArrayList<DetailCart>?>{
+            if(it===null||it.size==0){
+                bindingDetailCart.rvMyCart.gone()
+                bindingDetailCart.tvNoProductInCart.visible()
+
+            }else {
+                bindingDetailCart.rvMyCart.visible()
+                listProduct?.addAll(it)
+                detailCartAdapter?.setItems(it)
+                bindingDetailCart.tvNoProductInCart.gone()
+            }
+        }
+        detailCartViewModel.listProduct.observe(viewLifecycleOwner, listProductObserve)
+    }
+    private fun initRecyclerView(){
+        detailCartAdapter = DetailProductAdapter(listProduct)
+        featuresCart()
+        bindingDetailCart.rvMyCart.adapter = detailCartAdapter
+        bindingDetailCart.rvMyCart.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        bindingDetailCart.rvMyCart.layoutManager = LinearLayoutManager(context)
+        val itemTouchHelper = ItemTouchHelper(object : SwipeHelper(bindingDetailCart.rvMyCart) {
+            override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
+                var buttons = listOf<UnderlayButton>()
+                val deleteButton = deleteButton(position)
+                buttons = listOf(deleteButton)
+                return buttons
+            }
+        })
+        itemTouchHelper.attachToRecyclerView(bindingDetailCart.rvMyCart)
+    }
+    private fun featuresCart(){
+    //set checkbox
         detailCartAdapter?.clickCheckBox = { total, state, product, qty ->
             if (total == 0 && !state && totalMoney == 0) { // loại đc trườg hợp check rồi, sau đó bỏ check nhưg tổng tiền = 0 thì nó sẽ trừ tiếp -> âm
                 totalMoney = 0
@@ -104,57 +159,6 @@ class FragmentDetailCart: BaseFragment() {
 
             }
         }
-
-    }
-
-    override fun setViewModel() {
-        detailCartViewModel = ViewModelProvider(this@FragmentDetailCart).get(CartViewModel::class.java)
-    }
-
-    override fun setObserve() {
-        val deleteItemObserve = Observer<Boolean>{
-            if(it){
-                view?.let { it1 -> Snackbar.make(it1, "Đã xóa sản phẩm", Snackbar.LENGTH_SHORT).show()
-                    detailCartViewModel.getTotalProduct()
-                    detailCartViewModel.getMyCart()
-                }
-            }
-        }
-        detailCartViewModel.resultDeleteItem.observe(viewLifecycleOwner, deleteItemObserve)
-        val totalProductObserver = Observer<Int?>{
-            context?.let { it1 -> MainActivity.icon?.let { it2 -> MainActivity.setBadgeCount(it1, icon = it2, it.toString())
-                }
-            }
-        }
-        detailCartViewModel.totalProduct.observe(viewLifecycleOwner, totalProductObserver)
-        val listProductObserve = Observer<ArrayList<DetailCart>?>{
-            if(it===null||it.size==0){
-                bindingDetailCart.rvMyCart.gone()
-                bindingDetailCart.tvNoProductInCart.visible()
-
-            }else {
-                bindingDetailCart.rvMyCart.visible()
-                listProduct?.addAll(it)
-                detailCartAdapter?.setItems(it)
-                bindingDetailCart.tvNoProductInCart.gone()
-            }
-        }
-        detailCartViewModel.listProduct.observe(viewLifecycleOwner, listProductObserve)
-    }
-    private fun initRecyclerView(){
-        detailCartAdapter = DetailProductAdapter(listProduct)
-        bindingDetailCart.rvMyCart.adapter = detailCartAdapter
-        bindingDetailCart.rvMyCart.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        bindingDetailCart.rvMyCart.layoutManager = LinearLayoutManager(context)
-        val itemTouchHelper = ItemTouchHelper(object : SwipeHelper(bindingDetailCart.rvMyCart) {
-            override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
-                var buttons = listOf<UnderlayButton>()
-                val deleteButton = deleteButton(position)
-                buttons = listOf(deleteButton)
-                return buttons
-            }
-        })
-        itemTouchHelper.attachToRecyclerView(bindingDetailCart.rvMyCart)
     }
     private fun deleteButton(position: Int) : SwipeHelper.UnderlayButton{
         return SwipeHelper.UnderlayButton(

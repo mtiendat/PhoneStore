@@ -35,6 +35,10 @@ import com.example.phonestore.model.Supplier
 import com.example.phonestore.services.ProductAdapter
 import com.example.phonestore.services.SlideAdapter
 import com.example.phonestore.viewmodel.ProductViewModel
+import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
+import java.util.*
+import kotlin.Comparator
+import kotlin.collections.ArrayList
 import kotlin.math.abs
 
 
@@ -47,16 +51,20 @@ class FragmentHome : BaseFragment(){
     private var cateProductAdapter: ProductAdapter<CateProductInfo>? =null
     private var sliderItem: ArrayList<SliderItem> = arrayListOf()
     private var slideHandler: Handler = Handler(Looper.getMainLooper())
-    private var listProduct: ArrayList<ProductInfo>? = arrayListOf()
+    private var productInfo: ProductInfo = ProductInfo()
+    private var listProduct: ArrayList<ProductInfo>? = arrayListOf(productInfo)
     private var listSupplier: ArrayList<Supplier>? = arrayListOf()
     private var listCateProduct: ArrayList<CateProductInfo>? = arrayListOf()
     private var listSaveCateProductPrevious: ArrayList<CateProductInfo>? = arrayListOf()
     private var sizeSlider: Int = 0
     private var savePage: Int = 2
     private var flag = 0
+    private var idSupplier: Int? = null
+    private var orderBy: Int = 0
     private var slideRunnable = Runnable {
         bindingHome.vpSlideShow.currentItem = bindingHome.vpSlideShow.currentItem + 1
     }
+
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         bindingHome = FragmentHomeBinding.inflate(inflater, container, false)
         return bindingHome.root
@@ -64,6 +72,7 @@ class FragmentHome : BaseFragment(){
     }
 
     override fun setUI(){
+        bindingHome.pbRecommend.setIndeterminateDrawableTiled(FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(R.array.google_colors)).build())
         bindingHome.cardViewTop.setBackgroundResource(R.drawable.background_gradient)
         Log.d("listSaveCateProduct", listCateProduct?.size.toString())
         Log.d("listSaveCateProduct", listSaveCateProductPrevious?.size.toString())
@@ -80,11 +89,32 @@ class FragmentHome : BaseFragment(){
             getData()
         }
         flag++
+        bindingHome.btnSortPrice.setOnClickListener {
+            bindingHome.pbRecommend.visible()
+            if(orderBy ==0) {
+                listCateProduct?.sortWith(Comparator { o1, o2 ->
+                    o1.priceNew - o2.priceNew //Tăng dần
+                })
+                cateProductAdapter?.notifyDataSetChanged()
+                bindingHome.pbRecommend.gone()
+                orderBy = 1
+                bindingHome.btnSortPrice.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_down,0)
+                return@setOnClickListener
+            }else if(orderBy==1)
+                listCateProduct?.sortWith(Comparator { o1, o2 ->
+                    o2.priceNew - o1.priceNew //Giảm dần
+                })
+                 cateProductAdapter?.notifyDataSetChanged()
+                 bindingHome.pbRecommend.gone()
+                orderBy = 0
+            bindingHome.btnSortPrice.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_up,0)
+            }
+
+    }
 //        cateProductAdapter.onItemClick = { id ->
 //                            it.findNavController().navigate(R.id.action_fragmentHome_to_fragmentDetailProduct, id)
 //
 //        }
-    }
     private fun init(){
         initRecyclerViewLogo()
         initRecyclerViewHotSale()
@@ -93,6 +123,7 @@ class FragmentHome : BaseFragment(){
     private fun swipeRefresh(){
         bindingHome.swipe.setOnRefreshListener {
             savePage = 2
+            idSupplier = null
             viewModelStore.clear()
             clearList()
             init()
@@ -102,6 +133,7 @@ class FragmentHome : BaseFragment(){
             setObserve()
             getData()
             bindingHome.swipe.isRefreshing = false
+
         }
     }
     private fun getData(){
@@ -160,6 +192,15 @@ class FragmentHome : BaseFragment(){
     }
     private fun initRecyclerViewLogo(){
         supplierAdapter = ProductAdapter(listSupplier)
+        supplierAdapter?.onItemSupplierClick = {
+            idSupplier = it
+            savePage = 2
+            listCateProduct?.clear()
+            cateProductAdapter?.notifyDataSetChanged()
+            bindingHome.shimmerLayoutRecommend.visible()
+            bindingHome.shimmerLayoutRecommend.startShimmer()
+            homeViewModel.getListCateProduct(1, idSupplier = it)
+        }
         bindingHome.rvLogoSupplier.adapter = supplierAdapter
         bindingHome.rvLogoSupplier.layoutManager = LinearLayoutManager(
                 context,
@@ -180,10 +221,10 @@ class FragmentHome : BaseFragment(){
                 if (page == 2) {
                     Log.d("SAVEPAGE", savePage.toString()) /////////////////
                     //Nếu back lại fragment, thì page khi scroll quay lại = 2, để giữ lại page trước đó
-                    homeViewModel.getMoreListCateProduct(savePage)
+                    homeViewModel.getMoreListCateProduct(savePage, idSupplier, orderBy)
                 } else {
                     savePage = page // lưu lại page hiện tại
-                    homeViewModel.getMoreListCateProduct(savePage)
+                    homeViewModel.getMoreListCateProduct(savePage, idSupplier, orderBy)
                 }
                 Log.d("PAGE", page.toString())
             }

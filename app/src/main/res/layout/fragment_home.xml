@@ -5,7 +5,7 @@
     android:id="@+id/swipe"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/custome_ctrl">
+    android:background="@color/white">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvDetail"
@@ -183,36 +183,46 @@
                 app:layout_constraintStart_toStartOf="@+id/linearLayout"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnRecommend"
+            <TextView
+                android:id="@+id/tvRecommened"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/custom_stroke_button"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:text="Recommended for you"
+                android:text="Gợi ý cho bạn"
+                android:textAlignment="viewStart"
                 app:layout_constraintStart_toStartOf="@+id/rvLogoSupplier"
                 app:layout_constraintTop_toBottomOf="@+id/rvLogoSupplier" />
 
-            <ImageButton
-                android:id="@+id/btnSortProduct"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSortPrice"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                app:layout_constraintBottom_toBottomOf="@+id/btnRecommend"
+                android:layout_height="40dp"
+                android:background="@color/transparent"
+                android:drawableEnd="@drawable/ic_up"
+                android:paddingStart="40dp"
+                android:paddingEnd="0dp"
+                android:text="Giá"
+                android:textAlignment="viewStart"
                 app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
-                app:layout_constraintTop_toTopOf="@+id/btnRecommend"
-                app:srcCompat="@drawable/ic_sort" />
+                app:layout_constraintTop_toTopOf="@id/tvRecommened" />
 
+            <View
+                android:id="@+id/viewRecommend"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/dray"
+                app:layout_constraintEnd_toStartOf="@+id/btnSortPrice"
+                app:layout_constraintStart_toStartOf="@+id/tvRecommened"
+                app:layout_constraintTop_toBottomOf="@id/tvRecommened" />
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmerLayoutRecommend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/btnSortProduct"
-                app:layout_constraintStart_toStartOf="@+id/btnRecommend"
-                app:layout_constraintTop_toBottomOf="@+id/btnRecommend"
+                app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
+                app:layout_constraintStart_toStartOf="@+id/tvRecommened"
+                app:layout_constraintTop_toBottomOf="@+id/btnSortPrice"
                 app:shimmer_repeat_mode="restart"
                 app:shimmer_shape="radial">
 
@@ -254,14 +264,24 @@
                 </LinearLayout>
             </com.facebook.shimmer.ShimmerFrameLayout>
 
+            <com.jpardogo.android.googleprogressbar.library.GoogleProgressBar
+                android:id="@+id/pbRecommend"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:translationZ="4dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/rvRecommend"
+                app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
+                app:layout_constraintStart_toStartOf="@+id/tvRecommened"
+                app:layout_constraintTop_toBottomOf="@+id/btnSortPrice" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvRecommend"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/btnSortProduct"
-                app:layout_constraintStart_toStartOf="@+id/btnRecommend"
-                app:layout_constraintTop_toBottomOf="@+id/btnRecommend" />
+                app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
+                app:layout_constraintStart_toStartOf="@+id/tvRecommened"
+                app:layout_constraintTop_toBottomOf="@+id/btnSortPrice" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

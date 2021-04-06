@@ -19,6 +19,8 @@ import com.example.phonestore.services.ProductAdapter
 import com.example.phonestore.viewmodel.ProductViewModel
 import android.os.Handler
 import android.widget.ImageView
+import com.example.phonestore.Extension.gone
+import com.example.phonestore.Extension.visible
 import com.example.phonestore.R
 import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.services.SearchAdapter
@@ -42,6 +44,7 @@ class FragmentSearch: BaseFragment() {
         val listNameObserve = Observer<ArrayList<CateProductInfo>?>{
             listName.addAll(it)
             searchNameAdapter?.setItems(it)
+            bindingSearch.ivBird.gone()
         }
         searchViewModel.listResultSearch.observe(viewLifecycleOwner, listNameObserve)
     }
@@ -57,6 +60,7 @@ class FragmentSearch: BaseFragment() {
                 if(newText?.length!! < length!!){
                     if(newText.isEmpty()){
                         listName.clear()
+                        bindingSearch.ivBird.visible()
                         searchNameAdapter?.notifyDataSetChanged()
                         length = 0
                     }

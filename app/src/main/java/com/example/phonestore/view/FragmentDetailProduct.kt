@@ -103,13 +103,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             }
         }
     }
-    private fun disableSearchView(){
 
-        val clearButton = MainActivity.searchView?.get()?.findViewById(R.id.search_close_btn) as ImageView
-        val searchEditText: SearchView.SearchAutoComplete = MainActivity.searchView?.get()?.findViewById(R.id.search_src_text) as SearchView.SearchAutoComplete
-        clearButton.isEnabled = false
-        searchEditText.isEnabled = false
-    }
     private fun checkSelectSpinner(): Boolean{
         return if(bindingProductDetail.spDetailColor.selectedItem.toString()== Constant.TITLE_COLOR) {
             makeToast(Constant.PLEASE_CHOOSE_COLOR)
