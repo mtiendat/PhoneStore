@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <include
         android:id="@+id/toolbarSignUp"
@@ -16,40 +17,50 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glSignUpFoot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.75" />
+        app:layout_constraintGuide_percent="0.85" />
 
 
     <EditText
         android:id="@+id/edtSignUpFullName"
+        style="@style/FormLoginStyle"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        style="@style/FormLoginStyle"
-        android:inputType="textPersonName"
-        android:hint="Full name"
         android:drawableStart="@drawable/ic_person"
+        android:hint="Full name"
+        android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/glSignUpTop" />
 
     <EditText
+        android:id="@+id/edtSignUpPhone"
+        style="@style/FormLoginStyle"
+        android:layout_width="0dp"
+        android:drawableStart="@drawable/ic_email"
+        android:hint="Số điện thoại"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="@id/edtSignUpFullName"
+        app:layout_constraintStart_toStartOf="@id/edtSignUpFullName"
+        app:layout_constraintTop_toBottomOf="@+id/edtSignUpFullName" />
+    <EditText
         android:id="@+id/edtSignUpEmail"
         style="@style/FormLoginStyle"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:drawableStart="@drawable/ic_email"
         android:hint="Enter your mail"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtSignUpFullName" />
+        tools:layout_editor_absoluteY="311dp" />
 
     <EditText
         android:id="@+id/edtSignUpPassword"

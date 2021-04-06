@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentOrder"
             app:destination="@id/fragmentOrder" />
+        <action
+            android:id="@+id/action_fragmentDetailProduct_to_fragmentAllVote"
+            app:destination="@id/fragmentAllVote" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailCart"
@@ -99,13 +102,12 @@
     <fragment
         android:id="@+id/fragmentSearch"
         android:name="com.example.phonestore.view.FragmentSearch"
-        android:label="" >
-        <action
-            android:id="@+id/action_fragmentSearch_to_fragmentSearchResult"
-            app:destination="@id/fragmentSearchResult" />
-    </fragment>
+        android:label=""
+        tools:layout="@layout/fragment_search"/>
+    <action android:id="@+id/action_global_fragmentDetailProduct" app:destination="@id/fragmentDetailProduct"/>
     <fragment
-        android:id="@+id/fragmentSearchResult"
-        android:name="com.example.phonestore.view.FragmentSearchResult"
-        android:label="FragmentSearchResult" /><action android:id="@+id/action_global_fragmentDetailProduct" app:destination="@id/fragmentDetailProduct"/>
+        android:id="@+id/fragmentAllVote"
+        android:name="com.example.phonestore.view.FragmentAllVote"
+        android:label="Tất cả đánh giá"
+        tools:layout="@layout/fragment_all_vote"/>
 </navigation>

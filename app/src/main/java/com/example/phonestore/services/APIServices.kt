@@ -42,7 +42,7 @@ interface APIServices {
     @GET("danh-muc")
     fun getTopProduct(@Query("danhmuc") q: Int): Call<ProductResponse>
     @GET("nha-cung-cap")
-    fun getSupplier(): Call<SupplierReponse>
+    fun getSupplier(): Call<SupplierResponse>
     @GET("loai-san-pham")
     fun getCateProduct(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0, @Query("order") orderBy: Int?): Call<CateProductReponse>
     @GET("loai-sp-ncc")
@@ -73,4 +73,8 @@ interface APIServices {
     fun searchName(@Query("q") q: String? =""): Call<SearchResponse>
     @GET("tim-kiem-ds")
     fun search(@Query("q") q: String? =""): Call<SearchResponse>
+    @GET("danh-gia/{id}")
+    fun getListVote(@Path("id")idCate: Int? = 0, @Query("idUser") idUser: Int?, @Query("all") all: Boolean? = false): Call<VoteResponse>
+    @POST("danh-gia/{id}")
+    fun postVote(@Path("id")idCate: Int? = 0, @Body vote: Vote): Call<VoteResponse>
 }

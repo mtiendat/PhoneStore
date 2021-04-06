@@ -20,6 +20,7 @@ import com.example.phonestore.databinding.FragmentDetailProductBinding
 import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.model.DetailCart
 import com.example.phonestore.model.ProductOrder
+import com.example.phonestore.model.Vote
 import com.example.phonestore.services.Constant
 import com.example.phonestore.services.DetailProductAdapter
 import com.example.phonestore.viewmodel.CartViewModel
@@ -28,6 +29,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayerSupportFragmentX
+import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
 
 
 class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener {
@@ -42,7 +44,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private lateinit var bindingProductDetail: FragmentDetailProductBinding
     private lateinit var cartViewModel: CartViewModel
     private lateinit var detailViewModel: DetailProductViewModel
-    private var idCate: Int? = 0
+    private var idCate: Int = 0
     private var idProduct: Int?=0
     private var color: String? = null
     private var storage: String? = null
@@ -53,8 +55,10 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private var flag =  0
     private lateinit var youtubePlayerFragment: YouTubePlayerSupportFragmentX
     private var relatedProductAdapter: DetailProductAdapter<CateProductInfo>? = null
+    private var voteAdapter: DetailProductAdapter<Vote>? = null
     private var listRelatedProduct: ArrayList<CateProductInfo>? = arrayListOf()
     private var productBuyNow: ArrayList<ProductOrder>? = arrayListOf()
+    private var listVote: ArrayList<Vote>? = arrayListOf()
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         bindingProductDetail = FragmentDetailProductBinding.inflate(inflater, container, false)
         youtubePlayerFragment = YouTubePlayerSupportFragmentX.newInstance()
@@ -64,14 +68,20 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         return bindingProductDetail.root
     }
     override fun setUI() {
+        bindingProductDetail.pbLoadVote.setIndeterminateDrawableTiled(
+            FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(
+                R.array.google_colors)).build())
+
         productBuyNow?.clear()
-        idCate = arguments?.getInt("idCate")
+        idCate = arguments?.getInt("idCate") ?:1
         val query = arguments?.getString("name")
-        MainActivity.searchView?.get()?.isIconified = true
+        MainActivity.searchView?.get()?.isIconified = true //Xóa tìm kiếm
         MainActivity.searchView?.get()?.clearFocus()
         MainActivity.itemSearch?.collapseActionView()
-        (requireActivity() as MainActivity).supportActionBar?.title = query
-        initRecyclerView()
+        (requireActivity() as MainActivity).supportActionBar?.title = query //setTitle
+
+        initRecyclerViewRelated()
+        initRecyclerViewVote()
         if(flag==0) {
             detailViewModel.getListCateProductByID(idCate)
             flag++
@@ -102,6 +112,15 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                 it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentOrder, item)
             }
         }
+        bindingProductDetail.btnSendVote.setOnClickListener {
+            val vote = Vote(idUser = Constant.idUser, content = bindingProductDetail.edtVote.text.toString(), vote = bindingProductDetail.rbVote.rating.toInt())
+            detailViewModel.postVote(idCate, vote)
+            bindingProductDetail.pbLoadVote.visible()
+        }
+        bindingProductDetail.btnViewAllVote.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentAllVote, bundleOf("idCate" to idCate))
+        }
+        detailViewModel.getListVote(idCate)
     }
 
     private fun checkSelectSpinner(): Boolean{
@@ -228,6 +247,31 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             bindingProductDetail.shimmerLayoutRelated.gone()
         }
         detailViewModel.relatedProduct?.observe(viewLifecycleOwner, relatedProductObserver)
+        val voteObserve = Observer<ArrayList<Vote>?>{
+            if(it.size > 0) {
+                bindingProductDetail.tvNoVote.gone()
+                bindingProductDetail.btnViewAllVote.visible()
+            }
+            listVote?.addAll(it)
+            voteAdapter?.setItems(it)
+        }
+        detailViewModel.listVote?.observe(viewLifecycleOwner, voteObserve)
+        val boughtObserver = Observer<Boolean?>{
+            if(!it){
+                bindingProductDetail.groupSendVote.gone()
+            }
+        }
+        detailViewModel.bought?.observe(viewLifecycleOwner, boughtObserver)
+        val postVoteObserver = Observer<Boolean> {
+            if(it){
+                bindingProductDetail.edtVote.text.clear()
+                bindingProductDetail.rbVote.rating = 0f
+                view?.let { it1 -> Snackbar.make(it1, Constant.SUCCESS_VOTED, Snackbar.LENGTH_SHORT).show() }
+                detailViewModel.getListVote(idCate)
+                bindingProductDetail.pbLoadVote.gone()
+            }else view?.let { it1 -> Snackbar.make(it1, Constant.ERROR_VOTED, Snackbar.LENGTH_SHORT).show() }
+        }
+        detailViewModel.messageSuccess?.observe(viewLifecycleOwner, postVoteObserver)
     }
 
 
@@ -253,7 +297,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         bindingProductDetail.tvDetailPrice.text = product?.priceNew.toVND()
         bindingProductDetail.tvDetaiPriceOld.text = product?.priceOld.toVND()
         bindingProductDetail.tvDetaiPriceOld.paintFlags = bindingProductDetail.tvDetaiPriceOld.strikeThrough()
-        bindingProductDetail.ratingBarDetail.rating = product?.vote?.ratingBar() ?: 0.1f
+        bindingProductDetail.ratingBarDetail.rating = product?.vote?.ratingBar() ?: 1f
         bindingProductDetail.tvDetailTechnology.text = product?.description
         bindingProductDetail.tvStorageDetail.text = product?.listStorage?.get(1)
         setImg(product?.img, bindingProductDetail.ivDetailPhoto)
@@ -284,10 +328,15 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                 .skipMemoryCache(true)
                 .into(v)
     }
-    private fun initRecyclerView(){
+    private fun initRecyclerViewRelated(){
         relatedProductAdapter = DetailProductAdapter(listRelatedProduct)
         bindingProductDetail.rvRelatedProduct.adapter = relatedProductAdapter
         bindingProductDetail.rvRelatedProduct.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    }
+    private fun initRecyclerViewVote(){
+        voteAdapter = DetailProductAdapter(listVote)
+        bindingProductDetail.rvVote.adapter = voteAdapter
+        bindingProductDetail.rvVote.layoutManager = LinearLayoutManager(context)
     }
     override fun onInitializationSuccess(
             p0: YouTubePlayer.Provider?,

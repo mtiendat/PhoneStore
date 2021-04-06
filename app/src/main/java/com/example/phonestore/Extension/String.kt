@@ -3,7 +3,7 @@ package com.example.phonestore.Extension
 import java.text.DecimalFormat
 
 fun String.ratingBar(): Float{
-    return (this.toFloat()?: 0.1f)/2
+    return this.toFloat()
 }
 fun String.toVND(): String{
     val numFormat = DecimalFormat("#,###,###")

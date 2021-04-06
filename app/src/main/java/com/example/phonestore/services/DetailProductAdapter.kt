@@ -14,15 +14,9 @@ import com.bumptech.glide.Glide
 import com.example.phonestore.Extension.ratingBar
 import com.example.phonestore.Extension.toVND
 import com.example.phonestore.R
+import com.example.phonestore.databinding.*
 import com.example.phonestore.databinding.ActivityLoginBinding.inflate
-import com.example.phonestore.databinding.ItemOrderBinding
-import com.example.phonestore.databinding.ItemProductInCartBinding
-import com.example.phonestore.databinding.ItemProductOrderBinding
-import com.example.phonestore.databinding.ItemRelatedProductBinding
-import com.example.phonestore.model.CateProductInfo
-import com.example.phonestore.model.DetailCart
-import com.example.phonestore.model.MyOrder
-import com.example.phonestore.model.ProductOrder
+import com.example.phonestore.model.*
 
 class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var clickCheckBox: ((Int, Boolean, DetailCart, Int)->Unit)? = null
@@ -44,6 +38,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
     class ItemProductInCartViewHolder(val bindingProductInCart: ItemProductInCartBinding): RecyclerView.ViewHolder(bindingProductInCart.root)
     class ItemProductOrderViewHolder(val bindingProductOrder: ItemProductOrderBinding): RecyclerView.ViewHolder(bindingProductOrder.root)
     class ItemMyOrderViewHolder(val bingdingMyOrder: ItemOrderBinding): RecyclerView.ViewHolder(bingdingMyOrder.root)
+    class ItemVoteViewHolder(val bingdingItemVote: ItemVoteCommentBinding):RecyclerView.ViewHolder(bingdingItemVote.root)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if(viewType == Constant.VIEW_CATEPRODUCT){
             ItemRelatedProductViewHolder(ItemRelatedProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -53,7 +48,15 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             ItemProductOrderViewHolder(ItemProductOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         }else if(viewType == Constant.VIEW_MY_ORDER) {
             ItemMyOrderViewHolder(ItemOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-        } else ItemRelatedProductViewHolder(ItemRelatedProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        }else if(viewType == Constant.VIEW_VOTE) {
+            ItemVoteViewHolder(
+                ItemVoteCommentBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+        }else ItemRelatedProductViewHolder(ItemRelatedProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -142,6 +145,15 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                 nextInfoOrder?.invoke(item.id, item.state)
             }
         }
+        if(holder is ItemVoteViewHolder && item is Vote){
+            holder.bingdingItemVote.tvNameVote.text = item.name
+            holder.bingdingItemVote.tvContentVote.text = item.content
+            holder.bingdingItemVote.rbDetailVote.rating = item.vote.toFloat()
+            Glide.with(holder.itemView.context)
+                .load(item.avatarUser)
+                .into(holder.bingdingItemVote.ivAvatarComment)
+
+        }
     }
 
     override fun getItemCount(): Int {
@@ -154,6 +166,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             is DetailCart -> Constant.VIEW_MYCART
             is ProductOrder -> Constant.VIEW_PRODUCT_ORDER
             is MyOrder -> Constant.VIEW_MY_ORDER
+            is Vote -> Constant.VIEW_VOTE
             else -> 1
         }
     }

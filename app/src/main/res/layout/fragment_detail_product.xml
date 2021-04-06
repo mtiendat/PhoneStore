@@ -427,6 +427,126 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/ctrlVote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/ctrlTechnology">
+
+                <TextView
+                    android:id="@+id/tvVoteComment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="Đánh giá và Nhận xét"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/ctrlVote"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnViewAllVote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/transparent"
+                    android:drawableEnd="@drawable/ic_next"
+                    android:text="Xem tất cả"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvVoteComment"
+                    app:layout_constraintEnd_toEndOf="@+id/ctrlVote"
+                    app:layout_constraintTop_toTopOf="@+id/tvVoteComment" />
+
+                <TextView
+                    android:id="@+id/tvNoVote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Chưa có đánh giá nào"
+                    android:textColor="@color/dray"
+                    android:textStyle="italic"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvVoteComment" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvVote"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="@+id/btnViewAllVote"
+                    app:layout_constraintStart_toStartOf="@+id/tvVoteComment"
+                    app:layout_constraintTop_toBottomOf="@+id/tvVoteComment">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <com.jpardogo.android.googleprogressbar.library.GoogleProgressBar
+                    android:id="@+id/pbLoadVote"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:translationZ="2dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/rvVote"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/rvVote"
+                    app:layout_constraintTop_toTopOf="@+id/tvNoVote" />
+
+                <TextView
+                    android:id="@+id/tvSendVote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Gửi đánh giá"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@+id/rvVote"
+                    app:layout_constraintTop_toBottomOf="@+id/rvVote" />
+
+                <RatingBar
+                    android:id="@+id/rbVote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:progressTint="@color/gold"
+                    android:stepSize="1"
+                    app:layout_constraintStart_toStartOf="@id/tvSendVote"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSendVote" />
+
+                <EditText
+                    android:id="@+id/edtVote"
+                    style="@style/FormLoginStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:ems="10"
+                    android:hint="Nhập nhận xét của bạn...."
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/rbVote"
+                    app:layout_constraintTop_toBottomOf="@+id/rbVote" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnSendVote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="32dp"
+                    android:background="@color/blue"
+                    android:text="Gửi"
+                    android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/edtVote"
+                    app:layout_constraintTop_toBottomOf="@+id/edtVote" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/groupSendVote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="tvSendVote,rbVote,edtVote,btnSendVote" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -113,6 +113,10 @@ class MainActivity : BaseActivity() {
                     hideIconCart()
                     showIconSearch()
                 }
+                R.id.fragmentAllVote->{
+                    hideBottomNavigation()
+                    showIconSearch()
+                }
                 else-> {
                     showBottomNavigation()
                     showIconCart()
