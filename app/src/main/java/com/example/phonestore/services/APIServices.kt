@@ -39,6 +39,15 @@ interface APIServices {
     fun postLogin(@Body account: FormLogin): Call<LoginResponse>
     @POST("sign-up")
     fun postSignUp(@Body user: User): Call<LoginResponse>
+    @DELETE("sign-out")
+    fun signOut():Call<LoginResponse>
+    @PUT("change-info/{id}")
+    fun changeInfoUser(@Path("id") idUser: Int?= 0, @Query("name") name: String?, @Query("phone") phone: String?, @Query("address") address: String?):Call<LoginResponse>
+
+    @POST("check-email")
+    fun checkEmail(@Query("email")email: String? =""): Call<LoginResponse>
+    @POST("change-password")
+    fun changePassword(@Query("email")email: String? ="", @Query("password")password: String? =""): Call<LoginResponse>
     @GET("danh-muc")
     fun getTopProduct(@Query("danhmuc") q: Int): Call<ProductResponse>
     @GET("nha-cung-cap")
@@ -77,4 +86,6 @@ interface APIServices {
     fun getListVote(@Path("id")idCate: Int? = 0, @Query("idUser") idUser: Int?, @Query("all") all: Boolean? = false): Call<VoteResponse>
     @POST("danh-gia/{id}")
     fun postVote(@Path("id")idCate: Int? = 0, @Body vote: Vote): Call<VoteResponse>
+
+
 }

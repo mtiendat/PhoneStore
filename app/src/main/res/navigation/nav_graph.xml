@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_fragmentOrder_to_fragmentAllFollowOrder"
             app:destination="@id/fragmentAllFollowOrder" />
+        <action
+            android:id="@+id/action_fragmentOrder_to_fragmentChangeMyInfo"
+            app:destination="@id/fragmentChangeMyInfo" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSuccessOrder"
@@ -77,6 +80,14 @@
         <action
             android:id="@+id/action_fragmentMe_to_fragmentFollowOrder"
             app:destination="@id/fragmentFollowOrder" />
+        <action
+            android:id="@+id/action_fragmentMe_to_activityLogin"
+            app:destination="@id/activityLogin"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_fragmentMe_to_fragmentChangeMyInfo"
+            app:destination="@id/fragmentChangeMyInfo" />
     </fragment>
     <fragment
         android:id="@+id/fragmentFollowOrder"
@@ -94,11 +105,6 @@
         android:label="FragmentAllFollowOrder" />
     <action android:id="@+id/action_global_fragmentFollowOrder" app:destination="@id/fragmentFollowOrder"/>
     <action android:id="@+id/action_global_fragmentOrder" app:destination="@id/fragmentOrder"/>
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="com.example.phonestore.view.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
     <fragment
         android:id="@+id/fragmentSearch"
         android:name="com.example.phonestore.view.FragmentSearch"
@@ -110,4 +116,24 @@
         android:name="com.example.phonestore.view.FragmentAllVote"
         android:label="Tất cả đánh giá"
         tools:layout="@layout/fragment_all_vote"/>
+    <activity
+        android:id="@+id/activityLogin"
+        android:name="com.example.phonestore.view.ActivityLogin"
+        tools:layout="@layout/activity_login"
+        android:label="" />
+    <fragment
+        android:id="@+id/fragmentChangeMyInfo"
+        android:name="com.example.phonestore.view.FragmentChangeMyInfo"
+        android:label="Thay đổi thông tin cá nhân"
+        tools:layout="@layout/fragment_change_myinfo">
+        <action
+            android:id="@+id/action_fragmentChangeMyInfo_to_bottomSheet"
+            app:destination="@id/bottomSheet" />
+    </fragment>
+    <dialog
+        android:id="@+id/bottomSheet"
+        android:name="com.example.phonestore.view.BottomSheet"
+        tools:layout="@layout/fragment_bottomsheet_dialog_change_info">
+
+    </dialog>
 </navigation>

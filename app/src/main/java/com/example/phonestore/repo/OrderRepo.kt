@@ -18,14 +18,14 @@ class OrderRepo {
     fun getMyOrder(state: String? = "all", onSuccess: (ArrayList<MyOrder>?)->Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
                 call = APIServices.getInstance()?.getMyOrder(Constant.idUser, state),
-                onSuccess = {results ->onSuccess.invoke(results?.listMyOrder)},
+                onSuccess = {results ->results?.listMyOrder?.let{onSuccess.invoke(it)}},
                 onError = {e -> onError.invoke(e)}
         )
     }
     fun getDetailOrder(idOrder: Int? = 0, onSuccess: (ArrayList<ProductOrder>?)->Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
                 call = APIServices.getInstance()?.getDetailOrder(idOrder),
-                onSuccess = {results ->onSuccess.invoke(results?.listProductOrder)},
+                onSuccess = {results ->results?.listProductOrder.let {onSuccess.invoke(it) }},
                 onError = {e -> onError.invoke(e)}
         )
     }

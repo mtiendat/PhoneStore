@@ -17,9 +17,9 @@ abstract class BaseActivity: AppCompatActivity() {
             statusBarColor =  ContextCompat.getColor(context, android.R.color.transparent)
             setBackgroundDrawable(background)
         }
+        setViewModel()
         setBinding()
         setToolBar()
-        setViewModel()
         setUI()
     }
 

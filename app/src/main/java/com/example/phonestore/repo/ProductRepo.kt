@@ -38,7 +38,7 @@ class ProductRepo {
     fun searchName(q: String? ="", onSuccess: (ArrayList<CateProductInfo>?) -> Unit, onError: (String?) -> Unit){
         APIRequest.callRequest(
                 call = APIServices.getInstance()?.searchName(q),
-                onSuccess = {results -> onSuccess.invoke(results?.listSearch)},
+                onSuccess = {results ->results?.listSearch?.let {onSuccess.invoke(it) } },
                 onError = {message -> onError.invoke(message)}
         )
     }

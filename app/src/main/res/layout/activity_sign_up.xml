@@ -17,14 +17,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15" />
+        app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glSignUpFoot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.85" />
+        app:layout_constraintGuide_percent="0.9" />
 
 
     <EditText
@@ -33,7 +33,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:drawableStart="@drawable/ic_person"
-        android:hint="Full name"
+        android:hint="Họ tên"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,54 +43,83 @@
         android:id="@+id/edtSignUpPhone"
         style="@style/FormLoginStyle"
         android:layout_width="0dp"
-        android:drawableStart="@drawable/ic_email"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/ic_phone"
         android:hint="Số điện thoại"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="@id/edtSignUpFullName"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/edtSignUpFullName"
         app:layout_constraintTop_toBottomOf="@+id/edtSignUpFullName" />
+
+    <EditText
+        android:id="@+id/edtSignUpLocation"
+        style="@style/FormLoginStyle"
+        android:layout_width="0dp"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/ic_location"
+        android:hint="Địa chỉ"
+        android:inputType="text|textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/edtSignUpPhone"
+        app:layout_constraintTop_toBottomOf="@+id/edtSignUpPhone" />
+
     <EditText
         android:id="@+id/edtSignUpEmail"
         style="@style/FormLoginStyle"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:drawableStart="@drawable/ic_email"
-        android:hint="Enter your mail"
+        android:hint="Nhập email "
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="311dp" />
+        app:layout_constraintTop_toBottomOf="@+id/edtSignUpLocation" />
 
     <EditText
         android:id="@+id/edtSignUpPassword"
         style="@style/FormLoginStyle"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:drawableStart="@drawable/ic_lock"
-        android:hint="Enter your password"
+        android:hint="Nhập password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtSignUpEmail" />
 
+    <EditText
+        android:id="@+id/edtSignUpConfirmPassword"
+        style="@style/FormLoginStyle"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:drawableStart="@drawable/ic_lock"
+        android:hint="Nhập lại password"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtSignUpPassword" />
     <CheckBox
         android:id="@+id/cbPrivacy"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="24dp"
         android:backgroundTintMode="@color/blue"
-        app:layout_constraintStart_toStartOf="@+id/edtSignUpPassword"
-        app:layout_constraintTop_toBottomOf="@+id/edtSignUpPassword" />
+        app:layout_constraintStart_toStartOf="@+id/edtSignUpConfirmPassword"
+        app:layout_constraintTop_toBottomOf="@+id/edtSignUpConfirmPassword" />
 
     <TextView
         android:id="@+id/tvSignUpPrivacy"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="By creating an account, you agree to PhoneStore's Conditions of Use and Privacy Notice."
+        android:text="Đồng ý với chính sách của chúng tôi"
         android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/cbPrivacy"
         app:layout_constraintEnd_toEndOf="@+id/edtSignUpPassword"
         app:layout_constraintStart_toEndOf="@+id/cbPrivacy"
         app:layout_constraintTop_toTopOf="@id/cbPrivacy" />
@@ -98,7 +127,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSignUp"
         style="@style/ButtonStyle"
-        android:text="Sign up"
+        android:text="Đăng kí ngay"
         app:layout_constraintBottom_toTopOf="@+id/glSignUpFoot"
         app:layout_constraintEnd_toEndOf="@id/edtSignUpPassword"
         app:layout_constraintStart_toStartOf="@id/edtSignUpPassword" />

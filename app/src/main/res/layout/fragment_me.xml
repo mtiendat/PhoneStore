@@ -35,27 +35,17 @@
                 tools:srcCompat="@tools:sample/avatars" />
         </com.google.android.material.card.MaterialCardView>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnMeSignUp"
-            android:layout_width="96dp"
-            android:layout_height="32dp"
-            android:background="@drawable/custom_stroke_button"
-            android:text="Đăng kí"
-            android:textColor="@color/blue"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnMeLogin"
-            android:layout_width="96dp"
-            android:layout_height="32dp"
-            android:background="@color/blue"
-            android:text="Đăng nhập"
+        <TextView
+            android:id="@+id/tvMyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="TextView"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/btnMeSignUp"
-            app:layout_constraintEnd_toStartOf="@+id/btnMeSignUp"
-            app:layout_constraintTop_toTopOf="@+id/btnMeSignUp" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/mvAvatar"
+            app:layout_constraintTop_toTopOf="@+id/mvAvatar" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline

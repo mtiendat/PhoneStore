@@ -117,6 +117,10 @@ class MainActivity : BaseActivity() {
                     hideBottomNavigation()
                     showIconSearch()
                 }
+                R.id.fragmentChangeMyInfo->{
+                    hideBottomNavigation()
+                    showIconSearch()
+                }
                 else-> {
                     showBottomNavigation()
                     showIconCart()

@@ -2,6 +2,7 @@ package com.example.phonestore.view
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.widget.Toast
 import androidx.compose.runtime.internal.composableLambda
 import androidx.lifecycle.Observer
@@ -21,6 +22,8 @@ class ActivityLogin: BaseActivity() {
     override fun setBinding() {
         bindingLogin = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(bindingLogin.root)
+
+
     }
 
     override fun setUI() {
@@ -29,6 +32,13 @@ class ActivityLogin: BaseActivity() {
                 R.array.google_colors)).build())
         bindingLogin.btnLogin.setOnClickListener {
             if(validate()) {
+                if(bindingLogin.cbSaveAccount.isChecked){
+                    val pref: SharedPreferences = this.getSharedPreferences("saveAccount",Context.MODE_PRIVATE)
+                    pref.edit().apply {
+                        putString("email", bindingLogin.edtLoginEmail.text.toString())
+                        putString("password",bindingLogin.edtLoginPassword.text.toString())
+                    }.apply()
+                }
                 bindingLogin.pBLogin.visible()
                 loginViewModel.postLogin(FormLogin(bindingLogin.edtLoginEmail.text.toString(), bindingLogin.edtLoginPassword.text.toString()))
             }
@@ -36,9 +46,14 @@ class ActivityLogin: BaseActivity() {
         bindingLogin.tvSignUp.setOnClickListener {
             startActivity(ActivitySignUp.intentFor(this))
         }
+        bindingLogin.tvLoginForgotPassword.setOnClickListener {
+            startActivity(ActivityForgotPassword.intentFor(this))
+        }
+
     }
 
     override fun setViewModel() {
+
         loginViewModel = ViewModelProvider(this@ActivityLogin).get(UserViewModel::class.java)
         val statusObserve = Observer<Boolean?>{
             if(it!=null && it) {
@@ -47,18 +62,21 @@ class ActivityLogin: BaseActivity() {
             }else Toast.makeText(this, "Username or Passowrd not valid", Toast.LENGTH_SHORT).show()
         }
         loginViewModel.status.observe(this, statusObserve)
+        val ref: SharedPreferences = this.getSharedPreferences("saveAccount", Context.MODE_PRIVATE)
+        if(ref.getString("email", "")!=""){
+            loginViewModel.postLogin(FormLogin(ref.getString("email", ""), ref.getString("password", "")))
+        }
     }
-    private fun validate(): Boolean{
-        return if(bindingLogin.edtLoginEmail.text.isNullOrBlank()){
+    private fun validate(): Boolean {
+        return if (bindingLogin.edtLoginEmail.text.isNullOrBlank()) {
             bindingLogin.edtLoginEmail.error = "Email must be not empty"
             false
-        }else if(bindingLogin.edtLoginPassword.text.isNullOrBlank()){
+        } else if (bindingLogin.edtLoginPassword.text.isNullOrBlank()) {
             bindingLogin.edtLoginPassword.error = "Password must be not empty"
             false
-        }else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(bindingLogin.edtLoginEmail.text).matches()) {
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(bindingLogin.edtLoginEmail.text).matches()) {
             bindingLogin.edtLoginEmail.error = "Invalid Email address";
             false
-        }else true
+        } else true
     }
-
 }

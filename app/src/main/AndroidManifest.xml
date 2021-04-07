@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        >
         <activity android:name=".view.ActivityLogin">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +23,16 @@
             <meta-data android:name="android.support.PARRENT_ACTIVITY"
                 android:value=".view.ActivityLogin"/>
         </activity>
-        <activity android:name=".view.MainActivity" android:parentActivityName=".view.ActivityLogin">
+        <activity android:name=".view.ActivityForgotPassword" android:parentActivityName=".view.ActivityLogin">
+            <meta-data android:name="android.support.PARRENT_ACTIVITY"
+                android:value=".view.ActivityLogin"/>
+        </activity>
+        <activity android:name=".view.ActivityChangePassword" android:parentActivityName=".view.ActivityChangePassword">
+            <meta-data android:name="android.support.PARRENT_ACTIVITY"
+                android:value=".view.ActivityForgotPassword"/>
+        </activity>
+        <activity android:name=".view.MainActivity" android:parentActivityName=".view.ActivityLogin"
+            android:windowSoftInputMode="adjustResize">
             <meta-data android:name="android.support.PARRENT_ACTIVITY"
                 android:value=".view.ActivityLogin"/>
         </activity>

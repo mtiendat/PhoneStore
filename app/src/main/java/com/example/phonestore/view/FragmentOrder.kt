@@ -78,7 +78,6 @@ class FragmentOrder: BaseFragment() {
         listProductOrder = arguments?.getParcelableArrayList("listProduct")
         idOrder = arguments?.getInt("idOrder")
         if(isFragmentFollowOrder==true){
-
             if(state==Constant.CANCEL){
                 bindingOrderBinding.btnCancelOrder.visible()
                 bindingOrderBinding.btnCancelOrder.text = "Đã hủy"
@@ -101,7 +100,9 @@ class FragmentOrder: BaseFragment() {
         bindingOrderBinding.btnCancelOrder.setOnClickListener {
             alertCancel()
         }
-
+        bindingOrderBinding.tvChangeInfo.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentOrder_to_fragmentChangeMyInfo)
+        }
         bindingOrderBinding.rvOrderProduct.isNestedScrollingEnabled = false
         setInfoOrder()
     }
