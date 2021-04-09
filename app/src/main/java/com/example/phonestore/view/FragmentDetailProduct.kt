@@ -113,16 +113,26 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             }
         }
         bindingProductDetail.btnSendVote.setOnClickListener {
-            val vote = Vote(idUser = Constant.idUser, content = bindingProductDetail.edtVote.text.toString(), vote = bindingProductDetail.rbVote.rating.toInt())
-            detailViewModel.postVote(idCate, vote)
-            bindingProductDetail.pbLoadVote.visible()
+            if(validateVote()){
+                val vote = Vote(idUser = Constant.idUser, content = bindingProductDetail.edtVote.text.toString(), vote = bindingProductDetail.rbVote.rating.toInt())
+                detailViewModel.postVote(idCate, vote)
+                bindingProductDetail.pbLoadVote.visible()
+            }
         }
         bindingProductDetail.btnViewAllVote.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentAllVote, bundleOf("idCate" to idCate))
         }
         detailViewModel.getListVote(idCate)
     }
-
+    private fun validateVote(): Boolean{
+        return if(bindingProductDetail.rbVote.rating == 0f){
+            Toast.makeText(context, "Bạn chưa chọn thang đánh giá", Toast.LENGTH_SHORT).show()
+            false
+        }else if(bindingProductDetail.edtVote.text.isNullOrBlank()){
+            bindingProductDetail.edtVote.error = "Bạn chưa điền đánh giá"
+            false
+        }else true
+    }
     private fun checkSelectSpinner(): Boolean{
         return if(bindingProductDetail.spDetailColor.selectedItem.toString()== Constant.TITLE_COLOR) {
             makeToast(Constant.PLEASE_CHOOSE_COLOR)

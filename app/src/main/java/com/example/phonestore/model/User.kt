@@ -8,5 +8,6 @@ class User(var id: Int = 1,
            var email: String? ="" ,
            var password: String? ="",
            @SerializedName("SDT") var phone: String? = "",
-           @SerializedName("DiaChi") var address: String? =""
+           @SerializedName("DiaChi") var address: String? ="",
+            @SerializedName("HinhThuc") var formality: String? =""
 )

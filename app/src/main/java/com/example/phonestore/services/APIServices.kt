@@ -1,6 +1,7 @@
 package com.example.phonestore.services
 
 import com.example.phonestore.model.*
+import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -43,7 +44,9 @@ interface APIServices {
     fun signOut():Call<LoginResponse>
     @PUT("change-info/{id}")
     fun changeInfoUser(@Path("id") idUser: Int?= 0, @Query("name") name: String?, @Query("phone") phone: String?, @Query("address") address: String?):Call<LoginResponse>
-
+    @Multipart
+    @POST("change-avatar/{id}")
+    fun changeAvatar(@Path("id") idUser: Int? = 0, @Part avatar: MultipartBody.Part): Call<LoginResponse>
     @POST("check-email")
     fun checkEmail(@Query("email")email: String? =""): Call<LoginResponse>
     @POST("change-password")

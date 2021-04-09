@@ -9,17 +9,23 @@ import com.example.phonestore.model.LoginResponse
 import com.example.phonestore.model.User
 import com.example.phonestore.repo.UserRepo
 import com.example.phonestore.services.Constant
+import okhttp3.MultipartBody
 
 class UserViewModel: ViewModel() {
     private var userRepo: UserRepo = UserRepo()
     var user: MutableLiveData<User> = MutableLiveData()
     var message:  MutableLiveData<String> = MutableLiveData()
     var status:  MutableLiveData<Boolean> = MutableLiveData()
+    var statusSocialNetwork:  MutableLiveData<Boolean> = MutableLiveData()
+    var statusChangeAvatar: MutableLiveData<Boolean> = MutableLiveData()
     fun postLogin(user: FormLogin){
         userRepo.callLogin(user, this::onLoginSuccess, this::onError)
     }
     fun postSignUp(user: User){
         userRepo.callSignUp(user, this::onSignUpSuccess, this::onError)
+    }
+    fun postSignUpSocialNetwork(user: User){
+        userRepo.callSignUp(user, this::onSignUpSocialNetworkSuccess, this::onError)
     }
     fun postSignOut(){
         userRepo.callSignOut(this::onSignUpSuccess, this::onError)
@@ -33,6 +39,9 @@ class UserViewModel: ViewModel() {
     fun changeInfoUser(name: String?, phone: String?, address: String?){
         userRepo.callChangeInfoUser(name, phone,address, this::onLoginSuccess, this::onError)
     }
+    fun changeAvatar(filePart: MultipartBody.Part){
+        userRepo.callChangeAvatar(filePart, this::onChangeAvatarSuccess, this::onError)
+    }
     private fun onLoginSuccess(loginResponse: LoginResponse?){
         message.value = loginResponse?.message
         status.value = loginResponse?.status
@@ -45,6 +54,14 @@ class UserViewModel: ViewModel() {
     private fun onSignUpSuccess(loginResponse: LoginResponse?){
         message.value = loginResponse?.message
         status.value = loginResponse?.status
+    }
+    private fun onSignUpSocialNetworkSuccess(loginResponse: LoginResponse?){
+        statusSocialNetwork.value = loginResponse?.status
+    }
+    private fun onChangeAvatarSuccess(loginResponse: LoginResponse?){
+        message.value = loginResponse?.message
+        statusChangeAvatar.value = loginResponse?.status
+        Constant.user = loginResponse?.user
     }
     private fun onError(err: String?){
       message.value = err

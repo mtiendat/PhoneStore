@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/mvAvatar"
+            android:id="@+id/cvAvatar"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_marginStart="16dp"
@@ -43,8 +43,8 @@
             android:text="TextView"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/mvAvatar"
-            app:layout_constraintTop_toTopOf="@+id/mvAvatar" />
+            app:layout_constraintStart_toEndOf="@+id/cvAvatar"
+            app:layout_constraintTop_toTopOf="@+id/cvAvatar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

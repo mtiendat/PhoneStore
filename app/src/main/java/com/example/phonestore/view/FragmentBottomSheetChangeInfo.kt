@@ -7,16 +7,14 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import com.example.phonestore.R
-import com.example.phonestore.base.BaseFragment
-import com.example.phonestore.databinding.BottomsheetDialogBinding
+import com.example.phonestore.databinding.FragmentBottomsheetDialogChangeInfoBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.regex.Pattern
 
-class BottomSheet: BottomSheetDialogFragment() {
-    private lateinit var bindingBottom: BottomsheetDialogBinding
+class FragmentBottomSheetChangeInfo: BottomSheetDialogFragment() {
+    private lateinit var bindingBottom: FragmentBottomsheetDialogChangeInfoBinding
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        bindingBottom = BottomsheetDialogBinding.inflate(inflater, container, false)
+        bindingBottom = FragmentBottomsheetDialogChangeInfoBinding.inflate(inflater, container, false)
 
         return bindingBottom.root
     }

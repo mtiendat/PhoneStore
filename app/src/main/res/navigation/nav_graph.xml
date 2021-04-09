@@ -88,6 +88,9 @@
         <action
             android:id="@+id/action_fragmentMe_to_fragmentChangeMyInfo"
             app:destination="@id/fragmentChangeMyInfo" />
+        <action
+            android:id="@+id/action_fragmentMe_to_bottomSheetAvatar"
+            app:destination="@id/bottomSheetAvatar" />
     </fragment>
     <fragment
         android:id="@+id/fragmentFollowOrder"
@@ -132,8 +135,12 @@
     </fragment>
     <dialog
         android:id="@+id/bottomSheet"
-        android:name="com.example.phonestore.view.BottomSheet"
+        android:name="com.example.phonestore.view.FragmentBottomSheetChangeInfo"
         tools:layout="@layout/fragment_bottomsheet_dialog_change_info">
-
+    </dialog>
+    <dialog
+        android:id="@+id/bottomSheetAvatar"
+        android:name="com.example.phonestore.view.FragmentBottomSheetAvatar"
+        tools:layout="@layout/fragment_bottomsheet_dialog_avatar">
     </dialog>
 </navigation>

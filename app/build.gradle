@@ -81,4 +81,10 @@ dependencies {
     def lottieVersion = "3.6.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
     implementation 'com.jpardogo.googleprogressbar:library:1.2.0'
+    implementation 'com.facebook.android:facebook-login:6.5.1'
+    implementation 'com.facebook.android:facebook-core:8.2.0'
+    implementation 'com.facebook.android:facebook-share:8.2.0'
+    implementation 'com.facebook.android:facebook-messenger:8.2.0'
+    implementation 'com.facebook.android:facebook-applinks:8.2.0'
+    implementation 'com.facebook.android:facebook-login:6.5.1'
 }
