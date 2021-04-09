@@ -3,9 +3,7 @@ package com.example.phonestore.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.drawable.LayerDrawable
-import android.util.Base64
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -24,8 +22,6 @@ import com.example.phonestore.databinding.ActivityMainBinding
 import com.example.phonestore.services.BadgeDrawable
 import com.example.phonestore.viewmodel.CartViewModel
 import java.lang.ref.WeakReference
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 
 
 class MainActivity : BaseActivity() {
@@ -62,23 +58,21 @@ class MainActivity : BaseActivity() {
     override fun setViewModel() {
         cartViewModel = ViewModelProvider(this@MainActivity).get(CartViewModel::class.java)
         val totalProductObserver = Observer<Int?>{
-            icon?.let { it1 -> setBadgeCount(this, icon = it1, it.toString()) }
+            icon?.let {
+                it1 -> setBadgeCount(this, icon = it1, it.toString())
+            }
         }
         cartViewModel.totalProduct.observe(this@MainActivity, totalProductObserver)
+
     }
 
-    @SuppressLint("PackageManagerGetSignatures")
-    override fun setUI() {
-
-        cartViewModel.getTotalProduct()
-    }
     override fun setToolBar() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentMain) as NavHostFragment
         navController = navHostFragment.navController
         appBarConfiguration = AppBarConfiguration.Builder(
-            R.id.fragmentHome,
-            R.id.fragmentSuccessOrder,
-            R.id.fragmentMe
+                R.id.fragmentHome,
+                R.id.fragmentSuccessOrder,
+                R.id.fragmentMe
         )
                 .build()
         setSupportActionBar(bindingMain.toolbarMain.toolbar)
@@ -171,7 +165,15 @@ class MainActivity : BaseActivity() {
         clearButton.setImageResource(R.drawable.ic_clear)
         s.queryHint ="Bạn cần tìm gì ?"
         searchView = WeakReference(s)
+        Log.d("STEPPPPPP","1")
         return true
+
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        cartViewModel.getTotalProduct()
+        return super.onPrepareOptionsMenu(menu)
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

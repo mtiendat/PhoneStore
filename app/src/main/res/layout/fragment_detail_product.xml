@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -54,6 +55,7 @@
                     android:layout_marginEnd="8dp"
                     android:text="iPhone 12 "
                     android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/ivDetailPhoto" />
@@ -258,45 +260,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:text="Apple Flagship Offical Store"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/viewSupplier"
                     app:layout_constraintTop_toTopOf="@+id/mcvLogoSupplier" />
-
-                <TextView
-                    android:id="@+id/tvVoteSupplier2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="46 đánh giá"
-                    app:layout_constraintEnd_toEndOf="@+id/tvVoteSupplier"
-                    app:layout_constraintStart_toStartOf="@+id/tvVoteSupplier"
-                    app:layout_constraintTop_toBottomOf="@+id/tvVoteSupplier" />
-
-                <TextView
-                    android:id="@+id/tvFlowSupplier2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Người theo dõi"
-                    app:layout_constraintEnd_toEndOf="@+id/tvSupplierFollow"
-                    app:layout_constraintStart_toStartOf="@+id/tvSupplierFollow"
-                    app:layout_constraintTop_toTopOf="@+id/tvVoteSupplier2" />
-
-                <TextView
-                    android:id="@+id/tvVoteSupplier"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="32dp"
-                    android:text="4.8/5.0"
-                    app:layout_constraintStart_toStartOf="@+id/tvSupplierName"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSupplierName" />
-
-                <TextView
-                    android:id="@+id/tvSupplierFollow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tvVoteSupplier"
-                    app:layout_constraintTop_toTopOf="@+id/tvVoteSupplier" />
 
                 <TextView
                     android:id="@+id/tvRelatedProductTitle"
@@ -304,6 +270,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Sản phẩm liên quan"
+                    android:textSize="14sp"
+                    android:textStyle="bold|italic"
                     app:layout_constraintStart_toStartOf="@id/mcvLogoSupplier"
                     app:layout_constraintTop_toBottomOf="@id/mcvLogoSupplier" />
 
@@ -390,12 +358,22 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:id="@+id/ivTechnology"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvTechnologyTitle"
+                    app:layout_constraintStart_toEndOf="@+id/tvTechnologyTitle"
+                    app:layout_constraintTop_toTopOf="@+id/tvTechnologyTitle"
+                    app:srcCompat="@drawable/custom_button" />
+
                 <TextView
                     android:id="@+id/tvDetailTechnology"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="TextView"
+                    android:textStyle="italic"
                     app:layout_constraintStart_toStartOf="@+id/tvTechnologyTitle"
                     app:layout_constraintTop_toBottomOf="@+id/tvTechnologyTitle" />
 
@@ -561,7 +539,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddToCart"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="56dp"
             android:background="@drawable/custom_stroke_button"
             android:text="Thêm vào giỏ hàng"
             android:textColor="@color/blue"
@@ -582,7 +560,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnBuyNow"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="56dp"
             android:background="@color/blue"
             android:text="Mua Ngay"
             android:textColor="@color/white"

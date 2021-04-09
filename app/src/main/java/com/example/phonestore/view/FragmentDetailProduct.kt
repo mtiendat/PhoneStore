@@ -71,7 +71,12 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         bindingProductDetail.pbLoadVote.setIndeterminateDrawableTiled(
             FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(
                 R.array.google_colors)).build())
-
+        context?.let {
+            Glide.with(it)
+                .asGif()
+                .load(R.drawable.settings)
+                .into(bindingProductDetail.ivTechnology)
+        }
         productBuyNow?.clear()
         idCate = arguments?.getInt("idCate") ?:1
         val query = arguments?.getString("name")
@@ -207,11 +212,11 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         }
     }
     private fun makeToast(s: String?){
-        Toast.makeText(context, s, Toast.LENGTH_SHORT).show()
+        context?.let{Toast.makeText(it, s, Toast.LENGTH_SHORT).show()}
     }
     override fun setViewModel() {
         detailViewModel = ViewModelProvider(this@FragmentDetailProduct).get(DetailProductViewModel::class.java)
-        cartViewModel = ViewModelProvider(this@FragmentDetailProduct).get(CartViewModel::class.java)
+        cartViewModel = ViewModelProvider(requireActivity()).get(CartViewModel::class.java)
     }
     override fun setObserve() {
         setObserveDetailViewModel()
@@ -289,14 +294,14 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         val totalProductObserver = Observer<Int?>{
             context?.let { it1 -> MainActivity.icon?.let { it2 -> MainActivity.setBadgeCount(it1, icon = it2, it.toString()) } }
         }
-        cartViewModel.totalProduct.observe(this@FragmentDetailProduct, totalProductObserver)
+        cartViewModel.totalProduct.observe(requireActivity(), totalProductObserver)
         val resultsObserve = Observer<Boolean?> {
             if(it) {
                 makeToast("Thêm vào giỏ hàng thành công")
                 cartViewModel.getTotalProduct()
             }else view?.let { it1 -> Snackbar.make(it1, "Bạn được mua tối đa 2 sản phẩm", Snackbar.LENGTH_SHORT).show() }
         }
-        cartViewModel.resultAddToCart.observe(viewLifecycleOwner, resultsObserve)
+        cartViewModel.resultAddToCart.observe(requireActivity(), resultsObserve)
     }
     private fun setData(product: CateProductInfo?){
         setDetailProduct(product)

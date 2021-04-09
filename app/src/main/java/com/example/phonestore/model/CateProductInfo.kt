@@ -1,10 +1,8 @@
 package com.example.phonestore.model
 
-import android.os.Parcel
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
-class CateProductInfo(var id: Int = 0,
+class CateProductInfo(var id: Int = 1,
                       @SerializedName("GiaMoi") var priceNew: Int =0,
                       @SerializedName("Gia") var priceOld: Int= 0,
                       @SerializedName("AnhDaiDien") var img: String?= "",

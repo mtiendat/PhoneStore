@@ -51,6 +51,8 @@ interface APIServices {
     fun checkEmail(@Query("email")email: String? =""): Call<LoginResponse>
     @POST("change-password")
     fun changePassword(@Query("email")email: String? ="", @Query("password")password: String? =""): Call<LoginResponse>
+    @GET("slide-show")
+    fun getSlideshow(): Call<SlideshowResponse>
     @GET("danh-muc")
     fun getTopProduct(@Query("danhmuc") q: Int): Call<ProductResponse>
     @GET("nha-cung-cap")

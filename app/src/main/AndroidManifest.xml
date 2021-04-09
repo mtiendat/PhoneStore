@@ -26,8 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.ActivityLogin">
-        </activity>
+        <activity android:name=".view.ActivityLogin"/>
         <activity android:name=".view.ActivitySignUp" android:parentActivityName=".view.ActivityLogin">
             <meta-data android:name="android.support.PARRENT_ACTIVITY"
                 android:value=".view.ActivityLogin"/>
@@ -45,6 +44,7 @@
             <meta-data android:name="android.support.PARRENT_ACTIVITY"
                 android:value=".view.ActivityLogin"/>
         </activity>
+
 
     </application>
 

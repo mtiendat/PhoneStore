@@ -81,33 +81,37 @@
                             android:layout_height="match_parent">
 
                             <ImageView
+                                android:id="@+id/imageView3"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_marginTop="4dp"
+                                app:layout_constraintEnd_toStartOf="@+id/ivMgg"
+                                app:layout_constraintHorizontal_bias="0.5"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/categories" />
+
+                            <ImageView
                                 android:id="@+id/ivMgg"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginBottom="8dp"
                                 android:scaleType="fitXY"
                                 android:src="@drawable/mgg"
-                                app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toStartOf="@+id/ivFreeship"
                                 app:layout_constraintHorizontal_bias="0.5"
-                                app:layout_constraintHorizontal_chainStyle="packed"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintStart_toEndOf="@+id/imageView3"
+                                app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
                             <ImageView
                                 android:id="@+id/ivFreeship"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
-                                android:layout_marginStart="16dp"
                                 android:scaleType="fitXY"
                                 android:src="@drawable/freeship"
-                                app:layout_constraintBottom_toBottomOf="@+id/ivMgg"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.5"
                                 app:layout_constraintStart_toEndOf="@+id/ivMgg"
-                                app:layout_constraintTop_toTopOf="@+id/ivMgg"
-                                app:layout_constraintVertical_bias="0.0" />
+                                app:layout_constraintTop_toTopOf="@+id/ivMgg" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.cardview.widget.CardView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -120,6 +124,15 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_begin="258dp" />
 
+            <ImageView
+                android:id="@+id/ivHotSale"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTopSeller"
+                app:layout_constraintStart_toEndOf="@+id/tvTopSeller"
+                app:layout_constraintTop_toTopOf="@+id/tvTopSeller"
+                app:srcCompat="@drawable/custom_state_order_delivered" />
+
             <TextView
                 android:id="@+id/tvTopSeller"
                 android:layout_width="wrap_content"
@@ -127,6 +140,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="Hot sale"
+                android:textSize="18sp"
+                android:textStyle="bold|italic"
                 app:layout_constraintStart_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/glMainBottom" />
@@ -188,23 +203,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:paddingStart="8dp"
+
                 android:paddingEnd="8dp"
                 android:text="Gợi ý cho bạn"
                 android:textAlignment="viewStart"
+                android:textSize="18sp"
+                android:textStyle="bold|italic"
                 app:layout_constraintStart_toStartOf="@+id/rvLogoSupplier"
                 app:layout_constraintTop_toBottomOf="@+id/rvLogoSupplier" />
+
+            <ImageView
+                android:id="@+id/ivRecommend"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="108dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tvRecommened"
+                app:layout_constraintStart_toStartOf="@+id/tvRecommened"
+                app:layout_constraintTop_toTopOf="@+id/tvRecommened"
+                app:layout_constraintVertical_bias="0.8"
+                app:srcCompat="@drawable/custom_state_order_transported" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSortPrice"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="24dp"
+                android:layout_marginBottom="8dp"
                 android:background="@color/transparent"
                 android:drawableEnd="@drawable/ic_up"
-                android:paddingStart="40dp"
+                android:paddingStart="30dp"
                 android:paddingEnd="0dp"
-                android:text="Giá"
+                android:text="Sắp xếp"
                 android:textAlignment="viewStart"
+                app:layout_constraintBottom_toBottomOf="@+id/tvRecommened"
                 app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
                 app:layout_constraintTop_toTopOf="@id/tvRecommened" />
 
@@ -212,17 +242,20 @@
                 android:id="@+id/viewRecommend"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
+                android:layout_marginTop="8dp"
                 android:background="@color/dray"
-                app:layout_constraintEnd_toStartOf="@+id/btnSortPrice"
+                app:layout_constraintEnd_toEndOf="@+id/btnSortPrice"
                 app:layout_constraintStart_toStartOf="@+id/tvRecommened"
-                app:layout_constraintTop_toBottomOf="@id/tvRecommened" />
+                app:layout_constraintTop_toBottomOf="@+id/tvRecommened" />
+
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmerLayoutRecommend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
                 app:layout_constraintStart_toStartOf="@+id/tvRecommened"
-                app:layout_constraintTop_toBottomOf="@+id/btnSortPrice"
+                app:layout_constraintTop_toBottomOf="@+id/viewRecommend"
                 app:shimmer_repeat_mode="restart"
                 app:shimmer_shape="radial">
 
@@ -274,11 +307,13 @@
                 app:layout_constraintBottom_toBottomOf="@+id/rvRecommend"
                 app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
                 app:layout_constraintStart_toStartOf="@+id/tvRecommened"
-                app:layout_constraintTop_toBottomOf="@+id/btnSortPrice" />
+                app:layout_constraintTop_toBottomOf="@+id/viewRecommend" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvRecommend"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
                 app:layout_constraintStart_toStartOf="@+id/tvRecommened"
                 app:layout_constraintTop_toBottomOf="@+id/btnSortPrice" />

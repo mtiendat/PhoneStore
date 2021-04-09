@@ -2,11 +2,19 @@ package com.example.phonestore.repo
 
 import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.model.ProductInfo
+import com.example.phonestore.model.Slideshow
 import com.example.phonestore.model.Supplier
 import com.example.phonestore.services.APIRequest
 import com.example.phonestore.services.APIServices
 
 class ProductRepo {
+    fun callSlideShow( onSuccess: (ArrayList<Slideshow>?) -> Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.getSlideshow(),
+            onSuccess = {results -> results?.listSlideshow?.let { onSuccess.invoke(it) } },
+            onError = {message -> onError.invoke(message)}
+        )
+    }
     fun callHotSaleProduct(index: Int, onSuccess: (ArrayList<ProductInfo>?) -> Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
                 call = APIServices.getInstance()?.getTopProduct(index),

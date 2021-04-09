@@ -78,6 +78,7 @@ class FragmentOrder: BaseFragment() {
         listProductOrder = arguments?.getParcelableArrayList("listProduct")
         idOrder = arguments?.getInt("idOrder")
         if(isFragmentFollowOrder==true){
+            bindingOrderBinding.tvChangeInfo.visible()
             if(state==Constant.CANCEL){
                 bindingOrderBinding.btnCancelOrder.visible()
                 bindingOrderBinding.btnCancelOrder.text = "Đã hủy"

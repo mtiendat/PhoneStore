@@ -3,19 +3,23 @@ package com.example.phonestore.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.phonestore.model.CateProductInfo
-import com.example.phonestore.model.CateProductReponse
-import com.example.phonestore.model.ProductInfo
-import com.example.phonestore.model.Supplier
+import com.example.phonestore.model.*
+import com.example.phonestore.repo.CartRepo
 import com.example.phonestore.repo.ProductRepo
 
 class ProductViewModel: ViewModel() {
+    var listSlideshow: MutableLiveData<ArrayList<Slideshow>?> = MutableLiveData()
     var listProduct: MutableLiveData<ArrayList<ProductInfo>?> = MutableLiveData()
     var listCateProduct: MutableLiveData<ArrayList<CateProductInfo>?> = MutableLiveData()
     var listResultSearch: MutableLiveData<ArrayList<CateProductInfo>?> = MutableLiveData()
     var listSupplier: MutableLiveData<ArrayList<Supplier>?> = MutableLiveData()
     var messageError:  MutableLiveData<String> = MutableLiveData()
     private var productRepo: ProductRepo = ProductRepo()
+    fun getSlideShow(){
+        if(listSlideshow.value?.size  == null) { //Nếu đã có dữ liệu thì không call api trong trường hợp back fragment
+            productRepo.callSlideShow( this::onSuccessListSlideShow, this::onError)
+        }
+    }
     fun getListHotSaleProduct(){
         if(listProduct.value?.size  == null) { //Nếu đã có dữ liệu thì không call api trong trường hợp back fragment
 
@@ -45,6 +49,9 @@ class ProductViewModel: ViewModel() {
     }
     private fun onSuccessResultSearch(list: ArrayList<CateProductInfo>?){
         listResultSearch.value = list
+    }
+    private fun onSuccessListSlideShow(list:ArrayList<Slideshow>?){
+        listSlideshow.value = list
     }
     private fun onSuccessListHotSaleProduct(list:ArrayList<ProductInfo>?){
         listProduct.value = list

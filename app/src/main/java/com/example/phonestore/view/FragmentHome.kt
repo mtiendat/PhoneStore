@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.lifecycle.Observer
@@ -22,16 +24,14 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.example.news.services.EndlessRecyclerViewScrollListener
 import com.example.phonestore.Extension.gone
 import com.example.phonestore.Extension.visible
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentHomeBinding
-import com.example.phonestore.model.CateProductInfo
-import com.example.phonestore.model.ProductInfo
-import com.example.phonestore.model.SliderItem
-import com.example.phonestore.model.Supplier
+import com.example.phonestore.model.*
 import com.example.phonestore.services.ProductAdapter
 import com.example.phonestore.services.SlideAdapter
 import com.example.phonestore.viewmodel.ProductViewModel
@@ -49,7 +49,7 @@ class FragmentHome : BaseFragment(){
     private var hotSaleAdapter: ProductAdapter<ProductInfo>? = null
     private var supplierAdapter: ProductAdapter<Supplier>? = null
     private var cateProductAdapter: ProductAdapter<CateProductInfo>? =null
-    private var sliderItem: ArrayList<SliderItem> = arrayListOf()
+    private var listSlideshow: ArrayList<Slideshow> = arrayListOf()
     private var slideHandler: Handler = Handler(Looper.getMainLooper())
     private var productInfo: ProductInfo = ProductInfo()
     private var listProduct: ArrayList<ProductInfo>? = arrayListOf(productInfo)
@@ -74,20 +74,26 @@ class FragmentHome : BaseFragment(){
     override fun setUI(){
         bindingHome.pbRecommend.setIndeterminateDrawableTiled(FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(R.array.google_colors)).build())
         bindingHome.cardViewTop.setBackgroundResource(R.drawable.background_gradient)
-        Log.d("listSaveCateProduct", listCateProduct?.size.toString())
-        Log.d("listSaveCateProduct", listSaveCateProductPrevious?.size.toString())
+        context?.let {
+            Glide.with(it)
+                    .asGif()
+                    .load(R.drawable.fire)
+                    .into(bindingHome.ivHotSale)
+            Glide.with(it)
+                    .asGif()
+                    .load(R.drawable.light)
+                    .into(bindingHome.ivRecommend)
+        }
         if(listSaveCateProductPrevious?.size?: 1 > 5) { //Nếu trường hợp đã load more nhiều hơn 1 page rồi, thì mới add list cũ vào
             listSaveCateProductPrevious?.let { listCateProduct?.addAll(it) }
         }
         listSaveCateProductPrevious?.clear()
-        initSlider()
-        setUpIndicator()
-        setCurrentIndicator(0)
-        init()
-        swipeRefresh()
         if(flag==0) {
             getData()
         }
+
+        init()
+        swipeRefresh()
         flag++
         bindingHome.btnSortPrice.setOnClickListener {
             bindingHome.pbRecommend.visible()
@@ -137,6 +143,8 @@ class FragmentHome : BaseFragment(){
         }
     }
     private fun getData(){
+        Log.d("OOOOO","getdata")
+        homeViewModel.getSlideShow()
         bindingHome.shimmerLayoutHotSale.startShimmer()
         bindingHome.shimmerLayoutRecommend.startShimmer()
         Handler(Looper.getMainLooper()).postDelayed({
@@ -146,6 +154,7 @@ class FragmentHome : BaseFragment(){
         Handler(Looper.getMainLooper()).postDelayed({
             homeViewModel.getListCateProduct(1)
         }, 2000)
+
     }
     override fun setViewModel(){
         homeViewModel = ViewModelProvider(this@FragmentHome).get(ProductViewModel::class.java)
@@ -153,6 +162,16 @@ class FragmentHome : BaseFragment(){
     }
 
     override fun setObserve() {
+        val slideShowObserve = Observer<ArrayList<Slideshow>?>{
+            if(listSlideshow.size==0) {
+                listSlideshow.addAll(it)
+                Log.d("OOOOO", "setObserve")
+                initSlider()
+                setUpIndicator()
+                setCurrentIndicator(0)
+            }
+        }
+        homeViewModel.listSlideshow.observe(requireActivity(), slideShowObserve)
         val hotSaleProductObserve = Observer<ArrayList<ProductInfo>?>{
             listProduct?.addAll(it)
             hotSaleAdapter?.setItems(it)
@@ -172,6 +191,10 @@ class FragmentHome : BaseFragment(){
 
         }
         homeViewModel.listCateProduct.observe(viewLifecycleOwner, cateListProduct)
+//        val totalProductObserver = Observer<Int?>{
+//            MainActivity.icon?.let { it1 -> context?.let { it2 -> MainActivity.setBadgeCount(it2, icon = it1, it.toString()) } }
+//        }
+//        homeViewModel.totalProduct.observe(viewLifecycleOwner, totalProductObserver)
     }
     private fun clearList(){
         listCateProduct?.clear()
@@ -233,12 +256,9 @@ class FragmentHome : BaseFragment(){
         bindingHome.rvRecommend.isNestedScrollingEnabled = false //set rv không cuộn trong NestedScrollView
     }
     private fun initSlider(){
-        sliderItem.add(SliderItem(R.drawable.slide3))
-        sliderItem.add(SliderItem(R.drawable.slide2))
-        sliderItem.add(SliderItem(R.drawable.slide1))
-        sliderItem.add(SliderItem(R.drawable.slide3))
-        sizeSlider = sliderItem.size
-        sliderAdapter = SlideAdapter(sliderItem, bindingHome.vpSlideShow)
+        Log.d("OOOOO","initSlider")
+        sizeSlider = listSlideshow.size
+        sliderAdapter = SlideAdapter(listSlideshow, bindingHome.vpSlideShow)
         bindingHome.vpSlideShow.adapter = sliderAdapter
         bindingHome.vpSlideShow.clipToPadding = false
         bindingHome.vpSlideShow.clipChildren = false
@@ -248,8 +268,8 @@ class FragmentHome : BaseFragment(){
         compositePageTransformer.addTransformer(MarginPageTransformer(40))
         compositePageTransformer.addTransformer { page, position ->
             val r = 1 - abs(position)
-            page.scaleY = 1.05f + r * 0.2f
-            page.scaleX = 0.85f + r * 0.1f
+            page.scaleY = 1.3f + r * 0.2f
+            page.scaleX = 1.2f + r * 0.1f
 
         }
         bindingHome.vpSlideShow.setPageTransformer(compositePageTransformer)
@@ -354,7 +374,7 @@ class FragmentHome : BaseFragment(){
         //gán lại rổng, để không bị tăng item khi backPress
         listCateProduct?.let { listSaveCateProductPrevious?.addAll(it) }
         clearList()
-        sliderItem.clear()
+        listSlideshow.clear()
         sliderAdapter.notifyDataSetChanged()
     }
 

@@ -12,8 +12,10 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/ctrlOrder"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctrlMyOrder"
@@ -100,6 +102,7 @@
                 android:id="@+id/tvOrderNCC"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:text="Kiện hàng của bạn: "
                 android:textStyle="bold"
@@ -142,11 +145,13 @@
                         app:layout_constraintTop_toTopOf="@id/ctrlFeeShip" />
 
                     <TextView
-                        android:id="@+id/tvFeeShip"
+                        android:id="@+id/tvShip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
                         android:text="Free ship"
+                        android:textColor="@color/red"
+                        android:textStyle="italic"
                         app:layout_constraintEnd_toEndOf="@id/ctrlFeeShip"
                         app:layout_constraintTop_toTopOf="@+id/tvCateShip" />
 
@@ -190,7 +195,7 @@
                 android:text="Tiền hàng (Tạm tính): "
                 android:textColor="@color/dray"
                 app:layout_constraintStart_toStartOf="@+id/viewBottom"
-                app:layout_constraintTop_toBottomOf="@+id/viewBottom" />
+                app:layout_constraintTop_toBottomOf="@+id/btnOrderPay" />
 
             <TextView
                 android:id="@+id/tvOrderTotalMoney"
@@ -204,7 +209,7 @@
                 android:id="@+id/tvOrderShip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 android:text="Phí giao hàng: "
                 android:textColor="@color/dray"
                 app:layout_constraintStart_toStartOf="@id/tvOrderTotal1"
@@ -219,16 +224,39 @@
                 app:layout_constraintTop_toTopOf="@+id/tvOrderShip" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnCancelOrder"
-                android:layout_width="0dp"
+                android:id="@+id/btnOrderPay"
+                style="@style/ButtonStyleIcon"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:text="Hình thức thanh toán"
+                android:textAlignment="viewStart"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/viewBottom" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnCancelOrder"
+                android:layout_width="395dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
                 android:text="Hủy"
                 android:textColor="@color/white"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@+id/tvOrderFeeShip"
                 app:layout_constraintStart_toStartOf="@+id/tvOrderShip"
-                app:layout_constraintTop_toBottomOf="@+id/tvOrderShip" />
+                app:layout_constraintTop_toBottomOf="@+id/tvOrderFeeShip" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="6dp"
+                android:text="Thanh toán khi nhận hàng"
+                android:textStyle="italic"
+                android:translationZ="4dp"
+                app:layout_constraintBottom_toBottomOf="@+id/btnOrderPay"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/btnOrderPay" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -239,9 +267,17 @@
         android:id="@+id/ctrlOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <View
+            android:id="@+id/viewEnd"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <TextView
             android:id="@+id/tvOrderTotal3"
             android:layout_width="wrap_content"
@@ -274,7 +310,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnOrderFinish"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
             android:background="@color/blue"
             android:text="Đặt hàng"
             android:textColor="@color/white"
