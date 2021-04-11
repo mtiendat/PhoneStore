@@ -378,7 +378,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tvTechnologyTitle" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/tvDetailStorageInside"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Bộ nhớ trong: "
@@ -390,18 +390,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="TextView"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/textView"
-                    app:layout_constraintStart_toEndOf="@+id/textView" />
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tvDetailStorageInside"
+                    app:layout_constraintStart_toEndOf="@+id/tvDetailStorageInside" />
 
                 <FrameLayout
                     android:id="@+id/ytTrailer"
                     android:layout_width="match_parent"
-                    android:layout_height="208dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="2dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvDetailStorageInside" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

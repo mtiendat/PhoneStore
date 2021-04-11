@@ -1,6 +1,5 @@
 package com.example.phonestore.view
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,27 +10,26 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
-import com.example.phonestore.databinding.FragmentAllFollowOrderBinding
+import com.example.phonestore.databinding.FragmentFollowOrderAllBinding
 import com.example.phonestore.model.MyOrder
 import com.example.phonestore.model.ProductOrder
 import com.example.phonestore.services.DetailProductAdapter
 import com.example.phonestore.viewmodel.OrderViewModel
-import com.google.android.material.snackbar.Snackbar
 
-class FragmentAllOrder: BaseFragment() {
-    private lateinit var bindingAllFollow: FragmentAllFollowOrderBinding
+class FragmentFollowOrderAll: BaseFragment() {
+    private lateinit var bindingAllFollow: FragmentFollowOrderAllBinding
     private lateinit var orderViewModel: OrderViewModel
     private var myOrderAdapter: DetailProductAdapter<MyOrder>? = null
     private var listMyOrder: ArrayList<MyOrder> = arrayListOf()
     private var idOrder : Int? = 0
     private var state : String? = ""
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
-        bindingAllFollow = FragmentAllFollowOrderBinding.inflate(inflater, container, false)
+        bindingAllFollow = FragmentFollowOrderAllBinding.inflate(inflater, container, false)
         return bindingAllFollow.root
     }
 
     override fun setViewModel() {
-        orderViewModel = ViewModelProvider(this@FragmentAllOrder).get(OrderViewModel::class.java)
+        orderViewModel = ViewModelProvider(this@FragmentFollowOrderAll).get(OrderViewModel::class.java)
     }
     override fun setUI() {
         initRecyclerView()

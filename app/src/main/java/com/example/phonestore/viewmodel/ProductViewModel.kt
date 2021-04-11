@@ -31,14 +31,18 @@ class ProductViewModel: ViewModel() {
             productRepo.callSupplier(this::onSuccessSupplier, this::onError)
         }
     }
-    fun getListCateProduct(page: Int = 1,perPage: Int? =5, orderBy: Int?= null, idSupplier: Int? = null){
+    fun getListCateProduct(page: Int = 1, perPage: Int? =5, orderBy: Int?= null, idSupplier: Int? = null){
         if(idSupplier == null) {
             if (listCateProduct.value?.size == null||orderBy!=null) {
                 productRepo.callCateProduct(page, perPage, orderBy, this::onSuccessListCateProduct, this::onError)
             }
         }else productRepo.getCateProductBySupplier(page,idSupplier, this::onSuccessListCateProduct, this::onError)
     }
-
+    fun getNewCateProductBySupplier(idSupplier: Int? = null){
+            if (listCateProduct.value?.size == null) {
+                productRepo.getNewCateProductBySupplier(idSupplier, this::onSuccessListCateProduct, this::onError)
+            }
+    }
     fun getMoreListCateProduct(page: Int = 1,perPage: Int? =5, orderBy: Int?= null, idSupplier: Int? = null){
          if(listCateProduct.value?.size  == null||page>1){
             productRepo.callCateProduct(page, perPage, orderBy, this::onSuccessListCateProduct, this::onError)

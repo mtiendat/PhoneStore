@@ -11,32 +11,28 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
-import com.example.phonestore.databinding.FragmentTransportedOrderBinding
+import com.example.phonestore.databinding.FragmentFollowOrderDeliveredBinding
 import com.example.phonestore.model.MyOrder
 import com.example.phonestore.model.ProductOrder
 import com.example.phonestore.services.Constant
 import com.example.phonestore.services.DetailProductAdapter
 import com.example.phonestore.viewmodel.OrderViewModel
 
-class FragmentTransportedOrder: BaseFragment() {
-    private lateinit var bindingTransportedOrder: FragmentTransportedOrderBinding
+class FragmentFollowOrderDelivered: BaseFragment() {
+    private lateinit var bindingDeliveredOrder: FragmentFollowOrderDeliveredBinding
     private lateinit var orderViewModel: OrderViewModel
     private var myOrderAdapter: DetailProductAdapter<MyOrder>? = null
     private var listMyOrder: ArrayList<MyOrder> = arrayListOf()
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
-        bindingTransportedOrder = FragmentTransportedOrderBinding.inflate(inflater,container, false)
-        return bindingTransportedOrder.root
+        bindingDeliveredOrder = FragmentFollowOrderDeliveredBinding.inflate(inflater, container, false)
+        return bindingDeliveredOrder.root
     }
-
     override fun setViewModel() {
         orderViewModel = ViewModelProvider(this).get(OrderViewModel::class.java)
     }
     override fun setUI() {
         initRecyclerView()
-        myOrderAdapter?.nextInfoOrder = { it, _ ->
-            orderViewModel.getListProductOrder(it)
-        }
-        orderViewModel.getMyOrder(Constant.TRANSPORTED)
+
     }
     override fun setObserve() {
         val allOrderObserve = Observer<ArrayList<MyOrder>>{
@@ -45,7 +41,6 @@ class FragmentTransportedOrder: BaseFragment() {
         }
         orderViewModel.listMyOrder.observe(viewLifecycleOwner, allOrderObserve)
         val listProductOrderObserve = Observer<ArrayList<ProductOrder>>{
-            Log.d("SIZELIST", it.size.toString())
             val item = bundleOf("listProduct" to it, "key" to true)
             view?.findNavController()?.navigate(R.id.action_fragmentFollowOrder_to_fragmentOrder, item)
         }
@@ -57,7 +52,8 @@ class FragmentTransportedOrder: BaseFragment() {
             orderViewModel.getListProductOrder(it)
         }
         orderViewModel.getMyOrder(Constant.DELIVERED)
-        bindingTransportedOrder.rvTransportedOrder.adapter = myOrderAdapter
-        bindingTransportedOrder.rvTransportedOrder.layoutManager = LinearLayoutManager(context)
+        bindingDeliveredOrder.rvDeliveredOrder.adapter = myOrderAdapter
+        bindingDeliveredOrder.rvDeliveredOrder.layoutManager = LinearLayoutManager(context)
     }
+
 }

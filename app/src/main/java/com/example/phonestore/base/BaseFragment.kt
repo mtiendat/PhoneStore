@@ -1,9 +1,12 @@
 package com.example.phonestore.base
 
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 
 abstract class BaseFragment : Fragment() {
@@ -14,6 +17,7 @@ abstract class BaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
             setObserve()
             setUI()
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -80,58 +80,16 @@ class ActivityLogin: BaseActivity() {
             }
 
             override fun onCancel() {
-                Snackbar.make(View(this@ActivityLogin), "Cancel", Snackbar.LENGTH_SHORT).show()
+                Toast.makeText(this@ActivityLogin, "Hủy", Toast.LENGTH_SHORT).show()
             }
 
             override fun onError(error: FacebookException?) {
-                Snackbar.make(View(this@ActivityLogin), "Cancel", Snackbar.LENGTH_SHORT).show()
+                Toast.makeText(this@ActivityLogin, "Lỗi", Toast.LENGTH_SHORT).show()
             }
         })
     }
     fun getInfoUser(token: AccessToken?, userId: String?){
         val parameters = Bundle()
-//        val request = GraphRequest.newMeRequest(token
-//        ) { jsonObject, _ ->
-//            if (BuildConfig.DEBUG) {
-//                FacebookSdk.setIsDebugEnabled(true)
-//                FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS)
-//            }
-//            // Facebook Id
-//            if (jsonObject?.has("id") == true) {
-//                idFB = jsonObject.getString("id")
-//            } else {
-//                Log.i("Facebook Id: ", "Not exists")
-//            }
-//            // Facebook Name
-//            if (jsonObject?.has("name") == true) {
-//                name = jsonObject.getString("name")
-//            } else {
-//                Log.i("Facebook Name: ", "Not exists")
-//            }
-//            // Facebook Profile Pic URL
-//            if (jsonObject?.has("picture") == true) {
-//                val facebookPictureObject = jsonObject?.getJSONObject("picture")
-//                if (facebookPictureObject.has("data")) {
-//                    val facebookDataObject = facebookPictureObject.getJSONObject("data")
-//                    if (facebookDataObject.has("url")) {
-//                        avatar = facebookDataObject.getString("url")
-//                    }
-//                }
-//            } else {
-//                Log.i("Facebook Profile Pic URL: ", "Not exists")
-//            }
-//
-//            // Facebook Email
-//            if (jsonObject?.has("email") == true) {
-//                email = jsonObject.getString("email")
-//            } else {
-//                Log.i("Facebook Email: ", "Not exists")
-//            }
-//        }
-//        val parameter = Bundle()
-//        parameter.putString("fields","id, first_name, last_name, email, gender, picture.type(large)")
-//        request.parameters = parameters
-//        request.executeAsync()
         parameters.putString(
             "fields",
             "id, first_name, middle_name, last_name, name, picture.type(large), email"

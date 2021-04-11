@@ -76,6 +76,9 @@ class MainActivity : BaseActivity() {
         )
                 .build()
         setSupportActionBar(bindingMain.toolbarMain.toolbar)
+        navController.addOnDestinationChangedListener { _, _, _ ->
+            bindingMain.appBarLayout.setExpanded(true, true)
+        }
         setupActionBarWithNavController(navController, appBarConfiguration)
         bindingMain.bottomNavigationView.setupWithNavController(navController)
         visibilityNavElements(navController)
@@ -88,6 +91,7 @@ class MainActivity : BaseActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when(destination.id){
                 R.id.fragmentDetailProduct -> {
+                    bindingMain.toolbarMain.toolbar.gone()
                     hideBottomNavigation()
                     hideIconSearch()
                 }
@@ -120,6 +124,10 @@ class MainActivity : BaseActivity() {
                     showIconSearch()
                 }
                 R.id.fragmentChangeMyInfo -> {
+                    hideBottomNavigation()
+                    showIconSearch()
+                }
+                R.id.fragmentSupplier -> {
                     hideBottomNavigation()
                     showIconSearch()
                 }

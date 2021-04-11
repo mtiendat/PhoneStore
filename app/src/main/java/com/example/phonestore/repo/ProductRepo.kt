@@ -43,6 +43,13 @@ class ProductRepo {
                 onError = {message -> onError.invoke(message)}
         )
     }
+    fun getNewCateProductBySupplier( idSupplier: Int? = 0, onSuccess: (ArrayList<CateProductInfo>?) -> Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+                call = APIServices.getInstance()?. getNewCateProductBySupplier( idSupplier),
+                onSuccess = {results -> results?.listCate?.let { onSuccess.invoke(it) } },
+                onError = {message -> onError.invoke(message)}
+        )
+    }
     fun searchName(q: String? ="", onSuccess: (ArrayList<CateProductInfo>?) -> Unit, onError: (String?) -> Unit){
         APIRequest.callRequest(
                 call = APIServices.getInstance()?.searchName(q),

@@ -1,27 +1,29 @@
 package com.example.phonestore.base
 
-import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import com.example.phonestore.R
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
+import java.util.*
+
 
 abstract class BaseActivity: AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val background: Drawable? = ContextCompat.getDrawable(this, R.drawable.background_gradient)
         window.apply {
             addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             navigationBarColor = ContextCompat.getColor(context, android.R.color.transparent)
-            statusBarColor =  ContextCompat.getColor(context, android.R.color.transparent)
+            statusBarColor = ContextCompat.getColor(context, android.R.color.transparent)
             setBackgroundDrawable(background)
         }
+
 //        try {
 //            val info = packageManager.getPackageInfo(
 //                packageName,
@@ -39,7 +41,13 @@ abstract class BaseActivity: AppCompatActivity() {
         setBinding()
         setToolBar()
         setUI()
+        val manager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val internet = manager.isActiveNetworkMetered
+        if(internet) {
+            Toast.makeText(this, "Không có kết nối internet", Toast.LENGTH_SHORT).show()
+        }
     }
+
 
     abstract fun setBinding()
     open fun setViewModel(){}

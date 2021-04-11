@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
-import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -17,10 +16,7 @@ import com.example.phonestore.Extension.*
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentDetailProductBinding
-import com.example.phonestore.model.CateProductInfo
-import com.example.phonestore.model.DetailCart
-import com.example.phonestore.model.ProductOrder
-import com.example.phonestore.model.Vote
+import com.example.phonestore.model.*
 import com.example.phonestore.services.Constant
 import com.example.phonestore.services.DetailProductAdapter
 import com.example.phonestore.viewmodel.CartViewModel
@@ -51,6 +47,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private var idYT: String? = null
     private var img: String? = null
     private var price: Int? = 0
+    private var supplier: Supplier? = null
     private var countAddToCart: Int = 0
     private var flag =  0
     private lateinit var youtubePlayerFragment: YouTubePlayerSupportFragmentX
@@ -61,16 +58,18 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private var listVote: ArrayList<Vote>? = arrayListOf()
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         bindingProductDetail = FragmentDetailProductBinding.inflate(inflater, container, false)
+//        youtubePlayerFragment = YouTubePlayerSupportFragmentX.newInstance()
+//        val transaction = childFragmentManager.beginTransaction()
+//        transaction.replace(R.id.ytTrailer, youtubePlayerFragment).commit()
         youtubePlayerFragment = YouTubePlayerSupportFragmentX.newInstance()
-        val transaction = childFragmentManager.beginTransaction()
+        val transaction: FragmentTransaction = childFragmentManager.beginTransaction()
         transaction.replace(R.id.ytTrailer, youtubePlayerFragment).commit()
-
         return bindingProductDetail.root
     }
     override fun setUI() {
         bindingProductDetail.pbLoadVote.setIndeterminateDrawableTiled(
-            FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(
-                R.array.google_colors)).build())
+                FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(
+                        R.array.google_colors)).build())
         context?.let {
             Glide.with(it)
                 .asGif()
@@ -126,6 +125,9 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         }
         bindingProductDetail.btnViewAllVote.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentAllVote, bundleOf("idCate" to idCate))
+        }
+        bindingProductDetail.ivSupplierLogo.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentSupplier, bundleOf("supplier" to supplier ))
         }
         detailViewModel.getListVote(idCate)
     }
@@ -316,6 +318,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         bindingProductDetail.tvDetailTechnology.text = product?.description
         bindingProductDetail.tvStorageDetail.text = product?.listStorage?.get(1)
         setImg(product?.img, bindingProductDetail.ivDetailPhoto)
+        supplier = product?.supplier
         idYT = product?.trailer
         youtubePlayerFragment.initialize(Constant.KEY_API_YOUTUBE, this)
     }

@@ -11,28 +11,32 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
-import com.example.phonestore.databinding.FragmentDeliveredOrderBinding
+import com.example.phonestore.databinding.FragmentFollowOrderTransportedBinding
 import com.example.phonestore.model.MyOrder
 import com.example.phonestore.model.ProductOrder
 import com.example.phonestore.services.Constant
 import com.example.phonestore.services.DetailProductAdapter
 import com.example.phonestore.viewmodel.OrderViewModel
 
-class FragmentDeliveredOrder: BaseFragment() {
-    private lateinit var bindingDeliveredOrder: FragmentDeliveredOrderBinding
+class FragmentFollowOrderTransported: BaseFragment() {
+    private lateinit var bindingTransportedOrder: FragmentFollowOrderTransportedBinding
     private lateinit var orderViewModel: OrderViewModel
     private var myOrderAdapter: DetailProductAdapter<MyOrder>? = null
     private var listMyOrder: ArrayList<MyOrder> = arrayListOf()
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
-        bindingDeliveredOrder = FragmentDeliveredOrderBinding.inflate(inflater, container, false)
-        return bindingDeliveredOrder.root
+        bindingTransportedOrder = FragmentFollowOrderTransportedBinding.inflate(inflater,container, false)
+        return bindingTransportedOrder.root
     }
+
     override fun setViewModel() {
         orderViewModel = ViewModelProvider(this).get(OrderViewModel::class.java)
     }
     override fun setUI() {
         initRecyclerView()
-
+        myOrderAdapter?.nextInfoOrder = { it, _ ->
+            orderViewModel.getListProductOrder(it)
+        }
+        orderViewModel.getMyOrder(Constant.TRANSPORTED)
     }
     override fun setObserve() {
         val allOrderObserve = Observer<ArrayList<MyOrder>>{
@@ -53,8 +57,7 @@ class FragmentDeliveredOrder: BaseFragment() {
             orderViewModel.getListProductOrder(it)
         }
         orderViewModel.getMyOrder(Constant.DELIVERED)
-        bindingDeliveredOrder.rvDeliveredOrder.adapter = myOrderAdapter
-        bindingDeliveredOrder.rvDeliveredOrder.layoutManager = LinearLayoutManager(context)
+        bindingTransportedOrder.rvTransportedOrder.adapter = myOrderAdapter
+        bindingTransportedOrder.rvTransportedOrder.layoutManager = LinearLayoutManager(context)
     }
-
 }

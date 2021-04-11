@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentAllVote"
             app:destination="@id/fragmentAllVote" />
+        <action
+            android:id="@+id/action_fragmentDetailProduct_to_fragmentSupplier"
+            app:destination="@id/fragmentSupplier" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailCart"
@@ -103,8 +106,8 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentAllFollowOrder"
-        android:name="com.example.phonestore.view.FragmentAllOrder"
-        tools:layout="@layout/fragment_all_follow_order"
+        android:name="com.example.phonestore.view.FragmentFollowOrderAll"
+        tools:layout="@layout/fragment_follow_order_all"
         android:label="FragmentAllFollowOrder" />
     <action android:id="@+id/action_global_fragmentFollowOrder" app:destination="@id/fragmentFollowOrder"/>
     <action android:id="@+id/action_global_fragmentOrder" app:destination="@id/fragmentOrder"/>
@@ -143,4 +146,9 @@
         android:name="com.example.phonestore.view.FragmentBottomSheetAvatar"
         tools:layout="@layout/fragment_bottomsheet_dialog_avatar">
     </dialog>
+    <fragment
+        android:id="@+id/fragmentSupplier"
+        android:name="com.example.phonestore.view.FragmentSupplier"
+        android:label=""
+        tools:layout="@layout/fragment_supplier"/>
 </navigation>
