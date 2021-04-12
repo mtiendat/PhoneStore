@@ -6,28 +6,21 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import android.view.WindowInsets
-import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.phonestore.R
-import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.model.FormLogin
 import com.example.phonestore.viewmodel.UserViewModel
 
 class SplashScreen :AppCompatActivity() {
     private var loginViewModel: UserViewModel? = null
-    private val REQUEST_ID_MULTIPLE_PERMISSIONS = 7
+    private val REQUEST_ID = 7
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
             checkAndRequestPermissions()
@@ -68,7 +61,7 @@ class SplashScreen :AppCompatActivity() {
             listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
         if (listPermissionsNeeded.isNotEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toTypedArray(), REQUEST_ID_MULTIPLE_PERMISSIONS)
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toTypedArray(), REQUEST_ID)
             return false
         }
         return true
@@ -77,7 +70,7 @@ class SplashScreen :AppCompatActivity() {
                                             permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            REQUEST_ID_MULTIPLE_PERMISSIONS -> {
+            REQUEST_ID -> {
                 val perms: MutableMap<String, Int> = HashMap()
                 // Initialize the map with both permissions
                 perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] = PackageManager.PERMISSION_GRANTED
@@ -101,14 +94,13 @@ class SplashScreen :AppCompatActivity() {
 //                        // shouldShowRequestPermissionRationale will return true
                         //show the dialog or snackbar saying its necessary and try again otherwise proceed with setup.
                         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                            showDialogOK("Camera and Storage Permission required for this app",
-                                    DialogInterface.OnClickListener { _, which ->
-                                        when (which) {
-                                            DialogInterface.BUTTON_POSITIVE -> checkAndRequestPermissions()
-                                            DialogInterface.BUTTON_NEGATIVE -> {
-                                            }
-                                        }
-                                    })
+                            showDialogOK { _, which ->
+                                when (which) {
+                                    DialogInterface.BUTTON_POSITIVE -> checkAndRequestPermissions()
+                                    DialogInterface.BUTTON_NEGATIVE -> {
+                                    }
+                                }
+                            }
                         } else {
                             init()
                         }
@@ -117,9 +109,9 @@ class SplashScreen :AppCompatActivity() {
             }
         }
     }
-    private  fun showDialogOK(message: String, okListener: DialogInterface.OnClickListener) {
+    private  fun showDialogOK( okListener: DialogInterface.OnClickListener) {
         AlertDialog.Builder(this)
-                .setMessage(message)
+                .setMessage("Quyền Camera và Storage là cần thiết chp app")
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", okListener)
                 .create()

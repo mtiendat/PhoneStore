@@ -3,8 +3,6 @@ package com.example.phonestore.services
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
-import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -27,7 +25,7 @@ abstract class SwipeHelper(private val recyclerView: RecyclerView): ItemTouchHel
             return super.add(element)
         }
     }
-    private val touchListener = View.OnTouchListener { _, event ->
+    private val touchListener = View.OnTouchListener { _, _ ->
 
         if(swipedPosition < 0) {
             return@OnTouchListener false
@@ -69,7 +67,7 @@ abstract class SwipeHelper(private val recyclerView: RecyclerView): ItemTouchHel
 
     override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
         val position = viewHolder.adapterPosition
-        var maxDX = dX
+        val maxDX: Float
         val itemView = viewHolder.itemView
         if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
             if(dX < 0){
@@ -138,7 +136,7 @@ abstract class SwipeHelper(private val recyclerView: RecyclerView): ItemTouchHel
         }
 
     }
-    private fun List<SwipeHelper.UnderlayButton>.intrinsicWidth(): Float {
+    private fun List<UnderlayButton>.intrinsicWidth(): Float {
         if (isEmpty()) return 0.0f
         return map { it.intrinsicWidth }.reduce { acc, fl -> acc + fl }
     }

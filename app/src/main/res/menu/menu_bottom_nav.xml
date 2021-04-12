@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 <item android:id="@+id/fragmentHome"
     android:icon="@drawable/ic_home"
-    android:title="Trang chủ"/>
+    android:title="@string/trang_chu"/>
     <item android:id="@+id/fragmentNotification"
         android:icon="@drawable/ic_notification"
-        android:title="Thông báo"/>
+        android:title="@string/thong_bao"/>
     <item android:id="@+id/fragmentMe"
         android:icon="@drawable/ic_person"
-        android:title="Tôi"/>
+        android:title="@string/tai_khoan"/>
 </menu>

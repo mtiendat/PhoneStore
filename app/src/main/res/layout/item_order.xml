@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:text="Đặt hàng:"
+            android:text="@string/dat_hang"
             android:textColor="@color/dray"
             app:layout_constraintStart_toEndOf="@+id/tvOderID"
             app:layout_constraintTop_toTopOf="@+id/textView14" />
@@ -29,7 +29,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="01-04-2021 19:09"
             android:textColor="@color/dray"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="@+id/textView2" />
@@ -65,7 +64,7 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/custom_state_order_transported"
             android:textColor="@color/white"
-            android:textSize="10sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
@@ -76,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Tổng tiền:"
+            android:text="@string/tong_tien"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/tvOrderTotal"
             app:layout_constraintTop_toTopOf="@+id/tvOrderTotal" />
@@ -86,7 +85,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="19990990"
             android:textColor="@color/red"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/btnStateOrder"
@@ -107,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="sản phẩm"
+            android:text="@string/san_pham"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/tvOrderQtyProduct"
             app:layout_constraintTop_toTopOf="@+id/tvOrderQtyProduct" />
@@ -118,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="#"
+            android:text="@string/id"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -126,7 +124,6 @@
             android:id="@+id/tvOderID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1111"
             android:textStyle="italic"
             app:layout_constraintStart_toEndOf="@+id/textView14"
             app:layout_constraintTop_toTopOf="@+id/textView14" />

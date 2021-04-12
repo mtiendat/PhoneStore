@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -55,7 +55,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:text="TextView"
                         android:textSize="18sp"
                         app:layout_constraintStart_toEndOf="@+id/imageView"
                         app:layout_constraintTop_toTopOf="@+id/imageView" />
@@ -65,7 +64,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:text="TextView"
                         android:textColor="@color/dray"
                         android:textSize="18sp"
                         app:layout_constraintStart_toEndOf="@+id/tvOrderNameUser"
@@ -78,7 +76,6 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
-                        android:text="Địa chỉ"
                         android:textAlignment="viewStart"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -90,7 +87,6 @@
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:layout_marginTop="8dp"
-                        android:text="Sửa"
                         android:textAlignment="center"
                         android:textColor="@color/dray"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
-                android:text="Kiện hàng của bạn: "
+                android:text="@string/kien_hang_cua_ban"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/cvAddress"
                 app:layout_constraintTop_toBottomOf="@+id/cvAddress" />
@@ -139,7 +135,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:text="Giao hàng nhanh"
+                        android:text="@string/giao_hang_nhanh"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="@+id/ctrlFeeShip"
                         app:layout_constraintTop_toTopOf="@id/ctrlFeeShip" />
@@ -149,7 +145,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:text="Free ship"
+                        android:text="@string/free_ship"
                         android:textColor="@color/red"
                         android:textStyle="italic"
                         app:layout_constraintEnd_toEndOf="@id/ctrlFeeShip"
@@ -170,7 +166,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        android:text="Nhận hàng trong vòng 2 giờ làm việc"
+                        android:text="@string/nhan_hang"
                         app:layout_constraintBottom_toBottomOf="@+id/ivShip"
                         app:layout_constraintStart_toEndOf="@+id/ivShip"
                         app:layout_constraintTop_toTopOf="@+id/ivShip" />
@@ -192,7 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Tiền hàng (Tạm tính): "
+                android:text="@string/tien_hang_tam_tinh"
                 android:textColor="@color/dray"
                 app:layout_constraintStart_toStartOf="@+id/viewBottom"
                 app:layout_constraintTop_toBottomOf="@+id/btnOrderPay" />
@@ -201,7 +197,6 @@
                 android:id="@+id/tvOrderTotalMoney"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2990000"
                 app:layout_constraintEnd_toEndOf="@+id/viewBottom"
                 app:layout_constraintTop_toTopOf="@+id/tvOrderTotal1" />
 
@@ -210,7 +205,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Phí giao hàng: "
+                android:text="@string/phi_giao_hang"
                 android:textColor="@color/dray"
                 app:layout_constraintStart_toStartOf="@id/tvOrderTotal1"
                 app:layout_constraintTop_toBottomOf="@id/tvOrderTotal1" />
@@ -219,7 +214,7 @@
                 android:id="@+id/tvOrderFeeShip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Free ship"
+                android:text="@string/free_ship"
                 app:layout_constraintEnd_toEndOf="@+id/tvOrderTotalMoney"
                 app:layout_constraintTop_toTopOf="@+id/tvOrderShip" />
 
@@ -228,7 +223,7 @@
                 style="@style/ButtonStyleIcon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hình thức thanh toán"
+                android:text="@string/hinh_thuc_thanh_toan"
                 android:textAlignment="viewStart"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/viewBottom" />
@@ -238,7 +233,7 @@
                 android:layout_width="395dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                android:text="Hủy"
+                android:text="@string/huy"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:visibility="gone"
@@ -252,13 +247,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="40dp"
                 android:layout_marginBottom="6dp"
-                android:text="Thanh toán khi nhận hàng"
+                android:text="@string/thanh_toan_khi_nhan_hang"
                 android:textStyle="italic"
                 android:translationZ="4dp"
                 app:layout_constraintBottom_toBottomOf="@+id/btnOrderPay"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/btnOrderPay" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -284,7 +278,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Tổng cộng:"
+            android:text="@string/tong_cong"
             android:textSize="18sp"
             app:layout_constraintEnd_toStartOf="@+id/tvOrderTotalMoneyFinish"
             app:layout_constraintTop_toTopOf="@id/tvOrderTotalMoneyFinish" />
@@ -294,7 +288,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="19.990.990"
             android:textColor="@color/red"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/ctrlOrder"
@@ -313,7 +306,7 @@
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:background="@color/blue"
-            android:text="Đặt hàng"
+            android:text="@string/dat_hang"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

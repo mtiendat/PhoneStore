@@ -1,6 +1,5 @@
 package com.example.phonestore.services
 
-import android.R.attr
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
@@ -20,17 +19,17 @@ class FixScrollingFooterBehavior(context: Context?, attrs: AttributeSet?): AppBa
             appBarLayout = dependency as AppBarLayout
         }
         val result: Boolean =  super.onDependentViewChanged(parent, child, dependency)
-        val bottomPadding: Int = calculateBottomPadding(appBarLayout);
-        val paddingChanged: Boolean  = bottomPadding != child.paddingBottom;
+        val bottomPadding: Int = calculateBottomPadding(appBarLayout)
+        val paddingChanged: Boolean  = bottomPadding != child.paddingBottom
         if (paddingChanged) {
             child.setPadding(
                 child.paddingLeft,
                 child.paddingTop,
                 child.paddingRight,
-                bottomPadding);
-            child.requestLayout();
+                bottomPadding)
+            child.requestLayout()
         }
-        return paddingChanged || result;
+        return paddingChanged || result
     }
 
 

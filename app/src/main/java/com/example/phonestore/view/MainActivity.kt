@@ -1,10 +1,8 @@
 package com.example.phonestore.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.LayerDrawable
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
@@ -14,8 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
-import com.example.phonestore.Extension.gone
-import com.example.phonestore.Extension.visible
+import com.example.phonestore.extendsion.gone
+import com.example.phonestore.extendsion.visible
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivityMainBinding
@@ -39,7 +37,7 @@ class MainActivity : BaseActivity() {
             val badge: BadgeDrawable
             val reuse = icon.findDrawableByLayerId(R.id.ic_badge)
             badge = if (reuse != null && reuse is BadgeDrawable) {
-                reuse as BadgeDrawable
+                reuse
             } else {
                 BadgeDrawable(context)
             }

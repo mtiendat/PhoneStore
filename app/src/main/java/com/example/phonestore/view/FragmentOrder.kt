@@ -1,22 +1,17 @@
 package com.example.phonestore.view
 
 import android.app.AlertDialog
-import android.content.DialogInterface
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.phonestore.Extension.enabled
-import com.example.phonestore.Extension.gone
-import com.example.phonestore.Extension.toVND
-import com.example.phonestore.Extension.visible
+import com.example.phonestore.extendsion.enabled
+import com.example.phonestore.extendsion.gone
+import com.example.phonestore.extendsion.toVND
+import com.example.phonestore.extendsion.visible
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentOrderBinding
@@ -25,19 +20,11 @@ import com.example.phonestore.model.Order
 import com.example.phonestore.model.ProductOrder
 import com.example.phonestore.services.Constant
 import com.example.phonestore.services.DetailProductAdapter
-import com.example.phonestore.viewmodel.CartViewModel
 import com.example.phonestore.viewmodel.OrderViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class FragmentOrder: BaseFragment() {
-    companion object {
-        fun actionToFragmentOrder(v: View, item: Bundle){
-            v.findNavController().navigate(
-                    R.id.action_fragmentDetailCart_to_fragmentOrder,
-                    item
-            )
-        }
-    }
+
     private lateinit var bindingOrderBinding: FragmentOrderBinding
     private var listProductOrder: ArrayList<ProductOrder>? = arrayListOf()
     private var orderAdapter: DetailProductAdapter<ProductOrder>? = null

@@ -11,10 +11,10 @@ import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.phonestore.Extension.gone
-import com.example.phonestore.Extension.ratingBar
-import com.example.phonestore.Extension.strikeThrough
-import com.example.phonestore.Extension.toVND
+import com.example.phonestore.extendsion.gone
+import com.example.phonestore.extendsion.ratingBar
+import com.example.phonestore.extendsion.strikeThrough
+import com.example.phonestore.extendsion.toVND
 import com.example.phonestore.R
 import com.example.phonestore.databinding.*
 import com.example.phonestore.model.CateProductInfo
@@ -119,7 +119,7 @@ class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Re
         }
         if(holder is ShimmerRecommendViewHolder){
             Handler(Looper.getMainLooper()).postDelayed({
-                holder.bindingShimmer.shimmerItemRecomend.gone()
+                holder.bindingShimmer.shimmerItemRecommend.gone()
             }, 5000)
 
         }

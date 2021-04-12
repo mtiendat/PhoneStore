@@ -9,8 +9,7 @@ class Supplier(var id: Int = 0, @SerializedName("TenNCC") var name: String?= "",
             parcel.readInt(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readValue(Int::class.java.classLoader) as? Int) {
-    }
+            parcel.readValue(Int::class.java.classLoader) as? Int)
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)

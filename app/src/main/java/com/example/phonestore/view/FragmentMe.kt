@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.os.Environment
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -134,7 +133,7 @@ class FragmentMe: BaseFragment() {
         resultsLauncherTakeAPicture = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if(result.resultCode == Activity.RESULT_OK) {
                 val imageBitmap = result.data?.extras?.get("data") as Bitmap
-                val file = bitmapToFile(imageBitmap,"image")
+                val file = bitmapToFile(imageBitmap)
                 val inputStream = FileInputStream(file)
                 val byte = getBytes(inputStream)
                 val requestBody: RequestBody = byte!!.toRequestBody("multipart/form-data".toMediaTypeOrNull(), 0, byte.size)
@@ -153,16 +152,16 @@ class FragmentMe: BaseFragment() {
         val byteBuff = ByteArrayOutputStream()
         val bufSize = 1024
         val buff = ByteArray(bufSize)
-        var len = 0
+        var len: Int
         while (input.read(buff).also { len = it } != -1){
             byteBuff.write(buff, 0, len)
         }
         return byteBuff.toByteArray()
     }
-    private fun bitmapToFile(bitmap: Bitmap, fileNameToSave: String): File?{
+    private fun bitmapToFile(bitmap: Bitmap): File?{
         var file: File? = null
         return try {
-            file = File(context?.dataDir.toString() + File.separator + fileNameToSave)
+            file = File(context?.dataDir.toString() + File.separator + "image")
             file.createNewFile()
 
             //Convert bitmap to byte array
@@ -204,10 +203,10 @@ class FragmentMe: BaseFragment() {
             AccessToken.getCurrentAccessToken(),
             "/me/permissions/",
             null,
-            HttpMethod.DELETE,
-            GraphRequest.Callback {
-                AccessToken.refreshCurrentAccessTokenAsync()
-                LoginManager.getInstance().logOut()
-            }).executeAsync()
+            HttpMethod.DELETE
+        ) {
+            AccessToken.refreshCurrentAccessTokenAsync()
+            LoginManager.getInstance().logOut()
+        }.executeAsync()
     }
 }

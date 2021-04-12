@@ -1,10 +1,8 @@
 package com.example.phonestore.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.phonestore.model.*
-import com.example.phonestore.repo.CartRepo
 import com.example.phonestore.repo.ProductRepo
 
 class ProductViewModel: ViewModel() {
@@ -13,7 +11,7 @@ class ProductViewModel: ViewModel() {
     var listCateProduct: MutableLiveData<ArrayList<CateProductInfo>?> = MutableLiveData()
     var listResultSearch: MutableLiveData<ArrayList<CateProductInfo>?> = MutableLiveData()
     var listSupplier: MutableLiveData<ArrayList<Supplier>?> = MutableLiveData()
-    var messageError:  MutableLiveData<String> = MutableLiveData()
+    private var messageError:  MutableLiveData<String> = MutableLiveData()
     private var productRepo: ProductRepo = ProductRepo()
     fun getSlideShow(){
         if(listSlideshow.value?.size  == null) { //Nếu đã có dữ liệu thì không call api trong trường hợp back fragment
@@ -43,7 +41,7 @@ class ProductViewModel: ViewModel() {
                 productRepo.getNewCateProductBySupplier(idSupplier, this::onSuccessListCateProduct, this::onError)
             }
     }
-    fun getMoreListCateProduct(page: Int = 1,perPage: Int? =5, orderBy: Int?= null, idSupplier: Int? = null){
+    fun getMoreListCateProduct(page: Int = 1,perPage: Int? =5, orderBy: Int?= null){
          if(listCateProduct.value?.size  == null||page>1){
             productRepo.callCateProduct(page, perPage, orderBy, this::onSuccessListCateProduct, this::onError)
         }

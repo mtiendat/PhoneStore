@@ -5,7 +5,7 @@
     android:id="@+id/fragmentSearch"
     android:orderInCategory="1"
     android:icon="@drawable/ic_search"
-    android:title="Tìm chiếc điện thoại bạn cần"
+    android:title="@string/tim_chiec_dien_thoai"
     app:showAsAction="ifRoom|collapseActionView"
     app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
@@ -13,5 +13,5 @@
         android:orderInCategory="2"
         android:icon="@drawable/ic_menu_cart"
         app:showAsAction="always"
-        android:title="Cart"/>
+        android:title="@string/cart"/>
 </menu>

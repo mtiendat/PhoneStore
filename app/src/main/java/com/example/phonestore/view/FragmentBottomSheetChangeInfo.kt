@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.phonestore.databinding.FragmentBottomsheetDialogChangeInfoBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -13,7 +11,7 @@ import java.util.regex.Pattern
 
 class FragmentBottomSheetChangeInfo: BottomSheetDialogFragment() {
     private lateinit var bindingBottom: FragmentBottomsheetDialogChangeInfoBinding
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         bindingBottom = FragmentBottomsheetDialogChangeInfoBinding.inflate(inflater, container, false)
 
         return bindingBottom.root

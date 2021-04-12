@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Tổng cộng: "
+            android:text="@string/tong_cong"
             app:layout_constraintBottom_toBottomOf="@+id/tvTotalMoney"
             app:layout_constraintEnd_toStartOf="@+id/tvTotalMoney"
             app:layout_constraintTop_toTopOf="@+id/tvTotalMoney" />
@@ -37,7 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@color/blue"
-            android:text="TIẾP TỤC"
+            android:text="@string/tiep_tuc"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/ctrlOrder"
@@ -56,9 +56,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="0"
             android:textColor="@color/red"
-            android:textSize="24dp"
+            android:textSize="24sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -70,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:text="Không có sản phẩm nào trong giỏ hàng"
+        android:text="@string/no_product_in_cart"
         android:textAlignment="center"
         android:textColor="@color/dray"
         android:textSize="24sp"

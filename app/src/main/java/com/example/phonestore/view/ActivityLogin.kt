@@ -3,17 +3,13 @@ package com.example.phonestore.view
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.view.WindowInsets
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.phonestore.BuildConfig
-import com.example.phonestore.Extension.visible
+import com.example.phonestore.extendsion.visible
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivityLoginBinding
@@ -21,11 +17,8 @@ import com.example.phonestore.model.FormLogin
 import com.example.phonestore.model.User
 import com.example.phonestore.viewmodel.UserViewModel
 import com.facebook.*
-import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.google.android.material.snackbar.Snackbar
 import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
-import org.json.JSONObject
 
 class ActivityLogin: BaseActivity() {
     companion object{
@@ -34,7 +27,7 @@ class ActivityLogin: BaseActivity() {
     }
     private lateinit var bindingLogin: ActivityLoginBinding
     private lateinit var loginViewModel: UserViewModel
-    lateinit var callbackManager: CallbackManager
+    private lateinit var callbackManager: CallbackManager
     private var name: String? =""
     private var email: String? =""
     private var avatar: String? =""
@@ -176,7 +169,7 @@ class ActivityLogin: BaseActivity() {
             bindingLogin.edtLoginPassword.error = "Password must be not empty"
             false
         } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(bindingLogin.edtLoginEmail.text).matches()) {
-            bindingLogin.edtLoginEmail.error = "Invalid Email address";
+            bindingLogin.edtLoginEmail.error = "Invalid Email address"
             false
         } else true
     }

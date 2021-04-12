@@ -1,27 +1,19 @@
 package com.example.phonestore.view
 
-import android.content.Intent
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentSearchBinding
-import com.example.phonestore.services.ProductAdapter
 import com.example.phonestore.viewmodel.ProductViewModel
 import android.os.Handler
-import android.widget.ImageView
-import com.example.phonestore.Extension.gone
-import com.example.phonestore.Extension.visible
-import com.example.phonestore.R
+import com.example.phonestore.extendsion.gone
+import com.example.phonestore.extendsion.visible
 import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.services.SearchAdapter
 
@@ -87,7 +79,5 @@ class FragmentSearch: BaseFragment() {
         bindingSearch.rvSearchName.adapter = searchNameAdapter
         bindingSearch.rvSearchName.layoutManager = LinearLayoutManager(context)
     }
-    private fun colorClear(){
 
-    }
 }

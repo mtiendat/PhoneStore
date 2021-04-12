@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="10dp"
-    android:paddingLeft="10dp"
     android:paddingTop="10dp"
     android:paddingEnd="10dp">
 
@@ -24,7 +23,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="TextView"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/ivOrderProduct"
         app:layout_constraintTop_toTopOf="@+id/ivOrderProduct" />
@@ -33,7 +31,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Khả năng lưu trữ:"
+        android:text="@string/kha_nang_luu_tru"
         android:textColor="@color/dray"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/tvOrderNameProduct"
@@ -44,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="128GB"
+
         android:textColor="@color/dray"
         android:textStyle="italic"
         app:layout_constraintStart_toEndOf="@+id/textView4"
@@ -54,7 +52,7 @@
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nhóm màu: "
+        android:text="@string/nhom_mau"
         android:textColor="@color/dray"
         android:textStyle="italic"
         app:layout_constraintStart_toStartOf="@+id/textView4"
@@ -65,7 +63,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="TextView"
         android:textColor="@color/dray"
         android:textStyle="italic"
         app:layout_constraintStart_toEndOf="@+id/textView8"
@@ -77,7 +74,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="1"
         app:layout_constraintBottom_toBottomOf="@+id/ivOrderProduct"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvOderColorProduct" />
@@ -87,7 +83,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:text="Số lượng:"
+        android:text="@string/so_luong"
         app:layout_constraintEnd_toStartOf="@+id/tvOrderQty"
         app:layout_constraintTop_toTopOf="@+id/tvOrderQty" />
 
@@ -95,7 +91,6 @@
         android:id="@+id/tvOrderPriceProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="29.990.990"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toTopOf="@+id/tvOrderQty" />

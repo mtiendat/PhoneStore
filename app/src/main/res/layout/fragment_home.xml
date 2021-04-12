@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/swipe"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -138,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Hot sale"
+                android:text="@string/hot_sale"
                 android:textSize="18sp"
                 android:textStyle="bold|italic"
                 app:layout_constraintStart_toEndOf="parent"
@@ -183,7 +182,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvHotSale"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
             </LinearLayout>
@@ -198,13 +197,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
             <TextView
-                android:id="@+id/tvRecommened"
+                android:id="@+id/tvRecommended"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
 
                 android:paddingEnd="8dp"
-                android:text="Gợi ý cho bạn"
+                android:paddingStart="8dp"
+                android:text="@string/goi_y_cho_ban"
                 android:textAlignment="viewStart"
                 android:textSize="18sp"
                 android:textStyle="bold|italic"
@@ -216,9 +216,9 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="108dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tvRecommened"
-                app:layout_constraintStart_toStartOf="@+id/tvRecommened"
-                app:layout_constraintTop_toTopOf="@+id/tvRecommened"
+                app:layout_constraintBottom_toBottomOf="@+id/tvRecommended"
+                app:layout_constraintStart_toStartOf="@+id/tvRecommended"
+                app:layout_constraintTop_toTopOf="@+id/tvRecommended"
                 app:layout_constraintVertical_bias="0.8"
                 app:srcCompat="@drawable/custom_state_order_transported" />
 
@@ -231,12 +231,12 @@
                 android:drawableEnd="@drawable/ic_up"
                 android:paddingStart="30dp"
                 android:paddingEnd="0dp"
-                android:text="Sắp xếp"
+                android:text="@string/sap_xep"
                 android:textAllCaps="false"
                 android:textAlignment="viewStart"
-                app:layout_constraintBottom_toBottomOf="@+id/tvRecommened"
+                app:layout_constraintBottom_toBottomOf="@+id/tvRecommended"
                 app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
-                app:layout_constraintTop_toTopOf="@id/tvRecommened" />
+                app:layout_constraintTop_toTopOf="@id/tvRecommended" />
 
             <View
                 android:id="@+id/viewRecommend"
@@ -245,8 +245,8 @@
                 android:layout_marginTop="8dp"
                 android:background="@color/dray"
                 app:layout_constraintEnd_toEndOf="@+id/btnSortPrice"
-                app:layout_constraintStart_toStartOf="@+id/tvRecommened"
-                app:layout_constraintTop_toBottomOf="@+id/tvRecommened" />
+                app:layout_constraintStart_toStartOf="@+id/tvRecommended"
+                app:layout_constraintTop_toBottomOf="@+id/tvRecommended" />
 
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmerLayoutRecommend"
@@ -254,7 +254,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
-                app:layout_constraintStart_toStartOf="@+id/tvRecommened"
+                app:layout_constraintStart_toStartOf="@+id/tvRecommended"
                 app:layout_constraintTop_toBottomOf="@+id/viewRecommend"
                 app:shimmer_repeat_mode="restart"
                 app:shimmer_shape="radial">
@@ -306,7 +306,7 @@
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/rvRecommend"
                 app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
-                app:layout_constraintStart_toStartOf="@+id/tvRecommened"
+                app:layout_constraintStart_toStartOf="@+id/tvRecommended"
                 app:layout_constraintTop_toBottomOf="@+id/viewRecommend" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -315,7 +315,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
-                app:layout_constraintStart_toStartOf="@+id/tvRecommened"
+                app:layout_constraintStart_toStartOf="@+id/tvRecommended"
                 app:layout_constraintTop_toBottomOf="@+id/btnSortPrice" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

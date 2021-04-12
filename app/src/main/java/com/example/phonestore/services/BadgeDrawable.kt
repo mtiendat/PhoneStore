@@ -3,7 +3,6 @@ package com.example.phonestore.services
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
-import androidx.core.content.ContextCompat
 import com.example.phonestore.R
 
 class BadgeDrawable(val context: Context): Drawable() {

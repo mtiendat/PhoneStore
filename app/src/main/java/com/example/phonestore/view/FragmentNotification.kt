@@ -13,7 +13,6 @@ import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentNotificationBinding
 import com.example.phonestore.model.Notification
 import com.example.phonestore.services.DetailProductAdapter
-import com.example.phonestore.services.ProductAdapter
 import com.example.phonestore.services.SwipeHelper
 import com.example.phonestore.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -62,7 +61,7 @@ class FragmentNotification: BaseFragment() {
 
         }
     }
-    fun updateBadgeNotification(){
+    private fun updateBadgeNotification(){
         val num = MainActivity.bottomNav?.getOrCreateBadge(R.id.fragmentNotification)?.number
         MainActivity.bottomNav?.getOrCreateBadge(R.id.fragmentNotification)?.number = num?.minus(1) ?:0
         if(MainActivity.bottomNav?.getOrCreateBadge(R.id.fragmentNotification)?.number==0){
@@ -77,15 +76,13 @@ class FragmentNotification: BaseFragment() {
         bindingNotification.rvNotification.layoutManager = LinearLayoutManager(context)
         val itemTouchHelper = ItemTouchHelper(object : SwipeHelper(bindingNotification.rvNotification) {
             override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
-                var buttons = listOf<UnderlayButton>()
-                val deleteButton = deleteButton(position)
-                buttons = listOf(deleteButton)
-                return buttons
+                val deleteButton = deleteButton()
+                return listOf(deleteButton)
             }
         })
         itemTouchHelper.attachToRecyclerView(bindingNotification.rvNotification)
     }
-    private fun deleteButton(position: Int) : SwipeHelper.UnderlayButton{
+    private fun deleteButton() : SwipeHelper.UnderlayButton{
         return SwipeHelper.UnderlayButton(
             this.requireContext(),
             "Delete",

@@ -40,7 +40,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="TextView"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/cvAvatar"
@@ -69,7 +68,7 @@
             style="@style/ButtonStyleIcon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Theo dõi đơn hàng"
+            android:text="@string/theo_doi_don_hang"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,10 +88,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="1dp"
-            android:text="Hỗ trợ"
+            android:text="@string/ho_tro"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnSettingAccount" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatButton
@@ -101,7 +99,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
-        android:text="Đăng xuất"
+        android:text="@string/dang_xuat"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ctrlMeBottom" />
 </androidx.constraintlayout.widget.ConstraintLayout>

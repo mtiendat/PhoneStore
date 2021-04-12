@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import android.view.View
+
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +12,7 @@ import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivitySignUpBinding
 import com.example.phonestore.model.User
 import com.example.phonestore.viewmodel.UserViewModel
-import com.google.android.material.snackbar.Snackbar
+
 import java.util.regex.Pattern
 
 class ActivitySignUp: BaseActivity() {
@@ -76,7 +76,7 @@ class ActivitySignUp: BaseActivity() {
             bindingSignUp.edtSignUpEmail.error = "Email không được để trống"
             false
         }else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(bindingSignUp.edtSignUpEmail.text).matches()) {
-            bindingSignUp.edtSignUpEmail.error = "Email không hợp lệ";
+            bindingSignUp.edtSignUpEmail.error = "Email không hợp lệ"
             false
         }else if(bindingSignUp.edtSignUpPassword.text.isNullOrBlank()){
             bindingSignUp.edtSignUpPassword.error = "Password không được để trống"
@@ -86,10 +86,10 @@ class ActivitySignUp: BaseActivity() {
             false
 
         }else if (bindingSignUp.edtSignUpPassword.text.toString() != bindingSignUp.edtSignUpConfirmPassword.text.toString()) {
-            bindingSignUp.edtSignUpConfirmPassword.error = "Xác nhận password đúng";
+            bindingSignUp.edtSignUpConfirmPassword.error = "Xác nhận password đúng"
             false
         }else if (!bindingSignUp.cbPrivacy.isChecked) {
-            bindingSignUp.cbPrivacy.error = "Vui lòng đồng ý với chính sách của chúng tôi";
+            bindingSignUp.cbPrivacy.error = "Vui lòng đồng ý với chính sách của chúng tôi"
             false
         }else true
     }

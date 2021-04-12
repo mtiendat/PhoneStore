@@ -66,17 +66,17 @@ interface APIServices {
     @GET("nha-cung-cap")
     fun getSupplier(): Call<SupplierResponse>
     @GET("loai-san-pham")
-    fun getCateProduct(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0, @Query("order") orderBy: Int?): Call<CateProductReponse>
+    fun getCateProduct(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0, @Query("order") orderBy: Int?): Call<CateProductResponse>
     @GET("loai-sp-ncc")
-    fun getCateProductBySupplier(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0, @Query("MaNCC") idSupplier: Int? = 0): Call<CateProductReponse>
+    fun getCateProductBySupplier(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0, @Query("MaNCC") idSupplier: Int? = 0): Call<CateProductResponse>
     @GET("new-loai-sp-ncc")
-    fun getNewCateProductBySupplier( @Query("MaNCC") idSupplier: Int? = 0): Call<CateProductReponse>
+    fun getNewCateProductBySupplier( @Query("MaNCC") idSupplier: Int? = 0): Call<CateProductResponse>
     @GET("loai-san-pham/{id}")
     fun getCateProductByID(@Path("id") id: Int?= 0): Call<CateProductResponseByID>
     @GET("san-pham/{id}")
     fun getProductByColor(@Path("id") id: Int?= 0, @Query("MauSac") color: String? ="", @Query("DungLuong") storage: String? =""): Call<ProductResponse>
     @GET("san-pham-lien-quan/{id}")
-    fun getRelatedProduct(@Path("id") id: Int?= 0): Call<CateProductReponse>
+    fun getRelatedProduct(@Path("id") id: Int?= 0): Call<CateProductResponse>
     @GET("tong-san-pham/{id}")
     fun getTotalProductInCart(@Path("id") idUser: Int?= 0): Call<CartResponse>
     @POST("them-vao-gio/{id}")
@@ -95,8 +95,6 @@ interface APIServices {
     fun cancelOrder(@Path("id") idOrder: Int?= 0): Call<MyOrderResponse>
     @GET("tim-kiem-ten")
     fun searchName(@Query("q") q: String? =""): Call<SearchResponse>
-    @GET("tim-kiem-ds")
-    fun search(@Query("q") q: String? =""): Call<SearchResponse>
     @GET("danh-gia/{id}")
     fun getListVote(@Path("id")idCate: Int? = 0, @Query("idUser") idUser: Int?, @Query("all") all: Boolean? = false): Call<VoteResponse>
     @POST("danh-gia/{id}")

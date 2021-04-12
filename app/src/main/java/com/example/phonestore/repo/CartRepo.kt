@@ -1,9 +1,6 @@
 package com.example.phonestore.repo
 
 import com.example.phonestore.model.Cart
-import com.example.phonestore.model.DetailCart
-import com.example.phonestore.model.Notification
-import com.example.phonestore.model.Order
 import com.example.phonestore.services.APIRequest
 import com.example.phonestore.services.APIServices
 import com.example.phonestore.services.Constant

@@ -7,8 +7,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.example.phonestore.Extension.gone
-import com.example.phonestore.Extension.visible
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentSupplierAllProductBinding
@@ -45,17 +43,17 @@ class FragmentSupplierAllProduct(var supplier: Supplier?): BaseFragment() {
         supplierViewModel?.getListCateProduct(1, idSupplier = supplier?.id)
         bindingSupplierAllProduct.btnSortAllProduct.setOnClickListener {
             if(orderBy ==0) {
-                listCateProductInfo.sortWith(Comparator { o1, o2 ->
+                listCateProductInfo.sortWith { o1, o2 ->
                     o1.priceNew - o2.priceNew //Tăng dần
-                })
+                }
                 adapter?.notifyDataSetChanged()
                 orderBy = 1
                 bindingSupplierAllProduct.btnSortAllProduct.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_down,0)
                 return@setOnClickListener
             }else if(orderBy==1)
-                listCateProductInfo  .sortWith(Comparator { o1, o2 ->
+                listCateProductInfo  .sortWith { o1, o2 ->
                     o2.priceNew - o1.priceNew //Giảm dần
-                })
+                }
             adapter?.notifyDataSetChanged()
             orderBy = 0
             bindingSupplierAllProduct.btnSortAllProduct.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_up,0)

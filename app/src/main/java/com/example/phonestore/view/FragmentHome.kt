@@ -15,10 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -27,8 +24,8 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.news.services.EndlessRecyclerViewScrollListener
-import com.example.phonestore.Extension.gone
-import com.example.phonestore.Extension.visible
+import com.example.phonestore.extendsion.gone
+import com.example.phonestore.extendsion.visible
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentHomeBinding
@@ -36,7 +33,6 @@ import com.example.phonestore.model.*
 import com.example.phonestore.services.ProductAdapter
 import com.example.phonestore.services.SlideAdapter
 import com.example.phonestore.viewmodel.ProductViewModel
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
 import java.util.*
 import kotlin.Comparator

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -39,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Email"
+        android:text="@string/email"
         android:textColorHint="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/glLogin1" />
@@ -48,8 +47,8 @@
         android:id="@+id/edtLoginEmail"
         style="@style/FormLoginStyle"
         android:drawableStart="@drawable/ic_email"
-        android:hint="Nhập email"
-        android:inputType="textPersonName"
+        android:hint="@string/nhap_email"
+        android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvLoginEmail"
         app:layout_constraintTop_toBottomOf="@+id/tvLoginEmail" />
@@ -59,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Password"
+        android:text="@string/password"
         app:layout_constraintStart_toStartOf="@+id/edtLoginEmail"
         app:layout_constraintTop_toBottomOf="@+id/edtLoginEmail" />
 
@@ -68,7 +67,7 @@
         style="@style/FormLoginStyle"
         android:drawableStart="@drawable/ic_lock"
         android:drawablePadding="16dp"
-        android:hint="Nhập password"
+        android:hint="@string/nhap_password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvLoginPassword"
@@ -87,7 +86,7 @@
         android:id="@+id/btnLogin"
         style="@style/ButtonStyle"
         android:layout_marginTop="8dp"
-        android:text="Đăng nhập"
+        android:text="@string/dang_nhap"
         app:layout_constraintEnd_toEndOf="@+id/edtLoginPassword"
         app:layout_constraintStart_toStartOf="@+id/edtLoginPassword"
         app:layout_constraintTop_toBottomOf="@+id/cbSaveAccount" />
@@ -102,7 +101,8 @@
         android:background="@drawable/button_facebook"
         android:drawableStart="@drawable/com_facebook_button_icon"
         android:paddingStart="16dp"
-        android:text="Đăng nhập với facebook"
+        android:paddingEnd="16dp"
+        android:text="@string/dang_nhap_voi_facebook"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/btnLogin"
         app:layout_constraintStart_toStartOf="@+id/btnLogin"
@@ -114,7 +114,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
-        android:text="Bạn chưa có tài khoản? "
+        android:text="@string/ban_chua_co_tai_khoan"
         app:layout_constraintStart_toStartOf="@+id/glLoginLeft"
         app:layout_constraintTop_toBottomOf="@+id/btnLoginWithFacebook" />
 
@@ -123,7 +123,7 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_marginStart="8dp"
-        android:text="Đăng kí ngay"
+        android:text="@string/dang_ki_ngay"
         android:textColor="@color/blue"
         android:textStyle="italic"
         app:layout_constraintStart_toEndOf="@+id/tvQuestion"
@@ -146,7 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Ghi nhớ đăng nhập"
+        android:text="@string/ghi_nho_dang_nhap"
         android:textColorLink="@color/blue"
         app:layout_constraintStart_toStartOf="@+id/glLoginLeft"
         app:layout_constraintTop_toBottomOf="@+id/edtLoginPassword" />

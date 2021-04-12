@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
-        android:text="Coming soon"
+        android:text="@string/coming_soon"
         android:textColor="@color/dray"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="@+id/imageView5"

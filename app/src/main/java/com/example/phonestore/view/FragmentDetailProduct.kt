@@ -10,11 +10,9 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.phonestore.Extension.*
+import com.example.phonestore.extendsion.*
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentDetailProductBinding
@@ -23,7 +21,6 @@ import com.example.phonestore.services.Constant
 import com.example.phonestore.services.DetailProductAdapter
 import com.example.phonestore.viewmodel.CartViewModel
 import com.example.phonestore.viewmodel.DetailProductViewModel
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
@@ -136,22 +133,30 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         detailViewModel.getListVote(idCate)
     }
     private fun validateVote(): Boolean{
-        return if(bindingProductDetail.rbVote.rating == 0f){
-            Toast.makeText(context, "Bạn chưa chọn thang đánh giá", Toast.LENGTH_SHORT).show()
-            false
-        }else if(bindingProductDetail.edtVote.text.isNullOrBlank()){
-            bindingProductDetail.edtVote.error = "Bạn chưa điền đánh giá"
-            false
-        }else true
+        return when {
+            bindingProductDetail.rbVote.rating == 0f -> {
+                Toast.makeText(context, "Bạn chưa chọn thang đánh giá", Toast.LENGTH_SHORT).show()
+                false
+            }
+            bindingProductDetail.edtVote.text.isNullOrBlank() -> {
+                bindingProductDetail.edtVote.error = "Bạn chưa điền đánh giá"
+                false
+            }
+            else -> true
+        }
     }
     private fun checkSelectSpinner(): Boolean{
-        return if(bindingProductDetail.spDetailColor.selectedItem.toString()== Constant.TITLE_COLOR) {
-            makeToast(Constant.PLEASE_CHOOSE_COLOR)
-            false
-        }else if(bindingProductDetail.spDetailStorage.selectedItem.toString() == Constant.TITLE_STORAGE) {
-            makeToast(Constant.PLEASE_CHOOSE_STORAGE)
-            false
-        }else true
+        return when {
+            bindingProductDetail.spDetailColor.selectedItem.toString()== Constant.TITLE_COLOR -> {
+                makeToast(Constant.PLEASE_CHOOSE_COLOR)
+                false
+            }
+            bindingProductDetail.spDetailStorage.selectedItem.toString() == Constant.TITLE_STORAGE -> {
+                makeToast(Constant.PLEASE_CHOOSE_STORAGE)
+                false
+            }
+            else -> true
+        }
     }
     private fun setSpinner(){
         bindingProductDetail.spDetailColor.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

@@ -1,7 +1,6 @@
-package com.example.phonestore.Extension
+package com.example.phonestore.extendsion
 
 import android.graphics.Paint
-import android.opengl.Visibility
 import android.view.View
 import android.widget.TextView
 import com.example.phonestore.R

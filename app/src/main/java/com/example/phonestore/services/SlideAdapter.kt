@@ -2,10 +2,8 @@ package com.example.phonestore.services
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.animation.Transformation
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.compose.ui.graphics.Color
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +15,7 @@ import com.example.phonestore.model.Slideshow
 
 
 
-class SlideAdapter(var sliderItem: ArrayList<Slideshow>?, var viewPager2: ViewPager2): RecyclerView.Adapter<SlideAdapter.SliderViewHolder>() {
+class SlideAdapter(private var sliderItem: ArrayList<Slideshow>?, private var viewPager2: ViewPager2): RecyclerView.Adapter<SlideAdapter.SliderViewHolder>() {
     private var list: ArrayList<Slideshow>? = arrayListOf()
     private val runnable = Runnable {
         sliderItem?.let { list?.addAll(it) }

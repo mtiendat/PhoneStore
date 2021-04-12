@@ -1,4 +1,3 @@
 package com.example.phonestore.model
 
-class Search(var listSearch: ArrayList<CateProductInfo>? = null) {
-}
+class Search(var listSearch: ArrayList<CateProductInfo>? = null)

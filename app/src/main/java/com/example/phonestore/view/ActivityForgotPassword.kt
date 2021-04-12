@@ -2,14 +2,13 @@ package com.example.phonestore.view
 
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
-import android.widget.Toolbar
+
+
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivityForgotPasswordBinding
-import com.example.phonestore.databinding.ActivitySignUpBinding
-import com.example.phonestore.model.User
+
 import com.example.phonestore.viewmodel.UserViewModel
 
 class ActivityForgotPassword: BaseActivity() {
@@ -45,7 +44,5 @@ class ActivityForgotPassword: BaseActivity() {
         }
     }
 
-    override fun setActionBar(toolbar: Toolbar?) {
-        super.setActionBar(toolbar)
-    }
+
 }

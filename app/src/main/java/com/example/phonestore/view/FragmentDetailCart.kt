@@ -1,8 +1,6 @@
 package com.example.phonestore.view
 
-import android.app.AlertDialog
 import android.content.Context
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +8,11 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.phonestore.Extension.*
+import com.example.phonestore.extendsion.*
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentDetailCartBinding
@@ -25,7 +22,6 @@ import com.example.phonestore.services.DetailProductAdapter
 import com.example.phonestore.services.SwipeHelper
 import com.example.phonestore.viewmodel.CartViewModel
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.isActive
 
 class FragmentDetailCart: BaseFragment() {
     private lateinit var bindingDetailCart: FragmentDetailCartBinding
@@ -97,10 +93,9 @@ class FragmentDetailCart: BaseFragment() {
         bindingDetailCart.rvMyCart.layoutManager = LinearLayoutManager(context)
         val itemTouchHelper = ItemTouchHelper(object : SwipeHelper(bindingDetailCart.rvMyCart) {
             override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
-                var buttons = listOf<UnderlayButton>()
-                val deleteButton = deleteButton(position)
-                buttons = listOf(deleteButton)
-                return buttons
+
+                val deleteButton = deleteButton()
+                return listOf(deleteButton)
             }
         })
         itemTouchHelper.attachToRecyclerView(bindingDetailCart.rvMyCart)
@@ -160,7 +155,7 @@ class FragmentDetailCart: BaseFragment() {
             }
         }
     }
-    private fun deleteButton(position: Int) : SwipeHelper.UnderlayButton{
+    private fun deleteButton() : SwipeHelper.UnderlayButton{
         return SwipeHelper.UnderlayButton(
                 this.requireContext(),
                 "Delete",

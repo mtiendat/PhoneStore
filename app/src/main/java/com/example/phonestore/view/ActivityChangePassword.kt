@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivityChangePasswordBinding
-import com.example.phonestore.databinding.ActivityForgotPasswordBinding
+
 import com.example.phonestore.viewmodel.UserViewModel
 
 class ActivityChangePassword: BaseActivity() {
