@@ -11,15 +11,16 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.browser.customtabs.CustomTabColorSchemeParams
-import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Recycler
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -35,10 +36,10 @@ import com.example.phonestore.model.*
 import com.example.phonestore.services.ProductAdapter
 import com.example.phonestore.services.SlideAdapter
 import com.example.phonestore.viewmodel.ProductViewModel
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
 import java.util.*
 import kotlin.Comparator
-import kotlin.collections.ArrayList
 import kotlin.math.abs
 
 
@@ -65,6 +66,7 @@ class FragmentHome : BaseFragment(){
         bindingHome.vpSlideShow.currentItem = bindingHome.vpSlideShow.currentItem + 1
     }
 
+    
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         bindingHome = FragmentHomeBinding.inflate(inflater, container, false)
         return bindingHome.root
@@ -74,6 +76,12 @@ class FragmentHome : BaseFragment(){
     override fun setUI(){
         bindingHome.pbRecommend.setIndeterminateDrawableTiled(FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(R.array.google_colors)).build())
         bindingHome.cardViewTop.setBackgroundResource(R.drawable.background_gradient)
+        bindingHome.ivDiscount.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentHome_to_fragmentDiscount)
+        }
+        bindingHome.ivListSupplier.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentHome_to_fragmentListSupplier)
+        }
         context?.let {
             Glide.with(it)
                     .asGif()
@@ -104,7 +112,7 @@ class FragmentHome : BaseFragment(){
                 cateProductAdapter?.notifyDataSetChanged()
                 bindingHome.pbRecommend.gone()
                 orderBy = 1
-                bindingHome.btnSortPrice.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_down,0)
+                bindingHome.btnSortPrice.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_down, 0)
                 return@setOnClickListener
             }else if(orderBy==1)
                 listCateProduct?.sortWith(Comparator { o1, o2 ->
@@ -113,7 +121,7 @@ class FragmentHome : BaseFragment(){
                  cateProductAdapter?.notifyDataSetChanged()
                  bindingHome.pbRecommend.gone()
                 orderBy = 0
-            bindingHome.btnSortPrice.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_up,0)
+            bindingHome.btnSortPrice.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_up, 0)
             }
 
     }
@@ -143,7 +151,7 @@ class FragmentHome : BaseFragment(){
         }
     }
     private fun getData(){
-        Log.d("OOOOO","getdata")
+        Log.d("OOOOO", "getdata")
         homeViewModel.getSlideShow()
         bindingHome.shimmerLayoutHotSale.startShimmer()
         bindingHome.shimmerLayoutRecommend.startShimmer()
@@ -165,7 +173,6 @@ class FragmentHome : BaseFragment(){
         val slideShowObserve = Observer<ArrayList<Slideshow>?>{
             if(listSlideshow.size==0) {
                 listSlideshow.addAll(it)
-                Log.d("OOOOO", "setObserve")
                 initSlider()
                 setUpIndicator()
                 setCurrentIndicator(0)
@@ -256,7 +263,7 @@ class FragmentHome : BaseFragment(){
         bindingHome.rvRecommend.isNestedScrollingEnabled = false //set rv không cuộn trong NestedScrollView
     }
     private fun initSlider(){
-        Log.d("OOOOO","initSlider")
+        Log.d("OOOOO", "initSlider")
         sizeSlider = listSlideshow.size
         sliderAdapter = SlideAdapter(listSlideshow, bindingHome.vpSlideShow)
         bindingHome.vpSlideShow.adapter = sliderAdapter

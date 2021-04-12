@@ -10,10 +10,10 @@ import com.example.phonestore.repo.CartRepo
 class CartViewModel: ViewModel() {
     var resultAddToCart: MutableLiveData<Boolean> = MutableLiveData()
     var resultDeleteItem: MutableLiveData<Boolean> = MutableLiveData()
-
     var message: MutableLiveData<String> = MutableLiveData()
     var cartRepo: CartRepo = CartRepo()
     var totalProduct: MutableLiveData<Int> = MutableLiveData()
+    var totalNotification: MutableLiveData<Int> = MutableLiveData()
     var totalMoney: MutableLiveData<Int> = MutableLiveData()
     var listProduct: MutableLiveData<ArrayList<DetailCart>?> = MutableLiveData()
     fun addToCart(idProduct: Int?){
@@ -21,6 +21,9 @@ class CartViewModel: ViewModel() {
     }
     fun getTotalProduct(){
         cartRepo.getTotalProductInCart(this::onSuccessTotalProduct, this::onError)
+    }
+    fun getTotalNotification(){
+        cartRepo.getTotalNotification(this::onSuccessTotalNotification, this::onError)
     }
     fun getMyCart(){
         cartRepo.getMyCart(this::onSuccessMyCart, this::onError)
@@ -38,6 +41,9 @@ class CartViewModel: ViewModel() {
 
     private fun onSuccessTotalProduct(t: Int?){
         totalProduct.value = t
+    }
+    private fun onSuccessTotalNotification(p: Int?){
+        totalNotification.value = p
     }
     private fun onSuccessMyCart(c: Cart?){
         totalMoney.value = c?.totalMoney

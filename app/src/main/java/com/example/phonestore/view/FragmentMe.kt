@@ -66,6 +66,9 @@ class FragmentMe: BaseFragment() {
         bindingMe.btnSettingAccount.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentChangeMyInfo)
         }
+        bindingMe.btnHelper.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentHelper)
+        }
         bindingMe.cvAvatar.setOnClickListener {
             if(Constant.user?.formality !="Facebook") {
                 it.findNavController().navigate(R.id.action_fragmentMe_to_bottomSheetAvatar)

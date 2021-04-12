@@ -2,6 +2,7 @@ package com.example.phonestore.repo
 
 import com.example.phonestore.model.FormLogin
 import com.example.phonestore.model.LoginResponse
+import com.example.phonestore.model.Notification
 import com.example.phonestore.model.User
 import com.example.phonestore.services.APIRequest
 import com.example.phonestore.services.APIServices
@@ -58,4 +59,26 @@ class UserRepo {
                 onError = {e -> onError.invoke(e)}
         )
     }
+    fun callGetNotification(onSuccess: (ArrayList<Notification>?)-> Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.getNotification(Constant.idUser),
+            onSuccess = {results -> onSuccess.invoke(results?.listNotification)},
+            onError = {e -> onError.invoke(e)}
+        )
+    }
+    fun callUpdateNotification(idNotification: Int?, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.updateNotification(idNotification),
+            onSuccess = {},
+            onError = {e -> onError.invoke(e)}
+        )
+    }
+    fun callDeleteNotification(idNotification: Int?, onSuccess: (Boolean?)-> Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.deleteNotification(idNotification),
+            onSuccess = {results -> onSuccess.invoke(results?.status)},
+            onError = {e -> onError.invoke(e)}
+        )
+    }
+
 }

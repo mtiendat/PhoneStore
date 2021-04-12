@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.phonestore.Extension.enabled
 import com.example.phonestore.Extension.ratingBar
 import com.example.phonestore.Extension.toVND
 import com.example.phonestore.R
@@ -24,6 +25,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
     var check: Boolean? = null
     var updateProductInList: ((Int?, Int)-> Unit)? = null
     var nextInfoOrder: ((Int, String?)-> Unit)? = null
+    var updateNotification: ((Int?)-> Unit)? = null
     fun setItems(listItem: ArrayList<T>) {
         val currentSize: Int? = list?.size
         list?.clear()
@@ -39,6 +41,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
     class ItemProductOrderViewHolder(val bindingProductOrder: ItemProductOrderBinding): RecyclerView.ViewHolder(bindingProductOrder.root)
     class ItemMyOrderViewHolder(val bingdingMyOrder: ItemOrderBinding): RecyclerView.ViewHolder(bingdingMyOrder.root)
     class ItemVoteViewHolder(val bingdingItemVote: ItemVoteCommentBinding):RecyclerView.ViewHolder(bingdingItemVote.root)
+    class ItemNotificationViewHolder(val bindingItemNotification: ItemNotificationBinding): RecyclerView.ViewHolder(bindingItemNotification.root)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if(viewType == Constant.VIEW_CATEPRODUCT){
             ItemRelatedProductViewHolder(ItemRelatedProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -51,6 +54,14 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
         }else if(viewType == Constant.VIEW_VOTE) {
             ItemVoteViewHolder(
                 ItemVoteCommentBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+            )
+        }else if(viewType == Constant.NOTIFICATION_ID) {
+            ItemNotificationViewHolder(
+                ItemNotificationBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
@@ -154,6 +165,29 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                 .into(holder.bingdingItemVote.ivAvatarComment)
 
         }
+        if(holder is ItemNotificationViewHolder && item is Notification){
+
+            holder.bindingItemNotification.tvNotiTitle.text = item.title
+            holder.bindingItemNotification.tvNotiContent.text = item.content
+            holder.bindingItemNotification.tvNotiTime.text = item.time
+            holder.bindingItemNotification.cvNotification.setOnClickListener {
+                holder.bindingItemNotification.apply {
+                    tvNotiTitle.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.dray))
+                    tvNotiContent.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.dray))
+                    tvNotiTime.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.dray))
+                }
+                holder.bindingItemNotification.cvNotification.isEnabled = true
+                updateNotification?.invoke(item.id)
+            }
+            if(item.send==1){
+                holder.bindingItemNotification.apply {
+                    tvNotiTitle.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.dray))
+                    tvNotiContent.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.dray))
+                    tvNotiTime.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.dray))
+                }
+            }
+
+        }
     }
 
     override fun getItemCount(): Int {
@@ -167,6 +201,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             is ProductOrder -> Constant.VIEW_PRODUCT_ORDER
             is MyOrder -> Constant.VIEW_MY_ORDER
             is Vote -> Constant.VIEW_VOTE
+            is Notification -> Constant.NOTIFICATION_ID
             else -> 1
         }
     }
@@ -190,4 +225,5 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             }
         }
     }
+
 }

@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_fragmentHome_to_fragmentSearch"
             app:destination="@id/fragmentSearch" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentDiscount"
+            app:destination="@id/fragmentDiscount" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentListSupplier"
+            app:destination="@id/fragmentListSupplier" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailProduct"
@@ -94,6 +100,9 @@
         <action
             android:id="@+id/action_fragmentMe_to_bottomSheetAvatar"
             app:destination="@id/bottomSheetAvatar" />
+        <action
+            android:id="@+id/action_fragmentMe_to_fragmentHelper"
+            app:destination="@id/fragmentHelper" />
     </fragment>
     <fragment
         android:id="@+id/fragmentFollowOrder"
@@ -151,4 +160,21 @@
         android:name="com.example.phonestore.view.FragmentSupplier"
         android:label=""
         tools:layout="@layout/fragment_supplier"/>
+    <fragment
+        android:id="@+id/fragmentNotification"
+        android:name="com.example.phonestore.view.FragmentNotification"
+        tools:layout="@layout/fragment_notification"
+        android:label="Thông báo" />
+    <fragment
+        android:id="@+id/fragmentDiscount"
+        android:name="com.example.phonestore.view.FragmentDiscount"
+        android:label="Mã giảm giá" />
+    <fragment
+        android:id="@+id/fragmentListSupplier"
+        android:name="com.example.phonestore.view.FragmentListSupplier"
+        android:label="Đối tác" />
+    <fragment
+        android:id="@+id/fragmentHelper"
+        android:name="com.example.phonestore.view.FragmentHelper"
+        android:label="Hỗ trợ" />
 </navigation>

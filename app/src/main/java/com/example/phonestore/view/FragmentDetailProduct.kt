@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.phonestore.Extension.*
@@ -21,6 +23,7 @@ import com.example.phonestore.services.Constant
 import com.example.phonestore.services.DetailProductAdapter
 import com.example.phonestore.viewmodel.CartViewModel
 import com.example.phonestore.viewmodel.DetailProductViewModel
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
@@ -56,6 +59,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private var listRelatedProduct: ArrayList<CateProductInfo>? = arrayListOf()
     private var productBuyNow: ArrayList<ProductOrder>? = arrayListOf()
     private var listVote: ArrayList<Vote>? = arrayListOf()
+
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
         bindingProductDetail = FragmentDetailProductBinding.inflate(inflater, container, false)
 //        youtubePlayerFragment = YouTubePlayerSupportFragmentX.newInstance()
@@ -127,7 +131,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentAllVote, bundleOf("idCate" to idCate))
         }
         bindingProductDetail.ivSupplierLogo.setOnClickListener {
-            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentSupplier, bundleOf("supplier" to supplier ))
+            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentSupplier, bundleOf("supplier" to supplier))
         }
         detailViewModel.getListVote(idCate)
     }
@@ -218,7 +222,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     }
     override fun setViewModel() {
         detailViewModel = ViewModelProvider(this@FragmentDetailProduct).get(DetailProductViewModel::class.java)
-        cartViewModel = ViewModelProvider(requireActivity()).get(CartViewModel::class.java)
+        cartViewModel = ViewModelProvider(this@FragmentDetailProduct).get(CartViewModel::class.java)
     }
     override fun setObserve() {
         setObserveDetailViewModel()
@@ -303,7 +307,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                 cartViewModel.getTotalProduct()
             }else view?.let { it1 -> Snackbar.make(it1, "Bạn được mua tối đa 2 sản phẩm", Snackbar.LENGTH_SHORT).show() }
         }
-        cartViewModel.resultAddToCart.observe(requireActivity(), resultsObserve)
+        cartViewModel.resultAddToCart.observe(viewLifecycleOwner, resultsObserve)
     }
     private fun setData(product: CateProductInfo?){
         setDetailProduct(product)

@@ -2,6 +2,7 @@ package com.example.phonestore.repo
 
 import com.example.phonestore.model.Cart
 import com.example.phonestore.model.DetailCart
+import com.example.phonestore.model.Notification
 import com.example.phonestore.model.Order
 import com.example.phonestore.services.APIRequest
 import com.example.phonestore.services.APIServices
@@ -34,6 +35,13 @@ class CartRepo {
                 call = APIServices.getInstance()?.deleteItem(Constant.idUser, idProduct),
                 onSuccess = {results -> onSuccess.invoke(results?.status)},
                 onError = {err -> onError.invoke(err)}
+        )
+    }
+    fun getTotalNotification(onSuccess: (Int)-> Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.getTotalNotification(Constant.idUser),
+            onSuccess = {results -> results?.listNotification?.size?.let { onSuccess.invoke(it) } },
+            onError = {e -> onError.invoke(e)}
         )
     }
 

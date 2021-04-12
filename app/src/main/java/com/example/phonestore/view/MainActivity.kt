@@ -21,6 +21,7 @@ import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivityMainBinding
 import com.example.phonestore.services.BadgeDrawable
 import com.example.phonestore.viewmodel.CartViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.lang.ref.WeakReference
 
 
@@ -30,6 +31,8 @@ class MainActivity : BaseActivity() {
         var searchView: WeakReference<SearchView>? = null
         var itemCart: MenuItem? = null
         var itemSearch: MenuItem? = null
+
+        var bottomNav: BottomNavigationView? = null
         fun intentFor(context: Context): Intent =
                 Intent(context, MainActivity::class.java)
         fun setBadgeCount(context: Context, icon: LayerDrawable, count: String){
@@ -49,7 +52,7 @@ class MainActivity : BaseActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var cartViewModel: CartViewModel
-
+    private var badgeNotification: com.google.android.material.badge.BadgeDrawable? = null
     override fun setBinding() {
         bindingMain = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bindingMain.root)
@@ -63,6 +66,14 @@ class MainActivity : BaseActivity() {
             }
         }
         cartViewModel.totalProduct.observe(this@MainActivity, totalProductObserver)
+        val totalNotificationObserver = Observer<Int?>{
+            if(it>0) {
+                badgeNotification = bottomNav!!.getOrCreateBadge(R.id.fragmentNotification)
+                badgeNotification?.isVisible = true
+                badgeNotification?.number = it
+            }
+        }
+        cartViewModel.totalNotification.observe(this@MainActivity, totalNotificationObserver)
 
     }
 
@@ -80,8 +91,14 @@ class MainActivity : BaseActivity() {
             bindingMain.appBarLayout.setExpanded(true, true)
         }
         setupActionBarWithNavController(navController, appBarConfiguration)
+        bottomNav = bindingMain.bottomNavigationView
+
         bindingMain.bottomNavigationView.setupWithNavController(navController)
         visibilityNavElements(navController)
+    }
+
+    override fun setUI() {
+        cartViewModel.getTotalNotification()
     }
     override fun onSupportNavigateUp(): Boolean { //Setup appBarConfiguration có mũi tên back
         return NavigationUI.navigateUp(navController, appBarConfiguration)
@@ -91,7 +108,6 @@ class MainActivity : BaseActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when(destination.id){
                 R.id.fragmentDetailProduct -> {
-                    bindingMain.toolbarMain.toolbar.gone()
                     hideBottomNavigation()
                     hideIconSearch()
                 }
@@ -130,6 +146,9 @@ class MainActivity : BaseActivity() {
                 R.id.fragmentSupplier -> {
                     hideBottomNavigation()
                     showIconSearch()
+                }
+                R.id.fragmentHelper ->{
+                    hideBottomNavigation()
                 }
                 else-> {
                     showBottomNavigation()
@@ -173,7 +192,6 @@ class MainActivity : BaseActivity() {
         clearButton.setImageResource(R.drawable.ic_clear)
         s.queryHint ="Bạn cần tìm gì ?"
         searchView = WeakReference(s)
-        Log.d("STEPPPPPP","1")
         return true
 
     }

@@ -3,7 +3,7 @@
 <item android:id="@+id/fragmentHome"
     android:icon="@drawable/ic_home"
     android:title="Trang chủ"/>
-    <item android:id="@+id/notification"
+    <item android:id="@+id/fragmentNotification"
         android:icon="@drawable/ic_notification"
         android:title="Thông báo"/>
     <item android:id="@+id/fragmentMe"

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Phone Store</string>
+    <string name="channel_name">Phone Store Notification</string>
+    <string name="channel_description">Notification of me</string>
     <string name="forgot_password">Quên mật khẩu?</string>
     <string name="select_color">Chọn màu</string>
     <string name="facebook_app_id">562399965145325</string> <string name="fb_login_protocol_scheme">fb562399965145325</string>

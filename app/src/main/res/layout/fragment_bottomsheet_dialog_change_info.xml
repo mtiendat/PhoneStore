@@ -46,6 +46,7 @@
         android:layout_marginBottom="32dp"
         android:background="@color/blue"
         android:text="Lưu"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/edtChange"

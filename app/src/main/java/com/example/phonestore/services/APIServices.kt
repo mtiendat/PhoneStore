@@ -51,6 +51,14 @@ interface APIServices {
     fun checkEmail(@Query("email")email: String? =""): Call<LoginResponse>
     @POST("change-password")
     fun changePassword(@Query("email")email: String? ="", @Query("password")password: String? =""): Call<LoginResponse>
+    @GET("thong-bao/{id}")
+    fun getNotification(@Path("id") idUser: Int?= 0): Call<NotificationResponse>
+    @PUT("thong-bao/{id}")
+    fun updateNotification(@Path("id") idUser: Int?= 0): Call<NotificationResponse>
+    @DELETE("thong-bao/{id}")
+    fun deleteNotification(@Path("id") idNotification: Int?= 0): Call<NotificationResponse>
+    @GET("tong-thong-bao/{id}")
+    fun getTotalNotification(@Path("id") idUser: Int?= 0): Call<NotificationResponse>
     @GET("slide-show")
     fun getSlideshow(): Call<SlideshowResponse>
     @GET("danh-muc")
