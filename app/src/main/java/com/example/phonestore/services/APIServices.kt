@@ -66,7 +66,7 @@ interface APIServices {
     @GET("nha-cung-cap")
     fun getSupplier(): Call<SupplierResponse>
     @GET("loai-san-pham")
-    fun getCateProduct(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0, @Query("order") orderBy: Int?): Call<CateProductResponse>
+    fun getCateProduct(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0): Call<CateProductResponse>
     @GET("loai-sp-ncc")
     fun getCateProductBySupplier(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0, @Query("MaNCC") idSupplier: Int? = 0): Call<CateProductResponse>
     @GET("new-loai-sp-ncc")

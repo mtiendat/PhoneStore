@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivityChangePasswordBinding
+import com.example.phonestore.services.Constant
 
 import com.example.phonestore.viewmodel.UserViewModel
 
@@ -17,43 +18,45 @@ class ActivityChangePassword: BaseActivity() {
                     putExtra("email", e)
                 }
     }
-    private lateinit var bindingChangePassword: ActivityChangePasswordBinding
+    private var bindingChangePassword: ActivityChangePasswordBinding? = null
     private var changePasswordViewModel: UserViewModel? = null
     private var email: String? =""
     override fun setBinding() {
         bindingChangePassword = ActivityChangePasswordBinding.inflate(layoutInflater)
-        setContentView(bindingChangePassword.root)
+        setContentView(bindingChangePassword?.root)
     }
 
     override fun setToolBar() {
-        bindingChangePassword.toolbarChangePassword.toolbar.title = "Thay đổi mật khẩu"
-        setSupportActionBar(bindingChangePassword.toolbarChangePassword.toolbar)
+        bindingChangePassword?.toolbarChangePassword?.toolbar?.title = "Thay đổi mật khẩu"
+        setSupportActionBar(bindingChangePassword?.toolbarChangePassword?.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
     override fun setViewModel() {
         changePasswordViewModel = ViewModelProvider(this@ActivityChangePassword).get(UserViewModel::class.java)
+    }
+
+    override fun setObserve() {
         val changePasswordObserve = Observer<Boolean>{
             if(it){
-                Toast.makeText(this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, Constant.CHANGE_PASSWORD_SUCCESS, Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
         changePasswordViewModel?.status?.observe(this@ActivityChangePassword, changePasswordObserve)
     }
-
     override fun setUI() {
         email = intent.getStringExtra("email")
-        bindingChangePassword.btnChangePassword.setOnClickListener {
+        bindingChangePassword?.btnChangePassword?.setOnClickListener {
             if(validate()){
-                changePasswordViewModel?.changePassword(email, bindingChangePassword.edtNewPassword.text.toString())
+                changePasswordViewModel?.changePassword(email, bindingChangePassword?.edtNewPassword?.text.toString())
             }
         }
     }
     private fun validate(): Boolean{
-        return if(bindingChangePassword.edtNewPassword.text.toString()!=bindingChangePassword.edtConfirmNewPassword.text.toString()){
-            bindingChangePassword.edtConfirmNewPassword.error = "Xác nhận password chưa đúng"
+        return if(bindingChangePassword?.edtNewPassword?.text.toString() != bindingChangePassword?.edtConfirmNewPassword?.text.toString()){
+            bindingChangePassword?.edtConfirmNewPassword?.error = Constant.CONFIRM_PASSWORD_FAILURE
             false
         }else true
     }

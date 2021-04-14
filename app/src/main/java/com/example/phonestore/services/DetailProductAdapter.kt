@@ -1,5 +1,6 @@
 package com.example.phonestore.services
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
@@ -95,6 +96,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             holder.bindingProductInCart.tvProInCartName.text = item.nameProduct
             holder.bindingProductInCart.tvProInCartColor.text = item.color
             holder.bindingProductInCart.tvProInCartStorage.text = item.storage
+            holder.bindingProductInCart.tvProInCartPrice.text = item.price.toVND()
             holder.bindingProductInCart.tvProInCartQty.text = item.qty.toString()
             qty =  holder.bindingProductInCart.tvProInCartQty.text.toString().toInt()
             holder.bindingProductInCart.cvMin.setOnClickListener {
@@ -117,6 +119,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                     }
                 }else Toast.makeText(holder.itemView.context, "Bạn chỉ mua tối đa 2 sản phẩm", Toast.LENGTH_SHORT).show()
             }
+
             holder.bindingProductInCart.cbItemCart.setOnCheckedChangeListener { _, isChecked ->
                 if (price != null) {
                     when(isChecked){
@@ -128,6 +131,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                         false ->{
                             total = price * qty
                             clickCheckBox?.invoke(total, false, item, qty)
+                            Log.d("hahah", "!!!!")
                             check = false
                         }
                     }
@@ -163,7 +167,9 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
         if(holder is ItemVoteViewHolder && item is Vote){
             holder.bindingItemVote.tvNameVote.text = item.name
             holder.bindingItemVote.tvContentVote.text = item.content
+            holder.bindingItemVote.tvVoteDate.text = item.date
             holder.bindingItemVote.rbDetailVote.rating = item.vote.toFloat()
+
             Glide.with(holder.itemView.context)
                 .load(item.avatarUser)
                 .into(holder.bindingItemVote.ivAvatarComment)

@@ -6,25 +6,31 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.phonestore.model.FormLogin
+import com.example.phonestore.services.Constant
 import com.example.phonestore.viewmodel.UserViewModel
 
 class SplashScreen :AppCompatActivity() {
     private var loginViewModel: UserViewModel? = null
-    private val REQUEST_ID = 7
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val manager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val internet = manager.isActiveNetworkMetered
+        if(internet) {
+            Toast.makeText(this, "Không có kết nối internet", Toast.LENGTH_SHORT).show()
+        }
             checkAndRequestPermissions()
-
     }
     private fun init(){
         loginViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
@@ -61,7 +67,7 @@ class SplashScreen :AppCompatActivity() {
             listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
         if (listPermissionsNeeded.isNotEmpty()) {
-            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toTypedArray(), REQUEST_ID)
+            ActivityCompat.requestPermissions(this, listPermissionsNeeded.toTypedArray(), Constant.REQUEST_ID)
             return false
         }
         return true
@@ -70,7 +76,7 @@ class SplashScreen :AppCompatActivity() {
                                             permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            REQUEST_ID -> {
+            Constant.REQUEST_ID -> {
                 val perms: MutableMap<String, Int> = HashMap()
                 // Initialize the map with both permissions
                 perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] = PackageManager.PERMISSION_GRANTED
@@ -111,9 +117,9 @@ class SplashScreen :AppCompatActivity() {
     }
     private  fun showDialogOK( okListener: DialogInterface.OnClickListener) {
         AlertDialog.Builder(this)
-                .setMessage("Quyền Camera và Storage là cần thiết chp app")
+                .setMessage(Constant.PLEASE_ACCEPT_PERMISSION)
                 .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", okListener)
+                .setNegativeButton("Hủy", okListener)
                 .create()
                 .show()
     }

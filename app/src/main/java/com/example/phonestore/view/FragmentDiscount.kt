@@ -7,10 +7,10 @@ import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentComingSoonBinding
 
 class FragmentDiscount :BaseFragment() {
-    private lateinit var bindingComingSoonBinding: FragmentComingSoonBinding
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
+    private var bindingComingSoonBinding: FragmentComingSoonBinding? = null
+    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingComingSoonBinding = FragmentComingSoonBinding.inflate(inflater, container, false)
-        return bindingComingSoonBinding.root
+        return bindingComingSoonBinding?.root
     }
 
 }

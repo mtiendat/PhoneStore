@@ -18,13 +18,13 @@ import com.example.phonestore.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class FragmentNotification: BaseFragment() {
-    private lateinit var bindingNotification: FragmentNotificationBinding
+    private var bindingNotification: FragmentNotificationBinding? = null
     private var notificationViewModel: UserViewModel? = null
     private var notificationAdapter: DetailProductAdapter<Notification>? = null
     private var listNotification: ArrayList<Notification>? = arrayListOf()
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
+    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingNotification = FragmentNotificationBinding.inflate(inflater, container, false)
-        return bindingNotification.root
+        return bindingNotification?.root
     }
 
     override fun setViewModel() {
@@ -70,17 +70,17 @@ class FragmentNotification: BaseFragment() {
     }
     fun initRecyclerView(){
         notificationAdapter = DetailProductAdapter(listNotification)
-        bindingNotification.rvNotification.adapter = notificationAdapter
-        bindingNotification.rvNotification.layoutManager = LinearLayoutManager(context)
-        bindingNotification.rvNotification.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        bindingNotification.rvNotification.layoutManager = LinearLayoutManager(context)
-        val itemTouchHelper = ItemTouchHelper(object : SwipeHelper(bindingNotification.rvNotification) {
+        bindingNotification?.rvNotification?.adapter = notificationAdapter
+        bindingNotification?.rvNotification?.layoutManager = LinearLayoutManager(context)
+        bindingNotification?.rvNotification?.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        bindingNotification?.rvNotification?.layoutManager = LinearLayoutManager(context)
+        val itemTouchHelper = ItemTouchHelper(object : SwipeHelper(bindingNotification?.rvNotification) {
             override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
                 val deleteButton = deleteButton()
                 return listOf(deleteButton)
             }
         })
-        itemTouchHelper.attachToRecyclerView(bindingNotification.rvNotification)
+        itemTouchHelper.attachToRecyclerView(bindingNotification?.rvNotification)
     }
     private fun deleteButton() : SwipeHelper.UnderlayButton{
         return SwipeHelper.UnderlayButton(

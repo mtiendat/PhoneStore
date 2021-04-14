@@ -25,15 +25,15 @@ import com.google.android.material.snackbar.Snackbar
 
 class FragmentOrder: BaseFragment() {
 
-    private lateinit var bindingOrderBinding: FragmentOrderBinding
+    private var bindingOrderBinding: FragmentOrderBinding? = null
     private var listProductOrder: ArrayList<ProductOrder>? = arrayListOf()
     private var orderAdapter: DetailProductAdapter<ProductOrder>? = null
     private var totalMoney: Int = 0
     private var idOrder:  Int? = 0
-    private lateinit var orderViewModel: OrderViewModel
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
+    private var orderViewModel: OrderViewModel? = null
+    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingOrderBinding = FragmentOrderBinding.inflate(inflater, container, false)
-        return bindingOrderBinding.root
+        return bindingOrderBinding?.root
     }
 
     override fun setViewModel() {
@@ -46,17 +46,17 @@ class FragmentOrder: BaseFragment() {
                view?.findNavController()?.navigate(R.id.action_fragmentOrder_to_fragmentSuccessOrder)
             }
         }
-        orderViewModel.resultOrder.observe(viewLifecycleOwner, resultOrderObserve)
+        orderViewModel?.resultOrder?.observe(viewLifecycleOwner, resultOrderObserve)
         val cancelObserve  = Observer<Boolean?> {
             if(it==true){
-                view?.let { it1 -> Snackbar.make(it1, "Hủy thành công", Snackbar.LENGTH_SHORT).show() }
+                view?.let { it1 -> Snackbar.make(it1, Constant.SUCCESS_CANCEL, Snackbar.LENGTH_SHORT).show() }
                 view?.findNavController()?.apply {
                     popBackStack(R.id.fragmentFollowOrder, true)
                     navigate(R.id.fragmentFollowOrder)
                 }
             }
         }
-        orderViewModel.result.observe(viewLifecycleOwner, cancelObserve)
+        orderViewModel?.result?.observe(viewLifecycleOwner, cancelObserve)
     }
 
     override fun setUI() {
@@ -65,58 +65,62 @@ class FragmentOrder: BaseFragment() {
         listProductOrder = arguments?.getParcelableArrayList("listProduct")
         idOrder = arguments?.getInt("idOrder")
         if(isFragmentFollowOrder==true){
-            bindingOrderBinding.tvChangeInfo.gone()
+            bindingOrderBinding?.tvChangeInfo?.gone()
             if(state==Constant.CANCEL){
-                bindingOrderBinding.btnCancelOrder.visible()
-                bindingOrderBinding.btnCancelOrder.text = "Đã hủy"
-                bindingOrderBinding.btnCancelOrder.enabled()
+                bindingOrderBinding?.btnCancelOrder?.visible()
+                bindingOrderBinding?.btnCancelOrder?.text = Constant.CANCEL
+                bindingOrderBinding?.btnCancelOrder?.enabled()
             }else if(state==Constant.RECEIVED){
-                bindingOrderBinding.btnCancelOrder.visible()
+                bindingOrderBinding?.btnCancelOrder?.visible()
             }
-            bindingOrderBinding.ctrlOrder.gone()
+            bindingOrderBinding?.ctrlOrder?.gone()
         }
-        totalMoney = listProductOrder!!.size - 1
+        totalMoney = listProductOrder!!.size - 1 //lấy tổng tiền ở ptu vị trí cuối
+        bindingOrderBinding?.rvOrderProduct?.isNestedScrollingEnabled = false
         initRecyclerView()
-        bindingOrderBinding.btnOrderFinish.setOnClickListener {
+        setOnClickListener()
+        setInfoOrder()
+
+    }
+    fun setOnClickListener(){
+        bindingOrderBinding?.btnOrderFinish?.setOnClickListener {
             val listProductFinish: ArrayList<DetailCart> = arrayListOf()
             for(i in listProductOrder!!){
                 i.product?.let { it1 -> listProductFinish.add(it1) }
             }
             val order = Order(listProductOrder?.get(totalMoney)?.total, listProductFinish)
-            orderViewModel.order(order)
+            orderViewModel?.order(order)
         }
-        bindingOrderBinding.btnCancelOrder.setOnClickListener {
+        bindingOrderBinding?.btnCancelOrder?.setOnClickListener {
             alertCancel()
         }
-        bindingOrderBinding.tvChangeInfo.setOnClickListener {
+        bindingOrderBinding?.tvChangeInfo?.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentOrder_to_fragmentChangeMyInfo)
         }
-        bindingOrderBinding.rvOrderProduct.isNestedScrollingEnabled = false
-        setInfoOrder()
     }
     private fun setInfoOrder(){
-        bindingOrderBinding.tvOrderAddress.text = Constant.user?.address
-        bindingOrderBinding.tvOrderNameUser.text = Constant.user?.name
-        bindingOrderBinding.tvOrderPhoneUser.text = Constant.user?.phone
-        bindingOrderBinding.tvOrderTotalMoney.text = listProductOrder?.get(totalMoney)?.total.toVND()
-        bindingOrderBinding.tvOrderTotalMoneyFinish.text = listProductOrder?.get(totalMoney)?.total.toVND()
+        bindingOrderBinding?.tvOrderAddress?.text = Constant.user?.address
+        bindingOrderBinding?.tvOrderNameUser?.text = Constant.user?.name
+        bindingOrderBinding?.tvOrderPhoneUser?.text = Constant.user?.phone
+        bindingOrderBinding?.tvOrderTotalMoney?.text = listProductOrder?.get(totalMoney)?.total.toVND()
+        bindingOrderBinding?.tvOrderTotalMoneyFinish?.text = listProductOrder?.get(totalMoney)?.total.toVND()
 
     }
     private fun initRecyclerView(){
         orderAdapter = DetailProductAdapter(listProductOrder)
-        bindingOrderBinding.rvOrderProduct.adapter = orderAdapter
-        bindingOrderBinding.rvOrderProduct.layoutManager = LinearLayoutManager(context)
+        bindingOrderBinding?.rvOrderProduct?.adapter = orderAdapter
+        bindingOrderBinding?.rvOrderProduct?.layoutManager = LinearLayoutManager(context)
     }
     private fun alertCancel(){
        val builder = AlertDialog.Builder(context)
-        builder.setMessage("Bạn có chắc chắn muốn hủy không? ")
-        builder.setTitle("Thông báo")
+        builder.setMessage(Constant.QUESTION_CANCEL)
+        builder.setTitle(Constant.NOTIFICATION)
         builder.setCancelable(false)
-        builder.setPositiveButton("Có") { dialog, _ ->
-            orderViewModel.cancelOrder(idOrder)
+        builder.setPositiveButton(Constant.YES) { dialog, _ ->
+            orderViewModel?.cancelOrder(idOrder)
             dialog.cancel()
         }
-        builder.setNegativeButton("Không") { dialog, _ ->
+        builder.setNegativeButton(Constant.NO) { dialog, _ ->
             dialog.cancel()
         }
         val alertDialog = builder.create()

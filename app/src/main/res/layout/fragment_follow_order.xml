@@ -12,11 +12,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabTextAppearance="@style/MyTabLayoutTextAppearance"
-        app:tabTextColor="@color/blue"
-        app:tabIndicatorColor="@color/blue"
-        app:tabSelectedTextColor="@color/blue">
-
+        app:tabMode="scrollable"
+        app:tabIndicatorColor ="@color/blue"
+        android:theme="@style/tabLayoutStyle">
 
     </com.google.android.material.tabs.TabLayout>
 

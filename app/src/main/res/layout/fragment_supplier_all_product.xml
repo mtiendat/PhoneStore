@@ -21,6 +21,7 @@
         android:id="@+id/rvSupplierAllProduct"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="@style/RecyclerView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSortAllProduct" />
 </androidx.constraintlayout.widget.ConstraintLayout>

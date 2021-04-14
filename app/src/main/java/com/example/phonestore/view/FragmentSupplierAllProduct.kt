@@ -16,14 +16,14 @@ import com.example.phonestore.services.ProductAdapter
 import com.example.phonestore.viewmodel.ProductViewModel
 
 class FragmentSupplierAllProduct(var supplier: Supplier?): BaseFragment() {
-    private lateinit var bindingSupplierAllProduct: FragmentSupplierAllProductBinding
+    private var bindingSupplierAllProduct: FragmentSupplierAllProductBinding? = null
     private var supplierViewModel: ProductViewModel? = null
     private var adapter: ProductAdapter<CateProductInfo>? = null
     private var listCateProductInfo: ArrayList<CateProductInfo> = arrayListOf()
     private var orderBy: Int = 0
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
+    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingSupplierAllProduct = FragmentSupplierAllProductBinding.inflate(inflater, container, false)
-        return bindingSupplierAllProduct.root
+        return bindingSupplierAllProduct?.root
     }
 
     override fun setViewModel() {
@@ -41,14 +41,14 @@ class FragmentSupplierAllProduct(var supplier: Supplier?): BaseFragment() {
     override fun setUI() {
         initRecyclerView()
         supplierViewModel?.getListCateProduct(1, idSupplier = supplier?.id)
-        bindingSupplierAllProduct.btnSortAllProduct.setOnClickListener {
+        bindingSupplierAllProduct?.btnSortAllProduct?.setOnClickListener {
             if(orderBy ==0) {
                 listCateProductInfo.sortWith { o1, o2 ->
                     o1.priceNew - o2.priceNew //Tăng dần
                 }
                 adapter?.notifyDataSetChanged()
                 orderBy = 1
-                bindingSupplierAllProduct.btnSortAllProduct.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_down,0)
+                bindingSupplierAllProduct?.btnSortAllProduct?.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_down,0)
                 return@setOnClickListener
             }else if(orderBy==1)
                 listCateProductInfo  .sortWith { o1, o2 ->
@@ -56,14 +56,14 @@ class FragmentSupplierAllProduct(var supplier: Supplier?): BaseFragment() {
                 }
             adapter?.notifyDataSetChanged()
             orderBy = 0
-            bindingSupplierAllProduct.btnSortAllProduct.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_up,0)
+            bindingSupplierAllProduct?.btnSortAllProduct?.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_up,0)
         }
     }
 
     private fun initRecyclerView(){
         adapter = ProductAdapter(listCateProductInfo)
-        bindingSupplierAllProduct.rvSupplierAllProduct.adapter = adapter
-        bindingSupplierAllProduct.rvSupplierAllProduct.layoutManager = StaggeredGridLayoutManager(
+        bindingSupplierAllProduct?.rvSupplierAllProduct?.adapter = adapter
+        bindingSupplierAllProduct?.rvSupplierAllProduct?.layoutManager = StaggeredGridLayoutManager(
                 2,
                 LinearLayoutManager.VERTICAL
         )

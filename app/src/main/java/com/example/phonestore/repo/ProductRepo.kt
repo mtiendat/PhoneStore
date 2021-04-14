@@ -29,9 +29,9 @@ class ProductRepo {
             onError = {message -> onError.invoke(message)}
         )
     }
-    fun callCateProduct(page: Int? = 1,perPage:Int?=5, orderBy: Int? ,onSuccess: (ArrayList<CateProductInfo>?) -> Unit, onError: (String?)->Unit){
+    fun callCateProduct(page: Int? = 1, perPage:Int?=5 ,onSuccess: (ArrayList<CateProductInfo>?) -> Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-                call = APIServices.getInstance()?.getCateProduct(page,perPage, orderBy),
+                call = APIServices.getInstance()?.getCateProduct(page, perPage),
                 onSuccess = {results -> results?.listCate?.let { onSuccess.invoke(it) } },
                 onError = {message -> onError.invoke(message)}
         )

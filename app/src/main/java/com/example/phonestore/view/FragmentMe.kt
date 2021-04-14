@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,55 +35,64 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.*
 
 class FragmentMe: BaseFragment() {
-    private lateinit var bindingMe: FragmentMeBinding
+    private var bindingMe: FragmentMeBinding? =null
     private var userViewModel: UserViewModel? = null
-    private lateinit var resultsLauncherPickImageGallery: ActivityResultLauncher<Intent>
-    private lateinit var resultsLauncherTakeAPicture: ActivityResultLauncher<Intent>
-    private lateinit var inputPFD: ParcelFileDescriptor
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View{
+    private var resultsLauncherPickImageGallery: ActivityResultLauncher<Intent>? = null
+    private var resultsLauncherTakeAPicture: ActivityResultLauncher<Intent>? = null
+    private var inputPFD: ParcelFileDescriptor? = null
+    private var flag = 0
+    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View?{
         bindingMe = FragmentMeBinding.inflate(inflater, container, false)
-        return  bindingMe.root
+        return  bindingMe?.root
     }
 
     override fun setUI() {
-        changeAvatarFromGallery()
-        changeAvatarFromCamera()
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("key")?.observe(viewLifecycleOwner) {
-            if(it==1){
-                pickImageFromGallery()
-            }else capturePhoto()
-        }
-        bindingMe.tvMyName.text = Constant.user?.name
-        context?.let { setImg(Constant.user?.avatar, bindingMe.ivAvatar, it) }
+            changeAvatarFromGallery()
+            changeAvatarFromCamera()
+            findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("key")?.observe(viewLifecycleOwner) {
+                if(flag==0) {
+                    if (it == 1) {
+                        pickImageFromGallery()
+                        flag = 1
+                    } else capturePhoto()
+                }else flag = 0
+            }
 
-        bindingMe.btnFollowOrder.setOnClickListener {
+            setData()
+            setOnClickListener()
+
+    }
+    fun setOnClickListener(){
+        bindingMe?.btnFollowOrder?.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentFollowOrder)
         }
-        bindingMe.btnLogout.setOnClickListener {
+        bindingMe?.btnLogout?.setOnClickListener {
             disconnectFromFacebook()
             userViewModel?.postSignOut()
         }
-        bindingMe.btnSettingAccount.setOnClickListener {
+        bindingMe?.btnSettingAccount?.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentChangeMyInfo)
         }
-        bindingMe.btnHelper.setOnClickListener {
+        bindingMe?.btnHelper?.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentHelper)
         }
-        bindingMe.cvAvatar.setOnClickListener {
+        bindingMe?.cvAvatar?.setOnClickListener {
             if(Constant.user?.formality !="Facebook") {
                 it.findNavController().navigate(R.id.action_fragmentMe_to_bottomSheetAvatar)
             }
         }
-
     }
-
+    private fun setData(){
+        bindingMe?.tvMyName?.text = Constant.user?.name
+        context?.let { setImg(Constant.user?.avatar, bindingMe?.ivAvatar, it) }
+    }
     override fun setObserve() {
         val statusSignUpObserve = Observer<Boolean> {
             if (it) {
                 val ref = context?.getSharedPreferences("saveAccount", Context.MODE_PRIVATE)
                 ref?.edit()?.clear()?.apply()
                 view?.let { it1 ->
-                    Snackbar.make(it1, "Đăng xuất thành công", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(it1, Constant.SUCCESS_LOG_OUT, Snackbar.LENGTH_SHORT).show()
                     it1.findNavController().navigate(FragmentMeDirections.actionFragmentMeToActivityLogin())
                     activity?.finish()
                 }
@@ -92,7 +102,7 @@ class FragmentMe: BaseFragment() {
         val statusChangeAvatarObserver = Observer<Boolean> {
             if (it) {
                 view?.let { it1 ->
-                    Snackbar.make(it1, "Cập nhật thành công", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(it1, Constant.SUCCESS_UPDATE, Snackbar.LENGTH_SHORT).show()
                 }
             }
         }
@@ -114,7 +124,7 @@ class FragmentMe: BaseFragment() {
                        e.printStackTrace()
                        return@also
                    }
-                   val fileDescriptor = inputPFD.fileDescriptor
+                   val fileDescriptor = inputPFD?.fileDescriptor
                    val inputStream = FileInputStream(fileDescriptor)
                    val byte = getBytes(inputStream)
                    val requestBody: RequestBody = byte!!.toRequestBody("multipart/form-data".toMediaTypeOrNull(), 0, byte.size)
@@ -123,7 +133,7 @@ class FragmentMe: BaseFragment() {
                            "image.jpg",
                            requestBody
                    )
-                   context?.let { setImg(returnUri.toString(), bindingMe.ivAvatar, it) }
+                   context?.let { setImg(returnUri.toString(), bindingMe?.ivAvatar, it) }
                    userViewModel?.changeAvatar(profilePic)
                }
            }
@@ -143,7 +153,7 @@ class FragmentMe: BaseFragment() {
                         requestBody
                 )
                 userViewModel?.changeAvatar(profilePic)
-                bindingMe.ivAvatar.setImageBitmap(imageBitmap)
+                bindingMe?.ivAvatar?.setImageBitmap(imageBitmap)
             }
 
         }
@@ -166,7 +176,7 @@ class FragmentMe: BaseFragment() {
 
             //Convert bitmap to byte array
             val bos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos) // YOU can also save it in JPEG
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos)
             val bitmapData = bos.toByteArray()
 
             //write the bytes in file
@@ -183,17 +193,19 @@ class FragmentMe: BaseFragment() {
     private fun pickImageFromGallery(){
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
-        resultsLauncherPickImageGallery.launch(Intent.createChooser(intent, "Select Image"))
+        resultsLauncherPickImageGallery?.launch(Intent.createChooser(intent, "Select Image"))
     }
     private fun capturePhoto(){
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        resultsLauncherTakeAPicture.launch(cameraIntent)
+        resultsLauncherTakeAPicture?.launch(cameraIntent)
     }
-    private fun setImg(img: String?, v: ImageView, context: Context){
-        Glide.with(context)
-                .load(img)
-                .error(R.drawable.noimage)
-                .into(v)
+    private fun setImg(img: String?, v: ImageView?, context: Context){
+        if (v != null) {
+            Glide.with(context)
+                    .load(img)
+                    .error(R.drawable.noimage)
+                    .into(v)
+        }
     }
     private fun disconnectFromFacebook() {
         if (AccessToken.getCurrentAccessToken() == null) {
@@ -208,5 +220,10 @@ class FragmentMe: BaseFragment() {
             AccessToken.refreshCurrentAccessTokenAsync()
             LoginManager.getInstance().logOut()
         }.executeAsync()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("key")?.removeObservers(viewLifecycleOwner)
     }
 }

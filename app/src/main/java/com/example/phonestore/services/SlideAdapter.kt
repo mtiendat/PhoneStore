@@ -15,7 +15,7 @@ import com.example.phonestore.model.Slideshow
 
 
 
-class SlideAdapter(private var sliderItem: ArrayList<Slideshow>?, private var viewPager2: ViewPager2): RecyclerView.Adapter<SlideAdapter.SliderViewHolder>() {
+class SlideAdapter(private var sliderItem: ArrayList<Slideshow>?, private var viewPager2: ViewPager2?): RecyclerView.Adapter<SlideAdapter.SliderViewHolder>() {
     private var list: ArrayList<Slideshow>? = arrayListOf()
     private val runnable = Runnable {
         sliderItem?.let { list?.addAll(it) }
@@ -50,7 +50,7 @@ class SlideAdapter(private var sliderItem: ArrayList<Slideshow>?, private var vi
             .error(R.drawable.noimage)
             .into(holder.bindingImage.imageSlide)
             if (position == sliderItem?.size?.minus(2)) {
-                viewPager2.post(runnable)
+                viewPager2?.post(runnable)
             }
     }
 

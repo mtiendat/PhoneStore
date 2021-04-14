@@ -6,15 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.NavHostFragment
 import com.example.phonestore.databinding.FragmentBottomsheetDialogChangeInfoBinding
+import com.example.phonestore.services.Constant
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.util.regex.Pattern
 
 class FragmentBottomSheetChangeInfo: BottomSheetDialogFragment() {
-    private lateinit var bindingBottom: FragmentBottomsheetDialogChangeInfoBinding
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    private var bindingBottom: FragmentBottomsheetDialogChangeInfoBinding? = null
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         bindingBottom = FragmentBottomsheetDialogChangeInfoBinding.inflate(inflater, container, false)
-
-        return bindingBottom.root
+        return bindingBottom?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -24,19 +24,19 @@ class FragmentBottomSheetChangeInfo: BottomSheetDialogFragment() {
     fun setUI(){
         val data = arguments?.getString("data")
         val title = arguments?.getString("title")
-        bindingBottom.tvChange.text = title
-        bindingBottom.edtChange.setText(data)
-        bindingBottom.btnSave.setOnClickListener {
+        bindingBottom?.tvChange?.text = title
+        bindingBottom?.edtChange?.setText(data)
+        bindingBottom?.btnSave?.setOnClickListener {
             NavHostFragment.findNavController(this).apply {
                 if(title =="SDT"){
-                    if(!Pattern.compile("^(0)+([0-9]{9})$").matcher(bindingBottom.edtChange.text).matches()){
-                        bindingBottom.edtChange.error = "Sdt không hợp lệ"
+                    if(!Pattern.compile("^(0)+([0-9]{9})$").matcher(bindingBottom?.edtChange?.text!!).matches()){
+                        bindingBottom?.edtChange?.error = Constant.PHONE_INVALID
                     }else {
-                        previousBackStackEntry?.savedStateHandle?.set("key", bindingBottom.edtChange.text.toString())
+                        previousBackStackEntry?.savedStateHandle?.set("key", bindingBottom?.edtChange?.text.toString())
                         popBackStack()
                     }
                 }else {
-                    previousBackStackEntry?.savedStateHandle?.set("key", bindingBottom.edtChange.text.toString())
+                    previousBackStackEntry?.savedStateHandle?.set("key", bindingBottom?.edtChange?.text.toString())
                     popBackStack()
                 }
             }

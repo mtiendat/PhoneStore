@@ -40,10 +40,12 @@ class FragmentSuccessOrder: BaseFragment() {
         bindingSuccessOrder.btnContinue.setOnClickListener {
             view?.findNavController()?.navigate(FragmentSuccessOrderDirections.actionFragmentSuccessOrderToFragmentHome())
         }
+        getData()
+    }
+    private fun getData(){
         cartViewModel.getTotalProduct()
         cartViewModel.getTotalNotification()
     }
-
     override fun setViewModel() {
         sendNotification()
         cartViewModel = ViewModelProvider(requireActivity()).get(CartViewModel::class.java)
@@ -80,13 +82,10 @@ class FragmentSuccessOrder: BaseFragment() {
     }
     private fun sendNotification(){
         with(context?.let { NotificationManagerCompat.from(it) }) {
-            // notificationId is a unique int for each notification that you must define
             getNotificationBuilder()?.let { this?.notify(Constant.NOTIFICATION_ID, it.build()) }
         }
     }
     private fun getNotificationBuilder(): NotificationCompat.Builder? {
-        //val notificationIntent = Intent(this, MainActivity::class.java)
-        //val notificationPendingIntent = PendingIntent.getActivity(this, com.example.ungdungdocbao.Activity.DangKy.NOTIFICATION_ID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         return context?.let {
             NotificationCompat.Builder(it, Constant.CHANNEL_ID)
                     .setContentTitle("Đã tiếp nhận đơn hàng")

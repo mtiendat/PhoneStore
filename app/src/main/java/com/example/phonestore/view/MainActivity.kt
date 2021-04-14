@@ -29,7 +29,6 @@ class MainActivity : BaseActivity() {
         var searchView: WeakReference<SearchView>? = null
         var itemCart: MenuItem? = null
         var itemSearch: MenuItem? = null
-
         var bottomNav: BottomNavigationView? = null
         fun intentFor(context: Context): Intent =
                 Intent(context, MainActivity::class.java)
@@ -46,14 +45,14 @@ class MainActivity : BaseActivity() {
             icon.setDrawableByLayerId(R.id.ic_badge, badge)
         }
     }
-    private lateinit var bindingMain: ActivityMainBinding
+    private var bindingMain: ActivityMainBinding? = null
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var cartViewModel: CartViewModel
+    private var cartViewModel: CartViewModel? = null
     private var badgeNotification: com.google.android.material.badge.BadgeDrawable? = null
     override fun setBinding() {
         bindingMain = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(bindingMain.root)
+        setContentView(bindingMain?.root)
     }
 
     override fun setViewModel() {
@@ -63,7 +62,7 @@ class MainActivity : BaseActivity() {
                 it1 -> setBadgeCount(this, icon = it1, it.toString())
             }
         }
-        cartViewModel.totalProduct.observe(this@MainActivity, totalProductObserver)
+        cartViewModel?.totalProduct?.observe(this@MainActivity, totalProductObserver)
         val totalNotificationObserver = Observer<Int?>{
             if(it>0) {
                 badgeNotification = bottomNav!!.getOrCreateBadge(R.id.fragmentNotification)
@@ -71,7 +70,7 @@ class MainActivity : BaseActivity() {
                 badgeNotification?.number = it
             }
         }
-        cartViewModel.totalNotification.observe(this@MainActivity, totalNotificationObserver)
+        cartViewModel?.totalNotification?.observe(this@MainActivity, totalNotificationObserver)
 
     }
 
@@ -84,19 +83,19 @@ class MainActivity : BaseActivity() {
                 R.id.fragmentMe
         )
                 .build()
-        setSupportActionBar(bindingMain.toolbarMain.toolbar)
+        setSupportActionBar(bindingMain?.toolbarMain?.toolbar)
         navController.addOnDestinationChangedListener { _, _, _ ->
-            bindingMain.appBarLayout.setExpanded(true, true)
+            bindingMain?.appBarLayout?.setExpanded(true, true)
         }
         setupActionBarWithNavController(navController, appBarConfiguration)
-        bottomNav = bindingMain.bottomNavigationView
+        bottomNav = bindingMain?.bottomNavigationView
 
-        bindingMain.bottomNavigationView.setupWithNavController(navController)
+        bindingMain?.bottomNavigationView?.setupWithNavController(navController)
         visibilityNavElements(navController)
     }
 
     override fun setUI() {
-        cartViewModel.getTotalNotification()
+        cartViewModel?.getTotalNotification()
     }
     override fun onSupportNavigateUp(): Boolean { //Setup appBarConfiguration có mũi tên back
         return NavigationUI.navigateUp(navController, appBarConfiguration)
@@ -170,15 +169,15 @@ class MainActivity : BaseActivity() {
     }
 
     private fun hideBottomNavigation(){
-        bindingMain.bottomNavigationView.gone()
+        bindingMain?.bottomNavigationView?.gone()
     }
 
     private fun showBottomNavigation(){
-        bindingMain.bottomNavigationView.visible()
+        bindingMain?.bottomNavigationView?.visible()
         setUpNavigation()
     }
     private fun setUpNavigation(){
-        bindingMain.bottomNavigationView.setupWithNavController(navController)
+        bindingMain?.bottomNavigationView?.setupWithNavController(navController)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -195,7 +194,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        cartViewModel.getTotalProduct()
+        cartViewModel?.getTotalProduct()
         return super.onPrepareOptionsMenu(menu)
 
     }

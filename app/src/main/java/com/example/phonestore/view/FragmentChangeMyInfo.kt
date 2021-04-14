@@ -17,13 +17,13 @@ import com.example.phonestore.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class FragmentChangeMyInfo: BaseFragment() {
-    private lateinit var bindingChangeMyInfo: FragmentChangeMyinfoBinding
+    private var bindingChangeMyInfo: FragmentChangeMyinfoBinding? = null
     private var flag = 0
     private var data: String? =""
     private var userViewModel: UserViewModel? = null
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
+    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingChangeMyInfo = FragmentChangeMyinfoBinding.inflate(inflater, container, false)
-        return bindingChangeMyInfo.root
+        return bindingChangeMyInfo?.root
     }
 
     override fun setUI() {
@@ -41,22 +41,25 @@ class FragmentChangeMyInfo: BaseFragment() {
                 }
             } //Nhận dữ liệu từ bottomsheet trả về
         }
-        bindingChangeMyInfo.tvChangeName.text = Constant.user?.name
-        bindingChangeMyInfo.tvChangePhone.text = Constant.user?.phone
-        bindingChangeMyInfo.btnChangeName.setOnClickListener {
+        bindingChangeMyInfo?.tvChangeName?.text = Constant.user?.name
+        bindingChangeMyInfo?.tvChangePhone?.text = Constant.user?.phone
+        setOnClickListener()
+
+    }
+    fun setOnClickListener(){
+        bindingChangeMyInfo?.btnChangeName?.setOnClickListener {
             flag = 1
-            it.findNavController().navigate(R.id.action_fragmentChangeMyInfo_to_bottomSheet, bundleOf("data" to Constant.user?.name, "title" to bindingChangeMyInfo.btnChangeName.text))
+            it.findNavController().navigate(R.id.action_fragmentChangeMyInfo_to_bottomSheet, bundleOf("data" to Constant.user?.name, "title" to bindingChangeMyInfo?.btnChangeName?.text))
         }
-        bindingChangeMyInfo.btnChangePhone.setOnClickListener {
+        bindingChangeMyInfo?.btnChangePhone?.setOnClickListener {
             flag = 2
-            it.findNavController().navigate(R.id.action_fragmentChangeMyInfo_to_bottomSheet, bundleOf("data" to Constant.user?.phone, "title" to bindingChangeMyInfo.btnChangePhone.text))
+            it.findNavController().navigate(R.id.action_fragmentChangeMyInfo_to_bottomSheet, bundleOf("data" to Constant.user?.phone, "title" to bindingChangeMyInfo?.btnChangePhone?.text))
         }
-        bindingChangeMyInfo.btnChangeAddress.setOnClickListener {
+        bindingChangeMyInfo?.btnChangeAddress?.setOnClickListener {
             flag = 3
-            it.findNavController().navigate(R.id.action_fragmentChangeMyInfo_to_bottomSheet, bundleOf("data" to Constant.user?.address, "title" to bindingChangeMyInfo.btnChangeAddress.text))
+            it.findNavController().navigate(R.id.action_fragmentChangeMyInfo_to_bottomSheet, bundleOf("data" to Constant.user?.address, "title" to bindingChangeMyInfo?.btnChangeAddress?.text))
         }
     }
-
     override fun setViewModel() {
         userViewModel = ViewModelProvider(this@FragmentChangeMyInfo).get(UserViewModel::class.java)
     }
@@ -64,8 +67,8 @@ class FragmentChangeMyInfo: BaseFragment() {
         val changeObserve = Observer<Boolean>{
             if(it){
                 when(flag){
-                    1->bindingChangeMyInfo.tvChangeName.text = data
-                    2->bindingChangeMyInfo.tvChangePhone.text = data
+                    1->bindingChangeMyInfo?.tvChangeName?.text = data
+                    2->bindingChangeMyInfo?.tvChangePhone?.text = data
                     3->Constant.user?.address = data
                 }
 

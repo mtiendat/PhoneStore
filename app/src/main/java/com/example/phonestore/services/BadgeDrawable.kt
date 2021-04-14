@@ -3,6 +3,7 @@ package com.example.phonestore.services
 import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
+import androidx.core.content.ContextCompat
 import com.example.phonestore.R
 
 class BadgeDrawable(val context: Context): Drawable() {
@@ -14,7 +15,7 @@ class BadgeDrawable(val context: Context): Drawable() {
     private var willDraw: Boolean = false
     init {
         val textSize : Float = context.resources.getDimension(R.dimen.badge_text_size)
-        badgePaint.color = Color.RED
+        badgePaint.color = ContextCompat.getColor(context, R.color.organe)
         badgePaint.isAntiAlias = true //làm mịn
         badgePaint.style = Paint.Style.FILL
         badgePaint1.color = Color.DKGRAY

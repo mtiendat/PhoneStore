@@ -1,10 +1,8 @@
 package com.example.phonestore.view
 
-import android.content.Context
-import android.os.Bundle
+import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +21,7 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.example.news.services.EndlessRecyclerViewScrollListener
+import com.example.phonestore.services.EndlessRecyclerViewScrollListener
 import com.example.phonestore.extendsion.gone
 import com.example.phonestore.extendsion.visible
 import com.example.phonestore.R
@@ -35,14 +33,13 @@ import com.example.phonestore.services.SlideAdapter
 import com.example.phonestore.viewmodel.ProductViewModel
 import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
 import java.util.*
-import kotlin.Comparator
 import kotlin.math.abs
 
 
 class FragmentHome : BaseFragment(){
-    private lateinit var bindingHome: FragmentHomeBinding
-    private lateinit var sliderAdapter : SlideAdapter
-    private lateinit var homeViewModel: ProductViewModel
+    private var bindingHome: FragmentHomeBinding? = null
+    private var sliderAdapter : SlideAdapter? = null
+    private var homeViewModel: ProductViewModel? = null
     private var hotSaleAdapter: ProductAdapter<ProductInfo>? = null
     private var supplierAdapter: ProductAdapter<Supplier>? = null
     private var cateProductAdapter: ProductAdapter<CateProductInfo>? =null
@@ -59,112 +56,48 @@ class FragmentHome : BaseFragment(){
     private var idSupplier: Int? = null
     private var orderBy: Int = 0
     private var slideRunnable = Runnable {
-        bindingHome.vpSlideShow.currentItem = bindingHome.vpSlideShow.currentItem + 1
+        bindingHome?.vpSlideShow?.currentItem = bindingHome?.vpSlideShow?.currentItem?.plus(1) ?:0
     }
 
-    
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
+    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingHome = FragmentHomeBinding.inflate(inflater, container, false)
-        return bindingHome.root
+        return bindingHome?.root
 
     }
 
     override fun setUI(){
-        bindingHome.pbRecommend.setIndeterminateDrawableTiled(FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(R.array.google_colors)).build())
-        bindingHome.cardViewTop.setBackgroundResource(R.drawable.background_gradient)
-        bindingHome.ivDiscount.setOnClickListener {
-            it.findNavController().navigate(R.id.action_fragmentHome_to_fragmentDiscount)
-        }
-        bindingHome.ivListSupplier.setOnClickListener {
-            it.findNavController().navigate(R.id.action_fragmentHome_to_fragmentListSupplier)
-        }
-        context?.let {
-            Glide.with(it)
-                    .asGif()
-                    .load(R.drawable.fire)
-                    .into(bindingHome.ivHotSale)
-            Glide.with(it)
-                    .asGif()
-                    .load(R.drawable.light)
-                    .into(bindingHome.ivRecommend)
-        }
+        bindingHome?.pbRecommend?.setIndeterminateDrawableTiled(
+                FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(R.array.google_colors)).build()
+        ) //set progressBar google
+        bindingHome?.swipe?.setColorSchemeColors(Color.BLUE)
         if(listSaveCateProductPrevious?.size?: 1 > 5) { //Nếu trường hợp đã load more nhiều hơn 1 page rồi, thì mới add list cũ vào
             listSaveCateProductPrevious?.let { listCateProduct?.addAll(it) }
         }
         listSaveCateProductPrevious?.clear()
-        if(flag==0) {
+        if(flag==0) { //Nếu chưa
             getData()
         }
-
+        setImg(R.drawable.fire, bindingHome?.ivHotSale)
+        setImg(R.drawable.light,bindingHome?.ivRecommend)
         init()
         swipeRefresh()
-        flag++
-        bindingHome.btnSortPrice.setOnClickListener {
-            bindingHome.pbRecommend.visible()
-            if(orderBy ==0) {
-                listCateProduct?.sortWith(Comparator { o1, o2 ->
-                    o1.priceNew - o2.priceNew //Tăng dần
-                })
-                cateProductAdapter?.notifyDataSetChanged()
-                bindingHome.pbRecommend.gone()
-                orderBy = 1
-                bindingHome.btnSortPrice.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_down, 0)
-                return@setOnClickListener
-            }else if(orderBy==1)
-                listCateProduct?.sortWith(Comparator { o1, o2 ->
-                    o2.priceNew - o1.priceNew //Giảm dần
-                })
-                 cateProductAdapter?.notifyDataSetChanged()
-                 bindingHome.pbRecommend.gone()
-                orderBy = 0
-            bindingHome.btnSortPrice.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_up, 0)
+        setOnClickListener()
+        flag++ //Đặt cờ, Để không load lại khi quay lại fragment
+    }
+    private fun setImg(i: Int, imageView: ImageView?){
+        context?.let {
+            if (imageView != null) {
+                Glide.with(it)
+                        .asGif()
+                        .load(i)
+                        .into(imageView)
             }
-
-    }
-//        cateProductAdapter.onItemClick = { id ->
-//                            it.findNavController().navigate(R.id.action_fragmentHome_to_fragmentDetailProduct, id)
-//
-//        }
-    private fun init(){
-        initRecyclerViewLogo()
-        initRecyclerViewHotSale()
-        initRecyclerViewCateProduct()
-    }
-    private fun swipeRefresh(){
-        bindingHome.swipe.setOnRefreshListener {
-            savePage = 2
-            idSupplier = null
-            viewModelStore.clear()
-            clearList()
-            init()
-            bindingHome.shimmerLayoutHotSale.visible()
-            bindingHome.shimmerLayoutRecommend.visible()
-            setViewModel()
-            setObserve()
-            getData()
-            bindingHome.swipe.isRefreshing = false
-
         }
-    }
-    private fun getData(){
-        Log.d("OOOOO", "getdata")
-        homeViewModel.getSlideShow()
-        bindingHome.shimmerLayoutHotSale.startShimmer()
-        bindingHome.shimmerLayoutRecommend.startShimmer()
-        Handler(Looper.getMainLooper()).postDelayed({
-            homeViewModel.getListHotSaleProduct()
-        }, 2000)
-        homeViewModel.getListSupplier()
-        Handler(Looper.getMainLooper()).postDelayed({
-            homeViewModel.getListCateProduct(1)
-        }, 2000)
-
     }
     override fun setViewModel(){
         homeViewModel = ViewModelProvider(this@FragmentHome).get(ProductViewModel::class.java)
 
     }
-
     override fun setObserve() {
         val slideShowObserve = Observer<ArrayList<Slideshow>?>{
             if(listSlideshow.size==0) {
@@ -174,43 +107,103 @@ class FragmentHome : BaseFragment(){
                 setCurrentIndicator(0)
             }
         }
-        homeViewModel.listSlideshow.observe(requireActivity(), slideShowObserve)
+        homeViewModel?.listSlideshow?.observe(requireActivity(), slideShowObserve)
         val hotSaleProductObserve = Observer<ArrayList<ProductInfo>?>{
             listProduct?.addAll(it)
             hotSaleAdapter?.setItems(it)
-            bindingHome.shimmerLayoutHotSale.stopShimmer()
-            bindingHome.shimmerLayoutHotSale.gone()
+            bindingHome?.shimmerLayoutHotSale?.stopShimmer()
+            bindingHome?.shimmerLayoutHotSale?.gone()
         }
-        homeViewModel.listProduct.observe(requireActivity(), hotSaleProductObserve)
+        homeViewModel?.listProduct?.observe(requireActivity(), hotSaleProductObserve)
         val logoSupplierObserver = Observer<ArrayList<Supplier>?>{
             supplierAdapter?.setItems(it)
         }
-        homeViewModel.listSupplier.observe(viewLifecycleOwner, logoSupplierObserver)
+        homeViewModel?.listSupplier?.observe(viewLifecycleOwner, logoSupplierObserver)
         val cateListProduct = Observer<ArrayList<CateProductInfo>?> {
             listCateProduct?.addAll(it)
             cateProductAdapter?.notifyDataSetChanged()
-            bindingHome.shimmerLayoutRecommend.stopShimmer()
-            bindingHome.shimmerLayoutRecommend.gone()
+            bindingHome?.shimmerLayoutRecommend?.stopShimmer()
+            bindingHome?.shimmerLayoutRecommend?.gone()
 
         }
-        homeViewModel.listCateProduct.observe(viewLifecycleOwner, cateListProduct)
-//        val totalProductObserver = Observer<Int?>{
-//            MainActivity.icon?.let { it1 -> context?.let { it2 -> MainActivity.setBadgeCount(it2, icon = it1, it.toString()) } }
-//        }
-//        homeViewModel.totalProduct.observe(viewLifecycleOwner, totalProductObserver)
+        homeViewModel?.listCateProduct?.observe(viewLifecycleOwner, cateListProduct)
     }
-    private fun clearList(){
-        listCateProduct?.clear()
-        listProduct?.clear()
-        listSupplier?.clear()
-        //sliderItem.clear()
+    private fun setOnClickListener(){
+        bindingHome?.ivDiscount?.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentHome_to_fragmentDiscount)
+        }
+        bindingHome?.ivListSupplier?.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentHome_to_fragmentListSupplier)
+        }
+        bindingHome?.btnSortPrice?.setOnClickListener {
+            bindingHome?.pbRecommend?.visible()
+            if(orderBy ==0) {
+                listCateProduct?.sortWith { o1, o2 ->
+                    o1.priceNew - o2.priceNew //Tăng dần
+                }
+                cateProductAdapter?.notifyDataSetChanged()
+                bindingHome?.pbRecommend?.gone()
+                orderBy = 1
+                bindingHome?.btnSortPrice?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_down, 0)
+                return@setOnClickListener
+            }else if(orderBy==1)
+                listCateProduct?.sortWith { o1, o2 ->
+                    o2.priceNew - o1.priceNew //Giảm dần
+                }
+            cateProductAdapter?.notifyDataSetChanged()
+            bindingHome?.pbRecommend?.gone()
+            orderBy = 0
+            bindingHome?.btnSortPrice?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_up, 0)
+        }
+        bindingHome?.tvRecommended?.setOnClickListener {
+            listCateProduct?.clear()
+            cateProductAdapter?.notifyDataSetChanged()
+            bindingHome?.shimmerLayoutRecommend?.visible()
+            bindingHome?.shimmerLayoutRecommend?.startShimmer()
+            Handler(Looper.getMainLooper()).postDelayed({
+                homeViewModel?.getListCateProduct(1)
+            }, 2000)
+
+        }
+    }
+    private fun init(){
+        initRecyclerViewLogo()
+        initRecyclerViewHotSale()
+        initRecyclerViewCateProduct()
+    }
+    private fun swipeRefresh(){
+        bindingHome?.swipe?.setOnRefreshListener {
+            savePage = 2
+            idSupplier = null
+            viewModelStore.clear()
+            clearList()
+            init()
+            bindingHome?.shimmerLayoutHotSale?.visible()
+            bindingHome?.shimmerLayoutRecommend?.visible()
+            setViewModel()
+            setObserve()
+            getData()
+            bindingHome?.swipe?.isRefreshing = false
+
+        }
+    }
+    private fun getData(){
+        homeViewModel?.getSlideShow()
+        bindingHome?.shimmerLayoutHotSale?.startShimmer()
+        bindingHome?.shimmerLayoutRecommend?.startShimmer()
+        Handler(Looper.getMainLooper()).postDelayed({
+            homeViewModel?.getListHotSaleProduct()
+        }, 2000)
+        homeViewModel?.getListSupplier()
+        Handler(Looper.getMainLooper()).postDelayed({
+            homeViewModel?.getListCateProduct(1)
+        }, 2000)
 
     }
-
     private fun initRecyclerViewHotSale(){
         hotSaleAdapter = ProductAdapter(listProduct)
-        bindingHome.rvHotSale.adapter = hotSaleAdapter
-        bindingHome.rvHotSale.layoutManager = LinearLayoutManager(
+        bindingHome?.rvHotSale?.adapter = hotSaleAdapter
+        bindingHome?.rvHotSale?.layoutManager = LinearLayoutManager(
                 context,
                 LinearLayoutManager.HORIZONTAL,
                 false
@@ -223,12 +216,12 @@ class FragmentHome : BaseFragment(){
             savePage = 2
             listCateProduct?.clear()
             cateProductAdapter?.notifyDataSetChanged()
-            bindingHome.shimmerLayoutRecommend.visible()
-            bindingHome.shimmerLayoutRecommend.startShimmer()
-            homeViewModel.getListCateProduct(1, idSupplier = it)
+            bindingHome?.shimmerLayoutRecommend?.visible()
+            bindingHome?.shimmerLayoutRecommend?.startShimmer()
+            homeViewModel?.getListCateProduct(1, idSupplier = it)
         }
-        bindingHome.rvLogoSupplier.adapter = supplierAdapter
-        bindingHome.rvLogoSupplier.layoutManager = LinearLayoutManager(
+        bindingHome?.rvLogoSupplier?.adapter = supplierAdapter
+        bindingHome?.rvLogoSupplier?.layoutManager = LinearLayoutManager(
                 context,
                 LinearLayoutManager.HORIZONTAL,
                 false
@@ -240,33 +233,30 @@ class FragmentHome : BaseFragment(){
                 LinearLayoutManager.VERTICAL
         )
         cateProductAdapter = ProductAdapter(listCateProduct)
-        bindingHome.rvRecommend.adapter = cateProductAdapter
-        bindingHome.rvRecommend.layoutManager =  staggeredGridLayoutManager
-        bindingHome.nsvDetail.setOnScrollChangeListener(object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
+        bindingHome?.rvRecommend?.adapter = cateProductAdapter
+        bindingHome?.rvRecommend?.layoutManager =  staggeredGridLayoutManager
+        bindingHome?.nsvDetail?.setOnScrollChangeListener(object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int) {
                 if (page == 2) {
-                    Log.d("SAVEPAGE", savePage.toString()) /////////////////
                     //Nếu back lại fragment, thì page khi scroll quay lại = 2, để giữ lại page trước đó
-                    homeViewModel.getMoreListCateProduct(savePage, idSupplier, orderBy)
+                    homeViewModel?.getMoreListCateProduct(savePage, idSupplier)
                 } else {
                     savePage = page // lưu lại page hiện tại
-                    homeViewModel.getMoreListCateProduct(savePage, idSupplier, orderBy)
+                    homeViewModel?.getMoreListCateProduct(savePage, idSupplier)
                 }
-                Log.d("PAGE", page.toString())
             }
 
         })
-        bindingHome.rvRecommend.isNestedScrollingEnabled = false //set rv không cuộn trong NestedScrollView
+        bindingHome?.rvRecommend?.isNestedScrollingEnabled = false //set rv không cuộn trong NestedScrollView
     }
     private fun initSlider(){
-        Log.d("OOOOO", "initSlider")
         sizeSlider = listSlideshow.size
-        sliderAdapter = SlideAdapter(listSlideshow, bindingHome.vpSlideShow)
-        bindingHome.vpSlideShow.adapter = sliderAdapter
-        bindingHome.vpSlideShow.clipToPadding = false
-        bindingHome.vpSlideShow.clipChildren = false
-        bindingHome.vpSlideShow.offscreenPageLimit = 3
-        bindingHome.vpSlideShow.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        sliderAdapter = SlideAdapter(listSlideshow, bindingHome?.vpSlideShow)
+        bindingHome?.vpSlideShow?.adapter = sliderAdapter
+        bindingHome?.vpSlideShow?.clipToPadding = false
+        bindingHome?.vpSlideShow?.clipChildren = false
+        bindingHome?.vpSlideShow?.offscreenPageLimit = 3
+        bindingHome?.vpSlideShow?.getChildAt(0)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         val compositePageTransformer = CompositePageTransformer()
         compositePageTransformer.addTransformer(MarginPageTransformer(40))
         compositePageTransformer.addTransformer { page, position ->
@@ -275,8 +265,8 @@ class FragmentHome : BaseFragment(){
             page.scaleX = 1.2f + r * 0.1f
 
         }
-        bindingHome.vpSlideShow.setPageTransformer(compositePageTransformer)
-        bindingHome.vpSlideShow.registerOnPageChangeCallback(object :
+        bindingHome?.vpSlideShow?.setPageTransformer(compositePageTransformer)
+        bindingHome?.vpSlideShow?.registerOnPageChangeCallback(object :
                 ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -289,13 +279,13 @@ class FragmentHome : BaseFragment(){
         })
     }
     private fun setUpIndicator(){
-        val indicator = arrayOfNulls<ImageView>(sliderAdapter.itemCount)
+        val indicator = sliderAdapter?.itemCount?.let { arrayOfNulls<ImageView>(it) }
         val layoutParams: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
                 WRAP_CONTENT,
                 WRAP_CONTENT
         )
         layoutParams.setMargins(8, 0, 8, 0)
-        for(i in indicator.indices){
+        for(i in indicator?.indices!!){
             indicator[i] = ImageView(activity?.applicationContext)
             indicator[i].apply {
                 this?.setImageDrawable(
@@ -308,14 +298,14 @@ class FragmentHome : BaseFragment(){
                 )
                 this?.layoutParams = layoutParams
             }
-            bindingHome.indicatorContainer.addView(indicator[i])
+            bindingHome?.indicatorContainer?.addView(indicator[i])
         }
 
     }
     private fun setCurrentIndicator(index: Int){
-        val childCount = bindingHome.indicatorContainer.childCount
-        for(i in 0 until  childCount){
-            val imageView = bindingHome.indicatorContainer[i] as ImageView
+        val childCount = bindingHome?.indicatorContainer?.childCount
+        for(i in 0 until childCount!!){
+            val imageView = bindingHome?.indicatorContainer?.get(i) as ImageView
             if(i==index){
                 imageView.setImageDrawable(
                         activity?.applicationContext?.let {
@@ -337,54 +327,19 @@ class FragmentHome : BaseFragment(){
             }
         }
     }
-
-    override fun onPause() {
-        super.onPause()
-        Log.d("TEST", "onPause")
-    }
-    override fun onResume() {
-        super.onResume()
-        Log.d("TEST", "onResume")
+    private fun clearList(){
+        listCateProduct?.clear()
+        listProduct?.clear()
+        listSupplier?.clear()
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        Log.d("TEST", "onAttach")
-    }
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("TEST", "onDestroy")
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        Log.d("TEST", "onDetach")
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d("TEST", "onStart")
-
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("TEST", "onStop")
-    }
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("TEST", "onDESTROYVIEW  ")
         //gán lại rổng, để không bị tăng item khi backPress
         listCateProduct?.let { listSaveCateProductPrevious?.addAll(it) }
         clearList()
         listSlideshow.clear()
-        sliderAdapter.notifyDataSetChanged()
+        sliderAdapter?.notifyDataSetChanged()
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.d("TEST", "onDESTROYVIEW  ")
-    }
-
 }
 

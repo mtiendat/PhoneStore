@@ -29,10 +29,10 @@ class ProductViewModel: ViewModel() {
             productRepo.callSupplier(this::onSuccessSupplier, this::onError)
         }
     }
-    fun getListCateProduct(page: Int = 1, perPage: Int? =5, orderBy: Int?= null, idSupplier: Int? = null){
+    fun getListCateProduct(page: Int = 1, perPage: Int? =5, idSupplier: Int? = null){
         if(idSupplier == null) {
-            if (listCateProduct.value?.size == null||orderBy!=null) {
-                productRepo.callCateProduct(page, perPage, orderBy, this::onSuccessListCateProduct, this::onError)
+            if (listCateProduct.value?.size == null ||page==1) {
+                productRepo.callCateProduct(page, perPage, this::onSuccessListCateProduct, this::onError)
             }
         }else productRepo.getCateProductBySupplier(page,idSupplier, this::onSuccessListCateProduct, this::onError)
     }
@@ -41,9 +41,9 @@ class ProductViewModel: ViewModel() {
                 productRepo.getNewCateProductBySupplier(idSupplier, this::onSuccessListCateProduct, this::onError)
             }
     }
-    fun getMoreListCateProduct(page: Int = 1,perPage: Int? =5, orderBy: Int?= null){
+    fun getMoreListCateProduct(page: Int = 1,perPage: Int? =5){
          if(listCateProduct.value?.size  == null||page>1){
-            productRepo.callCateProduct(page, perPage, orderBy, this::onSuccessListCateProduct, this::onError)
+            productRepo.callCateProduct(page, perPage, this::onSuccessListCateProduct, this::onError)
         }
     }
     fun searchName(q: String?){

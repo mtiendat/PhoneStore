@@ -15,13 +15,13 @@ import com.example.phonestore.services.ProductAdapter
 import com.example.phonestore.viewmodel.ProductViewModel
 
 class FragmentSupplierNewProduct(var supplier: Supplier?): BaseFragment() {
-    private lateinit var bindingSupplierNewProduct: FragmentSupplierNewProductBinding
+    private var bindingSupplierNewProduct: FragmentSupplierNewProductBinding? = null
     private var supplierViewModel: ProductViewModel? = null
     private var adapter: ProductAdapter<CateProductInfo>? = null
     private var listCateProductInfo: ArrayList<CateProductInfo> = arrayListOf()
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
+    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingSupplierNewProduct = FragmentSupplierNewProductBinding.inflate(inflater, container, false)
-        return bindingSupplierNewProduct.root
+        return bindingSupplierNewProduct?.root
     }
     override fun setViewModel() {
         supplierViewModel = ViewModelProvider(this@FragmentSupplierNewProduct).get(ProductViewModel::class.java)
@@ -41,8 +41,8 @@ class FragmentSupplierNewProduct(var supplier: Supplier?): BaseFragment() {
     }
     private fun initRecyclerView(){
         adapter = ProductAdapter(listCateProductInfo)
-        bindingSupplierNewProduct.rvSupplierNewProduct.adapter = adapter
-        bindingSupplierNewProduct.rvSupplierNewProduct.layoutManager = StaggeredGridLayoutManager(
+        bindingSupplierNewProduct?.rvSupplierNewProduct?.adapter = adapter
+        bindingSupplierNewProduct?.rvSupplierNewProduct?.layoutManager = StaggeredGridLayoutManager(
                 2,
                 LinearLayoutManager.VERTICAL
         )

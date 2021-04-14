@@ -53,11 +53,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayoutlSupplier"
+        android:id="@+id/tabLayoutSupplier"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ctrlSupplierTop">
+        app:layout_constraintTop_toBottomOf="@+id/ctrlSupplierTop"
+        app:tabMode="scrollable"
+        app:tabIndicatorColor ="@color/blue"
+        android:theme="@style/tabLayoutStyle">
 
     </com.google.android.material.tabs.TabLayout>
 
@@ -66,5 +69,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayoutlSupplier" />
+        app:layout_constraintTop_toBottomOf="@+id/tabLayoutSupplier" />
 </androidx.constraintlayout.widget.ConstraintLayout>

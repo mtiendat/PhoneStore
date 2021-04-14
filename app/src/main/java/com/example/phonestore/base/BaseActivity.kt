@@ -38,6 +38,7 @@ abstract class BaseActivity: AppCompatActivity() {
 //        } catch (e: NoSuchAlgorithmException) {
 //        }
         setViewModel()
+        setObserve()
         setBinding()
         setToolBar()
         setUI()
@@ -51,6 +52,7 @@ abstract class BaseActivity: AppCompatActivity() {
 
     abstract fun setBinding()
     open fun setViewModel(){}
+    open fun setObserve(){}
     open fun setUI(){}
     open fun setToolBar(){}
 }

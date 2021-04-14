@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentFollowOrderDeliveredBinding
+import com.example.phonestore.extendsion.gone
 import com.example.phonestore.model.MyOrder
 import com.example.phonestore.model.ProductOrder
 import com.example.phonestore.services.Constant
@@ -19,13 +20,13 @@ import com.example.phonestore.services.DetailProductAdapter
 import com.example.phonestore.viewmodel.OrderViewModel
 
 class FragmentFollowOrderDelivered: BaseFragment() {
-    private lateinit var bindingDeliveredOrder: FragmentFollowOrderDeliveredBinding
-    private lateinit var orderViewModel: OrderViewModel
+    private var bindingDeliveredOrder: FragmentFollowOrderDeliveredBinding? = null
+    private var orderViewModel: OrderViewModel? = null
     private var myOrderAdapter: DetailProductAdapter<MyOrder>? = null
-    private var listMyOrder: ArrayList<MyOrder> = arrayListOf()
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
+    private var listMyOrder: ArrayList<MyOrder>? = arrayListOf()
+    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingDeliveredOrder = FragmentFollowOrderDeliveredBinding.inflate(inflater, container, false)
-        return bindingDeliveredOrder.root
+        return bindingDeliveredOrder?.root
     }
     override fun setViewModel() {
         orderViewModel = ViewModelProvider(this).get(OrderViewModel::class.java)
@@ -35,25 +36,28 @@ class FragmentFollowOrderDelivered: BaseFragment() {
 
     }
     override fun setObserve() {
-        val allOrderObserve = Observer<ArrayList<MyOrder>>{
-            listMyOrder.addAll(listMyOrder)
-            myOrderAdapter?.setItems(it)
+        val allOrderObserve = Observer<ArrayList<MyOrder>?>{
+            if(it.size >0) {
+                listMyOrder?.addAll(it)
+                myOrderAdapter?.setItems(it)
+                bindingDeliveredOrder?.ivBillDelivered?.gone()
+            }
         }
-        orderViewModel.listMyOrder.observe(viewLifecycleOwner, allOrderObserve)
+        orderViewModel?.listMyOrder?.observe(viewLifecycleOwner, allOrderObserve)
         val listProductOrderObserve = Observer<ArrayList<ProductOrder>>{
             val item = bundleOf("listProduct" to it, "key" to true)
             view?.findNavController()?.navigate(R.id.action_fragmentFollowOrder_to_fragmentOrder, item)
         }
-        orderViewModel.listProductOrder.observe(viewLifecycleOwner, listProductOrderObserve)
+        orderViewModel?.listProductOrder?.observe(viewLifecycleOwner, listProductOrderObserve)
     }
     private fun initRecyclerView(){
         myOrderAdapter = DetailProductAdapter(listMyOrder)
         myOrderAdapter?.nextInfoOrder = {it, _ ->
-            orderViewModel.getListProductOrder(it)
+            orderViewModel?.getListProductOrder(it)
         }
-        orderViewModel.getMyOrder(Constant.DELIVERED)
-        bindingDeliveredOrder.rvDeliveredOrder.adapter = myOrderAdapter
-        bindingDeliveredOrder.rvDeliveredOrder.layoutManager = LinearLayoutManager(context)
+        orderViewModel?.getMyOrder(Constant.DELIVERED)
+        bindingDeliveredOrder?.rvDeliveredOrder?.adapter = myOrderAdapter
+        bindingDeliveredOrder?.rvDeliveredOrder?.layoutManager = LinearLayoutManager(context)
     }
 
 }

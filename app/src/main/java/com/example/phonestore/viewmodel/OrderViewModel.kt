@@ -8,7 +8,7 @@ import com.example.phonestore.model.ProductOrder
 import com.example.phonestore.repo.OrderRepo
 
 class OrderViewModel: ViewModel() {
-    var listMyOrder: MutableLiveData<ArrayList<MyOrder>> = MutableLiveData()
+    var listMyOrder: MutableLiveData<ArrayList<MyOrder>?> = MutableLiveData()
     var message: MutableLiveData<String> = MutableLiveData()
     var listProductOrder: MutableLiveData<ArrayList<ProductOrder>> = MutableLiveData()
     var result: MutableLiveData<Boolean?> = MutableLiveData()

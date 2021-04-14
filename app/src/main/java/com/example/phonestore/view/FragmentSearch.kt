@@ -18,14 +18,14 @@ import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.services.SearchAdapter
 
 class FragmentSearch: BaseFragment() {
-    private lateinit var bindingSearch:  FragmentSearchBinding
-    private lateinit var searchViewModel: ProductViewModel
+    private var bindingSearch:  FragmentSearchBinding? = null
+    private var searchViewModel: ProductViewModel? = null
     private var searchNameAdapter: SearchAdapter<CateProductInfo>? = null
     private var listName: ArrayList<CateProductInfo> = arrayListOf()
     private var length: Int? = 0
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
+    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingSearch = FragmentSearchBinding.inflate(inflater, container, false)
-        return bindingSearch.root
+        return bindingSearch?.root
     }
 
     override fun setViewModel() {
@@ -36,15 +36,13 @@ class FragmentSearch: BaseFragment() {
         val listNameObserve = Observer<ArrayList<CateProductInfo>?>{
             listName.addAll(it)
             searchNameAdapter?.setItems(it)
-            bindingSearch.ivBird.gone()
+            bindingSearch?.ivBird?.gone()
         }
-        searchViewModel.listResultSearch.observe(viewLifecycleOwner, listNameObserve)
+        searchViewModel?.listResultSearch?.observe(viewLifecycleOwner, listNameObserve)
     }
     override fun setUI() {
-
         MainActivity.searchView?.get()?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-
                 return false
             }
 
@@ -52,7 +50,7 @@ class FragmentSearch: BaseFragment() {
                 if(newText?.length!! < length!!){
                     if(newText.isEmpty()){
                         listName.clear()
-                        bindingSearch.ivBird.visible()
+                        bindingSearch?.ivBird?.visible()
                         searchNameAdapter?.notifyDataSetChanged()
                         length = 0
                     }
@@ -61,7 +59,7 @@ class FragmentSearch: BaseFragment() {
                     Handler(Looper.getMainLooper()).postDelayed({
                         listName.clear()
                         searchNameAdapter?.notifyDataSetChanged()
-                        searchViewModel.searchName(newText)
+                        searchViewModel?.searchName(newText)
 
                     },1000)
                 }
@@ -76,8 +74,8 @@ class FragmentSearch: BaseFragment() {
     }
     private fun initRecyclerView(){
         searchNameAdapter = SearchAdapter(listName)
-        bindingSearch.rvSearchName.adapter = searchNameAdapter
-        bindingSearch.rvSearchName.layoutManager = LinearLayoutManager(context)
+        bindingSearch?.rvSearchName?.adapter = searchNameAdapter
+        bindingSearch?.rvSearchName?.layoutManager = LinearLayoutManager(context)
     }
 
 }

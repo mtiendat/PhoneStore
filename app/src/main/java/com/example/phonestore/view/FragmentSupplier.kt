@@ -10,14 +10,15 @@ import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentSupplierBinding
 import com.example.phonestore.model.Supplier
+import com.example.phonestore.services.Constant
 import com.example.phonestore.services.TabLayoutAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 class FragmentSupplier: BaseFragment() {
-    private lateinit var bindingSupplier: FragmentSupplierBinding
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
+    private var bindingSupplier: FragmentSupplierBinding? = null
+    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingSupplier = FragmentSupplierBinding.inflate(inflater, container, false)
-        return bindingSupplier.root
+        return bindingSupplier?.root
     }
 
     override fun setUI() {
@@ -28,23 +29,29 @@ class FragmentSupplier: BaseFragment() {
                 FragmentSupplierNewProduct(supplier)
         )
         val adapter = activity?.let { TabLayoutAdapter(listFragment, it.supportFragmentManager, lifecycle) }
-        bindingSupplier.vp2Supplier.adapter = adapter
+        bindingSupplier?.vp2Supplier?.adapter = adapter
 
-        val names: ArrayList<String> = arrayListOf("Tất cả", "Sản phẩm mới")
-        TabLayoutMediator(bindingSupplier.tabLayoutlSupplier, bindingSupplier.vp2Supplier){ tab, position ->
-            tab.text = names[position]
-        }.attach()
+        val names: ArrayList<String> = arrayListOf(Constant.ALL, Constant.NEW_PRODUCT)
+        bindingSupplier?.tabLayoutSupplier?.let {
+            bindingSupplier?.vp2Supplier?.let { it1 ->
+                TabLayoutMediator(it, it1){ tab, position ->
+                tab.text = names[position]
+            }.attach()
+            }
+        }
     }
     private fun setInfoSupplier(supplier: Supplier?){
-        bindingSupplier.tvNameSupplier.text = supplier?.name
+        bindingSupplier?.tvNameSupplier?.text = supplier?.name
         context?.let {
-            Glide.with(it)
-                .load(supplier?.logoSupplier)
-                    .error(R.drawable.noimage)
-                .into(bindingSupplier.ivSupplier)
+            bindingSupplier?.ivSupplier?.let { imgV ->
+                Glide.with(it)
+                    .load(supplier?.logoSupplier)
+                        .error(R.drawable.noimage)
+                    .into(imgV)
+            }
         }
         if(supplier?.auth == 0){
-            bindingSupplier.ivSupplierAuth.gone()
+            bindingSupplier?.ivSupplierAuth?.gone()
         }
     }
 }

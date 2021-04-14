@@ -1,6 +1,5 @@
-package com.example.news.services
+package com.example.phonestore.services
 
-import android.util.Log
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager

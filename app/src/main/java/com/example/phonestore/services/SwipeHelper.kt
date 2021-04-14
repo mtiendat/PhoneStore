@@ -13,7 +13,7 @@ import kotlin.math.max
 
 
 @SuppressLint("ClickableViewAccessibility")
-abstract class SwipeHelper(private val recyclerView: RecyclerView): ItemTouchHelper.SimpleCallback(
+abstract class SwipeHelper(private val recyclerView: RecyclerView?): ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.ACTION_STATE_IDLE,
         ItemTouchHelper.LEFT
 ) {
@@ -38,12 +38,12 @@ abstract class SwipeHelper(private val recyclerView: RecyclerView): ItemTouchHel
         true
     }
     init {
-        recyclerView.setOnTouchListener(touchListener)
+        recyclerView?.setOnTouchListener(touchListener)
     }
     private fun recoverSwipeItem(){
         while (!recoverQueue.isEmpty()){
             val position = recoverQueue.poll() ?: return
-            recyclerView.adapter?.notifyItemChanged(position)
+            recyclerView?.adapter?.notifyItemChanged(position)
         }
     }
 

@@ -9,10 +9,10 @@ import com.example.phonestore.databinding.FragmentBottomsheetDialogAvatarBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class FragmentBottomSheetAvatar: BottomSheetDialogFragment() {
-    private lateinit var bindingBottom: FragmentBottomsheetDialogAvatarBinding
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    private var bindingBottom: FragmentBottomsheetDialogAvatarBinding? = null
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         bindingBottom = FragmentBottomsheetDialogAvatarBinding.inflate(inflater, container, false)
-        return bindingBottom.root
+        return bindingBottom?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -20,13 +20,13 @@ class FragmentBottomSheetAvatar: BottomSheetDialogFragment() {
         setUI()
     }
     private fun setUI(){
-        bindingBottom.btnChosseLibrary.setOnClickListener {
+        bindingBottom?.btnChosseLibrary?.setOnClickListener {
             NavHostFragment.findNavController(this).apply {
                 previousBackStackEntry?.savedStateHandle?.set("key", 1)
                 popBackStack()
             }
         }
-        bindingBottom.btnTakeAPicture.setOnClickListener {
+        bindingBottom?.btnTakeAPicture?.setOnClickListener {
             NavHostFragment.findNavController(this).apply {
                 previousBackStackEntry?.savedStateHandle?.set("key", 2)
                 popBackStack()

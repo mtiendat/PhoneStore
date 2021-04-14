@@ -87,6 +87,7 @@
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:layout_marginTop="8dp"
+                        android:text="@string/sua"
                         android:textAlignment="center"
                         android:textColor="@color/dray"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -109,6 +110,7 @@
                 android:id="@+id/rvOrderProduct"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:theme="@style/RecyclerView"
                 app:layout_constraintEnd_toEndOf="@+id/cvAddress"
                 app:layout_constraintStart_toStartOf="@+id/tvOrderNCC"
                 app:layout_constraintTop_toBottomOf="@+id/tvOrderNCC" />

@@ -24,7 +24,7 @@ abstract class BaseFragment : Fragment() {
         super.onCreate(savedInstanceState)
         setViewModel()
     }
-    abstract fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View
+    abstract fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View?
     open fun setViewModel(){}
     open fun setUI(){}
     open fun setObserve(){}

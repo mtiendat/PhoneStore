@@ -16,17 +16,17 @@ import com.example.phonestore.viewmodel.DetailProductViewModel
 import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
 
 class FragmentAllVote: BaseFragment() {
-    private lateinit var bindingAllVote: FragmentAllVoteBinding
+    private var bindingAllVote: FragmentAllVoteBinding? = null
     private var allVoteViewModel: DetailProductViewModel? = null
     private var adapter: DetailProductAdapter<Vote>? = null
     private var listAllVote: ArrayList<Vote>? = arrayListOf()
-    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View {
+    override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingAllVote = FragmentAllVoteBinding.inflate(inflater, container, false)
-        return bindingAllVote.root
+        return bindingAllVote?.root
     }
 
     override fun setUI() {
-        bindingAllVote.pbAllVote.setIndeterminateDrawableTiled(
+        bindingAllVote?.pbAllVote?.setIndeterminateDrawableTiled(
                 FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(
                         R.array.google_colors)).build())
         initRecyclerView()
@@ -41,13 +41,13 @@ class FragmentAllVote: BaseFragment() {
         val listAllVoteObserve = Observer<ArrayList<Vote>>{
             listAllVote?.addAll(it)
             adapter?.setItems(it)
-            bindingAllVote.pbAllVote.gone()
+            bindingAllVote?.pbAllVote?.gone()
         }
         allVoteViewModel?.listVote?.observe(viewLifecycleOwner, listAllVoteObserve)
     }
     private fun initRecyclerView(){
         adapter = DetailProductAdapter(listAllVote)
-        bindingAllVote.rvAllVote.adapter = adapter
-        bindingAllVote.rvAllVote.layoutManager = LinearLayoutManager(context)
+        bindingAllVote?.rvAllVote?.adapter = adapter
+        bindingAllVote?.rvAllVote?.layoutManager = LinearLayoutManager(context)
     }
 }

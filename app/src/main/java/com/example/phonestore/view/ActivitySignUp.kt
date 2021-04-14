@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivitySignUpBinding
 import com.example.phonestore.model.User
+import com.example.phonestore.services.Constant
 import com.example.phonestore.viewmodel.UserViewModel
 
 import java.util.regex.Pattern
@@ -20,15 +21,15 @@ class ActivitySignUp: BaseActivity() {
         fun intentFor(context: Context): Intent =
                 Intent(context,ActivitySignUp::class.java)
     }
-    private lateinit var bindingSignUp: ActivitySignUpBinding
-    private lateinit var signUpViewModel: UserViewModel
+    private var bindingSignUp: ActivitySignUpBinding? = null
+    private var signUpViewModel: UserViewModel? = null
     override fun setBinding() {
         bindingSignUp = ActivitySignUpBinding.inflate(layoutInflater)
-        setContentView(bindingSignUp.root)
+        setContentView(bindingSignUp?.root)
     }
     override fun setToolBar() {
-        bindingSignUp.toolbarSignUp.toolbar.title = "Sign Up"
-        setSupportActionBar(bindingSignUp.toolbarSignUp.toolbar)
+        bindingSignUp?.toolbarSignUp?.toolbar?.title = "Sign Up"
+        setSupportActionBar(bindingSignUp?.toolbarSignUp?.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -36,6 +37,10 @@ class ActivitySignUp: BaseActivity() {
 
     override fun setViewModel() {
         signUpViewModel = ViewModelProvider(this@ActivitySignUp).get(UserViewModel::class.java)
+
+    }
+
+    override fun setObserve() {
         val signUpObserve = Observer<Boolean>{
             if(it) {
                 Toast.makeText(this, "Đăng kí thành công! ", Toast.LENGTH_SHORT).show()
@@ -45,51 +50,50 @@ class ActivitySignUp: BaseActivity() {
             }
 
         }
-        signUpViewModel.status.observe(this,signUpObserve)
+        signUpViewModel?.status?.observe(this,signUpObserve)
     }
-
     override fun setUI() {
-        bindingSignUp.btnSignUp.setOnClickListener {
+        bindingSignUp?.btnSignUp?.setOnClickListener {
             if(validate()) {
-                signUpViewModel.postSignUp(User(name = bindingSignUp.edtSignUpFullName.text.toString(),
-                        email = bindingSignUp.edtSignUpEmail.text.toString(),
-                        password = bindingSignUp.edtSignUpPassword.text.toString(),
-                        phone = bindingSignUp.edtSignUpPhone.text.toString(),
-                        address = bindingSignUp.edtSignUpLocation.text.toString()))
+                signUpViewModel?.postSignUp(User(name = bindingSignUp?.edtSignUpFullName?.text.toString(),
+                        email = bindingSignUp?.edtSignUpEmail?.text.toString(),
+                        password = bindingSignUp?.edtSignUpPassword?.text.toString(),
+                        phone = bindingSignUp?.edtSignUpPhone?.text.toString(),
+                        address = bindingSignUp?.edtSignUpLocation?.text.toString()))
             }
         }
     }
     private fun validate(): Boolean{
-        return if(bindingSignUp.edtSignUpFullName.text.isNullOrBlank()){
-            bindingSignUp.edtSignUpFullName.error = "Họ tên không được để trống"
+        return if(bindingSignUp?.edtSignUpFullName?.text.isNullOrBlank()){
+            bindingSignUp?.edtSignUpFullName?.error = Constant.VALIDATE_FULL_NAME
             false
-        }else if(bindingSignUp.edtSignUpPhone.text.isNullOrBlank()) {
-            bindingSignUp.edtSignUpPhone.error = "Sdt không được để trống"
+        }else if(bindingSignUp?.edtSignUpPhone?.text.isNullOrBlank()) {
+            bindingSignUp?.edtSignUpPhone?.error = Constant.VALIDATE_PHONE
             false
-        }else if(!Pattern.compile("^(0)+([0-9]{9})$").matcher(bindingSignUp.edtSignUpPhone.text).matches() ){
-            bindingSignUp.edtSignUpPhone.error = "Sdt không hợp lệ"
+        }else if(!Pattern.compile("^(0)+([0-9]{9})$").matcher(bindingSignUp?.edtSignUpPhone?.text!!).matches() ){
+            bindingSignUp?.edtSignUpPhone?.error = Constant.PHONE_INVALID
             false
-        }else if(bindingSignUp.edtSignUpLocation.text.isNullOrBlank()){
-            bindingSignUp.edtSignUpLocation.error = "Địa chỉ không được để trống"
+        }else if(bindingSignUp?.edtSignUpLocation?.text.isNullOrBlank()){
+            bindingSignUp?.edtSignUpLocation?.error = Constant.VALIDATE_ADDRESS
             false
-        }else if(bindingSignUp.edtSignUpEmail.text.isNullOrBlank()) {
-            bindingSignUp.edtSignUpEmail.error = "Email không được để trống"
+        }else if(bindingSignUp?.edtSignUpEmail?.text.isNullOrBlank()) {
+            bindingSignUp?.edtSignUpEmail?.error = Constant.VALIDATE_EMAIL
             false
-        }else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(bindingSignUp.edtSignUpEmail.text).matches()) {
-            bindingSignUp.edtSignUpEmail.error = "Email không hợp lệ"
+        }else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(bindingSignUp?.edtSignUpEmail?.text!!).matches()) {
+            bindingSignUp?.edtSignUpEmail?.error = Constant.EMAIL_INVALID
             false
-        }else if(bindingSignUp.edtSignUpPassword.text.isNullOrBlank()){
-            bindingSignUp.edtSignUpPassword.error = "Password không được để trống"
+        }else if(bindingSignUp?.edtSignUpPassword?.text.isNullOrBlank()){
+            bindingSignUp?.edtSignUpPassword?.error = Constant.VALIDATE_PASSWORD
             false
-        }else if(bindingSignUp.edtSignUpConfirmPassword.text.isNullOrBlank()){
-            bindingSignUp.edtSignUpConfirmPassword.error = "Xác nhận Password không được để trống"
+        }else if(bindingSignUp?.edtSignUpConfirmPassword?.text.isNullOrBlank()){
+            bindingSignUp?.edtSignUpConfirmPassword?.error = Constant.VALIDATE_CONFIRM_PASSWORD
             false
 
-        }else if (bindingSignUp.edtSignUpPassword.text.toString() != bindingSignUp.edtSignUpConfirmPassword.text.toString()) {
-            bindingSignUp.edtSignUpConfirmPassword.error = "Xác nhận password đúng"
+        }else if (bindingSignUp?.edtSignUpPassword?.text.toString() != bindingSignUp?.edtSignUpConfirmPassword?.text.toString()) {
+            bindingSignUp?.edtSignUpConfirmPassword?.error = Constant.CONFIRM_PASSWORD_NOT_SAME
             false
-        }else if (!bindingSignUp.cbPrivacy.isChecked) {
-            bindingSignUp.cbPrivacy.error = "Vui lòng đồng ý với chính sách của chúng tôi"
+        }else if (bindingSignUp?.cbPrivacy?.isChecked == false) {
+            bindingSignUp?.cbPrivacy?.error = Constant.VALIDATE_CHECKBOX_PRIVACY
             false
         }else true
     }
