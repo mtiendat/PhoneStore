@@ -126,6 +126,10 @@
         android:label=""
         tools:layout="@layout/fragment_search"/>
     <action android:id="@+id/action_global_fragmentDetailProduct" app:destination="@id/fragmentDetailProduct"/>
+    <action android:id="@+id/action_fragmentSearch_to_fragmentHome"
+        app:destination="@id/fragmentHome"/>
+    <action android:id="@+id/action_fragmentSearch_to_fragmentDetailProduct"
+        app:destination="@id/fragmentDetailProduct"/>
     <fragment
         android:id="@+id/fragmentAllVote"
         android:name="com.example.phonestore.view.FragmentAllVote"

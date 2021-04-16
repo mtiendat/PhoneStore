@@ -28,18 +28,29 @@ class FragmentBottomSheetChangeInfo: BottomSheetDialogFragment() {
         bindingBottom?.edtChange?.setText(data)
         bindingBottom?.btnSave?.setOnClickListener {
             NavHostFragment.findNavController(this).apply {
-                if(title =="SDT"){
-                    if(!Pattern.compile("^(0)+([0-9]{9})$").matcher(bindingBottom?.edtChange?.text!!).matches()){
-                        bindingBottom?.edtChange?.error = Constant.PHONE_INVALID
-                    }else {
-                        previousBackStackEntry?.savedStateHandle?.set("key", bindingBottom?.edtChange?.text.toString())
-                        popBackStack()
-                    }
-                }else {
+                if(validate(title)){
                     previousBackStackEntry?.savedStateHandle?.set("key", bindingBottom?.edtChange?.text.toString())
                     popBackStack()
                 }
             }
         }
+    }
+    private fun validate(title: String?="") :Boolean{
+        return if(title =="Địa chỉ"){
+            if(bindingBottom?.edtChange?.text.isNullOrBlank()) {
+                bindingBottom?.edtChange?.error = Constant.VALIDATE_ADDRESS
+            }
+            false
+        }else if(title =="SDT"){
+            if(!Pattern.compile("^(0)+([0-9]{9})$").matcher(bindingBottom?.edtChange?.text!!).matches()) {
+                bindingBottom?.edtChange?.error = Constant.PHONE_INVALID
+            }
+            false
+        }else if(title =="Tên"){
+            if(bindingBottom?.edtChange?.text.isNullOrBlank()){
+                bindingBottom?.edtChange?.error = Constant.VALIDATE_FULL_NAME
+            }
+            false
+        }else true
     }
 }

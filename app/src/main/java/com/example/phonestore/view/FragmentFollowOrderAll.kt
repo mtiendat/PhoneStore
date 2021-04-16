@@ -12,10 +12,9 @@ import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentFollowOrderAllBinding
 import com.example.phonestore.extendsion.gone
-import com.example.phonestore.extendsion.visible
 import com.example.phonestore.model.MyOrder
 import com.example.phonestore.model.ProductOrder
-import com.example.phonestore.services.DetailProductAdapter
+import com.example.phonestore.services.adapter.DetailProductAdapter
 import com.example.phonestore.viewmodel.OrderViewModel
 
 class FragmentFollowOrderAll: BaseFragment() {

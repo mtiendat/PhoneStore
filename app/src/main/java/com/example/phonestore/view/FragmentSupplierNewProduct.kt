@@ -11,7 +11,7 @@ import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentSupplierNewProductBinding
 import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.model.Supplier
-import com.example.phonestore.services.ProductAdapter
+import com.example.phonestore.services.adapter.ProductAdapter
 import com.example.phonestore.viewmodel.ProductViewModel
 
 class FragmentSupplierNewProduct(var supplier: Supplier?): BaseFragment() {

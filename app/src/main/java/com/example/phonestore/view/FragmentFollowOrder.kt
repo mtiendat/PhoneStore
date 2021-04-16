@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentFollowOrderBinding
 import com.example.phonestore.services.Constant
-import com.example.phonestore.services.TabLayoutAdapter
+import com.example.phonestore.services.adapter.TabLayoutAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 class FragmentFollowOrder: BaseFragment() {

@@ -1,4 +1,4 @@
-package com.example.phonestore.services
+package com.example.phonestore.services.adapter
 
 import android.content.Context
 import android.os.Handler
@@ -20,6 +20,7 @@ import com.example.phonestore.databinding.*
 import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.model.ProductInfo
 import com.example.phonestore.model.Supplier
+import com.example.phonestore.services.Constant
 import com.example.phonestore.view.FragmentDetailProduct
 
 
@@ -114,6 +115,9 @@ class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Re
             setImg(item.img, holder.bindingCate.ivProductCate, holder.itemView.context)
 
             holder.bindingCate.ivProductCate.setOnClickListener {
+                it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("idCate" to item.id, "name" to item.name))
+            }
+            holder.bindingCate.tvNameProductCate.setOnClickListener {
                 it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("idCate" to item.id, "name" to item.name))
             }
         }

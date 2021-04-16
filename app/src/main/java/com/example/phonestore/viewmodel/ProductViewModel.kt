@@ -34,17 +34,19 @@ class ProductViewModel: ViewModel() {
             if (listCateProduct.value?.size == null ||page==1) {
                 productRepo.callCateProduct(page, perPage, this::onSuccessListCateProduct, this::onError)
             }
-        }else productRepo.getCateProductBySupplier(page,idSupplier, this::onSuccessListCateProduct, this::onError)
+        }else productRepo.getCateProductBySupplier(page, idSupplier, perPage, this::onSuccessListCateProduct, this::onError)
     }
     fun getNewCateProductBySupplier(idSupplier: Int? = null){
             if (listCateProduct.value?.size == null) {
                 productRepo.getNewCateProductBySupplier(idSupplier, this::onSuccessListCateProduct, this::onError)
             }
     }
-    fun getMoreListCateProduct(page: Int = 1,perPage: Int? =5){
-         if(listCateProduct.value?.size  == null||page>1){
-            productRepo.callCateProduct(page, perPage, this::onSuccessListCateProduct, this::onError)
-        }
+    fun getMoreListCateProduct(page: Int = 1, idSupplier: Int? = null, perPage: Int? =5){
+        if(idSupplier == null) {
+            if (listCateProduct.value?.size == null || page > 1) {
+                productRepo.callCateProduct(page, perPage, this::onSuccessListCateProduct, this::onError)
+            }
+        }else productRepo.getCateProductBySupplier(page, idSupplier, perPage, this::onSuccessListCateProduct, this::onError)
     }
     fun searchName(q: String?){
         productRepo.searchName(q, this::onSuccessResultSearch, this::onError)

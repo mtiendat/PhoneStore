@@ -22,6 +22,8 @@ import com.example.phonestore.services.Constant
 import com.example.phonestore.viewmodel.CartViewModel
 
 
+
+
 class FragmentSuccessOrder: BaseFragment() {
     private lateinit var bindingSuccessOrder: FragmentSuccessOrderBinding
     private lateinit var cartViewModel: CartViewModel
@@ -41,13 +43,13 @@ class FragmentSuccessOrder: BaseFragment() {
             view?.findNavController()?.navigate(FragmentSuccessOrderDirections.actionFragmentSuccessOrderToFragmentHome())
         }
         getData()
+        sendNotification()
     }
     private fun getData(){
         cartViewModel.getTotalProduct()
         cartViewModel.getTotalNotification()
     }
     override fun setViewModel() {
-        sendNotification()
         cartViewModel = ViewModelProvider(requireActivity()).get(CartViewModel::class.java)
     }
 

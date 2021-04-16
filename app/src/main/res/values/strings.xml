@@ -1,4 +1,6 @@
 <resources>
+    <string name="default_notification_channel_id">999</string>
+    <string name="msg_token_fmt" translatable="false">FCM registration Token: %s</string>
     <string name="app_name">Phone Store</string>
     <string name="channel_name">Phone Store Notification</string>
     <string name="channel_description">Notification of me</string>
@@ -67,8 +69,8 @@
     <string name="tong_tien">Tổng tiền:</string>
     <string name="san_pham">sản phẩm</string>
     <string name="id">#</string>
-    <string name="mau">Màu:</string>
-    <string name="dl">DL:</string>
+    <string name="mau">Màu sắc:</string>
+    <string name="dl">Dung lượng:</string>
     <string name="kha_nang_luu_tru">Khả năng lưu trữ:</string>
     <string name="nhom_mau">Nhóm màu:</string>
     <string name="so_luong">Số lượng:</string>

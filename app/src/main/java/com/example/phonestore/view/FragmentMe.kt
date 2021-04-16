@@ -21,6 +21,8 @@ import com.bumptech.glide.Glide
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentMeBinding
+import com.example.phonestore.extendsion.gone
+import com.example.phonestore.extendsion.visible
 import com.example.phonestore.services.Constant
 import com.example.phonestore.viewmodel.UserViewModel
 import com.facebook.AccessToken
@@ -47,6 +49,7 @@ class FragmentMe: BaseFragment() {
     }
 
     override fun setUI() {
+        bindingMe?.progressBarUploadImage?.gone()
             changeAvatarFromGallery()
             changeAvatarFromCamera()
             findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("key")?.observe(viewLifecycleOwner) {
@@ -57,7 +60,6 @@ class FragmentMe: BaseFragment() {
                     } else capturePhoto()
                 }else flag = 0
             }
-
             setData()
             setOnClickListener()
 
@@ -99,9 +101,10 @@ class FragmentMe: BaseFragment() {
             }
         }
         userViewModel?.status?.observe(viewLifecycleOwner, statusSignUpObserve)
-        val statusChangeAvatarObserver = Observer<Boolean> {
-            if (it) {
+        val statusChangeAvatarObserver = Observer<Boolean?> {
+            if (it!=null && it==true) {
                 view?.let { it1 ->
+                    bindingMe?.progressBarUploadImage?.gone()
                     Snackbar.make(it1, Constant.SUCCESS_UPDATE, Snackbar.LENGTH_SHORT).show()
                 }
             }
@@ -133,6 +136,7 @@ class FragmentMe: BaseFragment() {
                            "image.jpg",
                            requestBody
                    )
+                   bindingMe?.progressBarUploadImage?.visible()
                    context?.let { setImg(returnUri.toString(), bindingMe?.ivAvatar, it) }
                    userViewModel?.changeAvatar(profilePic)
                }
@@ -152,6 +156,7 @@ class FragmentMe: BaseFragment() {
                         "image.jpg",
                         requestBody
                 )
+                bindingMe?.progressBarUploadImage?.visible()
                 userViewModel?.changeAvatar(profilePic)
                 bindingMe?.ivAvatar?.setImageBitmap(imageBitmap)
             }
@@ -222,8 +227,4 @@ class FragmentMe: BaseFragment() {
         }.executeAsync()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("key")?.removeObservers(viewLifecycleOwner)
-    }
 }

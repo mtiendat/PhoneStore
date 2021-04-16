@@ -3,6 +3,7 @@ package com.example.phonestore.view
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -39,12 +40,18 @@ class ActivityLogin: BaseActivity() {
     }
 
     override fun setUI() {
-        bindingLogin?.pBLogin?.setIndeterminateDrawableTiled(
-            FoldingCirclesDrawable.Builder(this).colors(resources.getIntArray(
-                R.array.google_colors)).build())
-        bindingLogin?.btnLoginWithFacebook?.setPermissions(listOf("public_profile", "email"))
-        setOnClickListener()
-        loginWithFacebook()
+        val manager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val internet = manager.isActiveNetworkMetered
+        if(internet) {
+            Toast.makeText(this, "Không có kết nối internet", Toast.LENGTH_SHORT).show()
+        }else {
+            bindingLogin?.pBLogin?.setIndeterminateDrawableTiled(
+                    FoldingCirclesDrawable.Builder(this).colors(resources.getIntArray(
+                            R.array.google_colors)).build())
+            bindingLogin?.btnLoginWithFacebook?.setPermissions(listOf("public_profile", "email"))
+            setOnClickListener()
+            loginWithFacebook()
+        }
 
     }
     fun setOnClickListener(){
@@ -72,6 +79,7 @@ class ActivityLogin: BaseActivity() {
         callbackManager = CallbackManager.Factory.create()
         bindingLogin?.btnLoginWithFacebook?.registerCallback(callbackManager, object :FacebookCallback<LoginResult?>{
             override fun onSuccess(result: LoginResult?) {
+                bindingLogin?.pBLogin?.visible()
                 getInfoUser(result?.accessToken, result?.accessToken?.userId)
             }
 

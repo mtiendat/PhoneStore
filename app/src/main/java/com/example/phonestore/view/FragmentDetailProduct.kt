@@ -18,12 +18,13 @@ import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentDetailProductBinding
 import com.example.phonestore.model.*
 import com.example.phonestore.services.Constant
-import com.example.phonestore.services.DetailProductAdapter
+import com.example.phonestore.services.adapter.DetailProductAdapter
 import com.example.phonestore.viewmodel.CartViewModel
 import com.example.phonestore.viewmodel.DetailProductViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
+import com.google.android.youtube.player.YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI
 import com.google.android.youtube.player.YouTubePlayerSupportFragmentX
 import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
 
@@ -67,6 +68,16 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         return bindingProductDetail?.root
     }
     override fun setUI() {
+        MainActivity.itemSearch?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                return true
+            }
+
+        })
         bindingProductDetail?.pbLoadVote?.setIndeterminateDrawableTiled(
                 FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(
                         R.array.google_colors)).build())
@@ -81,8 +92,8 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         productBuyNow?.clear()
         idCate = arguments?.getInt("idCate") ?:1
         val query = arguments?.getString("name")
-        MainActivity.searchView?.get()?.isIconified = true //Xóa tìm kiếm
-        MainActivity.searchView?.get()?.clearFocus()
+//        MainActivity.searchView?.get()?.isIconified = false //Xóa tìm kiếm
+//        MainActivity.searchView?.get()?.clearFocus()
         MainActivity.itemSearch?.collapseActionView()
         (requireActivity() as MainActivity).supportActionBar?.title = query //setTitle
         bindingProductDetail?.shimmerLayoutRelated?.startShimmer()
@@ -109,7 +120,8 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                         this.price,
                         color,
                         storage,
-                        bindingProductDetail?.tvDetailName?.text.toString(), this.img)
+                        bindingProductDetail?.tvDetailName?.text.toString(),
+                        this.img)
                 val productOrder = ProductOrder(product, 1, this.price)
                 this.productBuyNow?.add(productOrder)
                 val item = bundleOf("listProduct" to productBuyNow)
@@ -127,6 +139,9 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentAllVote, bundleOf("idCate" to idCate))
         }
         bindingProductDetail?.ivSupplierLogo?.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentSupplier, bundleOf("supplier" to supplier))
+        }
+        bindingProductDetail?.tvSupplierName?.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentSupplier, bundleOf("supplier" to supplier))
         }
     }
@@ -232,8 +247,10 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         }
         detailViewModel?.listStorage?.observe(viewLifecycleOwner, listStorageObserver)
         val colorObserve = Observer<String> {
-            setImg(it, bindingProductDetail?.ivDetailPhoto)
-            this.img = it
+            if(this.img !=it) {
+                setImg(it, bindingProductDetail?.ivDetailPhoto)
+                this.img = it
+            }
         }
         detailViewModel?.color?.observe(viewLifecycleOwner, colorObserve)
         val priceOldObserver = Observer<Int> {
@@ -317,6 +334,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         bindingProductDetail?.ratingBarDetail?.rating = product?.vote?.ratingBar() ?: 1f
         bindingProductDetail?.tvDetailTechnology?.text = product?.description
         bindingProductDetail?.tvStorageDetail?.text = product?.listStorage?.get(1)
+        this.img = product?.img
         setImg(product?.img, bindingProductDetail?.ivDetailPhoto)
         supplier = product?.supplier
         idYT = product?.trailer
@@ -379,6 +397,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         if(!wasRestore){
             Log.d("YOUTUBE", idYT.toString())
             player?.cueVideo(idYT)
+            player?.fullscreenControlFlags = FULLSCREEN_FLAG_CONTROL_SYSTEM_UI
         }
 
     }

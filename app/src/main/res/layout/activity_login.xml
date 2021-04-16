@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -94,14 +95,14 @@
     <com.facebook.login.widget.LoginButton
         android:id="@+id/btnLoginWithFacebook"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:background="@drawable/button_facebook"
         android:drawableStart="@drawable/com_facebook_button_icon"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:paddingStart="24dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="16dp"
         android:text="@string/dang_nhap_voi_facebook"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/btnLogin"
@@ -150,5 +151,15 @@
         android:textColorLink="@color/blue"
         app:layout_constraintStart_toStartOf="@+id/glLoginLeft"
         app:layout_constraintTop_toBottomOf="@+id/edtLoginPassword" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="0dp"
+        android:layout_height="88dp"
+        app:layout_constraintBottom_toTopOf="@+id/glLogin1"
+        app:layout_constraintEnd_toStartOf="@+id/glLoginRight"
+        app:layout_constraintStart_toStartOf="@+id/glLoginLeft"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_app" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

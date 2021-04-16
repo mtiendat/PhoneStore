@@ -3,6 +3,7 @@ package com.example.phonestore.view
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,12 +29,11 @@ import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentHomeBinding
 import com.example.phonestore.model.*
-import com.example.phonestore.services.ProductAdapter
-import com.example.phonestore.services.SlideAdapter
+import com.example.phonestore.services.adapter.ProductAdapter
+import com.example.phonestore.services.adapter.SlideAdapter
 import com.example.phonestore.viewmodel.ProductViewModel
 import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
 import java.util.*
-import kotlin.math.abs
 
 
 class FragmentHome : BaseFragment(){
@@ -55,6 +55,7 @@ class FragmentHome : BaseFragment(){
     private var flag = 0
     private var idSupplier: Int? = null
     private var orderBy: Int = 0
+    private var flagSupplier = 0
     private var slideRunnable = Runnable {
         bindingHome?.vpSlideShow?.currentItem = bindingHome?.vpSlideShow?.currentItem?.plus(1) ?:0
     }
@@ -66,6 +67,7 @@ class FragmentHome : BaseFragment(){
     }
 
     override fun setUI(){
+
         bindingHome?.pbRecommend?.setIndeterminateDrawableTiled(
                 FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(R.array.google_colors)).build()
         ) //set progressBar google
@@ -105,6 +107,8 @@ class FragmentHome : BaseFragment(){
                 initSlider()
                 setUpIndicator()
                 setCurrentIndicator(0)
+                bindingHome?.shimmerSlideShow?.stopShimmer()
+                bindingHome?.shimmerSlideShow?.gone()
             }
         }
         homeViewModel?.listSlideshow?.observe(requireActivity(), slideShowObserve)
@@ -124,6 +128,7 @@ class FragmentHome : BaseFragment(){
             cateProductAdapter?.notifyDataSetChanged()
             bindingHome?.shimmerLayoutRecommend?.stopShimmer()
             bindingHome?.shimmerLayoutRecommend?.gone()
+            Log.d("HAHAHAH", it.size.toString())
 
         }
         homeViewModel?.listCateProduct?.observe(viewLifecycleOwner, cateListProduct)
@@ -160,9 +165,13 @@ class FragmentHome : BaseFragment(){
             cateProductAdapter?.notifyDataSetChanged()
             bindingHome?.shimmerLayoutRecommend?.visible()
             bindingHome?.shimmerLayoutRecommend?.startShimmer()
+            idSupplier = null
+            flagSupplier = 0
             Handler(Looper.getMainLooper()).postDelayed({
                 homeViewModel?.getListCateProduct(1)
-            }, 2000)
+
+
+            }, 500)
 
         }
     }
@@ -174,7 +183,6 @@ class FragmentHome : BaseFragment(){
     private fun swipeRefresh(){
         bindingHome?.swipe?.setOnRefreshListener {
             savePage = 2
-            idSupplier = null
             viewModelStore.clear()
             clearList()
             init()
@@ -183,21 +191,26 @@ class FragmentHome : BaseFragment(){
             setViewModel()
             setObserve()
             getData()
-            bindingHome?.swipe?.isRefreshing = false
 
+            bindingHome?.swipe?.isRefreshing = false
         }
     }
     private fun getData(){
-        homeViewModel?.getSlideShow()
+        bindingHome?.shimmerSlideShow?.startShimmer()
         bindingHome?.shimmerLayoutHotSale?.startShimmer()
         bindingHome?.shimmerLayoutRecommend?.startShimmer()
         Handler(Looper.getMainLooper()).postDelayed({
+            homeViewModel?.getSlideShow()
             homeViewModel?.getListHotSaleProduct()
-        }, 2000)
+            if(flagSupplier==1) {
+                Log.d("HAHAHAHA", idSupplier.toString())
+                homeViewModel?.getListCateProduct(1, idSupplier = idSupplier)
+
+            }else homeViewModel?.getListCateProduct(1)
+        }, 1000)
         homeViewModel?.getListSupplier()
-        Handler(Looper.getMainLooper()).postDelayed({
-            homeViewModel?.getListCateProduct(1)
-        }, 2000)
+
+
 
     }
     private fun initRecyclerViewHotSale(){
@@ -219,6 +232,7 @@ class FragmentHome : BaseFragment(){
             bindingHome?.shimmerLayoutRecommend?.visible()
             bindingHome?.shimmerLayoutRecommend?.startShimmer()
             homeViewModel?.getListCateProduct(1, idSupplier = it)
+            flagSupplier = 1
         }
         bindingHome?.rvLogoSupplier?.adapter = supplierAdapter
         bindingHome?.rvLogoSupplier?.layoutManager = LinearLayoutManager(
@@ -239,10 +253,10 @@ class FragmentHome : BaseFragment(){
             override fun onLoadMore(page: Int, totalItemsCount: Int) {
                 if (page == 2) {
                     //Nếu back lại fragment, thì page khi scroll quay lại = 2, để giữ lại page trước đó
-                    homeViewModel?.getMoreListCateProduct(savePage, idSupplier)
+                    homeViewModel?.getMoreListCateProduct(savePage, idSupplier= idSupplier)
                 } else {
                     savePage = page // lưu lại page hiện tại
-                    homeViewModel?.getMoreListCateProduct(savePage, idSupplier)
+                    homeViewModel?.getMoreListCateProduct(savePage, idSupplier= idSupplier)
                 }
             }
 
@@ -259,12 +273,6 @@ class FragmentHome : BaseFragment(){
         bindingHome?.vpSlideShow?.getChildAt(0)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         val compositePageTransformer = CompositePageTransformer()
         compositePageTransformer.addTransformer(MarginPageTransformer(40))
-        compositePageTransformer.addTransformer { page, position ->
-            val r = 1 - abs(position)
-            page.scaleY = 1.3f + r * 0.2f
-            page.scaleX = 1.2f + r * 0.1f
-
-        }
         bindingHome?.vpSlideShow?.setPageTransformer(compositePageTransformer)
         bindingHome?.vpSlideShow?.registerOnPageChangeCallback(object :
                 ViewPager2.OnPageChangeCallback() {
@@ -285,21 +293,38 @@ class FragmentHome : BaseFragment(){
                 WRAP_CONTENT
         )
         layoutParams.setMargins(8, 0, 8, 0)
-        for(i in indicator?.indices!!){
-            indicator[i] = ImageView(activity?.applicationContext)
-            indicator[i].apply {
-                this?.setImageDrawable(
-                        activity?.let {
-                            ContextCompat.getDrawable(
-                                    it.applicationContext,
-                                    R.drawable.indicator_inactive
-                            )
-                        }
-                )
-                this?.layoutParams = layoutParams
+        activity?.applicationContext?.let {
+            for(i in indicator?.indices!!){
+                indicator[i] = ImageView(it)
+                indicator[i].apply {
+                    this?.setImageDrawable(
+                            activity?.let {
+                                ContextCompat.getDrawable(
+                                        it.applicationContext,
+                                        R.drawable.indicator_inactive
+                                )
+                            }
+                    )
+                    this?.layoutParams = layoutParams
+                }
+                bindingHome?.indicatorContainer?.addView(indicator[i])
             }
-            bindingHome?.indicatorContainer?.addView(indicator[i])
         }
+//        for(i in indicator?.indices!!){
+//            indicator[i] = ImageView(activity?.applicationContext)
+//            indicator[i].apply {
+//                this?.setImageDrawable(
+//                        activity?.let {
+//                            ContextCompat.getDrawable(
+//                                    it.applicationContext,
+//                                    R.drawable.indicator_inactive
+//                            )
+//                        }
+//                )
+//                this?.layoutParams = layoutParams
+//            }
+//            bindingHome?.indicatorContainer?.addView(indicator[i])
+//        }
 
     }
     private fun setCurrentIndicator(index: Int){

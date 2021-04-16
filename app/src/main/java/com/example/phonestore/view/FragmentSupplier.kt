@@ -11,7 +11,7 @@ import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentSupplierBinding
 import com.example.phonestore.model.Supplier
 import com.example.phonestore.services.Constant
-import com.example.phonestore.services.TabLayoutAdapter
+import com.example.phonestore.services.adapter.TabLayoutAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 class FragmentSupplier: BaseFragment() {
@@ -28,7 +28,8 @@ class FragmentSupplier: BaseFragment() {
                 FragmentSupplierAllProduct(supplier),
                 FragmentSupplierNewProduct(supplier)
         )
-        val adapter = activity?.let { TabLayoutAdapter(listFragment, it.supportFragmentManager, lifecycle) }
+        val adapter = activity?.let {
+            TabLayoutAdapter(listFragment, it.supportFragmentManager, lifecycle) }
         bindingSupplier?.vp2Supplier?.adapter = adapter
 
         val names: ArrayList<String> = arrayListOf(Constant.ALL, Constant.NEW_PRODUCT)

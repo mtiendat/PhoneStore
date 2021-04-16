@@ -1,4 +1,4 @@
-package com.example.phonestore.services
+package com.example.phonestore.services.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

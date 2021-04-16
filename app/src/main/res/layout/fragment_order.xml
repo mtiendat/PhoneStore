@@ -232,9 +232,10 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnCancelOrder"
-                android:layout_width="395dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
+                android:background="@color/blue"
                 android:text="@string/huy"
                 android:textAllCaps="false"
                 android:textColor="@color/white"

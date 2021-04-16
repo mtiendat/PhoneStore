@@ -1,4 +1,4 @@
-package com.example.phonestore.services
+package com.example.phonestore.services.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,6 +10,7 @@ import com.example.phonestore.databinding.ItemSearchNameBinding
 import com.example.phonestore.model.CateProductInfo
 
 class SearchAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    var onSetFlag:(()->Unit)? = null
     fun setItems(list: ArrayList<E>) {
         val currentSize: Int? = listProduct?.size
         listProduct?.clear()
@@ -32,7 +33,8 @@ class SearchAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Rec
         if(holder is ItemSearchNameViewHolder && item is CateProductInfo){
             holder.bindingSearch.btnSearchName.text = item.name
             holder.bindingSearch.btnSearchName.setOnClickListener {
-                it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("idCate" to item.id, "name" to item.name))
+                onSetFlag?.invoke()
+                it.findNavController().navigate(R.id.action_fragmentSearch_to_fragmentDetailProduct, bundleOf("idCate" to item.id, "name" to item.name))
             }
         }
     }

@@ -17,22 +17,35 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.phonestore.R
+import com.example.phonestore.databinding.SplashscreenBinding
+import com.example.phonestore.extendsion.gone
+import com.example.phonestore.extendsion.visible
 import com.example.phonestore.model.FormLogin
 import com.example.phonestore.services.Constant
 import com.example.phonestore.viewmodel.UserViewModel
+import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
 
 class SplashScreen :AppCompatActivity() {
     private var loginViewModel: UserViewModel? = null
+    private var bindingSplashScreen: SplashscreenBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        bindingSplashScreen = SplashscreenBinding.inflate(layoutInflater)
+        setContentView(bindingSplashScreen?.root)
         val manager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         val internet = manager.isActiveNetworkMetered
         if(internet) {
             Toast.makeText(this, "Không có kết nối internet", Toast.LENGTH_SHORT).show()
-        }
+        }else {
+            bindingSplashScreen?.progressBarSplashScreen?.setIndeterminateDrawableTiled(
+                    FoldingCirclesDrawable.Builder(this).colors(resources.getIntArray(
+                            R.array.google_colors)).build())
             checkAndRequestPermissions()
+        }
     }
     private fun init(){
+
         loginViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
         val statusObserve = Observer<Boolean?> {
             if (it) {
@@ -42,6 +55,7 @@ class SplashScreen :AppCompatActivity() {
         }
         loginViewModel?.status?.observe(this, statusObserve)
         Handler(Looper.getMainLooper()).postDelayed({
+            bindingSplashScreen?.progressBarSplashScreen?.visible()
             val ref: SharedPreferences = this.getSharedPreferences("saveAccount", Context.MODE_PRIVATE)
             if (ref.getString("email", "") != "") {
                 loginViewModel?.postLogin(FormLogin(ref.getString("email", ""), ref.getString("password", "")))
@@ -49,7 +63,7 @@ class SplashScreen :AppCompatActivity() {
                 startActivity(ActivityLogin.intentFor(this))
                 finish()
             }
-        }, 3000)
+        }, 2000)
     }
      private fun checkAndRequestPermissions(): Boolean {
         val camera = ContextCompat.checkSelfPermission(this,
@@ -108,6 +122,7 @@ class SplashScreen :AppCompatActivity() {
                                 }
                             }
                         } else {
+
                             init()
                         }
                     }

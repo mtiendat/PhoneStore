@@ -16,7 +16,7 @@ import com.example.phonestore.extendsion.gone
 import com.example.phonestore.model.MyOrder
 import com.example.phonestore.model.ProductOrder
 import com.example.phonestore.services.Constant
-import com.example.phonestore.services.DetailProductAdapter
+import com.example.phonestore.services.adapter.DetailProductAdapter
 import com.example.phonestore.viewmodel.OrderViewModel
 
 class FragmentFollowOrderDelivered: BaseFragment() {

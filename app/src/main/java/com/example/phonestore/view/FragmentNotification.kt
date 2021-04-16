@@ -12,7 +12,7 @@ import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentNotificationBinding
 import com.example.phonestore.model.Notification
-import com.example.phonestore.services.DetailProductAdapter
+import com.example.phonestore.services.adapter.DetailProductAdapter
 import com.example.phonestore.services.SwipeHelper
 import com.example.phonestore.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -33,8 +33,10 @@ class FragmentNotification: BaseFragment() {
 
     override fun setObserve() {
         val notificationObserve = Observer<ArrayList<Notification>?>{
-            listNotification?.addAll(it)
-            notificationAdapter?.setItems(it)
+            it?.let {
+                listNotification?.addAll(it) //bug
+                notificationAdapter?.setItems(it)
+            }
         }
         notificationViewModel?.listNotification?.observe(viewLifecycleOwner, notificationObserve)
         val statusObserve = Observer<Boolean?>{
@@ -92,12 +94,10 @@ class FragmentNotification: BaseFragment() {
             )
     }
     private fun handle(position: Int){
-        for (i in listNotification!!) {
-            if (listNotification?.get(position) == i){
-                notificationViewModel?.deleteNotification(i.id)
-                listNotification?.remove(listNotification?.get(position))
-                notificationAdapter?.notifyDataSetChanged()
-            }
-        }
+        val item = listNotification?.get(position)?.id
+        listNotification?.removeIf{n ->n.id == item}
+        notificationAdapter?.notifyDataSetChanged()
+        notificationViewModel?.deleteNotification(item)
+
     }
 }

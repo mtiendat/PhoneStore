@@ -18,7 +18,7 @@
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_marginTop="8dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/iphone_12_mini_green" />

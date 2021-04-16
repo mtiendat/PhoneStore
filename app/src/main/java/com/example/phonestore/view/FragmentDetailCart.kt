@@ -1,7 +1,5 @@
 package com.example.phonestore.view
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +17,7 @@ import com.example.phonestore.databinding.FragmentDetailCartBinding
 import com.example.phonestore.model.DetailCart
 import com.example.phonestore.model.ProductOrder
 import com.example.phonestore.services.Constant
-import com.example.phonestore.services.DetailProductAdapter
+import com.example.phonestore.services.adapter.DetailProductAdapter
 import com.example.phonestore.services.SwipeHelper
 import com.example.phonestore.viewmodel.CartViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -52,8 +50,6 @@ class FragmentDetailCart: BaseFragment() {
             val item = bundleOf("listProduct" to listProductChoose)
             it.findNavController().navigate(R.id.action_fragmentDetailCart_to_fragmentOrder, item)
         }
-
-
     }
 
     override fun setViewModel() {
@@ -81,6 +77,7 @@ class FragmentDetailCart: BaseFragment() {
                 bindingDetailCart?.rvMyCart?.gone()
                 bindingDetailCart?.tvNoProductInCart?.visible()
                 bindingDetailCart?.progressBarDetailCart?.gone()
+
 
             }else {
                 bindingDetailCart?.rvMyCart?.visible()
@@ -112,14 +109,24 @@ class FragmentDetailCart: BaseFragment() {
     private fun featuresCart(){
     //set checkbox
         detailCartAdapter?.clickCheckBox = { total, state, product, qty ->
-
             if (total == 0 && !state && totalMoney == 0) { // loại đc trườg hợp check rồi, sau đó bỏ check nhưg tổng tiền = 0 thì nó sẽ trừ tiếp -> âm
                 totalMoney = 0
             }
             if (state) {
                 totalMoney += total
-                val productOrder = ProductOrder(product, qty, totalMoney)
-                listProductChoose?.add(productOrder)//thêm sp vào ds chờ. Để put qua order
+                if(!checkExist(product.id)){
+                    val productOrder = ProductOrder(product, qty, totalMoney)
+                    if(total>0) {
+                        listProductChoose?.add(productOrder)//thêm sp vào ds chờ. Để put qua order
+                    }
+                }else{
+                    for (i in listProductChoose!!) {
+                            if (i.product?.id == product.id) {
+                                i.total = totalMoney //Cập nhật lại số lượng
+                            }
+                        }
+                }
+
             } else {
                 totalMoney -= total
                 val productOrder = ProductOrder(product, qty, totalMoney)
@@ -135,7 +142,6 @@ class FragmentDetailCart: BaseFragment() {
         }
         // set + -
         detailCartAdapter?.clickMaxMin = { price, state ->
-
             if (state) {
                 totalMoney += price ?: 0
             } else totalMoney -= price ?: 0
@@ -149,16 +155,32 @@ class FragmentDetailCart: BaseFragment() {
                 bindingDetailCart?.btnOrder?.enabled()
             }
         }
-        detailCartAdapter?.updateProductInList = { idProduct, qty ->
+        detailCartAdapter?.updateProductInList = { product, qty ->
             if (listProduct != null) {
-                for (i in listProduct!!) {
-                    if (i.id == idProduct) {
-                        i.qty = qty //Cập nhật lại số lượng
-                    }
+
+                if(checkExist(product?.id)) { //Ktra sp có trong list đã chọn chưa
+                    if (qty != 0) {
+                        for (i in listProductChoose!!) {
+                            if (i.product?.id == product?.id) {
+                                i.qty = qty //Cập nhật lại số lượng
+                            }
+                        }
+                    } else listProductChoose?.removeIf { n -> n.product?.id == product?.id }//số lượng về 0 thì xóa sp khỏi ds đã chọn
+                }else {
+                    val productOrder = ProductOrder(product, qty, product?.price)
+                    listProductChoose?.add(productOrder)
                 }
 
             }
         }
+    }
+    private fun checkExist(idProduct: Int?): Boolean{
+        for (i in listProductChoose!!) {
+            if (i.product?.id == idProduct) {
+                return true
+            }
+        }
+        return false
     }
     private fun deleteButton() : SwipeHelper.UnderlayButton{
         return SwipeHelper.UnderlayButton(
@@ -174,6 +196,10 @@ class FragmentDetailCart: BaseFragment() {
     private fun handle(position: Int){
             for (i in listProduct!!) {
                 if (listProduct?.get(position) == i){
+                    if(position== listProduct?.size?.minus(1) ?: -1){
+                        bindingDetailCart?.tvTotalMoney?.text = "0"
+                        bindingDetailCart?.btnOrder?.enabled()
+                    }
                     detailCartViewModel?.deleteItem(i.idProduct)
                 }
             }

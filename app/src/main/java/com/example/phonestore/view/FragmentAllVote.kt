@@ -11,7 +11,7 @@ import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentAllVoteBinding
 import com.example.phonestore.model.Vote
-import com.example.phonestore.services.DetailProductAdapter
+import com.example.phonestore.services.adapter.DetailProductAdapter
 import com.example.phonestore.viewmodel.DetailProductViewModel
 import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
 

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -19,14 +20,14 @@ import com.example.phonestore.model.DetailCart
 import com.example.phonestore.model.Order
 import com.example.phonestore.model.ProductOrder
 import com.example.phonestore.services.Constant
-import com.example.phonestore.services.DetailProductAdapter
+import com.example.phonestore.services.adapter.DetailProductAdapter
 import com.example.phonestore.viewmodel.OrderViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class FragmentOrder: BaseFragment() {
 
     private var bindingOrderBinding: FragmentOrderBinding? = null
-    private var listProductOrder: ArrayList<ProductOrder>? = arrayListOf()
+    private var listProductOrder: ArrayList<ProductOrder>? = null
     private var orderAdapter: DetailProductAdapter<ProductOrder>? = null
     private var totalMoney: Int = 0
     private var idOrder:  Int? = 0
@@ -68,6 +69,7 @@ class FragmentOrder: BaseFragment() {
             bindingOrderBinding?.tvChangeInfo?.gone()
             if(state==Constant.CANCEL){
                 bindingOrderBinding?.btnCancelOrder?.visible()
+                context?.let { ContextCompat.getColor(it, R.color.dray) }?.let { bindingOrderBinding?.btnCancelOrder?.setBackgroundColor(it) }
                 bindingOrderBinding?.btnCancelOrder?.text = Constant.CANCEL
                 bindingOrderBinding?.btnCancelOrder?.enabled()
             }else if(state==Constant.RECEIVED){
@@ -75,7 +77,7 @@ class FragmentOrder: BaseFragment() {
             }
             bindingOrderBinding?.ctrlOrder?.gone()
         }
-        totalMoney = listProductOrder!!.size - 1 //lấy tổng tiền ở ptu vị trí cuối
+        totalMoney = listProductOrder?.size?.minus(1) ?: 0 //lấy tổng tiền ở ptu vị trí cuối
         bindingOrderBinding?.rvOrderProduct?.isNestedScrollingEnabled = false
         initRecyclerView()
         setOnClickListener()
@@ -124,6 +126,11 @@ class FragmentOrder: BaseFragment() {
             dialog.cancel()
         }
         val alertDialog = builder.create()
+        alertDialog.setOnShowListener {
+            context?.let {alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(it, R.color.blue))}
+            context?.let {alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(it, R.color.blue))}
+        }
+
         alertDialog.show()
     }
 }

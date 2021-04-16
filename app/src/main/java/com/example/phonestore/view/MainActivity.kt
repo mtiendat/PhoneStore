@@ -6,10 +6,12 @@ import android.graphics.drawable.LayerDrawable
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import com.example.phonestore.extendsion.gone
@@ -107,10 +109,12 @@ class MainActivity : BaseActivity() {
                 R.id.fragmentDetailProduct -> {
                     hideBottomNavigation()
                     hideIconSearch()
+                    showIconCart()
                 }
                 R.id.fragmentDetailCart -> {
                     hideBottomNavigation()
                     hideIconSearch()
+                    showIconCart()
                 }
                 R.id.fragmentOrder -> {
                     hideBottomNavigation()
@@ -121,6 +125,7 @@ class MainActivity : BaseActivity() {
                     hideBottomNavigation()
                     hideIconCart()
                     hideIconSearch()
+
                 }
                 R.id.fragmentSearch -> {
                     hideBottomNavigation()
@@ -139,13 +144,17 @@ class MainActivity : BaseActivity() {
                 R.id.fragmentChangeMyInfo -> {
                     hideBottomNavigation()
                     showIconSearch()
+                    showIconCart()
                 }
                 R.id.fragmentSupplier -> {
                     hideBottomNavigation()
                     showIconSearch()
+                    showIconCart()
                 }
                 R.id.fragmentHelper ->{
                     hideBottomNavigation()
+                    showIconCart()
+                    showIconSearch()
                 }
                 else-> {
                     showBottomNavigation()
@@ -185,10 +194,12 @@ class MainActivity : BaseActivity() {
         itemCart = menu?.findItem(R.id.fragmentDetailCart)
         icon = itemCart?.icon as LayerDrawable
         val s = itemSearch?.actionView as SearchView
-        val clearButton =s.findViewById(R.id.search_close_btn) as ImageView
-        clearButton.setImageResource(R.drawable.ic_clear)
         s.queryHint ="Bạn cần tìm gì ?"
         searchView = WeakReference(s)
+
+        val clearButton =s.findViewById(R.id.search_close_btn) as ImageView
+        clearButton.setImageResource(R.drawable.ic_clear)
+
         return true
 
     }

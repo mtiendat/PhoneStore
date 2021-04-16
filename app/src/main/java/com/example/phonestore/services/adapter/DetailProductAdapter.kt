@@ -1,4 +1,4 @@
-package com.example.phonestore.services
+package com.example.phonestore.services.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,12 +15,13 @@ import com.example.phonestore.extendsion.toVND
 import com.example.phonestore.R
 import com.example.phonestore.databinding.*
 import com.example.phonestore.model.*
+import com.example.phonestore.services.Constant
 
 class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var clickCheckBox: ((Int, Boolean, DetailCart, Int)->Unit)? = null
     var clickMaxMin: ((Int?, Boolean)->Unit)? = null
     private var check: Boolean? = null
-    var updateProductInList: ((Int?, Int)-> Unit)? = null
+    var updateProductInList: ((DetailCart?, Int)-> Unit)? = null
     var nextInfoOrder: ((Int, String?)-> Unit)? = null
     var updateNotification: ((Int?)-> Unit)? = null
     fun setItems(listItem: ArrayList<T>) {
@@ -83,6 +84,9 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             holder.bindingRelated.ivRelatedProduct.setOnClickListener {
                 it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("idCate" to item.id, "name" to item.name))
             }
+            holder.bindingRelated.ivRelatedProduct.setOnClickListener {
+                it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("idCate" to item.id, "name" to item.name))
+            }
             Glide.with(holder.itemView.context)
                     .load(item.img)
                     .error(R.drawable.noimage)
@@ -102,7 +106,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             holder.bindingProductInCart.cvMin.setOnClickListener {
                 if(qty > 0) {
                     qty--
-                    updateProductInList?.invoke(item.id, qty)
+                    updateProductInList?.invoke(item, qty)
                     holder.bindingProductInCart.tvProInCartQty.text = qty.toString()
                     if(qty>=0&& check == true) {
                         clickMaxMin?.invoke(price, false)
@@ -112,7 +116,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             holder.bindingProductInCart.cvMax.setOnClickListener {
                 if(qty < 2) {
                     qty++
-                    updateProductInList?.invoke(item.id, qty)
+                    updateProductInList?.invoke(item, qty)
                     holder.bindingProductInCart.tvProInCartQty.text = qty.toString()
                     if(check == true) {
                         clickMaxMin?.invoke(price, true)

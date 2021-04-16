@@ -43,12 +43,40 @@
                         android:orientation="horizontal"
                         app:layout_constraintGuide_percent="0.78" />
 
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/shimmerSlideShow"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:translationZ="4dp"
+                        app:layout_constraintBottom_toTopOf="@+id/glMainTop"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shimmer_repeat_mode="restart"
+                        app:shimmer_shape="radial">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <include layout="@layout/item_shimmer_slideshow" />
+
+                        </LinearLayout>
+                    </com.facebook.shimmer.ShimmerFrameLayout>
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/vpSlideShow"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
                         android:background="@drawable/background_gradient"
                         app:layout_constraintBottom_toTopOf="@+id/glMainTop"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,7 +84,7 @@
                         android:id="@+id/indicatorContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
+                        android:layout_marginBottom="10dp"
                         android:gravity="center"
                         android:orientation="horizontal"
                         app:layout_constraintBottom_toTopOf="@+id/glMainTop"

@@ -8,7 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#078FDB</color>
-    <color name="active">#CC34FBE8</color>
+    <color name="active">#34FBE8</color>
     <color name="inactive">#CCD1DCDC</color>
     <color name="red">#F44336</color>
     <color name="little_dray">#D3D3D3</color>
