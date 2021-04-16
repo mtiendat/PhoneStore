@@ -3,7 +3,7 @@ package com.example.phonestore.services
 import com.example.phonestore.model.User
 
 object Constant {
-    const val URL = "http://192.168.1.176:8000/api/"
+    const val URL = "http://192.168.1.172:8000/api/"
     const val KEY_API_YOUTUBE= "AIzaSyDrW8Kp1XXdwddwzkg43LJ3MtJTs8jzuqk"
     var TOKEN: String? = ""
     var idUser: Int  = 0

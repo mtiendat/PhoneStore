@@ -39,18 +39,20 @@ class FragmentBottomSheetChangeInfo: BottomSheetDialogFragment() {
         return if(title =="Địa chỉ"){
             if(bindingBottom?.edtChange?.text.isNullOrBlank()) {
                 bindingBottom?.edtChange?.error = Constant.VALIDATE_ADDRESS
-            }
-            false
+                false
+            }else true
         }else if(title =="SDT"){
             if(!Pattern.compile("^(0)+([0-9]{9})$").matcher(bindingBottom?.edtChange?.text!!).matches()) {
                 bindingBottom?.edtChange?.error = Constant.PHONE_INVALID
-            }
-            false
+                false
+            }else true
+
         }else if(title =="Tên"){
             if(bindingBottom?.edtChange?.text.isNullOrBlank()){
                 bindingBottom?.edtChange?.error = Constant.VALIDATE_FULL_NAME
-            }
-            false
+                false
+            }else true
+
         }else true
     }
 }
