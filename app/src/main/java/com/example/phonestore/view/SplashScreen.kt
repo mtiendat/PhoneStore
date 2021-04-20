@@ -35,14 +35,11 @@ class SplashScreen :AppCompatActivity() {
         setContentView(bindingSplashScreen?.root)
         val manager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         val internet = manager.isActiveNetworkMetered
-        if(internet) {
-            Toast.makeText(this, "Không có kết nối internet", Toast.LENGTH_SHORT).show()
-        }else {
             bindingSplashScreen?.progressBarSplashScreen?.setIndeterminateDrawableTiled(
                     FoldingCirclesDrawable.Builder(this).colors(resources.getIntArray(
                             R.array.google_colors)).build())
             checkAndRequestPermissions()
-        }
+        
     }
     private fun init(){
 

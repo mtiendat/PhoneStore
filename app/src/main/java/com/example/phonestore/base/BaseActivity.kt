@@ -42,11 +42,6 @@ abstract class BaseActivity: AppCompatActivity() {
         setBinding()
         setToolBar()
         setUI()
-        val manager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-        val internet = manager.isActiveNetworkMetered
-        if(internet) {
-            Toast.makeText(this, "Không có kết nối internet", Toast.LENGTH_SHORT).show()
-        }
     }
 
 

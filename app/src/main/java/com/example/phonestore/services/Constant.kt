@@ -3,7 +3,7 @@ package com.example.phonestore.services
 import com.example.phonestore.model.User
 
 object Constant {
-    const val URL = "http://192.168.1.172:8000/api/"
+    const val URL = "http://192.168.1.177:8000/api/"
     const val KEY_API_YOUTUBE= "AIzaSyDrW8Kp1XXdwddwzkg43LJ3MtJTs8jzuqk"
     var TOKEN: String? = ""
     var idUser: Int  = 0
@@ -40,7 +40,6 @@ object Constant {
     const val SUCCESS_UPDATE ="Cập nhật thành công"
     const val SUCCESS_CANCEL ="Hủy thành công"
     const val ERROR_VOTED ="Thất bại! Vui lòng thử lại sau..."
-
     const val CHANGE_PASSWORD_SUCCESS = "Đổi mật khẩu thành công"
     const val CONFIRM_PASSWORD_FAILURE = "Xác nhận password chưa đúng"
     const val FIND_ACCOUNT = "Tìm tài khoản"
