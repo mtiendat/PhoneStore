@@ -99,6 +99,12 @@ class FragmentOrder: BaseFragment() {
         bindingOrderBinding?.tvChangeInfo?.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentOrder_to_fragmentChangeMyInfo)
         }
+        bindingOrderBinding?.btnOrderShippingOption?.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentOrder_to_fragmentShippingOption)
+        }
+        bindingOrderBinding?.btnPaymentOption?.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentOrder_to_fragmentPaymentOption)
+        }
     }
     private fun setInfoOrder(){
         bindingOrderBinding?.tvOrderAddress?.text = Constant.user?.address

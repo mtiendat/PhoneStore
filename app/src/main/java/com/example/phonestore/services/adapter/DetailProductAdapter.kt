@@ -7,15 +7,17 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.phonestore.extendsion.ratingBar
-import com.example.phonestore.extendsion.toVND
 import com.example.phonestore.R
 import com.example.phonestore.databinding.*
+import com.example.phonestore.extendsion.ratingBar
+import com.example.phonestore.extendsion.toVND
 import com.example.phonestore.model.*
 import com.example.phonestore.services.Constant
+
 
 class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var clickCheckBox: ((Int, Boolean, DetailCart, Int)->Unit)? = null
@@ -132,7 +134,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                             clickCheckBox?.invoke(total, true, item, qty)
                             check = true
                         }
-                        false ->{
+                        false -> {
                             total = price * qty
                             clickCheckBox?.invoke(total, false, item, qty)
                             Log.d("hahah", "!!!!")
@@ -221,19 +223,19 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
     }
     private fun checkStateOrder(s: String, btn: Button){
         when(s){
-            Constant.RECEIVED ->{
+            Constant.RECEIVED -> {
                 btn.setBackgroundResource(R.drawable.custom_state_order_received)
                 btn.text = s
             }
-            Constant.TRANSPORTED ->{
+            Constant.TRANSPORTED -> {
                 btn.setBackgroundResource(R.drawable.custom_state_order_transported)
                 btn.text = s
             }
-            Constant.DELIVERED ->{
+            Constant.DELIVERED -> {
                 btn.setBackgroundResource(R.drawable.custom_state_order_delivered)
                 btn.text = s
             }
-            Constant.CANCEL ->{
+            Constant.CANCEL -> {
                 btn.setBackgroundResource(R.drawable.custom_state_order_cancel)
                 btn.text = s
             }

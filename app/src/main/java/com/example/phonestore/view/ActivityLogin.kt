@@ -14,6 +14,7 @@ import com.example.phonestore.extendsion.visible
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivityLoginBinding
+import com.example.phonestore.extendsion.AppEvent
 import com.example.phonestore.model.FormLogin
 import com.example.phonestore.model.User
 import com.example.phonestore.services.Constant
@@ -60,7 +61,7 @@ class ActivityLogin: BaseActivity() {
                 if(bindingLogin?.cbSaveAccount?.isChecked == true){
                     saveSharedPreferences(bindingLogin?.edtLoginEmail?.text.toString(), bindingLogin?.edtLoginPassword?.text.toString())
                 }
-                bindingLogin?.pBLogin?.visible()
+                AppEvent.notifyShowPopUp()
                 loginViewModel?.postLogin(FormLogin(bindingLogin?.edtLoginEmail?.text.toString(), bindingLogin?.edtLoginPassword?.text.toString()))
             }
         }
@@ -186,5 +187,11 @@ class ActivityLogin: BaseActivity() {
             bindingLogin?.edtLoginEmail?.error = Constant.EMAIL_INVALID
             false
         } else true
+    }
+    override fun onSuspendedAccount() {
+        runOnUiThread {
+            closePopup()
+            //XToast(this, "Your account has been suspended").show()
+        }
     }
 }

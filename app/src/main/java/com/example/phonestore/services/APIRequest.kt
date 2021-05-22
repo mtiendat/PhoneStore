@@ -5,9 +5,9 @@ import retrofit2.Response
 
 object APIRequest {
     inline fun <T> callRequest(
-            call: Call<T>?,
-            crossinline onSuccess: (T?) -> Unit,
-            crossinline onError: (String?) -> Unit
+        call: Call<T>?,
+        crossinline onSuccess: (T?) -> Unit,
+        crossinline onError: (String?) -> Unit
     ){
         call?.enqueue(object : retrofit2.Callback<T>{
             override fun onResponse(call: Call<T>, response: Response<T>) {

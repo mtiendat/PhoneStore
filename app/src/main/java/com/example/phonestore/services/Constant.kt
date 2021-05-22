@@ -3,8 +3,19 @@ package com.example.phonestore.services
 import com.example.phonestore.model.User
 
 object Constant {
-    const val URL = "http://192.168.1.177:8000/api/"
+    const val URL = "http://192.168.1.172:8000/api/"
     const val KEY_API_YOUTUBE= "AIzaSyDrW8Kp1XXdwddwzkg43LJ3MtJTs8jzuqk"
+    const val SERVER_ERROR = "Server error"
+    const val INTERNET_ERROR = "No internet connection"
+    const val CONNECT_ERROR = "No connect to server"
+    const val NOT_FOUND_API = 3001
+    const val REQUEST_TIMEOUT = "Request Timeout"
+    const val OAUTH_TOKEN_INVALID_OR_EXPIRED = 1007
+    const val ACCOUNT_NOT_ACTIVATED = 1009
+    const val REFRESH_TOKEN_INVALID = 1011
+    const val ACCOUNT_SUSPENDED = 1012
+    const val ACCOUNT_DELETED = 407
+
     var TOKEN: String? = ""
     var idUser: Int  = 0
     var user: User? = null
@@ -19,6 +30,7 @@ object Constant {
     const val VIEW_MY_ORDER = 6
     const val VIEW_VOTE = 7
     const val REQUEST_ID = 7
+    const val POPUP_MODEL = "popup_model"
     const val YES = "Có"
     const val NO = "Không"
     const val ALL ="Tất cả"

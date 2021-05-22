@@ -87,7 +87,7 @@ class MainActivity : BaseActivity() {
                 .build()
         setSupportActionBar(bindingMain?.toolbarMain?.toolbar)
         navController.addOnDestinationChangedListener { _, _, _ ->
-            bindingMain?.appBarLayout?.setExpanded(true, true)
+            bindingMain?.toolbarMain?.appBarLayout?.setExpanded(true, true)
         }
         setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNav = bindingMain?.bottomNavigationView
@@ -155,6 +155,11 @@ class MainActivity : BaseActivity() {
                     hideBottomNavigation()
                     showIconCart()
                     showIconSearch()
+                }
+                R.id.fragmentShippingOption ->{
+                    hideBottomNavigation()
+                    hideIconCart()
+                    hideIconSearch()
                 }
                 else-> {
                     showBottomNavigation()

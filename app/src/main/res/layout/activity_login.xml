@@ -85,7 +85,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLogin"
-        style="@style/ButtonStyle"
+        style="@style/ButtonFormStyle"
         android:layout_marginTop="8dp"
         android:text="@string/dang_nhap"
         app:layout_constraintEnd_toEndOf="@+id/edtLoginPassword"

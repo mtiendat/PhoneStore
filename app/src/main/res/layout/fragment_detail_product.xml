@@ -345,7 +345,12 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 app:layout_constraintTop_toTopOf="@+id/glDetailTechnology">
-
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guidelineTechnology"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.3" />
                 <TextView
                     android:id="@+id/tvTechnologyTitle"
                     android:layout_width="wrap_content"
@@ -353,8 +358,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/thong_so_ki_thuat"
-                    android:textAllCaps="true"
-                    android:textStyle="bold"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -365,41 +370,310 @@
                     app:layout_constraintBottom_toBottomOf="@+id/tvTechnologyTitle"
                     app:layout_constraintStart_toEndOf="@+id/tvTechnologyTitle"
                     app:layout_constraintTop_toTopOf="@+id/tvTechnologyTitle"
-                    app:srcCompat="@drawable/custom_button" />
+                    app:srcCompat="@drawable/custom_button_form" />
+
+                <View
+                    android:id="@+id/viewTechnology1"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/little_dray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvTechnologyTitle"
+                    app:layout_constraintTop_toBottomOf="@id/tvTechnologyTitle" />
+
+                <TextView
+                    android:id="@+id/tvTechnologyScreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Màn hình: "
+                    app:layout_constraintStart_toStartOf="@+id/viewTechnology1"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology1" />
+
+                <TextView
+                    android:id="@+id/tvTechnologyScreenDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text='LCD, 6.52", HD+'
+                    app:layout_constraintStart_toEndOf="@+id/guidelineTechnology"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology1" />
+
+                <View
+                    android:id="@+id/viewTechnology2"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/little_dray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvTechnologyScreen"
+                    app:layout_constraintTop_toBottomOf="@id/tvTechnologyScreenDetail" />
+
+                <TextView
+                    android:id="@+id/tvTechnologyOS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Hệ điều hành: "
+                    app:layout_constraintStart_toStartOf="@+id/viewTechnology2"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology2" />
+
+                <TextView
+                    android:id="@+id/tvTechnologyOSDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Android 10"
+                    app:layout_constraintStart_toEndOf="@+id/guidelineTechnology"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology2" />
+
+                <View
+                    android:id="@+id/viewTechnology3"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/little_dray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvTechnologyOS"
+                    app:layout_constraintTop_toBottomOf="@id/tvTechnologyOSDetail" />
+
+                <TextView
+                    android:id="@+id/tvTechnologyRearCamera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Camera sau: "
+                    app:layout_constraintStart_toStartOf="@+id/viewTechnology3"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology3" />
+
+                <TextView
+                    android:id="@+id/tvTechnologyRearCameraDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="16MP"
+                    app:layout_constraintStart_toEndOf="@+id/guidelineTechnology"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology3" />
+
+                <View
+                    android:id="@+id/viewTechnology4"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/little_dray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvTechnologyRearCamera"
+                    app:layout_constraintTop_toBottomOf="@id/tvTechnologyRearCameraDetail" />
+
+                <TextView
+                    android:id="@+id/tvTechnologyFrontCamera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Camera trước: "
+                    app:layout_constraintStart_toStartOf="@+id/viewTechnology4"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology4" />
+
+                <TextView
+                    android:id="@+id/tvTechnologyFrontCameraDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="8MP"
+                    app:layout_constraintStart_toEndOf="@+id/guidelineTechnology"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology4" />
+
+                <View
+                    android:id="@+id/viewTechnology5"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/little_dray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvTechnologyFrontCamera"
+                    app:layout_constraintTop_toBottomOf="@id/tvTechnologyFrontCameraDetail" />
+
+                <TextView
+                    android:id="@+id/tvTechnologyChip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Chip: "
+                    app:layout_constraintStart_toStartOf="@+id/viewTechnology5"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology5" />
+
+                <TextView
+                    android:id="@+id/tvTechnologyChipDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="MediaTek Helio P35 8 nhân"
+                    app:layout_constraintStart_toEndOf="@+id/guidelineTechnology"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology5" />
+
+                <View
+                    android:id="@+id/viewTechnology6"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/little_dray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvTechnologyChip"
+                    app:layout_constraintTop_toBottomOf="@id/tvTechnologyChipDetail" />
+
+                <TextView
+                    android:id="@+id/tvTechnologyRam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Ram: "
+                    app:layout_constraintStart_toStartOf="@+id/viewTechnology6"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology6" />
+
+                <TextView
+                    android:id="@+id/tvTechnologyRamDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="4 GB"
+                    app:layout_constraintStart_toEndOf="@+id/guidelineTechnology"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology6" />
+
+                <View
+                    android:id="@+id/viewTechnology7"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/little_dray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvTechnologyRam"
+                    app:layout_constraintTop_toBottomOf="@id/tvTechnologyRamDetail" />
+
+                <TextView
+                    android:id="@+id/tvDetailStorageInternal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/bo_nho_trong"
+                    app:layout_constraintStart_toStartOf="@+id/viewTechnology7"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology7" />
+
+                <TextView
+                    android:id="@+id/tvDetailStorageInternalDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="128 GB"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineTechnology"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology7" />
+
+                <View
+                    android:id="@+id/viewTechnology8"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/little_dray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvDetailStorageInternal"
+                    app:layout_constraintTop_toBottomOf="@id/tvDetailStorageInternalDetail" />
+
+                <TextView
+                    android:id="@+id/tvDetailStorageSim"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Sim"
+                    app:layout_constraintStart_toStartOf="@+id/viewTechnology8"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology8" />
+
+                <TextView
+                    android:id="@+id/tvDetailStorageSimDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="2 Nano SIM, Hỗ trợ 4G"
+                    app:layout_constraintStart_toEndOf="@+id/guidelineTechnology"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology8" />
+
+                <View
+                    android:id="@+id/viewTechnology9"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/little_dray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvDetailStorageSim"
+                    app:layout_constraintTop_toBottomOf="@id/tvDetailStorageSimDetail" />
+
+                <TextView
+                    android:id="@+id/tvDetailStoragePin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Pin"
+                    app:layout_constraintStart_toStartOf="@+id/viewTechnology9"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology9" />
+
+                <TextView
+                    android:id="@+id/tvDetailStoragePinDetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="5000 mAh"
+                    app:layout_constraintStart_toEndOf="@+id/guidelineTechnology"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology9" />
+
+                <View
+                    android:id="@+id/viewTechnology10"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@color/little_dray"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tvDetailStoragePin"
+                    app:layout_constraintTop_toBottomOf="@id/tvDetailStoragePinDetail" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnTechnologyDetailMore"
+                    style="@style/ButtonCornerStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Xem thêm cấu hình chi tiết"
+                    app:layout_constraintEnd_toEndOf="@+id/viewTechnology10"
+                    app:layout_constraintStart_toStartOf="@id/viewTechnology10"
+                    app:layout_constraintTop_toBottomOf="@id/viewTechnology10" />
+                <FrameLayout
+                    android:id="@+id/ytTrailer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="2dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btnTechnologyDetailMore" />
 
                 <TextView
                     android:id="@+id/tvDetailTechnology"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:textStyle="italic"
-                    app:layout_constraintStart_toStartOf="@+id/tvTechnologyTitle"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTechnologyTitle" />
+                    app:layout_constraintStart_toStartOf="@+id/ytTrailer"
+                    app:layout_constraintTop_toBottomOf="@+id/ytTrailer" />
 
-                <TextView
-                    android:id="@+id/tvDetailStorageInside"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bo_nho_trong"
-                    app:layout_constraintStart_toStartOf="@+id/tvDetailTechnology"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDetailTechnology" />
-
-                <TextView
-                    android:id="@+id/tvStorageDetail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tvDetailStorageInside"
-                    app:layout_constraintStart_toEndOf="@+id/tvDetailStorageInside" />
-
-                <FrameLayout
-                    android:id="@+id/ytTrailer"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="2dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvDetailStorageInside" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -536,7 +810,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        >
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnAddToCart"

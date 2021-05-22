@@ -31,7 +31,7 @@
     <string name="sdt">SDT</string>
     <string name="coming_soon">Coming soon</string>
     <string name="tong_cong">Tổng cộng:</string>
-    <string name="tiep_tuc">TIẾP TỤC</string>
+    <string name="tiep_tuc">Tiến hành đặt hàng</string>
     <string name="no_product_in_cart">Không có sản phẩm nào trong giỏ hàng</string>
     <string name="mo_hop_kiem_tra_nh_n_h_ng">Mở hộp kiểm tra nhận hàng</string>
     <string name="doi_tra_trong_30_ngay_neu_sp_loi">Đổi trả trong 30 ngày nếu sp lỗi</string>
@@ -59,7 +59,8 @@
     <string name="nhan_hang">Nhận hàng trong vòng 2 giờ làm việc</string>
     <string name="tien_hang_tam_tinh">Tiền hàng (Tạm tính):</string>
     <string name="phi_giao_hang">Phí giao hàng:</string>
-    <string name="hinh_thuc_thanh_toan">Hình thức thanh toán</string>
+    <string name="hinh_thuc_thanh_toan">Phương thức thanh toán</string>
+    <string name="hinh_thuc_nhan_hang">Hình thức nhận hàng</string>
     <string name="huy">Hủy</string>
     <string name="thanh_toan_khi_nhan_hang">Thanh toán khi nhận hàng</string>
     <string name="dat_hang">Đặt hàng</string>

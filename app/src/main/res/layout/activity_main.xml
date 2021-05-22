@@ -1,31 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.MainActivity">
-
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinatorLayout"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+        <include
+            android:id="@+id/toolbarMain"
+            layout="@layout/app_bar_main"
+            app:layout_collapseMode="pin" />
 
-                <com.google.android.material.appbar.AppBarLayout
-                    android:id="@+id/appBarLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:elevation="0dp">
-
-                        <include
-                            android:id="@+id/toolbarMain"
-                            layout="@layout/app_bar_main"
-                            app:layout_collapseMode="pin" />
-                </com.google.android.material.appbar.AppBarLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.example.phonestore.services.FixScrollingFooterBehavior"
+            tools:ignore="PrivateResource">
 
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/fragmentMain"
@@ -33,17 +24,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:defaultNavHost="true"
-                    app:layout_behavior="com.example.phonestore.services.FixScrollingFooterBehavior"
-                    app:navGraph="@navigation/nav_graph" />
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationView"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:theme="@style/BottomNavigationTheme"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:menu="@menu/menu_bottom_nav" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+                    app:navGraph="@navigation/nav_graph" />
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bottomNavigationView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:labelVisibilityMode="labeled"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:menu="@menu/menu_bottom_nav" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 

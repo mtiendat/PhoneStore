@@ -125,7 +125,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSignUp"
-        style="@style/ButtonStyle"
+        style="@style/ButtonFormStyle"
         android:text="@string/dang_ki_ngay"
         app:layout_constraintBottom_toTopOf="@+id/glSignUpFoot"
         app:layout_constraintEnd_toEndOf="@id/edtSignUpPassword"

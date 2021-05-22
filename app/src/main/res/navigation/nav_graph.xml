@@ -12,7 +12,8 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_fragmentHome_to_fragmentDetailProduct"
-            app:destination="@id/fragmentDetailProduct" />
+            app:destination="@id/fragmentDetailProduct"
+            />
         <action
             android:id="@+id/action_fragmentHome_to_fragmentSearch"
             app:destination="@id/fragmentSearch" />
@@ -68,6 +69,12 @@
         <action
             android:id="@+id/action_fragmentOrder_to_fragmentChangeMyInfo"
             app:destination="@id/fragmentChangeMyInfo" />
+        <action
+            android:id="@+id/action_fragmentOrder_to_fragmentShippingOption"
+            app:destination="@+id/fragmentShippingOption"/>
+        <action
+            android:id="@+id/action_fragmentOrder_to_fragmentPaymentOption"
+            app:destination="@+id/fragmentPaymentOption"/>
     </fragment>
     <fragment
         android:id="@+id/fragmentSuccessOrder"
@@ -181,4 +188,12 @@
         android:id="@+id/fragmentHelper"
         android:name="com.example.phonestore.view.FragmentHelper"
         android:label="Hỗ trợ" />
+    <fragment
+        android:id="@+id/fragmentShippingOption"
+        android:name="com.example.phonestore.view.FragmentShippingOption"
+        android:label="Hình thức nhận hàng"/>
+    <fragment
+        android:id="@+id/fragmentPaymentOption"
+        android:name="com.example.phonestore.view.FragmentPaymentOption"
+        android:label="Phương thức thanh toán"/>
 </navigation>

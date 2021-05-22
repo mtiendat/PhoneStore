@@ -1,0 +1,1298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glTechDetailMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.45" />
+
+        <TextView
+            android:id="@+id/tvtTechDetailTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Thông số kỹ thuật chi tiết"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDesignAndWeight"
+            style="@style/ButtonTechnologyStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="24dp"
+            android:text="Thiết kế &amp; Trọng lượng"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvtTechDetailTitle" />
+
+        <TextView
+            android:id="@+id/tvTechDesign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Thiết kế: "
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/btnDesignAndWeight"
+            app:layout_constraintTop_toBottomOf="@+id/btnDesignAndWeight" />
+
+        <TextView
+            android:id="@+id/tvTechDesignDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nguyên khối"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechDesign" />
+
+        <View
+            android:id="@+id/viewDesign"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnDesignAndWeight"
+            app:layout_constraintStart_toStartOf="@+id/tvTechDesign"
+            app:layout_constraintTop_toBottomOf="@id/tvTechDesignDetail" />
+        <TextView
+            android:id="@+id/tvTechMaterial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chất liệu:  "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnDesignAndWeight"
+            app:layout_constraintTop_toBottomOf="@+id/viewDesign" />
+
+        <TextView
+            android:id="@+id/tvTechMaterialDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Khung thép không gỉ &amp; Mặt lưng kính cường lực"
+            app:layout_constraintEnd_toEndOf="@+id/btnDesignAndWeight"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechMaterial" />
+
+        <View
+            android:id="@+id/viewMaterial"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnDesignAndWeight"
+            app:layout_constraintStart_toStartOf="@+id/tvTechMaterial"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechMaterialDetail" />
+        <TextView
+            android:id="@+id/tvTechSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextViewTechnologyStyle"
+            android:text="Kích thước:  "
+            app:layout_constraintStart_toStartOf="@+id/btnDesignAndWeight"
+            app:layout_constraintTop_toBottomOf="@+id/viewMaterial" />
+
+        <TextView
+            android:id="@+id/tvTechSizeDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Dài 160.8 mm - Ngang 78.1 mm - Dày 7.4 mm"
+            app:layout_constraintEnd_toEndOf="@+id/btnDesignAndWeight"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechSize" />
+
+        <View
+            android:id="@+id/viewSize"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnDesignAndWeight"
+            app:layout_constraintStart_toStartOf="@+id/tvTechSize"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechSizeDetail" />
+        <TextView
+            android:id="@+id/tvTechWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Khối lượng:  "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnDesignAndWeight"
+            app:layout_constraintTop_toBottomOf="@+id/viewSize" />
+
+        <TextView
+            android:id="@+id/tvTechWeightDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="228 g"
+            app:layout_constraintEnd_toEndOf="@+id/btnDesignAndWeight"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechWeight" />
+
+        <View
+            android:id="@+id/viewWeight"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnDesignAndWeight"
+            app:layout_constraintStart_toStartOf="@+id/tvTechWeight"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechWeightDetail" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnScreen"
+            style="@style/ButtonTechnologyStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Màn hình"
+            app:layout_constraintEnd_toEndOf="@+id/btnDesignAndWeight"
+            app:layout_constraintStart_toStartOf="@+id/btnDesignAndWeight"
+            app:layout_constraintTop_toBottomOf="@+id/viewWeight" />
+        <TextView
+            android:id="@+id/tvTechScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Công nghệ màn hình:  "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnScreen"
+            app:layout_constraintTop_toBottomOf="@+id/btnScreen" />
+
+        <TextView
+            android:id="@+id/tvTechScreenDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="OLED"
+            app:layout_constraintEnd_toEndOf="@+id/btnScreen"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechScreen" />
+
+        <View
+            android:id="@+id/viewScreen"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnScreen"
+            app:layout_constraintStart_toStartOf="@+id/tvTechScreen"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechScreenDetail" />
+        <TextView
+            android:id="@+id/tvTechScreenPixels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Độ phân giải:  "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnScreen"
+            app:layout_constraintTop_toBottomOf="@+id/viewScreen" />
+
+        <TextView
+            android:id="@+id/tvTechScreenPixelsDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="1284 x 2778 Pixels"
+            app:layout_constraintEnd_toEndOf="@+id/btnScreen"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechScreenPixels" />
+
+        <View
+            android:id="@+id/viewScreenPixels"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnScreen"
+            app:layout_constraintStart_toStartOf="@+id/tvTechScreenPixels"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechScreenPixelsDetail" />
+        <TextView
+            android:id="@+id/tvTechScreenSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kích thước màn hình:  "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnScreen"
+            app:layout_constraintTop_toBottomOf="@+id/viewScreenPixels" />
+
+        <TextView
+            android:id="@+id/tvTechScreenSizeDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="6.7"
+            app:layout_constraintEnd_toEndOf="@+id/btnScreen"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechScreenSize" />
+
+        <View
+            android:id="@+id/viewTechScreenSize"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnScreen"
+            app:layout_constraintStart_toStartOf="@+id/tvTechScreenSize"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechScreenSizeDetail" />
+        <TextView
+            android:id="@+id/tvTechScreenHz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tần số quét:  "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnScreen"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechScreenSize" />
+
+        <TextView
+            android:id="@+id/tvTechScreenHzDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="60 Hz"
+            app:layout_constraintEnd_toEndOf="@+id/btnScreen"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechScreenHz" />
+
+        <View
+            android:id="@+id/viewTechScreenHz"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnScreen"
+            app:layout_constraintStart_toStartOf="@+id/tvTechScreenHz"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechScreenHzDetail" />
+        <TextView
+            android:id="@+id/tvTechScreenLight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Độ sáng tối đa:  "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnScreen"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechScreenHz" />
+
+        <TextView
+            android:id="@+id/tvTechScreenLightDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="1200 nits"
+            app:layout_constraintEnd_toEndOf="@+id/btnScreen"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechScreenLight" />
+
+        <View
+            android:id="@+id/viewTechScreenLight"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnScreen"
+            app:layout_constraintStart_toStartOf="@+id/tvTechScreenLight"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechScreenLightDetail" />
+        <TextView
+            android:id="@+id/tvTechScreenGlass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mặt kính cảm ứng:  "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnScreen"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechScreenLight" />
+
+        <TextView
+            android:id="@+id/tvTechScreenGlassDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Kính cường lực Ceramic Shield"
+            app:layout_constraintEnd_toEndOf="@+id/btnScreen"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechScreenGlass" />
+
+        <View
+            android:id="@+id/viewTechScreenGlass"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnScreen"
+            app:layout_constraintStart_toStartOf="@+id/tvTechScreenGlass"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechScreenGlassDetail" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnRearCamera"
+            style="@style/ButtonTechnologyStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Camera sau"
+            app:layout_constraintEnd_toEndOf="@+id/viewTechScreenGlass"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/viewTechScreenGlass"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechScreenGlass" />
+        <TextView
+            android:id="@+id/tvTechRearCameraPixels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Độ phân giải: "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnRearCamera"
+            app:layout_constraintTop_toBottomOf="@+id/btnRearCamera" />
+
+        <TextView
+            android:id="@+id/tvTechRearCameraPixelsDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="3 camera 12 MP"
+            app:layout_constraintEnd_toEndOf="@+id/btnRearCamera"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechRearCameraPixels" />
+
+        <View
+            android:id="@+id/viewTechRearCameraPixels"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnRearCamera"
+            app:layout_constraintStart_toStartOf="@+id/tvTechRearCameraPixels"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechRearCameraPixelsDetail" />
+        <TextView
+            android:id="@+id/tvTechRearCameraVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quay phim: "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnRearCamera"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechRearCameraPixels" />
+
+        <TextView
+            android:id="@+id/tvTechRearCameraVideoDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="4K 2160p@60fps
+                        FullHD 1080p@60fps
+                        4K 2160p@24fps
+                        FullHD 1080p@30fps
+                        4K 2160p@30fps
+                        HD 720p@30fps"
+            app:layout_constraintEnd_toEndOf="@+id/btnRearCamera"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechRearCameraVideo" />
+
+        <View
+            android:id="@+id/viewTechRearCameraVideoDetail"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnRearCamera"
+            app:layout_constraintStart_toStartOf="@+id/tvTechRearCameraVideo"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechRearCameraVideoDetail" />
+        <TextView
+            android:id="@+id/tvTechRearCameraFlash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đèn Flash:  "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnRearCamera"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechRearCameraVideoDetail" />
+
+        <TextView
+            android:id="@+id/tvTechRearCameraFlashDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Đèn LED kép"
+            app:layout_constraintEnd_toEndOf="@+id/btnRearCamera"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechRearCameraFlash" />
+
+        <View
+            android:id="@+id/viewTechRearCameraFlash"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnRearCamera"
+            app:layout_constraintStart_toStartOf="@+id/tvTechRearCameraFlash"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechRearCameraFlashDetail" />
+        <TextView
+            android:id="@+id/tvTechRearCameraFeature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tính năng:  "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnRearCamera"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechRearCameraFlash" />
+
+        <TextView
+            android:id="@+id/tvTechRearCameraFeatureDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ban đêm (Night Mode)
+                          Trôi nhanh thời gian (Time Lapse)
+                          Quay chậm (Slow Motion)
+                          Xóa phông
+                          Zoom quang học
+                          Toàn cảnh (Panorama)
+                          Chống rung quang học (OIS)
+                          Tự động lấy nét (AF)
+                          Nhận diện khuôn mặt
+                          HDR
+                          Ảnh Raw
+                          Góc rộng (Wide)
+                          Góc siêu rộng (Ultrawide)"
+            app:layout_constraintEnd_toEndOf="@+id/btnRearCamera"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechRearCameraFeature" />
+
+        <View
+            android:id="@+id/viewTechRearCameraFeature"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnRearCamera"
+            app:layout_constraintStart_toStartOf="@+id/tvTechRearCameraFeature"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechRearCameraFeatureDetail" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFrontCamera"
+            style="@style/ButtonTechnologyStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Camera trước"
+            app:layout_constraintEnd_toEndOf="@+id/viewTechRearCameraFeature"
+            app:layout_constraintStart_toStartOf="@+id/viewTechRearCameraFeature"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechRearCameraFeature" />
+        <TextView
+            android:id="@+id/tvTechFrontCameraPixels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Độ phân giải: "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnFrontCamera"
+            app:layout_constraintTop_toBottomOf="@+id/btnFrontCamera" />
+
+        <TextView
+            android:id="@+id/tvTechFrontCameraPixelsDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="12 MP"
+            app:layout_constraintEnd_toEndOf="@+id/btnFrontCamera"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechFrontCameraPixels" />
+
+        <View
+            android:id="@+id/viewTechFrontCameraPixels"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnFrontCamera"
+            app:layout_constraintStart_toStartOf="@+id/tvTechFrontCameraPixels"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechFrontCameraPixelsDetail" />
+        <TextView
+            android:id="@+id/tvTechFrontCameraFeature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tính năng:  "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnFrontCamera"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechFrontCameraPixels" />
+
+        <TextView
+            android:id="@+id/tvTechFrontCameraFeatureDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Xóa phông
+                        Quay video 4K
+                        Nhãn dán (AR Stickers)
+                        Retina Flash
+                        Quay video HD
+                        Nhận diện khuôn mặt
+                        Quay video Full HD
+                        Tự động lấy nét (AF)
+                        HDR"
+            app:layout_constraintEnd_toEndOf="@+id/btnFrontCamera"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechFrontCameraFeature" />
+
+        <View
+            android:id="@+id/viewTechFrontCameraFeature"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnFrontCamera"
+            app:layout_constraintStart_toStartOf="@+id/tvTechFrontCameraFeature"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechFrontCameraFeatureDetail" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnOSandCPU"
+            style="@style/ButtonTechnologyStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Hệ điều hành &amp; CPU"
+            app:layout_constraintEnd_toEndOf="@+id/viewTechFrontCameraFeature"
+            app:layout_constraintStart_toStartOf="@+id/viewTechFrontCameraFeature"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechFrontCameraFeature" />
+        <TextView
+            android:id="@+id/tvTechOS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hệ điều hành:  "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnOSandCPU"
+            app:layout_constraintTop_toBottomOf="@+id/btnOSandCPU" />
+
+        <TextView
+            android:id="@+id/tvTechOSDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="IOS"
+            app:layout_constraintEnd_toEndOf="@+id/btnOSandCPU"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechOS" />
+
+        <View
+            android:id="@+id/viewTechOS"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnOSandCPU"
+            app:layout_constraintStart_toStartOf="@+id/tvTechOS"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechOSDetail" />
+        <TextView
+            android:id="@+id/tvTechOSCPU"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chip xử lý (CPU):   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnOSandCPU"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechOS" />
+
+        <TextView
+            android:id="@+id/tvTechOSCPUDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Apple A14 Bionic 6 nhân"
+            app:layout_constraintEnd_toEndOf="@+id/btnOSandCPU"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechOSCPU" />
+
+        <View
+            android:id="@+id/viewTechOSCPU"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnOSandCPU"
+            app:layout_constraintStart_toStartOf="@+id/tvTechOSCPU"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechOSCPUDetail" />
+        <TextView
+            android:id="@+id/tvTechOSCPUSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tốc độ CPU:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnOSandCPU"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechOSCPU" />
+
+        <TextView
+            android:id="@+id/tvTechOSCPUSpeedDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="2 nhân 3.1 GHz &amp; 4 nhân 1.8 GHz"
+            app:layout_constraintEnd_toEndOf="@+id/btnOSandCPU"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechOSCPUSpeed" />
+
+        <View
+            android:id="@+id/viewTechOSCPUSpeed"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnOSandCPU"
+            app:layout_constraintStart_toStartOf="@+id/tvTechOSCPUSpeed"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechOSCPUSpeedDetail" />
+        <TextView
+            android:id="@+id/tvTechGPU"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chip đồ họa (GPU):   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnOSandCPU"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechOSCPUSpeed" />
+
+        <TextView
+            android:id="@+id/tvTechGPUDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Apple GPU 4 nhân"
+            app:layout_constraintEnd_toEndOf="@+id/btnOSandCPU"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechGPU" />
+
+        <View
+            android:id="@+id/viewTechGPU"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnOSandCPU"
+            app:layout_constraintStart_toStartOf="@+id/tvTechGPU"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechGPUDetail" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnStorage"
+            style="@style/ButtonTechnologyStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Bộ nhớ &amp; Lưu trữ"
+            app:layout_constraintEnd_toEndOf="@+id/viewTechGPU"
+            app:layout_constraintStart_toStartOf="@+id/viewTechGPU"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechGPU" />
+        <TextView
+            android:id="@+id/tvTechRam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RAM:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnStorage"
+            app:layout_constraintTop_toBottomOf="@+id/btnStorage" />
+
+        <TextView
+            android:id="@+id/tvTechRamDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="6 GB"
+            app:layout_constraintEnd_toEndOf="@+id/btnStorage"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechRam" />
+
+        <View
+            android:id="@+id/viewTechRam"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnStorage"
+            app:layout_constraintStart_toStartOf="@+id/tvTechRam"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechRamDetail" />
+        <TextView
+            android:id="@+id/tvTechStorage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bộ nhớ trong:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechRam"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechRam" />
+
+        <TextView
+            android:id="@+id/tvTechStorageDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="512 GB"
+            app:layout_constraintEnd_toEndOf="@+id/btnStorage"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechStorage" />
+
+        <View
+            android:id="@+id/viewTechStorage"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnStorage"
+            app:layout_constraintStart_toStartOf="@+id/tvTechStorage"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechStorageDetail" />
+        <TextView
+            android:id="@+id/tvTechStorageCanUse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bộ nhớ còn lại khoảng: "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechStorage"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechStorage" />
+
+        <TextView
+            android:id="@+id/tvTechStorageCanUseDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="497 GB"
+            app:layout_constraintEnd_toEndOf="@+id/btnStorage"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechStorageCanUse" />
+
+        <View
+            android:id="@+id/viewTechStorageCanUse"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnStorage"
+            app:layout_constraintStart_toStartOf="@+id/tvTechStorageCanUse"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechStorageDetail" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnConnect"
+            style="@style/ButtonTechnologyStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Kết nối"
+            app:layout_constraintEnd_toEndOf="@+id/viewTechStorageCanUse"
+            app:layout_constraintStart_toStartOf="@+id/viewTechStorageCanUse"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechStorageCanUse" />
+        <TextView
+            android:id="@+id/tvTechMobileNetwork"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mạng di động: "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnConnect"
+            app:layout_constraintTop_toBottomOf="@+id/btnConnect" />
+
+        <TextView
+            android:id="@+id/tvTechMobileNetworkDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Hỗ trợ 5G"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechMobileNetwork" />
+
+        <View
+            android:id="@+id/viewTechMobileNetwork"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/tvTechMobileNetwork"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechMobileNetworkDetail" />
+        <TextView
+            android:id="@+id/tvTechSim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sim: "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechMobileNetwork"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechMobileNetwork" />
+
+        <TextView
+            android:id="@+id/tvTechSimDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="1 Nano SIM &amp; 1 eSIM"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechSim" />
+
+        <View
+            android:id="@+id/viewTechSim"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/tvTechSim"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechSimDetail" />
+        <TextView
+            android:id="@+id/tvTechWifi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wifi: "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechSim"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechSim" />
+
+        <TextView
+            android:id="@+id/tvTechWifiDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Wi-Fi 802.11 a/b/g/n/ac/ax
+                            Wi-Fi hotspot
+                            Dual-band (2.4 GHz/5 GHz)"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechWifi" />
+
+        <View
+            android:id="@+id/viewTechWifi"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/tvTechWifi"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechWifiDetail" />
+        <TextView
+            android:id="@+id/tvTechGPS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GPS: "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechWifi"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechWifi" />
+
+        <TextView
+            android:id="@+id/tvTechGPSDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="A-GPS
+                            BDS
+                            GLONASS"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechGPS" />
+
+        <View
+            android:id="@+id/viewTechGPS"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/tvTechGPS"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechGPSDetail" />
+        <TextView
+            android:id="@+id/tvTechBluetooth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bluetooth: "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechGPS"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechGPS" />
+
+        <TextView
+            android:id="@+id/tvTechBluetoothDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="v5.0, A2DP"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechBluetooth" />
+
+        <View
+            android:id="@+id/viewTechBluetooth"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/tvTechBluetooth"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechBluetoothDetail" />
+        <TextView
+            android:id="@+id/tvTechCharge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cổng kết nối/sạc:  "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechBluetooth"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechBluetooth" />
+
+        <TextView
+            android:id="@+id/tvTechChargeDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Lightning"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechCharge" />
+
+        <View
+            android:id="@+id/viewTechCharge"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/tvTechCharge"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechChargeDetail" />
+        <TextView
+            android:id="@+id/tvTechJack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jack tai nghe:  "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechCharge"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechCharge" />
+
+        <TextView
+            android:id="@+id/tvTechJackDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Lightning"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechJack" />
+
+        <View
+            android:id="@+id/viewTechJack"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/tvTechJack"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechJackDetail" />
+        <TextView
+            android:id="@+id/tvTechOtherNetwork"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kết nối khác:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechJack"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechJack" />
+
+        <TextView
+            android:id="@+id/tvTechOtherNetworkDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="OTG"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechOtherNetwork" />
+
+        <View
+            android:id="@+id/viewTechOtherNetwork"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnConnect"
+            app:layout_constraintStart_toStartOf="@+id/tvTechOtherNetwork"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechOtherNetworkDetail" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBatteryAndCharge"
+            style="@style/ButtonTechnologyStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Pin &amp; Sạc"
+            app:layout_constraintEnd_toEndOf="@+id/viewTechOtherNetwork"
+            app:layout_constraintStart_toStartOf="@+id/viewTechOtherNetwork"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechOtherNetwork" />
+        <TextView
+            android:id="@+id/tvTechBattery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dung lượng pin:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintTop_toBottomOf="@+id/btnBatteryAndCharge" />
+
+        <TextView
+            android:id="@+id/tvTechBatteryDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="2815 mAh"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechBattery" />
+
+        <View
+            android:id="@+id/viewTechBattery"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/tvTechBattery"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechBatteryDetail" />
+        <TextView
+            android:id="@+id/tvTechBatteryCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Loại pin:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechBattery"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechBattery" />
+
+        <TextView
+            android:id="@+id/tvTechBatteryCategoryDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Li-Ion"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechBatteryCategory" />
+
+        <View
+            android:id="@+id/viewTechBatteryCategory"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/tvTechBatteryCategory"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechBatteryCategoryDetail" />
+        <TextView
+            android:id="@+id/tvTechBatteryTechnology"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Công nghệ pin:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechBatteryCategory"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechBatteryCategory" />
+
+        <TextView
+            android:id="@+id/tvTechBatteryTechnologyDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Sạc pin nhanh
+                        Sạc không dây
+                        Tiết kiệm pin
+                        Sạc không dây MagSafe"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechBatteryTechnology" />
+
+        <View
+            android:id="@+id/viewTechBatteryTechnology"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/tvTechBatteryTechnology"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechBatteryTechnologyDetail" />
+        <TextView
+            android:id="@+id/tvTechMaxCharge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hổ trợ sạc tối đa:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechBatteryTechnology"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechBatteryTechnology" />
+
+        <TextView
+            android:id="@+id/tvTechMaxChargeDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="20 W"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechMaxCharge" />
+
+        <View
+            android:id="@+id/viewTechMaxCharge"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/tvTechMaxCharge"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechMaxChargeDetail" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnUtilities"
+            style="@style/ButtonTechnologyStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Tiện ích"
+            app:layout_constraintEnd_toEndOf="@+id/viewTechMaxCharge"
+            app:layout_constraintStart_toStartOf="@+id/viewTechMaxCharge"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechMaxCharge" />
+        <TextView
+            android:id="@+id/tvTechSecurity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bảo mật nâng cao:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnUtilities"
+            app:layout_constraintTop_toBottomOf="@+id/btnUtilities" />
+
+        <TextView
+            android:id="@+id/tvTechSecurityDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Mở khoá khuôn mặt Face ID"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechSecurity" />
+
+        <View
+            android:id="@+id/viewTechSecurity"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/tvTechSecurity"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechSecurityDetail" />
+        <TextView
+            android:id="@+id/tvTechFeatureSpecial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tính năng đặc biệt:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechSecurity"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechSecurity" />
+
+        <TextView
+            android:id="@+id/tvTechFeatureSpecialDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Kháng nước, kháng bụi"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechFeatureSpecial" />
+
+        <View
+            android:id="@+id/viewTechFeatureSpecial"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/tvTechFeatureSpecial"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechFeatureSpecialDetail" />
+        <TextView
+            android:id="@+id/tvTechWaterProof"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chống nước:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechSecurity"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechSecurity" />
+
+        <TextView
+            android:id="@+id/tvTechWaterProofDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="IP68"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechWaterProof" />
+
+        <View
+            android:id="@+id/viewTechWaterProof"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/tvTechWaterProof"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechWaterProofDetail" />
+        <TextView
+            android:id="@+id/tvTechWaterRecord"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ghi âm:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechWaterProof"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechWaterProof" />
+
+        <TextView
+            android:id="@+id/tvTechRecordDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Có (microphone chuyên dụng chống ồn)"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechWaterRecord" />
+
+        <View
+            android:id="@+id/viewTechWaterRecord"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/tvTechWaterRecord"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechRecordDetail" />
+        <TextView
+            android:id="@+id/tvTechWatchMovie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xem phim:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechWaterRecord"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechWaterRecord" />
+
+        <TextView
+            android:id="@+id/tvTechWatchMovieDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="H.264(MPEG4-AVC)"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechWatchMovie" />
+
+        <View
+            android:id="@+id/viewTechWatchMovie"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/tvTechWatchMovie"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechWatchMovieDetail" />
+        <TextView
+            android:id="@+id/tvTechMusic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nghe nhạc:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/viewTechWatchMovie"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechWatchMovie" />
+
+        <TextView
+            android:id="@+id/tvTechMusicDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="
+                        Lossless
+                        FLAC
+                        AAC
+                        MP3"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechMusic" />
+
+        <View
+            android:id="@+id/viewTechMusic"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/tvTechMusic"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechMusicDetail" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnOtherInfo"
+            style="@style/ButtonTechnologyStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Thông tin khác"
+            app:layout_constraintEnd_toEndOf="@+id/viewTechMusic"
+            app:layout_constraintStart_toStartOf="@+id/viewTechMusic"
+            app:layout_constraintTop_toBottomOf="@+id/viewTechMusic" />
+        <TextView
+            android:id="@+id/tvTechDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thời điểm ra mắt:   "
+            style="@style/TextViewTechnologyStyle"
+            app:layout_constraintStart_toStartOf="@+id/btnOtherInfo"
+            app:layout_constraintTop_toBottomOf="@+id/btnOtherInfo" />
+
+        <TextView
+            android:id="@+id/tvTechDateDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="11/2020"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/glTechDetailMain"
+            app:layout_constraintTop_toTopOf="@+id/tvTechDate" />
+
+        <View
+            android:id="@+id/viewTechDate"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/little_dray"
+            app:layout_constraintEnd_toEndOf="@+id/btnBatteryAndCharge"
+            app:layout_constraintStart_toStartOf="@+id/tvTechDate"
+            app:layout_constraintTop_toBottomOf="@+id/tvTechDateDetail" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

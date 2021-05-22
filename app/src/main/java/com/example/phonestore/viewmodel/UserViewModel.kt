@@ -1,12 +1,14 @@
 package com.example.phonestore.viewmodel
 
 
+import android.accounts.NetworkErrorException
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.phonestore.model.FormLogin
 import com.example.phonestore.model.LoginResponse
 import com.example.phonestore.model.Notification
 import com.example.phonestore.model.User
+import com.example.phonestore.repo.NetworkState
 import com.example.phonestore.repo.UserRepo
 import com.example.phonestore.services.Constant
 import okhttp3.MultipartBody
@@ -19,6 +21,9 @@ class UserViewModel: ViewModel() {
     var statusSocialNetwork:  MutableLiveData<Boolean> = MutableLiveData()
     var statusChangeAvatar: MutableLiveData<Boolean> = MutableLiveData()
     var listNotification: MutableLiveData<ArrayList<Notification>?> = MutableLiveData()
+    val errorLiveData: MutableLiveData<NetworkErrorException> = MutableLiveData()
+    val errorLiveDataChangeStatus: MutableLiveData<NetworkErrorException> = MutableLiveData()
+    val networkState: MutableLiveData<NetworkState> = MutableLiveData()
     fun postLogin(user: FormLogin){
         userRepo.callLogin(user, this::onLoginSuccess, this::onError)
     }

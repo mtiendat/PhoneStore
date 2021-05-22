@@ -50,6 +50,7 @@ class FragmentDetailCart: BaseFragment() {
             val item = bundleOf("listProduct" to listProductChoose)
             it.findNavController().navigate(R.id.action_fragmentDetailCart_to_fragmentOrder, item)
         }
+        bindingDetailCart?.rvMyCart?.isNestedScrollingEnabled = false
     }
 
     override fun setViewModel() {

@@ -144,6 +144,9 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         bindingProductDetail?.tvSupplierName?.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentSupplier, bundleOf("supplier" to supplier))
         }
+        bindingProductDetail?.btnTechnologyDetailMore?.setOnClickListener {
+            activity?.supportFragmentManager?.let { it1 -> FragmentDetailTechnology().show(it1, "FULL_DETAIL") }
+        }
     }
     private fun checkSelectSpinner(): Boolean{
         return when {
@@ -201,7 +204,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                     }
                     else -> {
                         storage =  parent?.getItemAtPosition(position).toString()
-                        bindingProductDetail?.tvStorageDetail?.text = storage
+                        bindingProductDetail?.tvDetailTechnology?.text = storage
                         if(color!=null){
                             detailViewModel?.getColorOrStorageProduct(
                                     idCate,
@@ -333,7 +336,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         bindingProductDetail?.tvDetaiPriceOld?.paintFlags = bindingProductDetail?.tvDetaiPriceOld?.strikeThrough()!!
         bindingProductDetail?.ratingBarDetail?.rating = product?.vote?.ratingBar() ?: 1f
         bindingProductDetail?.tvDetailTechnology?.text = product?.description
-        bindingProductDetail?.tvStorageDetail?.text = product?.listStorage?.get(1)
+        bindingProductDetail?.tvDetailStorageInternalDetail?.text = product?.listStorage?.get(1)
         this.img = product?.img
         setImg(product?.img, bindingProductDetail?.ivDetailPhoto)
         supplier = product?.supplier

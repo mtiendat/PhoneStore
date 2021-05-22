@@ -3,6 +3,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -12,10 +13,8 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/ctrlOrder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ctrlMyOrder"
@@ -131,37 +130,56 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnOrderShippingOption"
+                        style="@style/ButtonStyleIcon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:stateListAnimator="@null"
+                        android:text="@string/hinh_thuc_nhan_hang"
+                        android:textAlignment="viewStart"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <TextView
                         android:id="@+id/tvCateShip"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_height="19dp"
+                        android:layout_marginTop="13dp"
+                        android:layout_marginEnd="40dp"
                         android:text="@string/giao_hang_nhanh"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="@+id/ctrlFeeShip"
-                        app:layout_constraintTop_toTopOf="@id/ctrlFeeShip" />
-
+                        android:textStyle="italic"
+                        android:translationZ="4dp"
+                        app:layout_constraintEnd_toEndOf="@+id/btnOrderShippingOption"
+                        app:layout_constraintTop_toTopOf="@+id/btnOrderShippingOption" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/little_dray"
+                        app:layout_constraintTop_toBottomOf="@id/btnOrderShippingOption"/>
                     <TextView
                         android:id="@+id/tvShip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="24dp"
                         android:text="@string/free_ship"
                         android:textColor="@color/red"
                         android:textStyle="italic"
-                        app:layout_constraintEnd_toEndOf="@id/ctrlFeeShip"
-                        app:layout_constraintTop_toTopOf="@+id/tvCateShip" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/btnOrderShippingOption" />
 
                     <ImageView
                         android:id="@+id/ivShip"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
+                        android:layout_marginStart="24dp"
                         android:layout_marginBottom="16dp"
                         android:src="@drawable/ic_ship"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@+id/tvCateShip"
-                        app:layout_constraintTop_toBottomOf="@id/tvCateShip" />
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tvShip" />
 
                     <TextView
                         android:id="@+id/tvInfoReceive"
@@ -169,7 +187,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@string/nhan_hang"
-                        app:layout_constraintBottom_toBottomOf="@+id/ivShip"
                         app:layout_constraintStart_toEndOf="@+id/ivShip"
                         app:layout_constraintTop_toTopOf="@+id/ivShip" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -180,20 +197,21 @@
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:layout_marginTop="8dp"
-                android:background="@color/dray"
-                app:layout_constraintEnd_toEndOf="@+id/cvFeeShip"
-                app:layout_constraintStart_toStartOf="@+id/cvFeeShip"
+                android:background="@color/little_dray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cvFeeShip" />
 
             <TextView
                 android:id="@+id/tvOrderTotal1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/tien_hang_tam_tinh"
                 android:textColor="@color/dray"
                 app:layout_constraintStart_toStartOf="@+id/viewBottom"
-                app:layout_constraintTop_toBottomOf="@+id/btnOrderPay" />
+                app:layout_constraintTop_toBottomOf="@+id/btnPaymentOption" />
 
             <TextView
                 android:id="@+id/tvOrderTotalMoney"
@@ -221,7 +239,7 @@
                 app:layout_constraintTop_toTopOf="@+id/tvOrderShip" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnOrderPay"
+                android:id="@+id/btnPaymentOption"
                 style="@style/ButtonStyleIcon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -249,13 +267,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="40dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginTop="13dp"
                 android:text="@string/thanh_toan_khi_nhan_hang"
                 android:textStyle="italic"
                 android:translationZ="4dp"
-                app:layout_constraintBottom_toBottomOf="@+id/btnOrderPay"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/btnOrderPay" />
+                app:layout_constraintTop_toTopOf="@+id/btnPaymentOption" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
