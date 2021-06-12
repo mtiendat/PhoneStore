@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -16,118 +17,132 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.1" />
+        app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glSignUpFoot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.9" />
+        app:layout_constraintGuide_percent="0.8" />
 
-
-    <EditText
-        android:id="@+id/edtSignUpFullName"
-        style="@style/FormLoginStyle"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:drawableStart="@drawable/ic_person"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_name"
+        style="@style/TextInputLayout.OutlineBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         android:hint="@string/ho_ten"
-        android:inputType="textPersonName"
+        app:endIconMode="clear_text"
+        app:boxCornerRadiusBottomEnd="32dp"
+        app:boxCornerRadiusBottomStart="32dp"
+        app:boxCornerRadiusTopEnd="32dp"
+        app:boxCornerRadiusTopStart="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/glSignUpTop" />
+        app:layout_constraintTop_toTopOf="@+id/glSignUpTop">
 
-    <EditText
-        android:id="@+id/edtSignUpPhone"
-        style="@style/FormLoginStyle"
-        android:layout_width="0dp"
-        android:layout_marginTop="16dp"
-        android:drawableStart="@drawable/ic_phone"
-        android:hint="@string/so_dien_thoai"
-        android:inputType="phone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@id/edtSignUpFullName"
-        app:layout_constraintTop_toBottomOf="@+id/edtSignUpFullName" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtSignUpFullName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/edtSignUpLocation"
-        style="@style/FormLoginStyle"
-        android:layout_width="0dp"
-        android:layout_marginTop="16dp"
-        android:drawableStart="@drawable/ic_location"
-        android:hint="@string/dia_chi"
-        android:inputType="text|textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@id/edtSignUpPhone"
-        app:layout_constraintTop_toBottomOf="@+id/edtSignUpPhone" />
-
-    <EditText
-        android:id="@+id/edtSignUpEmail"
-        style="@style/FormLoginStyle"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:drawableStart="@drawable/ic_email"
-        android:hint="@string/nhap_email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtSignUpLocation" />
-
-    <EditText
-        android:id="@+id/edtSignUpPassword"
-        style="@style/FormLoginStyle"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:drawableStart="@drawable/ic_lock"
-        android:hint="@string/nhap_password"
-        android:inputType="textPassword"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_email"
+        style="@style/TextInputLayout.OutlineBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:hint="@string/email"
+        app:endIconMode="clear_text"
+        app:boxCornerRadiusBottomEnd="32dp"
+        app:boxCornerRadiusBottomStart="32dp"
+        app:boxCornerRadiusTopEnd="32dp"
+        app:boxCornerRadiusTopStart="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtSignUpEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/text_input_name">
 
-    <EditText
-        android:id="@+id/edtSignUpConfirmPassword"
-        style="@style/FormLoginStyle"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:drawableStart="@drawable/ic_lock"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtSignUpEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputPassword"
+        style="@style/TextInputLayout.OutlineBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:hint="@string/password"
+        app:boxCornerRadiusBottomEnd="32dp"
+        app:boxCornerRadiusBottomStart="32dp"
+        app:boxCornerRadiusTopEnd="32dp"
+        app:boxCornerRadiusTopStart="32dp"
+        app:endIconMode="password_toggle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_input_email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtSignUpPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputConfirmPassword"
+        style="@style/TextInputLayout.OutlineBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
         android:hint="@string/xac_nhan_password"
-        android:inputType="textPassword"
+        app:boxCornerRadiusBottomEnd="32dp"
+        app:boxCornerRadiusBottomStart="32dp"
+        app:boxCornerRadiusTopEnd="32dp"
+        app:boxCornerRadiusTopStart="32dp"
+        app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtSignUpPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputPassword">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtSignUpConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <CheckBox
         android:id="@+id/cbPrivacy"
-        android:layout_width="30dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:backgroundTintMode="@color/blue"
-        app:layout_constraintStart_toStartOf="@+id/edtSignUpConfirmPassword"
-        app:layout_constraintTop_toBottomOf="@+id/edtSignUpConfirmPassword" />
-
-    <TextView
-        android:id="@+id/tvSignUpPrivacy"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:text="@string/dong_y_chinh_sach"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/cbPrivacy"
-        app:layout_constraintEnd_toEndOf="@+id/edtSignUpPassword"
-        app:layout_constraintStart_toEndOf="@+id/cbPrivacy"
-        app:layout_constraintTop_toTopOf="@id/cbPrivacy" />
+        app:layout_constraintStart_toStartOf="@+id/textInputConfirmPassword"
+        app:layout_constraintTop_toBottomOf="@+id/textInputConfirmPassword" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSignUp"
         style="@style/ButtonFormStyle"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/dang_ki_ngay"
-        app:layout_constraintBottom_toTopOf="@+id/glSignUpFoot"
-        app:layout_constraintEnd_toEndOf="@id/edtSignUpPassword"
-        app:layout_constraintStart_toStartOf="@id/edtSignUpPassword" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cbPrivacy" />
 </androidx.constraintlayout.widget.ConstraintLayout>

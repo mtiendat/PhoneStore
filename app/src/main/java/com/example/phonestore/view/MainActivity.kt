@@ -6,22 +6,23 @@ import android.graphics.drawable.LayerDrawable
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
-import com.example.phonestore.extendsion.gone
-import com.example.phonestore.extendsion.visible
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivityMainBinding
+import com.example.phonestore.extendsion.gone
+import com.example.phonestore.extendsion.visible
 import com.example.phonestore.services.BadgeDrawable
+import com.example.phonestore.services.Constant
 import com.example.phonestore.viewmodel.CartViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import vn.zalopay.sdk.Environment
+import vn.zalopay.sdk.ZaloPaySDK
 import java.lang.ref.WeakReference
 
 
@@ -97,7 +98,8 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setUI() {
-        cartViewModel?.getTotalNotification()
+
+//        cartViewModel?.getTotalNotification()
     }
     override fun onSupportNavigateUp(): Boolean { //Setup appBarConfiguration có mũi tên back
         return NavigationUI.navigateUp(navController, appBarConfiguration)
@@ -114,7 +116,7 @@ class MainActivity : BaseActivity() {
                 R.id.fragmentDetailCart -> {
                     hideBottomNavigation()
                     hideIconSearch()
-                    showIconCart()
+                    hideIconCart()
                 }
                 R.id.fragmentOrder -> {
                     hideBottomNavigation()
@@ -160,6 +162,29 @@ class MainActivity : BaseActivity() {
                     hideBottomNavigation()
                     hideIconCart()
                     hideIconSearch()
+                }
+                R.id.fragmentWarranty ->{
+                    hideIconCart()
+                    hideIconSearch()
+                    hideBottomNavigation()
+                }
+                R.id.fragmentSelectAddress ->{
+                    hideIconCart()
+                    hideIconSearch()
+                    hideBottomNavigation()
+                }
+                R.id.fragmentMyDiscount ->{
+                    hideIconCart()
+                    hideIconSearch()
+                    hideBottomNavigation()
+                }
+                R.id.fragmentDetailTechnology ->{
+                    hideIconCart()
+                    hideIconSearch()
+                    hideBottomNavigation()
+                }
+                R.id.fragmentAllProduct ->{
+                    hideBottomNavigation()
                 }
                 else-> {
                     showBottomNavigation()
@@ -210,7 +235,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        cartViewModel?.getTotalProduct()
+//        cartViewModel?.getTotalProduct()
         return super.onPrepareOptionsMenu(menu)
 
     }
@@ -218,5 +243,7 @@ class MainActivity : BaseActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
+
+
 
 }

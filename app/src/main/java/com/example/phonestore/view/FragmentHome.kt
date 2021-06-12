@@ -3,7 +3,6 @@ package com.example.phonestore.view
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,15 +21,15 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.example.phonestore.services.EndlessRecyclerViewScrollListener
 import com.example.phonestore.extendsion.gone
 import com.example.phonestore.extendsion.visible
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentHomeBinding
 import com.example.phonestore.model.*
+import com.example.phonestore.services.adapter.FeaturedProductAdapter
 import com.example.phonestore.services.adapter.ProductAdapter
-import com.example.phonestore.services.adapter.SlideAdapter
+import com.example.phonestore.services.adapter.SlideshowAdapter
 import com.example.phonestore.viewmodel.ProductViewModel
 import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
 import java.util.*
@@ -38,18 +37,18 @@ import java.util.*
 
 class FragmentHome : BaseFragment(){
     private var bindingHome: FragmentHomeBinding? = null
-    private var sliderAdapter : SlideAdapter? = null
+    private var sliderAdapter : SlideshowAdapter? = null
     private var homeViewModel: ProductViewModel? = null
     private var hotSaleAdapter: ProductAdapter<ProductInfo>? = null
     private var supplierAdapter: ProductAdapter<Supplier>? = null
-    private var cateProductAdapter: ProductAdapter<CateProductInfo>? =null
+    private var featuredProductAdapter: FeaturedProductAdapter? = null
     private var listSlideshow: ArrayList<Slideshow> = arrayListOf()
     private var slideHandler: Handler = Handler(Looper.getMainLooper())
     private var productInfo: ProductInfo = ProductInfo()
     private var listProduct: ArrayList<ProductInfo>? = arrayListOf(productInfo)
     private var listSupplier: ArrayList<Supplier>? = arrayListOf()
-    private var listCateProduct: ArrayList<CateProductInfo>? = arrayListOf()
-    private var listSaveCateProductPrevious: ArrayList<CateProductInfo>? = arrayListOf()
+    private var listFeaturedProduct: ArrayList<ProductInfo>? = arrayListOf()
+    private var listSaveCateProductPrevious: ArrayList<ProductInfo>? = arrayListOf()
     private var sizeSlider: Int = 0
     private var savePage: Int = 2
     private var flag = 0
@@ -72,9 +71,9 @@ class FragmentHome : BaseFragment(){
                 FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(R.array.google_colors)).build()
         ) //set progressBar google
         bindingHome?.swipe?.setColorSchemeColors(Color.BLUE)
-        if(listSaveCateProductPrevious?.size?: 1 > 5) { //Nếu trường hợp đã load more nhiều hơn 1 page rồi, thì mới add list cũ vào
-            listSaveCateProductPrevious?.let { listCateProduct?.addAll(it) }
-        }
+//        if(listSaveCateProductPrevious?.size?: 1 > 5) { //Nếu trường hợp đã load more nhiều hơn 1 page rồi, thì mới add list cũ vào
+//            listSaveCateProductPrevious?.let { listCateProduct?.addAll(it) }
+//        }
         listSaveCateProductPrevious?.clear()
         if(flag==0) { //Nếu chưa
             getData()
@@ -123,15 +122,16 @@ class FragmentHome : BaseFragment(){
             supplierAdapter?.setItems(it)
         }
         homeViewModel?.listSupplier?.observe(viewLifecycleOwner, logoSupplierObserver)
-        val cateListProduct = Observer<ArrayList<CateProductInfo>?> {
-            listCateProduct?.addAll(it)
-            cateProductAdapter?.notifyDataSetChanged()
-            bindingHome?.shimmerLayoutRecommend?.stopShimmer()
-            bindingHome?.shimmerLayoutRecommend?.gone()
-            Log.d("HAHAHAH", it.size.toString())
 
-        }
-        homeViewModel?.listCateProduct?.observe(viewLifecycleOwner, cateListProduct)
+        homeViewModel?.listFeaturedProduct?.observe(viewLifecycleOwner, {
+            if (it != null) {
+                listFeaturedProduct?.addAll(it)
+                featuredProductAdapter?.notifyDataSetChanged()
+                bindingHome?.shimmerLayoutFeaturedProduct?.stopShimmer()
+                bindingHome?.shimmerLayoutFeaturedProduct?.gone()
+            }
+
+        })
     }
     private fun setOnClickListener(){
         bindingHome?.ivDiscount?.setOnClickListener {
@@ -142,37 +142,39 @@ class FragmentHome : BaseFragment(){
         }
         bindingHome?.btnSortPrice?.setOnClickListener {
             bindingHome?.pbRecommend?.visible()
-            if(orderBy ==0) {
-                listCateProduct?.sortWith { o1, o2 ->
-                    o1.priceNew - o2.priceNew //Tăng dần
-                }
-                cateProductAdapter?.notifyDataSetChanged()
-                bindingHome?.pbRecommend?.gone()
-                orderBy = 1
-                bindingHome?.btnSortPrice?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_down, 0)
-                return@setOnClickListener
-            }else if(orderBy==1)
-                listCateProduct?.sortWith { o1, o2 ->
-                    o2.priceNew - o1.priceNew //Giảm dần
-                }
-            cateProductAdapter?.notifyDataSetChanged()
+//            if(orderBy ==0) {
+//                listCateProduct?.sortWith { o1, o2 ->
+//                    o1.priceNew - o2.priceNew //Tăng dần
+//                }
+//                cateProductAdapter?.notifyDataSetChanged()
+//                bindingHome?.pbRecommend?.gone()
+//                orderBy = 1
+//                bindingHome?.btnSortPrice?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_down, 0)
+//                return@setOnClickListener
+//            }else if(orderBy==1)
+//                listCateProduct?.sortWith { o1, o2 ->
+//                    o2.priceNew - o1.priceNew //Giảm dần
+//                }
+            featuredProductAdapter?.notifyDataSetChanged()
             bindingHome?.pbRecommend?.gone()
             orderBy = 0
             bindingHome?.btnSortPrice?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_up, 0)
         }
         bindingHome?.tvRecommended?.setOnClickListener {
-            listCateProduct?.clear()
-            cateProductAdapter?.notifyDataSetChanged()
-            bindingHome?.shimmerLayoutRecommend?.visible()
-            bindingHome?.shimmerLayoutRecommend?.startShimmer()
+            listFeaturedProduct?.clear()
+            featuredProductAdapter?.notifyDataSetChanged()
+            bindingHome?.shimmerLayoutFeaturedProduct?.visible()
+            bindingHome?.shimmerLayoutFeaturedProduct?.startShimmer()
             idSupplier = null
             flagSupplier = 0
             Handler(Looper.getMainLooper()).postDelayed({
-                homeViewModel?.getListCateProduct(1)
-
+                homeViewModel?.getFeaturedProduct(1)
 
             }, 500)
 
+        }
+        bindingHome?.tvViewAllProduct?.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentHome_to_fragmentAllProduct)
         }
     }
     private fun init(){
@@ -187,7 +189,7 @@ class FragmentHome : BaseFragment(){
             clearList()
             init()
             bindingHome?.shimmerLayoutHotSale?.visible()
-            bindingHome?.shimmerLayoutRecommend?.visible()
+            bindingHome?.shimmerLayoutFeaturedProduct?.visible()
             setViewModel()
             setObserve()
             getData()
@@ -198,19 +200,16 @@ class FragmentHome : BaseFragment(){
     private fun getData(){
         bindingHome?.shimmerSlideShow?.startShimmer()
         bindingHome?.shimmerLayoutHotSale?.startShimmer()
-        bindingHome?.shimmerLayoutRecommend?.startShimmer()
+        bindingHome?.shimmerLayoutFeaturedProduct?.startShimmer()
         Handler(Looper.getMainLooper()).postDelayed({
             homeViewModel?.getSlideShow()
             homeViewModel?.getListHotSaleProduct()
             if(flagSupplier==1) {
-                Log.d("HAHAHAHA", idSupplier.toString())
-                homeViewModel?.getListCateProduct(1, idSupplier = idSupplier)
+//                homeViewModel?.getFeaturedProduct(1, idSupplier = idSupplier)
 
-            }else homeViewModel?.getListCateProduct(1)
+            }else homeViewModel?.getFeaturedProduct()
         }, 1000)
         homeViewModel?.getListSupplier()
-
-
 
     }
     private fun initRecyclerViewHotSale(){
@@ -225,14 +224,14 @@ class FragmentHome : BaseFragment(){
     private fun initRecyclerViewLogo(){
         supplierAdapter = ProductAdapter(listSupplier)
         supplierAdapter?.onItemSupplierClick = {
-            idSupplier = it
-            savePage = 2
-            listCateProduct?.clear()
-            cateProductAdapter?.notifyDataSetChanged()
-            bindingHome?.shimmerLayoutRecommend?.visible()
-            bindingHome?.shimmerLayoutRecommend?.startShimmer()
-            homeViewModel?.getListCateProduct(1, idSupplier = it)
-            flagSupplier = 1
+//            idSupplier = it
+//            savePage = 2
+//            listCateProduct?.clear()
+//            cateProductAdapter?.notifyDataSetChanged()
+//            bindingHome?.shimmerLayoutRecommend?.visible()
+//            bindingHome?.shimmerLayoutRecommend?.startShimmer()
+//            homeViewModel?.getListCateProduct(1, idSupplier = it)
+//            flagSupplier = 1
         }
         bindingHome?.rvLogoSupplier?.adapter = supplierAdapter
         bindingHome?.rvLogoSupplier?.layoutManager = LinearLayoutManager(
@@ -246,26 +245,15 @@ class FragmentHome : BaseFragment(){
                 2,
                 LinearLayoutManager.VERTICAL
         )
-        cateProductAdapter = ProductAdapter(listCateProduct)
-        bindingHome?.rvRecommend?.adapter = cateProductAdapter
+        featuredProductAdapter = FeaturedProductAdapter(listFeaturedProduct)
+        bindingHome?.rvRecommend?.adapter = featuredProductAdapter
         bindingHome?.rvRecommend?.layoutManager =  staggeredGridLayoutManager
-        bindingHome?.nsvDetail?.setOnScrollChangeListener(object : EndlessRecyclerViewScrollListener(staggeredGridLayoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int) {
-                if (page == 2) {
-                    //Nếu back lại fragment, thì page khi scroll quay lại = 2, để giữ lại page trước đó
-                    homeViewModel?.getMoreListCateProduct(savePage, idSupplier= idSupplier)
-                } else {
-                    savePage = page // lưu lại page hiện tại
-                    homeViewModel?.getMoreListCateProduct(savePage, idSupplier= idSupplier)
-                }
-            }
 
-        })
         bindingHome?.rvRecommend?.isNestedScrollingEnabled = false //set rv không cuộn trong NestedScrollView
     }
     private fun initSlider(){
         sizeSlider = listSlideshow.size
-        sliderAdapter = SlideAdapter(listSlideshow, bindingHome?.vpSlideShow)
+        sliderAdapter = SlideshowAdapter(listSlideshow, bindingHome?.vpSlideShow)
         bindingHome?.vpSlideShow?.adapter = sliderAdapter
         bindingHome?.vpSlideShow?.clipToPadding = false
         bindingHome?.vpSlideShow?.clipChildren = false
@@ -310,21 +298,6 @@ class FragmentHome : BaseFragment(){
                 bindingHome?.indicatorContainer?.addView(indicator[i])
             }
         }
-//        for(i in indicator?.indices!!){
-//            indicator[i] = ImageView(activity?.applicationContext)
-//            indicator[i].apply {
-//                this?.setImageDrawable(
-//                        activity?.let {
-//                            ContextCompat.getDrawable(
-//                                    it.applicationContext,
-//                                    R.drawable.indicator_inactive
-//                            )
-//                        }
-//                )
-//                this?.layoutParams = layoutParams
-//            }
-//            bindingHome?.indicatorContainer?.addView(indicator[i])
-//        }
 
     }
     private fun setCurrentIndicator(index: Int){
@@ -353,7 +326,7 @@ class FragmentHome : BaseFragment(){
         }
     }
     private fun clearList(){
-        listCateProduct?.clear()
+        listFeaturedProduct?.clear()
         listProduct?.clear()
         listSupplier?.clear()
     }
@@ -361,7 +334,7 @@ class FragmentHome : BaseFragment(){
     override fun onDestroyView() {
         super.onDestroyView()
         //gán lại rổng, để không bị tăng item khi backPress
-        listCateProduct?.let { listSaveCateProductPrevious?.addAll(it) }
+        listFeaturedProduct?.let { listSaveCateProductPrevious?.addAll(it) }
         clearList()
         listSlideshow.clear()
         sliderAdapter?.notifyDataSetChanged()

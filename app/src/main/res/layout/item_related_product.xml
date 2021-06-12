@@ -1,46 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="8dp">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    app:cardCornerRadius="8dp">
 
-    <ImageView
-        android:id="@+id/ivRelatedProduct"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_marginTop="8dp"
-        android:scaleType="fitXY"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/iphone_12_mini_green" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDiscount"
+            android:layout_width="28dp"
+            android:layout_height="32dp"
+            android:translationZ="6dp"
+            android:layout_gravity="top|right"
+            android:text="-10%"
+            android:textColor="@color/white"
+            android:textSize="6dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitStart"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="3dp"
+            android:background="@drawable/ic_bookmark" />
 
-    <TextView
-        android:id="@+id/tvPriceRelatedProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toStartOf="@+id/ivRelatedProduct"
-        app:layout_constraintTop_toBottomOf="@+id/ivRelatedProduct" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
 
-    <RatingBar
-        android:id="@+id/ratingBarRelatedProduct"
-        style="@style/Widget.AppCompat.RatingBar.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:progressTint="@color/gold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvPriceRelatedProduct"
-        app:layout_constraintTop_toBottomOf="@+id/tvPriceRelatedProduct" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/ivRelatedProduct"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/iphone_12_mini_green" />
+
+            <TextView
+                android:id="@+id/tvNameRelatedProduct"
+                android:layout_width="120dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="8dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/ivRelatedProduct"
+                app:layout_constraintTop_toBottomOf="@+id/ivRelatedProduct" />
+
+            <TextView
+                android:id="@+id/tvPriceRelatedProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="29000000"
+                android:textColor="@color/red"
+                app:layout_constraintStart_toStartOf="@+id/tvNameRelatedProduct"
+                app:layout_constraintTop_toBottomOf="@+id/tvNameRelatedProduct" />
+
+            <TextView
+                android:id="@+id/tvPriceOldRelatedProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="39000000"
+                android:textColor="@color/dray"
+                android:textSize="12dp"
+                app:layout_constraintStart_toStartOf="@+id/tvPriceRelatedProduct"
+                app:layout_constraintTop_toBottomOf="@+id/tvPriceRelatedProduct" />
+
+            <RatingBar
+                android:id="@+id/ratingBarRelatedProduct"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:progressTint="@color/gold"
+                app:layout_constraintStart_toStartOf="@+id/tvPriceOldRelatedProduct"
+                app:layout_constraintTop_toBottomOf="@+id/tvPriceOldRelatedProduct" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
 </androidx.cardview.widget.CardView>

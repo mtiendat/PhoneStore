@@ -4,9 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="10dp"
-    android:paddingTop="10dp"
-    android:paddingEnd="10dp">
+    android:paddingBottom="10dp">
+
+    <View
+        android:id="@+id/viewOrderProduct"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/little_dray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/ivOrderProduct"
@@ -31,6 +38,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="@string/kha_nang_luu_tru"
         android:textColor="@color/dray"
         android:textStyle="italic"
@@ -41,8 +49,8 @@
         android:id="@+id/tvOrderStorageProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
 
+        android:layout_marginStart="4dp"
         android:textColor="@color/dray"
         android:textStyle="italic"
         app:layout_constraintStart_toEndOf="@+id/textView4"
@@ -62,7 +70,7 @@
         android:id="@+id/tvOderColorProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:textColor="@color/dray"
         android:textStyle="italic"
         app:layout_constraintStart_toEndOf="@+id/textView8"
@@ -76,7 +84,7 @@
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/ivOrderProduct"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvOderColorProduct" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <TextView
         android:id="@+id/textView11"
@@ -91,17 +99,10 @@
         android:id="@+id/tvOrderPriceProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/red_light"
+        app:layout_constraintBottom_toBottomOf="@+id/ivOrderProduct"
         app:layout_constraintStart_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/tvOrderQty" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-    <View
-        android:id="@+id/viewOrderProduct"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/dray"
-        app:layout_constraintEnd_toEndOf="@+id/tvOrderQty"
-        app:layout_constraintStart_toStartOf="@+id/ivOrderProduct"
-        app:layout_constraintTop_toBottomOf="@+id/ivOrderProduct" />
 </androidx.constraintlayout.widget.ConstraintLayout>

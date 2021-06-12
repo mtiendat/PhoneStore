@@ -2,6 +2,7 @@ package com.example.phonestore.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.example.phonestore.model.cart.DetailCart
 
 class ProductOrder(var product: DetailCart? = null, var qty: Int? = 0, var total: Int?  = 0):Parcelable {
     constructor(parcel: Parcel) : this(

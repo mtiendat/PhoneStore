@@ -15,9 +15,9 @@ class ProductRepo {
             onError = {message -> onError.invoke(message)}
         )
     }
-    fun callHotSaleProduct(index: Int, onSuccess: (ArrayList<ProductInfo>?) -> Unit, onError: (String?)->Unit){
+    fun callHotSaleProduct(onSuccess: (ArrayList<ProductInfo>?) -> Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.getTopProduct(index),
+            call = APIServices.getInstance()?.getTopProduct(),
             onSuccess = {results -> results?.listProduct?.let { onSuccess.invoke(it) } },
             onError = {message -> onError.invoke(message)}
         )
@@ -29,10 +29,10 @@ class ProductRepo {
             onError = {message -> onError.invoke(message)}
         )
     }
-    fun callCateProduct(page: Int? = 1, perPage:Int?=5 ,onSuccess: (ArrayList<CateProductInfo>?) -> Unit, onError: (String?)->Unit){
+    fun callFeaturedProduct(onSuccess: (ArrayList<ProductInfo>?) -> Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.getCateProduct(page, perPage),
-            onSuccess = {results -> results?.listCate?.let { onSuccess.invoke(it) } },
+            call = APIServices.getInstance()?.getFeaturedProduct(),
+            onSuccess = {results -> results?.listProduct?.let { onSuccess.invoke(it) } },
             onError = {message -> onError.invoke(message)}
         )
     }

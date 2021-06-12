@@ -26,6 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:text="Tiên Đạt"
         android:textColor="@color/dray"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/cvAvatarVote"
@@ -35,12 +36,11 @@
         android:id="@+id/tvVoteDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textColor="@color/dray"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/tvContentVote"
-        app:layout_constraintTop_toBottomOf="@+id/tvContentVote" />
+        app:layout_constraintTop_toBottomOf="@+id/rbDetailVote" />
 
     <RatingBar
         android:id="@+id/rbDetailVote"
@@ -49,7 +49,6 @@
         android:layout_height="wrap_content"
         android:progressTint="@color/gold"
         android:stepSize="1"
-
         app:layout_constraintStart_toStartOf="@+id/tvNameVote"
         app:layout_constraintTop_toBottomOf="@+id/tvNameVote" />
 
@@ -60,20 +59,78 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:maxLines="4"
+        android:text="TextView"
         android:textAlignment="viewStart"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/rbDetailVote"
-        app:layout_constraintTop_toBottomOf="@+id/rbDetailVote" />
+        app:layout_constraintTop_toBottomOf="@+id/tvVoteDate" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChildImage"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/tvContentVote"
+        app:layout_constraintStart_toStartOf="@id/tvContentVote"
+        app:layout_constraintTop_toBottomOf="@+id/tvContentVote"
+        tools:listitem="@layout/item_image_comment" />
+
+    <include
+
+        android:id="@+id/include"
+        layout="@layout/layout_like_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/rvChildImage"
+        app:layout_constraintTop_toBottomOf="@+id/rvChildImage" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnTotalReply"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:background="@color/white"
+        android:drawableEnd="@drawable/bg_arrow"
+        android:paddingStart="10dp"
+        android:stateListAnimator="@null"
+        android:text="10 lượt reply"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/rvChildImage"
+        app:layout_constraintStart_toStartOf="@+id/include"
+        app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_child_reply"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/rvChildImage"
+        app:layout_constraintStart_toStartOf="@+id/include"
+        app:layout_constraintTop_toBottomOf="@+id/btnTotalReply">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <include
+        android:id="@+id/sendComment"
+        layout="@layout/layout_reply_comment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/include"
+        app:layout_constraintTop_toBottomOf="@id/rv_child_reply" />
 
     <View
         android:id="@+id/viewVote"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_marginTop="8dp"
         android:background="@color/little_dray"
+
         app:layout_constraintEnd_toEndOf="@id/tvContentVote"
         app:layout_constraintStart_toStartOf="@id/cvAvatarVote"
-        app:layout_constraintTop_toBottomOf="@+id/tvVoteDate" />
+        app:layout_constraintTop_toBottomOf="@+id/sendComment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

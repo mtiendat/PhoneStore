@@ -8,7 +8,7 @@ import com.example.phonestore.repo.ProductRepo
 class ProductViewModel: ViewModel() {
     var listSlideshow: MutableLiveData<ArrayList<Slideshow>?> = MutableLiveData()
     var listProduct: MutableLiveData<ArrayList<ProductInfo>?> = MutableLiveData()
-    var listCateProduct: MutableLiveData<ArrayList<CateProductInfo>?> = MutableLiveData()
+    var listFeaturedProduct: MutableLiveData<ArrayList<ProductInfo>?> = MutableLiveData()
     var listResultSearch: MutableLiveData<ArrayList<CateProductInfo>?> = MutableLiveData()
     var listSupplier: MutableLiveData<ArrayList<Supplier>?> = MutableLiveData()
     private var messageError:  MutableLiveData<String> = MutableLiveData()
@@ -20,8 +20,7 @@ class ProductViewModel: ViewModel() {
     }
     fun getListHotSaleProduct(){
         if(listProduct.value?.size  == null) { //Nếu đã có dữ liệu thì không call api trong trường hợp back fragment
-
-            productRepo.callHotSaleProduct(1, this::onSuccessListHotSaleProduct, this::onError)
+            productRepo.callHotSaleProduct( this::onSuccessListHotSaleProduct, this::onError)
         }
     }
     fun getListSupplier(){
@@ -29,25 +28,26 @@ class ProductViewModel: ViewModel() {
             productRepo.callSupplier(this::onSuccessSupplier, this::onError)
         }
     }
-    fun getListCateProduct(page: Int = 1, perPage: Int? =5, idSupplier: Int? = null){
+    fun getFeaturedProduct(idSupplier: Int? = null){
         if(idSupplier == null) {
-            if (listCateProduct.value?.size == null ||page==1) {
-                productRepo.callCateProduct(page, perPage, this::onSuccessListCateProduct, this::onError)
+            if (listFeaturedProduct.value?.size == null ) {
+                productRepo.callFeaturedProduct(this::onSuccessListCateProduct, this::onError)
             }
-        }else productRepo.getCateProductBySupplier(page, idSupplier, perPage, this::onSuccessListCateProduct, this::onError)
+        }
+        // else productRepo.getCateProductBySupplier(page, idSupplier, perPage, this::onSuccessListCateProduct, this::onError)
     }
-    fun getNewCateProductBySupplier(idSupplier: Int? = null){
-            if (listCateProduct.value?.size == null) {
-                productRepo.getNewCateProductBySupplier(idSupplier, this::onSuccessListCateProduct, this::onError)
-            }
-    }
-    fun getMoreListCateProduct(page: Int = 1, idSupplier: Int? = null, perPage: Int? =5){
-        if(idSupplier == null) {
-            if (listCateProduct.value?.size == null || page > 1) {
-                productRepo.callCateProduct(page, perPage, this::onSuccessListCateProduct, this::onError)
-            }
-        }else productRepo.getCateProductBySupplier(page, idSupplier, perPage, this::onSuccessListCateProduct, this::onError)
-    }
+//    fun getNewCateProductBySupplier(idSupplier: Int? = null){
+//            if (listCateProduct.value?.size == null) {
+//                productRepo.getNewCateProductBySupplier(idSupplier, this::onSuccessListCateProduct, this::onError)
+//            }
+//    }
+//    fun getMoreListCateProduct(page: Int = 1, idSupplier: Int? = null, perPage: Int? =5){
+//        if(idSupplier == null) {
+//            if (listCateProduct.value?.size == null || page > 1) {
+//                productRepo.callCateProduct(page, perPage, this::onSuccessListCateProduct, this::onError)
+//            }
+//        }else productRepo.getCateProductBySupplier(page, idSupplier, perPage, this::onSuccessListCateProduct, this::onError)
+//    }
     fun searchName(q: String?){
         productRepo.searchName(q, this::onSuccessResultSearch, this::onError)
     }
@@ -60,8 +60,8 @@ class ProductViewModel: ViewModel() {
     private fun onSuccessListHotSaleProduct(list:ArrayList<ProductInfo>?){
         listProduct.value = list
     }
-    private fun onSuccessListCateProduct(list: ArrayList<CateProductInfo>?){
-        this.listCateProduct.value = list
+    private fun onSuccessListCateProduct(list: ArrayList<ProductInfo>?){
+        this.listFeaturedProduct.value = list
     }
 
 

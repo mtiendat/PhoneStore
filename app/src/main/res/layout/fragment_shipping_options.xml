@@ -4,51 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/background">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnShippingReceive"
-        style="@style/ButtonStyleNoIcon"
+    <TextView
+        android:id="@+id/tvTitleShipping"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Giao hàng tận nơi"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="Chọn một hình thức giao hàng"
+        android:textColor="@color/dray"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ctrlShippingAtStore"
+    <RadioGroup
+        android:id="@+id/rgShipping"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/btnShippingReceive">
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleShipping">
 
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="Nhận hàng tại siêu thị"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatCheckBox
-            android:id="@+id/cbExpand"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:button="@drawable/bg_arrow"
-            app:layout_constraintBottom_toBottomOf="@+id/textView10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView10" />
-        <View
+        <RadioButton
+            android:id="@+id/btnShippingReceive"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/little_dray"
-            app:layout_constraintBottom_toBottomOf="@id/ctrlShippingAtStore"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@color/white"
+            android:buttonTint="@color/blue"
+            android:paddingStart="10dp"
+            android:text="Giao hàng tận nơi" />
+
+        <RadioButton
+            android:id="@+id/btnAtStore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@color/white"
+            android:buttonTint="@color/blue"
+            android:drawableEnd="@drawable/ic_arrow_down"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="Nhận hàng tại siêu thị" />
+    </RadioGroup>
+
+    <View
+        android:id="@+id/viewShipping"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/little_dray"
+        app:layout_constraintBottom_toBottomOf="@+id/rgShipping"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleShipping" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ctrlChooseAddressStore"
@@ -56,9 +69,8 @@
         android:layout_height="0dp"
         android:background="@drawable/custom_ctrl_stroke_active"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/guideline7"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ctrlShippingAtStore">
+        app:layout_constraintTop_toBottomOf="@id/rgShipping">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cvSnStore"
@@ -104,6 +116,7 @@
             app:layout_constraintGuide_percent="0.5" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAddressStore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -115,24 +128,23 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.54" />
-
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSave"
+        android:id="@+id/btnShipConfirm"
         style="@style/ButtonRectangleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="Lưu"
+        android:text="Xác nhận"
+        app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.547"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ctrlChooseAddressStore" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

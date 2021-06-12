@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,13 +15,14 @@ import com.example.phonestore.databinding.*
 import com.example.phonestore.extendsion.ratingBar
 import com.example.phonestore.extendsion.toVND
 import com.example.phonestore.model.*
+import com.example.phonestore.model.cart.DetailCart
+import com.example.phonestore.model.order.MyOrder
 import com.example.phonestore.services.Constant
 
 
 class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var clickCheckBox: ((Int, Boolean, DetailCart, Int)->Unit)? = null
     var clickMaxMin: ((Int?, Boolean)->Unit)? = null
-    private var check: Boolean? = null
     var updateProductInList: ((DetailCart?, Int)-> Unit)? = null
     var nextInfoOrder: ((Int, String?)-> Unit)? = null
     var updateNotification: ((Int?)-> Unit)? = null
@@ -36,7 +36,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
         }
         list?.size?.let { notifyItemRangeInserted(0, it) }
     }
-    class ItemRelatedProductViewHolder(val bindingRelated: ItemRelatedProductBinding): RecyclerView.ViewHolder(bindingRelated.root)
+
     class ItemProductInCartViewHolder(val bindingProductInCart: ItemProductInCartBinding): RecyclerView.ViewHolder(bindingProductInCart.root)
     class ItemProductOrderViewHolder(val bindingProductOrder: ItemProductOrderBinding): RecyclerView.ViewHolder(bindingProductOrder.root)
     class ItemMyOrderViewHolder(val bindingMyOrder: ItemOrderBinding): RecyclerView.ViewHolder(bindingMyOrder.root)
@@ -44,9 +44,6 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
     class ItemNotificationViewHolder(val bindingItemNotification: ItemNotificationBinding): RecyclerView.ViewHolder(bindingItemNotification.root)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            Constant.VIEW_CATEPRODUCT -> {
-                ItemRelatedProductViewHolder(ItemRelatedProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-            }
             Constant.VIEW_MYCART -> {
                 ItemProductInCartViewHolder(ItemProductInCartBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             }
@@ -74,26 +71,15 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                         )
                 )
             }
-            else -> ItemRelatedProductViewHolder(ItemRelatedProductBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+
+            else -> {ItemProductInCartViewHolder(ItemProductInCartBinding.inflate(LayoutInflater.from(parent.context), parent, false))}
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = list?.get(position)
-        if(holder is ItemRelatedProductViewHolder && item is CateProductInfo){
-            holder.bindingRelated.tvPriceRelatedProduct.text = item.priceNew.toVND()
-            holder.bindingRelated.ratingBarRelatedProduct.rating = item.vote?.ratingBar() ?: 0.1f
-            holder.bindingRelated.ivRelatedProduct.setOnClickListener {
-                it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("idCate" to item.id, "name" to item.name))
-            }
-            holder.bindingRelated.ivRelatedProduct.setOnClickListener {
-                it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("idCate" to item.id, "name" to item.name))
-            }
-            Glide.with(holder.itemView.context)
-                    .load(item.img)
-                    .error(R.drawable.noimage)
-                    .into(holder.bindingRelated.ivRelatedProduct)
-        }
+        var check: Boolean? = true
+
         if(holder is ItemProductInCartViewHolder && item is DetailCart){
             var qty: Int?
             val price: Int?  = item.price
@@ -137,7 +123,6 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                         false -> {
                             total = price * qty
                             clickCheckBox?.invoke(total, false, item, qty)
-                            Log.d("hahah", "!!!!")
                             check = false
                         }
                     }
@@ -212,7 +197,6 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
 
     override fun getItemViewType(position: Int): Int {
         return when(list?.get(0)){
-            is CateProductInfo -> Constant.VIEW_CATEPRODUCT
             is DetailCart -> Constant.VIEW_MYCART
             is ProductOrder -> Constant.VIEW_PRODUCT_ORDER
             is MyOrder -> Constant.VIEW_MY_ORDER

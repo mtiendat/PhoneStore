@@ -68,6 +68,7 @@ dependencies {
     def activity_version = "1.2.1"
     def fragment_version = "1.3.2"
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
+    implementation files('libs/zpdk-release-28052021.aar')
     //noinspection GradleDependency
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     //noinspection GradleDependency
@@ -99,6 +100,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-core:18.0.3'
     implementation 'com.google.firebase:firebase-messaging:21.1.0'
+
+    //zig-zig view
+    implementation 'ir.beigirad:ZigzagView:1.2.1'
 
 
 

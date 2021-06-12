@@ -1,9 +1,9 @@
 package com.example.phonestore.repo
 
-import com.example.phonestore.model.FormLogin
-import com.example.phonestore.model.LoginResponse
+import com.example.phonestore.model.auth.FormLogin
+import com.example.phonestore.model.auth.LoginResponse
 import com.example.phonestore.model.Notification
-import com.example.phonestore.model.User
+import com.example.phonestore.model.auth.User
 import com.example.phonestore.services.APIRequest
 import com.example.phonestore.services.APIServices
 import com.example.phonestore.services.Constant
@@ -31,7 +31,7 @@ class UserRepo {
             onError = {results -> onError.invoke(results)}
         )
     }
-    fun callChangePassword(email: String? ="",password: String? ="", onSuccess: (LoginResponse?)->Unit, onError: (String?)->Unit){
+    fun callChangePassword(email: String? ="", password: String? ="", onSuccess: (LoginResponse?)->Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
             call = APIServices.getInstance()?.changePassword(email, password),
             onSuccess = {results -> onSuccess.invoke(results)},

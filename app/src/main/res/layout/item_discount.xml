@@ -12,7 +12,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="136dp"
-        android:background="@drawable/custome_discount">
+        android:background="@drawable/custome_discount"
+        android:elevation="0dp">
 
         <View
             android:id="@+id/view"
@@ -58,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.37" />
+            app:layout_constraintGuide_end="247dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline9"
@@ -134,5 +135,27 @@
             android:text="HSD: 31/12/2021"
             app:layout_constraintBottom_toTopOf="@+id/guideline9"
             app:layout_constraintStart_toStartOf="@+id/guideline8" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="8dp"
+            app:cardBackgroundColor="@color/blue"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/tvDiscountDate"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvDiscountDate"
+            app:layout_constraintTop_toTopOf="@+id/tvDiscountDate">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/btnDiscountSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Áp dụng"
+                android:textColor="@color/white" />
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

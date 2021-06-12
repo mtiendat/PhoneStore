@@ -1,11 +1,16 @@
 package com.example.phonestore.repo
 
-import com.example.phonestore.model.MyOrder
-import com.example.phonestore.model.Order
+import com.example.phonestore.model.order.MyOrder
+import com.example.phonestore.model.order.Order
 import com.example.phonestore.model.ProductOrder
+import com.example.phonestore.model.payment.ZaloPayCreateOderResponse
+import com.example.phonestore.model.payment.ZaloPayCreateOrderParam
 import com.example.phonestore.services.APIRequest
 import com.example.phonestore.services.APIServices
 import com.example.phonestore.services.Constant
+import com.example.phonestore.services.payment.PaymentService
+import okhttp3.FormBody
+import okhttp3.RequestBody
 
 class OrderRepo {
     fun order(order: Order, onSuccess: (Boolean?)-> Unit, onError: (String?) -> Unit ){
@@ -34,6 +39,17 @@ class OrderRepo {
             call = APIServices.getInstance()?.cancelOrder(idOrder),
             onSuccess = {results ->onSuccess.invoke(results?.status)},
             onError = {e -> onError.invoke(e)}
+        )
+    }
+    fun sendPost(param: RequestBody, onSuccess: (ZaloPayCreateOderResponse?) -> Unit, onError: (String?)->Unit) {
+        APIRequest.callRequest(
+            call = PaymentService.getInstance()?.createOrder(param),
+            onSuccess = {
+                onSuccess.invoke(it)
+            },
+            onError = {
+                onError.invoke(it)
+            }
         )
     }
 }

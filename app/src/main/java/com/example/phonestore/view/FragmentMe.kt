@@ -83,6 +83,9 @@ class FragmentMe: BaseFragment() {
                 it.findNavController().navigate(R.id.action_fragmentMe_to_bottomSheetAvatar)
             }
         }
+        bindingMe?.btnWarranty?.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentWarranty)
+        }
     }
     private fun setData(){
         bindingMe?.tvMyName?.text = Constant.user?.name

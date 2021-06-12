@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <EditText
+        android:id="@+id/edtImei"
+        style="@style/EditTextRectangleStyle"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Nhập Imei "
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSubmitWarranty"
+        style="@style/ButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/blue"
+        android:text="Tra cứu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/glBtnSubmitFind"
+        app:layout_constraintTop_toBottomOf="@+id/edtImei" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glBtnSubmitFind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.64" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glWarranty1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glWarranty2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glWarranty3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glWarranty4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/glWarranty6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.65" />
+
+    <ImageView
+        android:id="@+id/ivWarrantyPhone"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/glWarranty2"
+        app:layout_constraintEnd_toStartOf="@+id/glWarranty4"
+        app:layout_constraintStart_toStartOf="@+id/glWarranty3"
+        app:layout_constraintTop_toTopOf="@+id/glWarranty1"
+        app:srcCompat="@drawable/iphone_12_mini_green" />
+
+    <TextView
+        android:id="@+id/tvWarrantyName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:text="iPhone 12"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/glWarranty4"
+        app:layout_constraintStart_toStartOf="@+id/glWarranty3"
+        app:layout_constraintTop_toBottomOf="@+id/ivWarrantyPhone" />
+
+    <TextView
+        android:id="@+id/tvWarrantyColorTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Màu sắc: "
+        app:layout_constraintStart_toStartOf="@+id/glWarranty3"
+        app:layout_constraintTop_toBottomOf="@+id/tvWarrantyName" />
+
+    <TextView
+        android:id="@+id/tvWarrantyColor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Xanh lá"
+        app:layout_constraintStart_toEndOf="@+id/tvWarrantyColorTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvWarrantyColorTitle" />
+
+    <TextView
+        android:id="@+id/tvWarrantyStorageTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Dung lượng: "
+        app:layout_constraintStart_toEndOf="@+id/tvWarrantyColor"
+        app:layout_constraintTop_toTopOf="@+id/tvWarrantyColor" />
+
+    <TextView
+        android:id="@+id/tvWarrantyStorge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="128 GB"
+        app:layout_constraintStart_toEndOf="@+id/tvWarrantyStorageTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvWarrantyStorageTitle" />
+
+    <TextView
+        android:id="@+id/tvWarrantyImeiTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:text="IMEI: "
+        app:layout_constraintStart_toStartOf="@+id/glWarranty3"
+        app:layout_constraintTop_toBottomOf="@+id/tvWarrantyColorTitle" />
+
+    <TextView
+        android:id="@+id/tvWarrantyImei"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="123456789111234"
+        app:layout_constraintStart_toEndOf="@+id/tvWarrantyImeiTitle"
+        app:layout_constraintTop_toTopOf="@+id/tvWarrantyImeiTitle" />
+
+    <TextView
+        android:id="@+id/tvWarrantyOther"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Kiểm tra số Imei khác >"
+        android:textColor="@color/blue"
+        app:layout_constraintEnd_toStartOf="@+id/glWarranty4"
+        app:layout_constraintStart_toStartOf="@+id/glWarranty3"
+        app:layout_constraintTop_toBottomOf="@+id/tvWarrantyImei" />
+
+    <TextView
+        android:id="@+id/tvWarrantyStateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trạng thái bảo hành: "
+        app:layout_constraintStart_toStartOf="@+id/glWarranty3"
+        app:layout_constraintTop_toTopOf="@+id/glWarranty6" />
+
+    <View
+        android:id="@+id/viewWarrantyBottom"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/little_dray"
+        app:layout_constraintEnd_toEndOf="@id/glWarranty4"
+        app:layout_constraintStart_toStartOf="@+id/glWarranty3"
+        app:layout_constraintTop_toBottomOf="@id/tvWarrantyOther" />
+    <TextView
+        android:id="@+id/tvWarrantyState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Còn bảo hành"
+        android:textColor="@color/green"
+        app:layout_constraintStart_toEndOf="@+id/tvWarrantyStateTitle"
+        app:layout_constraintTop_toTopOf="@+id/glWarranty6" />
+
+    <TextView
+        android:id="@+id/tvWarrantyTimeTitile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Còn lại: "
+        app:layout_constraintStart_toStartOf="@+id/glWarranty3"
+        app:layout_constraintTop_toBottomOf="@+id/tvWarrantyStateTitle" />
+
+    <TextView
+        android:id="@+id/tvWarrantyTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12 Tháng"
+        android:textColor="@color/green"
+        app:layout_constraintStart_toEndOf="@+id/tvWarrantyTimeTitile"
+        app:layout_constraintTop_toTopOf="@+id/tvWarrantyTimeTitile" />
+
+    <TextView
+        android:id="@+id/tvWarrantyTitleDateStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Bắt đầu: "
+        app:layout_constraintStart_toStartOf="@+id/glWarranty3"
+        app:layout_constraintTop_toBottomOf="@+id/tvWarrantyTimeTitile" />
+
+    <TextView
+        android:id="@+id/tvWarrantyDateStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="01/01/2020"
+        app:layout_constraintStart_toEndOf="@+id/tvWarrantyTitleDateStart"
+        app:layout_constraintTop_toTopOf="@+id/tvWarrantyTitleDateStart" />
+
+    <TextView
+        android:id="@+id/tvWarrantyTitleDateEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Kết thúc: "
+        app:layout_constraintStart_toStartOf="@+id/glWarranty3"
+        app:layout_constraintTop_toBottomOf="@+id/tvWarrantyTitleDateStart" />
+
+    <TextView
+        android:id="@+id/tvWarrantyDateEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="01/01/2021"
+        android:textColor="@color/red"
+        app:layout_constraintStart_toEndOf="@+id/tvWarrantyTitleDateEnd"
+        app:layout_constraintTop_toTopOf="@+id/tvWarrantyTitleDateEnd" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupFindWarranty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="btnSubmitWarranty,edtImei, glBtnSubmitFind" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupWarranty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="ivWarrantyPhone,tvWarrantyName,tvWarrantyColorTitle,tvWarrantyColor,tvWarrantyStorageTitle,tvWarrantyStorge,tvWarrantyImeiTitle,tvWarrantyImei,tvWarrantyOther,tvWarrantyStateTitle,tvWarrantyState,tvWarrantyTimeTitile,tvWarrantyTime,tvWarrantyTitleDateStart,tvWarrantyDateStart,tvWarrantyTitleDateEnd,tvWarrantyDateEnd, viewWarrantyBottom" />
+</androidx.constraintlayout.widget.ConstraintLayout>

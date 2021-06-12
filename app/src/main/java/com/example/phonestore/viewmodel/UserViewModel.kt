@@ -4,10 +4,10 @@ package com.example.phonestore.viewmodel
 import android.accounts.NetworkErrorException
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.phonestore.model.FormLogin
-import com.example.phonestore.model.LoginResponse
+import com.example.phonestore.model.auth.FormLogin
+import com.example.phonestore.model.auth.LoginResponse
 import com.example.phonestore.model.Notification
-import com.example.phonestore.model.User
+import com.example.phonestore.model.auth.User
 import com.example.phonestore.repo.NetworkState
 import com.example.phonestore.repo.UserRepo
 import com.example.phonestore.services.Constant
@@ -18,6 +18,7 @@ class UserViewModel: ViewModel() {
     var user: MutableLiveData<User> = MutableLiveData()
     var message:  MutableLiveData<String> = MutableLiveData()
     var status:  MutableLiveData<Boolean> = MutableLiveData()
+    var loginResponse:  MutableLiveData<LoginResponse> = MutableLiveData()
     var statusSocialNetwork:  MutableLiveData<Boolean> = MutableLiveData()
     var statusChangeAvatar: MutableLiveData<Boolean> = MutableLiveData()
     var listNotification: MutableLiveData<ArrayList<Notification>?> = MutableLiveData()
@@ -59,7 +60,7 @@ class UserViewModel: ViewModel() {
     }
     private fun onLoginSuccess(loginResponse: LoginResponse?){
         message.value = loginResponse?.message
-        status.value = loginResponse?.status
+        this.loginResponse.value = loginResponse
         user.value = loginResponse?.user
         loginResponse?.token?.let { Constant.TOKEN = it }
 
@@ -68,7 +69,7 @@ class UserViewModel: ViewModel() {
     }
     private fun onSignUpSuccess(loginResponse: LoginResponse?){
         message.value = loginResponse?.message
-        status.value = loginResponse?.status
+        this.loginResponse.value = loginResponse
     }
     private fun onSignUpSocialNetworkSuccess(loginResponse: LoginResponse?){
         statusSocialNetwork.value = loginResponse?.status
@@ -79,7 +80,7 @@ class UserViewModel: ViewModel() {
         Constant.user = loginResponse?.user
     }
     private fun onDeleteNotificationSuccess(b: Boolean?){
-        status.value = b
+        this.status.value = b
     }
     private fun onNotificationSuccess(list: ArrayList<Notification>?){
         listNotification.value = list

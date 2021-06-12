@@ -2,8 +2,8 @@ package com.example.phonestore.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.phonestore.model.Cart
-import com.example.phonestore.model.DetailCart
+import com.example.phonestore.model.cart.Cart
+import com.example.phonestore.model.cart.DetailCart
 import com.example.phonestore.repo.CartRepo
 
 class CartViewModel: ViewModel() {
@@ -15,7 +15,7 @@ class CartViewModel: ViewModel() {
     var totalNotification: MutableLiveData<Int> = MutableLiveData()
     
     var listProduct: MutableLiveData<ArrayList<DetailCart>?> = MutableLiveData()
-    private var totalMoney: MutableLiveData<Int> = MutableLiveData()
+    var totalMoney: MutableLiveData<Int> = MutableLiveData()
     private var cartRepo: CartRepo = CartRepo()
     fun addToCart(idProduct: Int?){
         cartRepo.addToCart(idProduct, this::onSuccessAddToCart, this::onError)

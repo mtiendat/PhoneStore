@@ -8,12 +8,12 @@
     <fragment
         android:id="@+id/fragmentHome"
         android:name="com.example.phonestore.view.FragmentHome"
-        android:label="Phone store"
+        android:label="LD Mobile"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_fragmentHome_to_fragmentDetailProduct"
-            app:destination="@id/fragmentDetailProduct"
-            />
+            app:destination="@id/fragmentDetailProduct" />
+
         <action
             android:id="@+id/action_fragmentHome_to_fragmentSearch"
             app:destination="@id/fragmentSearch" />
@@ -23,11 +23,15 @@
         <action
             android:id="@+id/action_fragmentHome_to_fragmentListSupplier"
             app:destination="@id/fragmentListSupplier" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentAllProduct"
+            app:destination="@id/fragmentAllProduct" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailProduct"
-        android:name="com.example.phonestore.view.FragmentDetailProduct"
+        android:name="com.example.phonestore.view.productDetail.FragmentDetailProduct"
         tools:layout="@layout/fragment_detail_product" >
+
         <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentHome"
             app:destination="@id/fragmentHome" />
@@ -40,19 +44,25 @@
         <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentSupplier"
             app:destination="@id/fragmentSupplier" />
+        <action
+            android:id="@+id/action_fragmentDetailProduct_to_fragmentDetailTechnology"
+            app:destination="@id/fragmentDetailTechnology" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailCart"
-        android:name="com.example.phonestore.view.FragmentDetailCart"
+        android:name="com.example.phonestore.view.cart.FragmentDetailCart"
         tools:layout="@layout/fragment_detail_cart"
         android:label="Giỏ hàng của bạn" >
         <action
             android:id="@+id/action_fragmentDetailCart_to_fragmentOrder"
             app:destination="@id/fragmentOrder" />
+        <action
+            android:id="@+id/action_fragmentDetailCart_to_fragmentMyDiscount"
+            app:destination="@id/fragmentMyDiscount" />
     </fragment>
     <fragment
         android:id="@+id/fragmentOrder"
-        android:name="com.example.phonestore.view.FragmentOrder"
+        android:name="com.example.phonestore.view.order.FragmentOrder"
         tools:layout="@layout/fragment_order"
         android:label="Kiểm tra" >
         <action
@@ -75,10 +85,13 @@
         <action
             android:id="@+id/action_fragmentOrder_to_fragmentPaymentOption"
             app:destination="@+id/fragmentPaymentOption"/>
+        <action
+            android:id="@+id/action_fragmentOrder_to_fragmentSelectAddress"
+            app:destination="@id/fragmentSelectAddress" />
     </fragment>
     <fragment
         android:id="@+id/fragmentSuccessOrder"
-        android:name="com.example.phonestore.view.FragmentSuccessOrder"
+        android:name="com.example.phonestore.view.order.FragmentSuccessOrder"
         tools:layout="@layout/fragment_success_order"
         android:label="Đặt hàng thành công" >
         <action
@@ -110,10 +123,13 @@
         <action
             android:id="@+id/action_fragmentMe_to_fragmentHelper"
             app:destination="@id/fragmentHelper" />
+        <action
+            android:id="@+id/action_fragmentMe_to_fragmentWarranty"
+            app:destination="@id/fragmentWarranty" />
     </fragment>
     <fragment
         android:id="@+id/fragmentFollowOrder"
-        android:name="com.example.phonestore.view.FragmentFollowOrder"
+        android:name="com.example.phonestore.view.order.FragmentFollowOrder"
         tools:layout="@layout/fragment_follow_order"
         android:label="Đơn hàng của bạn" >
         <action
@@ -122,7 +138,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentAllFollowOrder"
-        android:name="com.example.phonestore.view.FragmentFollowOrderAll"
+        android:name="com.example.phonestore.view.order.FragmentFollowOrderAll"
         tools:layout="@layout/fragment_follow_order_all"
         android:label="FragmentAllFollowOrder" />
     <action android:id="@+id/action_global_fragmentFollowOrder" app:destination="@id/fragmentFollowOrder"/>
@@ -139,17 +155,17 @@
         app:destination="@id/fragmentDetailProduct"/>
     <fragment
         android:id="@+id/fragmentAllVote"
-        android:name="com.example.phonestore.view.FragmentAllVote"
+        android:name="com.example.phonestore.view.productDetail.FragmentAllVote"
         android:label="Tất cả đánh giá"
         tools:layout="@layout/fragment_all_vote"/>
     <activity
         android:id="@+id/activityLogin"
-        android:name="com.example.phonestore.view.ActivityLogin"
+        android:name="com.example.phonestore.view.auth.ActivityLogin"
         tools:layout="@layout/activity_login"
         android:label="" />
     <fragment
         android:id="@+id/fragmentChangeMyInfo"
-        android:name="com.example.phonestore.view.FragmentChangeMyInfo"
+        android:name="com.example.phonestore.view.auth.FragmentChangeMyInfo"
         android:label="Thay đổi thông tin cá nhân"
         tools:layout="@layout/fragment_change_myinfo">
         <action
@@ -158,27 +174,22 @@
     </fragment>
     <dialog
         android:id="@+id/bottomSheet"
-        android:name="com.example.phonestore.view.FragmentBottomSheetChangeInfo"
+        android:name="com.example.phonestore.view.auth.FragmentBottomSheetChangeInfo"
         tools:layout="@layout/fragment_bottomsheet_dialog_change_info">
     </dialog>
     <dialog
         android:id="@+id/bottomSheetAvatar"
-        android:name="com.example.phonestore.view.FragmentBottomSheetAvatar"
+        android:name="com.example.phonestore.view.auth.FragmentBottomSheetAvatar"
         tools:layout="@layout/fragment_bottomsheet_dialog_avatar">
     </dialog>
     <fragment
         android:id="@+id/fragmentSupplier"
-        android:name="com.example.phonestore.view.FragmentSupplier"
+        android:name="com.example.phonestore.view.productDetail.FragmentSupplier"
         android:label=""
         tools:layout="@layout/fragment_supplier"/>
     <fragment
-        android:id="@+id/fragmentNotification"
-        android:name="com.example.phonestore.view.FragmentNotification"
-        tools:layout="@layout/fragment_notification"
-        android:label="Thông báo" />
-    <fragment
         android:id="@+id/fragmentDiscount"
-        android:name="com.example.phonestore.view.FragmentDiscount"
+        android:name="com.example.phonestore.view.cart.FragmentDiscount"
         android:label="Mã giảm giá" />
     <fragment
         android:id="@+id/fragmentListSupplier"
@@ -190,10 +201,36 @@
         android:label="Hỗ trợ" />
     <fragment
         android:id="@+id/fragmentShippingOption"
-        android:name="com.example.phonestore.view.FragmentShippingOption"
+        android:name="com.example.phonestore.view.order.FragmentShippingOption"
         android:label="Hình thức nhận hàng"/>
     <fragment
         android:id="@+id/fragmentPaymentOption"
-        android:name="com.example.phonestore.view.FragmentPaymentOption"
+        android:name="com.example.phonestore.view.order.FragmentPaymentOption"
+        tools:layout="@layout/fragment_payment_options"
         android:label="Phương thức thanh toán"/>
+    <fragment
+        android:id="@+id/fragmentWarranty"
+        android:name="com.example.phonestore.view.FragmentWarranty"
+        tools:layout="@layout/fragment_warranty"
+        android:label="Tra cứu bảo hành" />
+    <fragment
+        android:id="@+id/fragmentSelectAddress"
+        android:name="com.example.phonestore.view.order.FragmentSelectAddress"
+        tools:layout="@layout/fragment_address_selection"
+        android:label="Chọn địa chỉ của bạn" />
+    <fragment
+        android:id="@+id/fragmentMyDiscount"
+        android:name="com.example.phonestore.view.cart.FragmentMyDiscount"
+        tools:layout="@layout/fragment_my_discount"
+        android:label="Ví voucher" />
+    <fragment
+        android:id="@+id/fragmentDetailTechnology"
+        android:name="com.example.phonestore.view.productDetail.FragmentDetailTechnology"
+        tools:layout="@layout/fragment_detail_technology"
+        android:label="Thông số kỹ thuật chi tiết" />
+    <fragment
+        android:id="@+id/fragmentAllProduct"
+        android:name="com.example.phonestore.view.FragmentAllProduct"
+        tools:layout="@layout/fragment_all_product"
+        android:label="Tất cả sản phẩm" />
 </navigation>

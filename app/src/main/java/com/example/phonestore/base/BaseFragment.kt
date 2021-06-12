@@ -2,6 +2,7 @@ package com.example.phonestore.base
 
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +16,9 @@ abstract class BaseFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-            setObserve()
-            setUI()
+        setObserve()
+        setEvents()
+        setUI()
 
     }
 
@@ -28,4 +30,5 @@ abstract class BaseFragment : Fragment() {
     open fun setViewModel(){}
     open fun setUI(){}
     open fun setObserve(){}
+    open fun setEvents(){}
 }

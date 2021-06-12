@@ -1,10 +1,16 @@
 package com.example.phonestore.services
 
-import com.example.phonestore.model.User
+import com.example.phonestore.model.auth.User
 
 object Constant {
-    const val URL = "http://192.168.1.172:8000/api/"
+    const val URL_ROOT = "http://192.168.1.173:8000/"
+    const val URL = "http://192.168.1.173:8000/api/"
     const val KEY_API_YOUTUBE= "AIzaSyDrW8Kp1XXdwddwzkg43LJ3MtJTs8jzuqk"
+
+    const val APP_ID = 553
+    const val MAC_KEY = "9phuAOYhan4urywHTh0ndEXiV3pKHr5Q"
+    const val URL_CREATE_ORDER = "https://sandbox.zalopay.com.vn/v001/tpe/"
+
     const val SERVER_ERROR = "Server error"
     const val INTERNET_ERROR = "No internet connection"
     const val CONNECT_ERROR = "No connect to server"
@@ -19,6 +25,12 @@ object Constant {
     var TOKEN: String? = ""
     var idUser: Int  = 0
     var user: User? = null
+
+    const val ADDRESS = "Address"
+    const val SHIPPING = "Shipping"
+    const val PAYMENT = "Payment"
+    const val DISCOUNT = "Discount"
+
     const val CHANNEL_ID = "successOrderNotification"
     const val NOTIFICATION_ID = 1
     const val VIEW_HOTSALE_PRODUCT = 0

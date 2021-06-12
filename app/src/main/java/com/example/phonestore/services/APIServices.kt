@@ -1,6 +1,14 @@
 package com.example.phonestore.services
 
 import com.example.phonestore.model.*
+import com.example.phonestore.model.auth.FormLogin
+import com.example.phonestore.model.auth.LoginResponse
+import com.example.phonestore.model.auth.User
+import com.example.phonestore.model.cart.CartResponse
+import com.example.phonestore.model.cart.DetailCartResponse
+import com.example.phonestore.model.order.MyOrderResponse
+import com.example.phonestore.model.order.Order
+import com.example.phonestore.model.order.OrderResponse
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -37,7 +45,7 @@ interface APIServices {
         }
     }
 
-    @POST("sign-in")
+    @POST("log-in")
     fun postLogin(@Body account: FormLogin): Call<LoginResponse>
     @POST("sign-up")
     fun postSignUp(@Body user: User): Call<LoginResponse>
@@ -60,25 +68,33 @@ interface APIServices {
     fun deleteNotification(@Path("id") idNotification: Int?= 0): Call<NotificationResponse>
     @GET("tong-thong-bao/{id}")
     fun getTotalNotification(@Path("id") idUser: Int?= 0): Call<NotificationResponse>
-    @GET("slide-show")
+    @GET("slideshow")
     fun getSlideshow(): Call<SlideshowResponse>
-    @GET("danh-muc")
-    fun getTopProduct(@Query("danhmuc") q: Int): Call<ProductResponse>
-    @GET("nha-cung-cap")
+    @GET("hotsale")
+    fun getTopProduct(): Call<ProductResponse>
+    @GET("supplier")
     fun getSupplier(): Call<SupplierResponse>
-    @GET("loai-san-pham")
-    fun getCateProduct(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0): Call<CateProductResponse>
+    @GET("featured-product")
+    fun getFeaturedProduct(): Call<ProductResponse>
+    @GET("all-product")
+    fun getAllProduct(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0): Call<ProductResponse>
+    @GET("slideshow-product/{id}")
+    fun getSlideshowProduct(@Path("id") id: Int?): Call<SlideSlideProductResponse>
+
     @GET("loai-sp-ncc")
     fun getCateProductBySupplier(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0, @Query("MaNCC") idSupplier: Int? = 0): Call<CateProductResponse>
     @GET("new-loai-sp-ncc")
     fun getNewCateProductBySupplier( @Query("MaNCC") idSupplier: Int? = 0): Call<CateProductResponse>
-    @GET("loai-san-pham/{id}")
-    fun getCateProductByID(@Path("id") id: Int?= 0): Call<CateProductResponseByID>
-    @GET("san-pham/{id}")
-    fun getProductByColor(@Path("id") id: Int?= 0, @Query("MauSac") color: String? ="", @Query("DungLuong") storage: String? =""): Call<ProductResponse>
-    @GET("san-pham-lien-quan/{id}")
-    fun getRelatedProduct(@Path("id") id: Int?= 0): Call<CateProductResponse>
-    @GET("tong-san-pham/{id}")
+    @GET("detail-product/{id}")
+    fun getDetailProduct(@Path("id") id: Int?= 0): Call<DetailProductResponse>
+    @GET("change-color-storage/{id}")
+    fun getProductByColor(@Path("id") id: Int?= 0, @Query("mausac") color: String? ="", @Query("dungluong") storage: String? =""): Call<ProductResponse>
+    @GET("related-product/{id}")
+    fun getRelatedProduct(@Path("id") id: Int?= 0): Call<ProductResponse>
+    @GET("compare-product")
+    fun getCompareProduct(@Query("price") price: Int?= 0): Call<ProductResponse>
+
+    @GET("total-product-in-cart/{id}")
     fun getTotalProductInCart(@Path("id") idUser: Int?= 0): Call<CartResponse>
     @POST("them-vao-gio/{id}")
     fun addToCart(@Path("id") idProduct: Int?= 0, @Query("id") idUser: Int?=0): Call<CartResponse>

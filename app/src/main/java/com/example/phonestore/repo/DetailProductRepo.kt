@@ -1,18 +1,23 @@
 package com.example.phonestore.repo
 
-import com.example.phonestore.model.CateProductInfo
-import com.example.phonestore.model.ProductInfo
-import com.example.phonestore.model.Vote
-import com.example.phonestore.model.VoteResponse
+import com.example.phonestore.model.*
 import com.example.phonestore.services.APIRequest
 import com.example.phonestore.services.APIServices
 import com.example.phonestore.services.Constant
 
 class DetailProductRepo {
-    fun callCateProductByID(id: Int? = 0, onSuccess: (CateProductInfo?) -> Unit, onError: (String?)->Unit){
+    fun callSlideshowProduct(id: Int?, onSuccess: (ArrayList<String>?) -> Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.getCateProductByID(id),
-            onSuccess = {results -> onSuccess.invoke(results?.cateProduct)},
+            call = APIServices.getInstance()?.getSlideshowProduct(id),
+            onSuccess = {onSuccess.invoke(it?.listImageSlideshow)},
+            onError = {onError.invoke(it)}
+        )
+    }
+
+    fun callDetailProduct(id: Int? = 0, onSuccess: (DetailProduct?) -> Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.getDetailProduct(id),
+            onSuccess = {results -> onSuccess.invoke(results?.detailProduct)},
             onError = {message -> onError.invoke(message)}
         )
     }
@@ -23,10 +28,17 @@ class DetailProductRepo {
             onError = {message -> onError.invoke(message)}
         )
     }
-    fun callRelatedProduct(idCate: Int? = 0, onSuccess: (ArrayList<CateProductInfo>?) -> Unit, onError: (String?)->Unit){
+    fun callRelatedProduct(idCate: Int? = 0, onSuccess: (ArrayList<ProductInfo>?) -> Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
             call = APIServices.getInstance()?.getRelatedProduct(idCate),
-            onSuccess = {results -> onSuccess.invoke(results?.listCate)},
+            onSuccess = {results -> onSuccess.invoke(results?.listProduct)},
+            onError = {message -> onError.invoke(message)}
+        )
+    }
+    fun callCompareProduct(price: Int?, onSuccess: (ArrayList<ProductInfo>?) -> Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.getCompareProduct(price),
+            onSuccess = {results -> onSuccess.invoke(results?.listProduct)},
             onError = {message -> onError.invoke(message)}
         )
     }

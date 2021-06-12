@@ -2,10 +2,14 @@ package com.example.phonestore.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.phonestore.model.MyOrder
-import com.example.phonestore.model.Order
+import com.example.phonestore.model.order.MyOrder
+import com.example.phonestore.model.order.Order
 import com.example.phonestore.model.ProductOrder
+import com.example.phonestore.model.payment.ZaloPayCreateOderResponse
+import com.example.phonestore.model.payment.ZaloPayCreateOrderParam
 import com.example.phonestore.repo.OrderRepo
+import okhttp3.FormBody
+import okhttp3.RequestBody
 
 class OrderViewModel: ViewModel() {
     var listMyOrder: MutableLiveData<ArrayList<MyOrder>?> = MutableLiveData()
@@ -13,6 +17,7 @@ class OrderViewModel: ViewModel() {
     var listProductOrder: MutableLiveData<ArrayList<ProductOrder>> = MutableLiveData()
     var result: MutableLiveData<Boolean?> = MutableLiveData()
     var resultOrder: MutableLiveData<Boolean> = MutableLiveData()
+    var tokenZaloPayOrder: MutableLiveData<String> = MutableLiveData()
     private var orderRepo = OrderRepo()
     fun order(order: Order){
         orderRepo.order(order, this::onSuccessOrder, this::onError)
@@ -26,6 +31,12 @@ class OrderViewModel: ViewModel() {
     }
     fun cancelOrder(idOrder: Int? = 0){
         orderRepo.cancelOrder(idOrder, this::onSuccessCancelOrder, this::onError)
+    }
+    fun getToken(param: RequestBody){
+        orderRepo.sendPost(param, this::onSuccessCreateOrderZaloPay, this::onError)
+    }
+    private fun onSuccessCreateOrderZaloPay(success: ZaloPayCreateOderResponse?){
+        tokenZaloPayOrder.value = success?.zptranstoken
     }
     private fun onSuccessOrder(o: Boolean?){
         resultOrder.value = o

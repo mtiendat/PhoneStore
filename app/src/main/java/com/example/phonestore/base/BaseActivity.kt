@@ -3,22 +3,18 @@ package com.example.phonestore.base
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import com.example.phonestore.R
 import com.example.phonestore.extendsion.*
 import com.example.phonestore.model.PopUp
+import com.example.phonestore.services.Constant
 import com.example.phonestore.services.PopupDialog
-import com.google.firebase.iid.FirebaseInstanceId
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import vn.zalopay.sdk.Environment
+import vn.zalopay.sdk.ZaloPaySDK
 import java.util.*
 
 
@@ -27,6 +23,8 @@ abstract class BaseActivity: AppCompatActivity(), PopupEventListener, AccountSus
     private var listOfPopupDialogFragment: ArrayList<PopupDialog?>? = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // ZaloPay SDK Init
+        ZaloPaySDK.init(Constant.APP_ID, Environment.SANDBOX)
         val background: Drawable? = ContextCompat.getDrawable(this, R.drawable.background_gradient)
         window.apply {
             addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -97,5 +95,9 @@ abstract class BaseActivity: AppCompatActivity(), PopupEventListener, AccountSus
         if (code.toString() == "403") {
 
         }
+    }
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        ZaloPaySDK.getInstance().onResult(intent)
     }
 }

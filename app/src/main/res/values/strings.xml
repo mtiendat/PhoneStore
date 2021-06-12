@@ -1,7 +1,8 @@
 <resources>
+    <string name="filter_view_example_gizmos">abc</string>
     <string name="default_notification_channel_id">999</string>
     <string name="msg_token_fmt" translatable="false">FCM registration Token: %s</string>
-    <string name="app_name">Phone Store</string>
+    <string name="app_name">LD Mobile</string>
     <string name="channel_name">Phone Store Notification</string>
     <string name="channel_description">Notification of me</string>
     <string name="forgot_password">Quên mật khẩu?</string>
@@ -35,7 +36,7 @@
     <string name="no_product_in_cart">Không có sản phẩm nào trong giỏ hàng</string>
     <string name="mo_hop_kiem_tra_nh_n_h_ng">Mở hộp kiểm tra nhận hàng</string>
     <string name="doi_tra_trong_30_ngay_neu_sp_loi">Đổi trả trong 30 ngày nếu sp lỗi</string>
-    <string name="san_pham_lien_quan">Sản phẩm liên quan</string>
+    <string name="san_pham_lien_quan">Sản phẩm khác của hãng</string>
     <string name="thong_so_ki_thuat">Thông số kỹ thuật</string>
     <string name="bo_nho_trong">Bộ nhớ trong:</string>
     <string name="danh_gia_va_nhan_xet">Đánh giá và Nhận xét</string>
@@ -47,7 +48,7 @@
     <string name="mua_ngay">Mua Ngay</string>
     <string name="xem_tat_ca">Xem tất cả</string>
     <string name="hoan_tien_100_neu_gia">Hoàn tiền 100% nếu giả</string>
-    <string name="hot_sale">Hot sale</string>
+    <string name="hot_sale">KHUYẾN MÃI HOT </string>
     <string name="goi_y_cho_ban">Gợi ý cho bạn</string>
     <string name="sap_xep">Sắp xếp</string>
     <string name="theo_doi_don_hang">Theo dõi đơn hàng</string>
@@ -72,8 +73,8 @@
     <string name="id">#</string>
     <string name="mau">Màu sắc:</string>
     <string name="dl">Dung lượng:</string>
-    <string name="kha_nang_luu_tru">Khả năng lưu trữ:</string>
-    <string name="nhom_mau">Nhóm màu:</string>
+    <string name="kha_nang_luu_tru">Khả năng lưu trữ: </string>
+    <string name="nhom_mau">Nhóm màu: </string>
     <string name="so_luong">Số lượng:</string>
     <string name="trang_chu">Trang chủ</string>
     <string name="thong_bao">Thông báo</string>

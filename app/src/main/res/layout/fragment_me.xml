@@ -90,6 +90,16 @@
             app:layout_constraintTop_toBottomOf="@+id/btnFollowOrder" />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnWarranty"
+            style="@style/ButtonStyleIcon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:text="Tra cứu bảo hành"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnSettingAccount" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnHelper"
             style="@style/ButtonStyleIcon"
             android:layout_width="match_parent"
@@ -97,7 +107,7 @@
             android:layout_marginTop="1dp"
             android:text="@string/ho_tro"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnSettingAccount" />
+            app:layout_constraintTop_toBottomOf="@+id/btnWarranty" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatButton

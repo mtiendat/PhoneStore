@@ -11,17 +11,17 @@ import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.phonestore.extendsion.gone
 import com.example.phonestore.extendsion.ratingBar
-import com.example.phonestore.extendsion.strikeThrough
 import com.example.phonestore.extendsion.toVND
 import com.example.phonestore.R
 import com.example.phonestore.databinding.*
+import com.example.phonestore.extendsion.gone
+import com.example.phonestore.extendsion.strikeThrough
 import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.model.ProductInfo
 import com.example.phonestore.model.Supplier
 import com.example.phonestore.services.Constant
-import com.example.phonestore.view.FragmentDetailProduct
+import com.example.phonestore.view.productDetail.FragmentDetailProduct
 
 
 class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -62,13 +62,6 @@ class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Re
                             false
                     )
             )
-            Constant.VIEW_CATEPRODUCT -> CateProductViewHolder(
-                    ItemProductBinding.inflate(
-                            LayoutInflater.from(parent.context),
-                            parent,
-                            false
-                    )
-            )
             Constant.VIEW_SHIMMER -> ShimmerRecommendViewHolder(
                     ItemShimmerRecomendProductBinding.inflate(
                             LayoutInflater.from(parent.context),
@@ -89,13 +82,15 @@ class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Re
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = listProduct?.get(position)
         if(holder is HotSaleViewHolder && item is ProductInfo) {
-            holder.bindingHotSale.tvOldPriceProduct.text = item.priceOld.toVND()
+            holder.bindingHotSale.tvOldPriceProduct.text = item.price.toVND()
             holder.bindingHotSale.tvOldPriceProduct.paintFlags = holder.bindingHotSale.tvOldPriceProduct.strikeThrough()
-            holder.bindingHotSale.tvPriceProduct.text = item.priceNew.toVND()
+            holder.bindingHotSale.tvPriceProduct.text = (item.price - (item.price * item.discount)).toInt().toVND()
+            holder.bindingHotSale.tvTotalJudge.text = "${item.totalJudge} đánh giá"
+            holder.bindingHotSale.ratingBarProduct.rating = item.totalVote?: 0f
             setImg(item.img, holder.bindingHotSale.ivProduct, holder.itemView.context)
             holder.bindingHotSale.ivProduct.setOnClickListener {
 //                onItemClick?.invoke(item.idCate)
-                FragmentDetailProduct.actionToFragmentDetail(it, bundleOf("idCate" to item.idCate, "name" to item.name))
+                FragmentDetailProduct.actionToFragmentDetail(it, bundleOf("product" to item))
             }
         }
         if(holder is LogoSupplierViewHolder && item is Supplier) {
@@ -105,22 +100,7 @@ class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Re
                 onItemSupplierClick?.invoke(item.id)
             }
         }
-        if(holder is CateProductViewHolder && item is CateProductInfo) {
-            Log.d("STEP", listProduct?.size.toString())
-            holder.bindingCate.tvNameProductCate.text = item.name
-            holder.bindingCate.tvPriceProductCate.text = item.priceNew.toVND()
-            holder.bindingCate.tvOldPriceProductCate.text = item.priceOld.toVND()
-            holder.bindingCate.tvOldPriceProductCate.paintFlags = holder.bindingCate.tvOldPriceProductCate.strikeThrough()
-            holder.bindingCate.ratingBarProduct.rating = item.vote?.ratingBar() ?: 0.1f
-            setImg(item.img, holder.bindingCate.ivProductCate, holder.itemView.context)
 
-            holder.bindingCate.ivProductCate.setOnClickListener {
-                it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("idCate" to item.id, "name" to item.name))
-            }
-            holder.bindingCate.tvNameProductCate.setOnClickListener {
-                it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("idCate" to item.id, "name" to item.name))
-            }
-        }
         if(holder is ShimmerRecommendViewHolder){
             Handler(Looper.getMainLooper()).postDelayed({
                 holder.bindingShimmer.shimmerItemRecommend.gone()
@@ -141,7 +121,6 @@ class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Re
             return when (listProduct?.get(0)) {
                 is ProductInfo -> Constant.VIEW_HOTSALE_PRODUCT
                 is Supplier -> Constant.VIEW_LOGO_SUPPLIER
-                is CateProductInfo -> Constant.VIEW_CATEPRODUCT
                 else -> Constant.VIEW_HOTSALE_PRODUCT
             }
         //}

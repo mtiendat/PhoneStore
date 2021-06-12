@@ -19,10 +19,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.phonestore.R
 import com.example.phonestore.databinding.SplashscreenBinding
-import com.example.phonestore.extendsion.gone
 import com.example.phonestore.extendsion.visible
-import com.example.phonestore.model.FormLogin
+import com.example.phonestore.model.auth.FormLogin
 import com.example.phonestore.services.Constant
+import com.example.phonestore.view.auth.ActivityLogin
 import com.example.phonestore.viewmodel.UserViewModel
 import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
 
@@ -44,13 +44,18 @@ class SplashScreen :AppCompatActivity() {
     private fun init(){
 
         loginViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
-        val statusObserve = Observer<Boolean?> {
-            if (it) {
+        loginViewModel?.loginResponse?.observe(this, {
+            if(it.status) {
                 startActivity(MainActivity.intentFor(this))
                 finish()
+            }else {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                }, 2000)
+                startActivity(ActivityLogin.intentFor(this))
+                finish()
             }
-        }
-        loginViewModel?.status?.observe(this, statusObserve)
+        })
         Handler(Looper.getMainLooper()).postDelayed({
             bindingSplashScreen?.progressBarSplashScreen?.visible()
             val ref: SharedPreferences = this.getSharedPreferences("saveAccount", Context.MODE_PRIVATE)

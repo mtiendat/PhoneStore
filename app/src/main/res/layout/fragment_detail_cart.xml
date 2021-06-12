@@ -35,6 +35,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="8dp"
                 android:background="@color/white"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvMyCart">
@@ -48,7 +49,7 @@
                     android:translationZ="4dp"
                     app:layout_constraintStart_toStartOf="@+id/btnChooseDiscount"
                     app:layout_constraintTop_toTopOf="@+id/btnChooseDiscount"
-                    app:srcCompat="@drawable/discount" />
+                    app:srcCompat="@drawable/ic_discount" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnChooseDiscount"
@@ -65,8 +66,34 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textColor="#6E6C6C"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivClearDiscount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:translationZ="4dp"
+                    app:layout_constraintEnd_toEndOf="@+id/btnChooseDiscount"
+                    app:layout_constraintTop_toTopOf="@+id/btnChooseDiscount"
+                    app:srcCompat="@drawable/ic_clear" />
+
+                <TextView
+                    android:id="@+id/tvDiscount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="-10%"
+                    android:textColor="@color/green"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:translationZ="4dp"
+                    app:layout_constraintEnd_toStartOf="@+id/ivClearDiscount"
+                    app:layout_constraintTop_toTopOf="@+id/btnChooseDiscount" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTotalPre"
@@ -90,7 +117,7 @@
                     app:layout_constraintTop_toTopOf="@id/tvTotalPre" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvDiscount"
+                    android:id="@+id/tvDiscountTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -107,9 +134,16 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
                     android:text="00000000"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvDiscount"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tvDiscount" />
+                    app:layout_constraintTop_toTopOf="@+id/tvDiscountTitle" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/groupDiscount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:constraint_referenced_ids="ivClearDiscount,tvDiscount" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
-class Supplier(var id: Int = 0, @SerializedName("TenNCC") var name: String?= "",@SerializedName("logo")var logoSupplier: String?="", @SerializedName("XacMinh") var auth: Int? =0):Parcelable {
+class Supplier(var id: Int = 0, @SerializedName("tenncc") var name: String?= "",@SerializedName("anhdaidien")var logoSupplier: String?="", @SerializedName("XacMinh") var auth: Int? =0):Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
             parcel.readString(),

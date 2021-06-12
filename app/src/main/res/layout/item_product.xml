@@ -1,71 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="4dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="8dp"
-    app:contentPaddingTop="5dp">
+    android:background="@drawable/custom_ctrl_stroke_few">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNumberDiscount"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="right"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/ic_bookmark"
+        android:text="-10%"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        android:translationZ="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivProductCate"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/iphone_12_mini_green" />
+
+    <TextView
+        android:id="@+id/tvOldPriceProductCate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:text="999"
+        android:textColor="@color/dray"
+        app:layout_constraintStart_toStartOf="@+id/ivProductCate"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameProductCate" />
 
-        <ImageView
-            android:id="@+id/ivProductCate"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:scaleType="fitXY"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+    <TextView
+        android:id="@+id/tvPriceProductCate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="9999"
+        android:textColor="@color/red"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/ivProductCate"
+        app:layout_constraintTop_toBottomOf="@+id/tvOldPriceProductCate" />
 
-        <TextView
-            android:id="@+id/tvOldPriceProductCate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/dray"
-            android:textStyle="bold|italic"
-            app:layout_constraintStart_toStartOf="@+id/tvNameProductCate"
-            app:layout_constraintTop_toBottomOf="@+id/tvNameProductCate" />
+    <TextView
+        android:id="@+id/tvNameProductCate"
+        android:layout_width="0dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="8dp"
+        android:maxLines="2"
+        android:paddingStart="0dp"
+        android:paddingEnd="8dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/ivProductCate"
+        app:layout_constraintStart_toStartOf="@+id/ivProductCate"
+        app:layout_constraintTop_toBottomOf="@+id/ivProductCate" />
 
-        <TextView
-            android:id="@+id/tvPriceProductCate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/red"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/tvNameProductCate"
-            app:layout_constraintTop_toBottomOf="@+id/tvOldPriceProductCate" />
+    <RatingBar
+        android:id="@+id/ratingBarProduct"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:numStars="5"
+        android:progressTint="@color/gold"
+        android:rating="0.1"
+        android:stepSize="0.1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvPriceProductCate"
+        app:layout_constraintTop_toBottomOf="@+id/tvPriceProductCate" />
 
-        <TextView
-            android:id="@+id/tvNameProductCate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:maxLines="2"
-            android:paddingStart="0dp"
-            android:paddingEnd="8dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/ivProductCate"
-            app:layout_constraintStart_toStartOf="@+id/ivProductCate"
-            app:layout_constraintTop_toBottomOf="@+id/ivProductCate" />
+    <TextView
+        android:id="@+id/tvTotalJudge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="99 đánh giá"
+        android:textColor="@color/dray"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/ratingBarProduct"
+        app:layout_constraintTop_toTopOf="@+id/ratingBarProduct" />
 
-        <RatingBar
-            android:id="@+id/ratingBarProduct"
-            style="@style/Widget.AppCompat.RatingBar.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:numStars="5"
-            android:progressTint="@color/gold"
-            android:rating="0.1"
-            android:stepSize="0.1"
-            app:layout_constraintStart_toStartOf="@+id/tvPriceProductCate"
-            app:layout_constraintTop_toBottomOf="@+id/tvPriceProductCate" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

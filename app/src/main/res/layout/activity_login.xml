@@ -34,69 +34,79 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.85" />
 
-    <TextView
-        android:id="@+id/tvLoginEmail"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_email"
+        style="@style/TextInputLayout.OutlineBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/email"
-        android:textColorHint="#FFFFFF"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        app:boxCornerRadiusBottomEnd="32dp"
+        app:boxCornerRadiusTopEnd="32dp"
+        app:boxCornerRadiusTopStart="32dp"
+        app:boxCornerRadiusBottomStart="32dp"
+        android:hint="@string/email"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/glLogin1" />
+        app:layout_constraintTop_toTopOf="@+id/glLogin1">
 
-    <EditText
-        android:id="@+id/edtLoginEmail"
-        style="@style/FormLoginStyle"
-        android:drawableStart="@drawable/ic_email"
-        android:hint="@string/nhap_email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvLoginEmail"
-        app:layout_constraintTop_toBottomOf="@+id/tvLoginEmail" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtLoginEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/tvLoginPassword"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputPassword"
+        style="@style/TextInputLayout.OutlineBox"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/password"
-        app:layout_constraintStart_toStartOf="@+id/edtLoginEmail"
-        app:layout_constraintTop_toBottomOf="@+id/edtLoginEmail" />
-
-    <EditText
-        android:id="@+id/edtLoginPassword"
-        style="@style/FormLoginStyle"
-        android:drawableStart="@drawable/ic_lock"
-        android:drawablePadding="16dp"
-        android:hint="@string/nhap_password"
-        android:inputType="textPassword"
+        app:boxCornerRadiusBottomEnd="32dp"
+        app:boxCornerRadiusTopEnd="32dp"
+        app:boxCornerRadiusTopStart="32dp"
+        app:boxCornerRadiusBottomStart="32dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        app:endIconMode="password_toggle"
+        android:hint="@string/password"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/tvLoginPassword"
-        app:layout_constraintTop_toBottomOf="@+id/tvLoginPassword" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_input_email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtLoginPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tvLoginForgotPassword"
         android:layout_width="112dp"
         android:layout_height="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/forgot_password"
-        app:layout_constraintEnd_toEndOf="@+id/btnLogin"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+        app:layout_constraintEnd_toEndOf="@+id/textInputPassword"
+        app:layout_constraintTop_toTopOf="@+id/cbSaveAccount" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLogin"
         style="@style/ButtonFormStyle"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/dang_nhap"
-        app:layout_constraintEnd_toEndOf="@+id/edtLoginPassword"
-        app:layout_constraintStart_toStartOf="@+id/edtLoginPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cbSaveAccount" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/btnLoginWithFacebook"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
         android:background="@drawable/button_facebook"
         android:drawableStart="@drawable/com_facebook_button_icon"
         android:paddingStart="24dp"
@@ -107,7 +117,7 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/btnLogin"
         app:layout_constraintStart_toStartOf="@+id/btnLogin"
-        app:layout_constraintTop_toTopOf="@+id/glLogin2" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
     <TextView
         android:id="@+id/tvQuestion"
@@ -146,11 +156,11 @@
         android:id="@+id/cbSaveAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
         android:text="@string/ghi_nho_dang_nhap"
         android:textColorLink="@color/blue"
-        app:layout_constraintStart_toStartOf="@+id/glLoginLeft"
-        app:layout_constraintTop_toBottomOf="@+id/edtLoginPassword" />
+        app:layout_constraintStart_toStartOf="@+id/textInputPassword"
+        app:layout_constraintTop_toBottomOf="@+id/textInputPassword" />
 
     <ImageView
         android:id="@+id/imageView7"
