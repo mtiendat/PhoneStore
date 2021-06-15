@@ -54,9 +54,10 @@ class DetailProductViewModel: ViewModel() {
             )
         }
     }
-    fun getCompareProduct(price: Int?){
+    fun getCompareProduct(price: Int?, idCate: Int?){
         if(compareProduct?.value?.size  == null) {
             detailProductRepo.callCompareProduct(
+                idCate,
                 price,
                 this::onSuccessListCompareProduct,
                 this::onError

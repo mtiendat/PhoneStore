@@ -39,9 +39,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.auth.ActivityLogin" />
-        <activity android:name=".view.auth.ActivitySignUp" android:parentActivityName=".view.auth.ActivityLogin" android:screenOrientation="nosensor">
+        <activity android:name=".view.auth.ActivitySignUp" android:parentActivityName=".view.auth.ActivitySignUpVerify" android:screenOrientation="nosensor">
             <meta-data android:name="android.support.PARRENT_ACTIVITY"
-                android:value=".view.ActivityLogin"/>
+                android:value=".view.ActivitySignUpVerify"/>
         </activity>
         <activity android:name=".view.auth.ActivityForgotPassword" android:parentActivityName=".view.auth.ActivityLogin" android:screenOrientation="nosensor">
             <meta-data android:name="android.support.PARRENT_ACTIVITY"
@@ -55,10 +55,15 @@
             android:windowSoftInputMode="adjustResize" android:screenOrientation="nosensor">
             <meta-data android:name="android.support.PARRENT_ACTIVITY"
                 android:value=".view.ActivityLogin"/>
-
         </activity>
-
-
+        <activity android:name=".view.auth.ActivitySignUpInputPhone" android:parentActivityName=".view.auth.ActivityLogin" android:screenOrientation="nosensor">
+            <meta-data android:name="android.support.PARRENT_ACTIVITY"
+                android:value=".view.ActivityLogin"/>
+        </activity>
+        <activity android:name=".view.auth.ActivitySignUpVerify" android:parentActivityName=".view.auth.ActivitySignUpInputPhone" android:screenOrientation="nosensor">
+            <meta-data android:name="android.support.PARRENT_ACTIVITY"
+                android:value=".view.ActivitySignUpInputPhone"/>
+        </activity>
     </application>
 
 </manifest>

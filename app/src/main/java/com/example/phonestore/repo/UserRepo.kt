@@ -24,9 +24,9 @@ class UserRepo {
             onError = {results -> onError.invoke(results)}
         )
     }
-    fun callCheckEmail(email: String? ="", onSuccess: (LoginResponse?)->Unit, onError: (String?)->Unit){
+    fun callCheckNumberPhone(phone: String? ="", onSuccess: (LoginResponse?)->Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.checkEmail(email),
+            call = APIServices.getInstance()?.checkNumberPhone(phone),
             onSuccess = {results -> onSuccess.invoke(results)},
             onError = {results -> onError.invoke(results)}
         )

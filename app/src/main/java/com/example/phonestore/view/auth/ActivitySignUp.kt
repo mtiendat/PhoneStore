@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.phonestore.base.BaseActivity
@@ -18,18 +19,20 @@ import java.util.regex.Pattern
 
 class ActivitySignUp: BaseActivity() {
     companion object{
-        fun intentFor(context: Context): Intent =
-                Intent(context, ActivitySignUp::class.java)
+        fun intentFor(context: Context, numberPhone: String?): Intent =
+                Intent(context, ActivitySignUp::class.java).putExtra("numberPhone", numberPhone)
     }
-    private var bindingSignUp: ActivitySignUpBinding? = null
+    private lateinit var bindingSignUp: ActivitySignUpBinding
     private var signUpViewModel: UserViewModel? = null
+    private var numberPhone: String? = null
     override fun setBinding() {
         bindingSignUp = ActivitySignUpBinding.inflate(layoutInflater)
-        setContentView(bindingSignUp?.root)
+        setContentView(bindingSignUp.root)
+        numberPhone = intent?.getStringExtra("numberPhone")
     }
     override fun setToolBar() {
-        bindingSignUp?.toolbarSignUp?.toolbar?.title = "Sign Up"
-        setSupportActionBar(bindingSignUp?.toolbarSignUp?.toolbar)
+        bindingSignUp.toolbarSignUp.toolbar.title = "Thông tin cá nhân"
+        setSupportActionBar(bindingSignUp.toolbarSignUp.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
@@ -41,62 +44,59 @@ class ActivitySignUp: BaseActivity() {
     }
 
     override fun setObserve() {
-        val signUpObserve = Observer<Boolean>{
-            if(it) {
-                Toast.makeText(this, "Đăng kí thành công! ", Toast.LENGTH_SHORT).show()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    finish()
-                }, 3000)
-            }
 
-        }
-        signUpViewModel?.status?.observe(this,signUpObserve)
+        signUpViewModel?.loginResponse?.observe(this, {
+            if(it.status) {
+                Toast.makeText(this, it.messages, Toast.LENGTH_SHORT).show()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    startActivity(ActivityLogin.intentFor(this))
+                    finish()
+                }, 2000)
+            }
+        })
     }
     override fun setUI() {
-        bindingSignUp?.btnSignUp?.setOnClickListener {
-//            if(validate()) {
-//                signUpViewModel?.postSignUp(
-//                    User(name = bindingSignUp?.edtSignUpFullName?.text.toString(),
-//                        email = bindingSignUp?.edtSignUpEmail?.text.toString(),
-//                        password = bindingSignUp?.edtSignUpPassword?.text.toString(),
-//                        phone = bindingSignUp?.edtSignUpPhone?.text.toString(),
-//                        address = bindingSignUp?.edtSignUpLocation?.text.toString())
-//                )
-//            }
+        bindingSignUp.btnSignUp.setOnClickListener {
+            if(validate()) {
+                signUpViewModel?.postSignUp(
+                    User(name = bindingSignUp.edtSignUpFullName.text.toString(),
+                        password = bindingSignUp.edtSignUpPassword.text.toString(),
+                        phone = numberPhone
+                ))
+            }
+        }
+
+        bindingSignUp.edtSignUpFullName.addTextChangedListener {
+            bindingSignUp.textInputName.error = null
+        }
+        bindingSignUp.edtSignUpPassword.addTextChangedListener {
+            bindingSignUp.textInputPassword.error = null
+        }
+        bindingSignUp.edtSignUpConfirmPassword.addTextChangedListener {
+            bindingSignUp.textInputConfirmPassword.error = null
         }
     }
-//    private fun validate(): Boolean{
-//        return if(bindingSignUp?.edtSignUpFullName?.text.isNullOrBlank()){
-//            bindingSignUp?.edtSignUpFullName?.error = Constant.VALIDATE_FULL_NAME
-//            false
-//        }else if(bindingSignUp?.edtSignUpPhone?.text.isNullOrBlank()) {
-//            bindingSignUp?.edtSignUpPhone?.error = Constant.VALIDATE_PHONE
-//            false
-//        }else if(!Pattern.compile("^(0)+([0-9]{9})$").matcher(bindingSignUp?.edtSignUpPhone?.text!!).matches() ){
-//            bindingSignUp?.edtSignUpPhone?.error = Constant.PHONE_INVALID
-//            false
-//        }else if(bindingSignUp?.edtSignUpLocation?.text.isNullOrBlank()){
-//            bindingSignUp?.edtSignUpLocation?.error = Constant.VALIDATE_ADDRESS
-//            false
-//        }else if(bindingSignUp?.edtSignUpEmail?.text.isNullOrBlank()) {
-//            bindingSignUp?.edtSignUpEmail?.error = Constant.VALIDATE_EMAIL
-//            false
-//        }else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(bindingSignUp?.edtSignUpEmail?.text!!).matches()) {
-//            bindingSignUp?.edtSignUpEmail?.error = Constant.EMAIL_INVALID
-//            false
-//        }else if(bindingSignUp?.edtSignUpPassword?.text.isNullOrBlank()){
-//            bindingSignUp?.edtSignUpPassword?.error = Constant.VALIDATE_PASSWORD
-//            false
-//        }else if(bindingSignUp?.edtSignUpConfirmPassword?.text.isNullOrBlank()){
-//            bindingSignUp?.edtSignUpConfirmPassword?.error = Constant.VALIDATE_CONFIRM_PASSWORD
-//            false
-//
-//        }else if (bindingSignUp?.edtSignUpPassword?.text.toString() != bindingSignUp?.edtSignUpConfirmPassword?.text.toString()) {
-//            bindingSignUp?.edtSignUpConfirmPassword?.error = Constant.CONFIRM_PASSWORD_NOT_SAME
-//            false
-//        }else if (bindingSignUp?.cbPrivacy?.isChecked == false) {
-//            bindingSignUp?.cbPrivacy?.error = Constant.VALIDATE_CHECKBOX_PRIVACY
-//            false
-//        }else true
-//    }
+    private fun validate(): Boolean {
+        var valid = true
+        if (bindingSignUp.edtSignUpFullName.text.isNullOrBlank()) {
+            bindingSignUp.textInputName.error = Constant.VALIDATE_FULL_NAME
+            valid = false
+        }
+        if (bindingSignUp.edtSignUpPassword.text.isNullOrBlank()) {
+            bindingSignUp.textInputPassword.error = Constant.VALIDATE_PASSWORD
+            valid = false
+        }else if(bindingSignUp.edtSignUpPassword.text?.length?:0 <=6|| bindingSignUp.edtSignUpPassword.text?.length?:0 >16){
+            bindingSignUp.textInputPassword.error = Constant.VALIDATE_LENGTH_PASSWORD
+            valid = false
+        }else if(bindingSignUp.edtSignUpPassword.text.toString() != bindingSignUp.edtSignUpConfirmPassword.text.toString()){
+            bindingSignUp.textInputConfirmPassword.error = Constant.CONFIRM_PASSWORD_NOT_SAME
+            valid = false
+        }
+        if (bindingSignUp.edtSignUpConfirmPassword.text.isNullOrBlank()) {
+            bindingSignUp.textInputConfirmPassword.error = Constant.VALIDATE_CONFIRM_PASSWORD
+            valid = false
+        }
+
+        return valid
+    }
 }

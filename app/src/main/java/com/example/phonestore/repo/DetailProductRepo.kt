@@ -35,9 +35,9 @@ class DetailProductRepo {
             onError = {message -> onError.invoke(message)}
         )
     }
-    fun callCompareProduct(price: Int?, onSuccess: (ArrayList<ProductInfo>?) -> Unit, onError: (String?)->Unit){
+    fun callCompareProduct(price: Int?, idCate: Int?, onSuccess: (ArrayList<ProductInfo>?) -> Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.getCompareProduct(price),
+            call = APIServices.getInstance()?.getCompareProduct(idCate, price),
             onSuccess = {results -> onSuccess.invoke(results?.listProduct)},
             onError = {message -> onError.invoke(message)}
         )

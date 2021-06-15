@@ -169,7 +169,7 @@ class FragmentOrder: BaseFragment() {
         }
     }
     private fun setInfoOrder(){
-        bindingOrderBinding?.tvOrderAddress?.text = Constant.user?.address
+        //bindingOrderBinding?.tvOrderAddress?.text = Constant.user?.address
         bindingOrderBinding?.tvOrderNameUser?.text = Constant.user?.name
         bindingOrderBinding?.tvOrderPhoneUser?.text = Constant.user?.phone
         bindingOrderBinding?.tvOrderTotalMoney?.text = listProductOrder?.get(totalMoney)?.total.toVND()

@@ -27,6 +27,7 @@ import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentHomeBinding
 import com.example.phonestore.model.*
+import com.example.phonestore.services.Constant
 import com.example.phonestore.services.adapter.FeaturedProductAdapter
 import com.example.phonestore.services.adapter.ProductAdapter
 import com.example.phonestore.services.adapter.SlideshowAdapter
@@ -36,7 +37,7 @@ import java.util.*
 
 
 class FragmentHome : BaseFragment(){
-    private var bindingHome: FragmentHomeBinding? = null
+    private lateinit var bindingHome: FragmentHomeBinding
     private var sliderAdapter : SlideshowAdapter? = null
     private var homeViewModel: ProductViewModel? = null
     private var hotSaleAdapter: ProductAdapter<ProductInfo>? = null
@@ -56,21 +57,21 @@ class FragmentHome : BaseFragment(){
     private var orderBy: Int = 0
     private var flagSupplier = 0
     private var slideRunnable = Runnable {
-        bindingHome?.vpSlideShow?.currentItem = bindingHome?.vpSlideShow?.currentItem?.plus(1) ?:0
+        bindingHome.vpSlideShow.currentItem = bindingHome.vpSlideShow.currentItem.plus(1) ?:0
     }
 
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingHome = FragmentHomeBinding.inflate(inflater, container, false)
-        return bindingHome?.root
+        return bindingHome.root
 
     }
 
     override fun setUI(){
 
-        bindingHome?.pbRecommend?.setIndeterminateDrawableTiled(
+        bindingHome.pbRecommend.setIndeterminateDrawableTiled(
                 FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(R.array.google_colors)).build()
         ) //set progressBar google
-        bindingHome?.swipe?.setColorSchemeColors(Color.BLUE)
+        bindingHome.swipe.setColorSchemeColors(Color.BLUE)
 //        if(listSaveCateProductPrevious?.size?: 1 > 5) { //Nếu trường hợp đã load more nhiều hơn 1 page rồi, thì mới add list cũ vào
 //            listSaveCateProductPrevious?.let { listCateProduct?.addAll(it) }
 //        }
@@ -78,8 +79,6 @@ class FragmentHome : BaseFragment(){
         if(flag==0) { //Nếu chưa
             getData()
         }
-        setImg(R.drawable.fire, bindingHome?.ivHotSale)
-        setImg(R.drawable.light,bindingHome?.ivRecommend)
         init()
         swipeRefresh()
         setOnClickListener()
@@ -106,20 +105,23 @@ class FragmentHome : BaseFragment(){
                 initSlider()
                 setUpIndicator()
                 setCurrentIndicator(0)
-                bindingHome?.shimmerSlideShow?.stopShimmer()
-                bindingHome?.shimmerSlideShow?.gone()
+                bindingHome.shimmerSlideShow.stopShimmer()
+                bindingHome.shimmerSlideShow.gone()
             }
         }
         homeViewModel?.listSlideshow?.observe(requireActivity(), slideShowObserve)
         val hotSaleProductObserve = Observer<ArrayList<ProductInfo>?>{
             listProduct?.addAll(it)
             hotSaleAdapter?.setItems(it)
-            bindingHome?.shimmerLayoutHotSale?.stopShimmer()
-            bindingHome?.shimmerLayoutHotSale?.gone()
+            bindingHome.shimmerLayoutHotSale.stopShimmer()
+            bindingHome.shimmerLayoutHotSale.gone()
         }
         homeViewModel?.listProduct?.observe(requireActivity(), hotSaleProductObserve)
         val logoSupplierObserver = Observer<ArrayList<Supplier>?>{
             supplierAdapter?.setItems(it)
+            bindingHome.rvLogoSupplier.startAutoScroll()
+            bindingHome.rvLogoSupplier.isLoopEnabled = true
+            bindingHome.rvLogoSupplier.setCanTouch(true)
         }
         homeViewModel?.listSupplier?.observe(viewLifecycleOwner, logoSupplierObserver)
 
@@ -127,21 +129,15 @@ class FragmentHome : BaseFragment(){
             if (it != null) {
                 listFeaturedProduct?.addAll(it)
                 featuredProductAdapter?.notifyDataSetChanged()
-                bindingHome?.shimmerLayoutFeaturedProduct?.stopShimmer()
-                bindingHome?.shimmerLayoutFeaturedProduct?.gone()
+                bindingHome.shimmerLayoutFeaturedProduct.stopShimmer()
+                bindingHome.shimmerLayoutFeaturedProduct.gone()
             }
 
         })
     }
     private fun setOnClickListener(){
-        bindingHome?.ivDiscount?.setOnClickListener {
-            it.findNavController().navigate(R.id.action_fragmentHome_to_fragmentDiscount)
-        }
-        bindingHome?.ivListSupplier?.setOnClickListener {
-            it.findNavController().navigate(R.id.action_fragmentHome_to_fragmentListSupplier)
-        }
-        bindingHome?.btnSortPrice?.setOnClickListener {
-            bindingHome?.pbRecommend?.visible()
+        bindingHome.btnSortPrice.setOnClickListener {
+            bindingHome.pbRecommend.visible()
 //            if(orderBy ==0) {
 //                listCateProduct?.sortWith { o1, o2 ->
 //                    o1.priceNew - o2.priceNew //Tăng dần
@@ -156,66 +152,69 @@ class FragmentHome : BaseFragment(){
 //                    o2.priceNew - o1.priceNew //Giảm dần
 //                }
             featuredProductAdapter?.notifyDataSetChanged()
-            bindingHome?.pbRecommend?.gone()
+            bindingHome.pbRecommend.gone()
             orderBy = 0
-            bindingHome?.btnSortPrice?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_up, 0)
+            bindingHome.btnSortPrice.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_up, 0)
         }
-        bindingHome?.tvRecommended?.setOnClickListener {
+        bindingHome.tvRecommended.setOnClickListener {
             listFeaturedProduct?.clear()
             featuredProductAdapter?.notifyDataSetChanged()
-            bindingHome?.shimmerLayoutFeaturedProduct?.visible()
-            bindingHome?.shimmerLayoutFeaturedProduct?.startShimmer()
+            bindingHome.shimmerLayoutFeaturedProduct.visible()
+            bindingHome.shimmerLayoutFeaturedProduct.startShimmer()
             idSupplier = null
             flagSupplier = 0
             Handler(Looper.getMainLooper()).postDelayed({
                 homeViewModel?.getFeaturedProduct(1)
-
             }, 500)
 
         }
-        bindingHome?.tvViewAllProduct?.setOnClickListener {
+        bindingHome.tvViewAllProduct.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentHome_to_fragmentAllProduct)
         }
     }
     private fun init(){
+        Glide.with(this)
+            .load(Constant.URL_ROOT+"images/banner/big-banner.png")
+            .error(R.drawable.noimage)
+            .into(bindingHome.ivBanner)
         initRecyclerViewLogo()
         initRecyclerViewHotSale()
         initRecyclerViewCateProduct()
     }
     private fun swipeRefresh(){
-        bindingHome?.swipe?.setOnRefreshListener {
+        bindingHome.swipe.setOnRefreshListener {
             savePage = 2
             viewModelStore.clear()
             clearList()
             init()
-            bindingHome?.shimmerLayoutHotSale?.visible()
-            bindingHome?.shimmerLayoutFeaturedProduct?.visible()
+            bindingHome.shimmerLayoutHotSale.visible()
+            bindingHome.shimmerLayoutFeaturedProduct.visible()
             setViewModel()
             setObserve()
             getData()
 
-            bindingHome?.swipe?.isRefreshing = false
+            bindingHome.swipe.isRefreshing = false
         }
     }
     private fun getData(){
-        bindingHome?.shimmerSlideShow?.startShimmer()
-        bindingHome?.shimmerLayoutHotSale?.startShimmer()
-        bindingHome?.shimmerLayoutFeaturedProduct?.startShimmer()
-        Handler(Looper.getMainLooper()).postDelayed({
+        bindingHome.shimmerSlideShow.startShimmer()
+        bindingHome.shimmerLayoutHotSale.startShimmer()
+        bindingHome.shimmerLayoutFeaturedProduct.startShimmer()
+
             homeViewModel?.getSlideShow()
             homeViewModel?.getListHotSaleProduct()
             if(flagSupplier==1) {
 //                homeViewModel?.getFeaturedProduct(1, idSupplier = idSupplier)
 
             }else homeViewModel?.getFeaturedProduct()
-        }, 1000)
+
         homeViewModel?.getListSupplier()
 
     }
     private fun initRecyclerViewHotSale(){
         hotSaleAdapter = ProductAdapter(listProduct)
-        bindingHome?.rvHotSale?.adapter = hotSaleAdapter
-        bindingHome?.rvHotSale?.layoutManager = LinearLayoutManager(
+        bindingHome.rvHotSale.adapter = hotSaleAdapter
+        bindingHome.rvHotSale.layoutManager = LinearLayoutManager(
                 context,
                 LinearLayoutManager.HORIZONTAL,
                 false
@@ -233,12 +232,14 @@ class FragmentHome : BaseFragment(){
 //            homeViewModel?.getListCateProduct(1, idSupplier = it)
 //            flagSupplier = 1
         }
-        bindingHome?.rvLogoSupplier?.adapter = supplierAdapter
-        bindingHome?.rvLogoSupplier?.layoutManager = LinearLayoutManager(
+        bindingHome.rvLogoSupplier.adapter = supplierAdapter
+        bindingHome.rvLogoSupplier.layoutManager = LinearLayoutManager(
                 context,
                 LinearLayoutManager.HORIZONTAL,
                 false
         )
+
+
     }
     private fun initRecyclerViewCateProduct(){
         val staggeredGridLayoutManager = StaggeredGridLayoutManager(
@@ -246,23 +247,23 @@ class FragmentHome : BaseFragment(){
                 LinearLayoutManager.VERTICAL
         )
         featuredProductAdapter = FeaturedProductAdapter(listFeaturedProduct)
-        bindingHome?.rvRecommend?.adapter = featuredProductAdapter
-        bindingHome?.rvRecommend?.layoutManager =  staggeredGridLayoutManager
+        bindingHome.rvRecommend.adapter = featuredProductAdapter
+        bindingHome.rvRecommend.layoutManager =  staggeredGridLayoutManager
 
-        bindingHome?.rvRecommend?.isNestedScrollingEnabled = false //set rv không cuộn trong NestedScrollView
+        bindingHome.rvRecommend.isNestedScrollingEnabled = false //set rv không cuộn trong NestedScrollView
     }
     private fun initSlider(){
         sizeSlider = listSlideshow.size
-        sliderAdapter = SlideshowAdapter(listSlideshow, bindingHome?.vpSlideShow)
-        bindingHome?.vpSlideShow?.adapter = sliderAdapter
-        bindingHome?.vpSlideShow?.clipToPadding = false
-        bindingHome?.vpSlideShow?.clipChildren = false
-        bindingHome?.vpSlideShow?.offscreenPageLimit = 3
-        bindingHome?.vpSlideShow?.getChildAt(0)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        sliderAdapter = SlideshowAdapter(listSlideshow, bindingHome.vpSlideShow)
+        bindingHome.vpSlideShow.adapter = sliderAdapter
+        bindingHome.vpSlideShow.clipToPadding = false
+        bindingHome.vpSlideShow.clipChildren = false
+        bindingHome.vpSlideShow.offscreenPageLimit = 3
+        bindingHome.vpSlideShow.getChildAt(0)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
         val compositePageTransformer = CompositePageTransformer()
         compositePageTransformer.addTransformer(MarginPageTransformer(40))
-        bindingHome?.vpSlideShow?.setPageTransformer(compositePageTransformer)
-        bindingHome?.vpSlideShow?.registerOnPageChangeCallback(object :
+        bindingHome.vpSlideShow.setPageTransformer(compositePageTransformer)
+        bindingHome.vpSlideShow.registerOnPageChangeCallback(object :
                 ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -295,15 +296,15 @@ class FragmentHome : BaseFragment(){
                     )
                     this?.layoutParams = layoutParams
                 }
-                bindingHome?.indicatorContainer?.addView(indicator[i])
+                bindingHome.indicatorContainer.addView(indicator[i])
             }
         }
 
     }
     private fun setCurrentIndicator(index: Int){
-        val childCount = bindingHome?.indicatorContainer?.childCount
-        for(i in 0 until childCount!!){
-            val imageView = bindingHome?.indicatorContainer?.get(i) as ImageView
+        val childCount = bindingHome.indicatorContainer.childCount
+        for(i in 0 until childCount){
+            val imageView = bindingHome.indicatorContainer.get(i) as ImageView
             if(i==index){
                 imageView.setImageDrawable(
                         activity?.applicationContext?.let {

@@ -99,14 +99,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         bindingProductDetail?.pbLoadVote?.setIndeterminateDrawableTiled(
                 FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(
                         R.array.google_colors)).build())
-        context?.let {
-            bindingProductDetail?.ivTechnology?.let { imgV ->
-                Glide.with(it)
-                    .asGif()
-                    .load(R.drawable.settings)
-                    .into(imgV)
-            }
-        }
+
         productBuyNow?.clear()
         product = arguments?.getParcelable("product")
         val query = arguments?.getString("name")
@@ -319,7 +312,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             relatedProductAdapter?.setItems(it)
             bindingProductDetail?.shimmerLayoutRelated?.stopShimmer()
             bindingProductDetail?.shimmerLayoutRelated?.gone()
-            detailViewModel?.getCompareProduct(product?.price)
+            detailViewModel?.getCompareProduct(product?.idCate, product?.price)
         })
         detailViewModel?.compareProduct?.observe(viewLifecycleOwner,{
             compareAdapter?.setItems(it)

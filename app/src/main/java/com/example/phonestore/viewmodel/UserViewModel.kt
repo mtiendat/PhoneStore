@@ -35,7 +35,7 @@ class UserViewModel: ViewModel() {
         userRepo.callSignUp(user, this::onSignUpSocialNetworkSuccess, this::onError)
     }
     fun postSignOut(){
-        userRepo.callSignOut(this::onSignUpSuccess, this::onError)
+        userRepo.callSignOut(this::onLogOutSuccess, this::onError)
     }
     fun getNotification(){
         userRepo.callGetNotification(this::onNotificationSuccess, this::onError)
@@ -46,9 +46,10 @@ class UserViewModel: ViewModel() {
     fun deleteNotification(idNotification: Int?){
         userRepo.callDeleteNotification(idNotification, this::onDeleteNotificationSuccess, this::onError)
     }
-    fun checkEmail(email: String? =""){
-        userRepo.callCheckEmail(email, this::onSignUpSuccess, this::onError)
+    fun checkNumberPhone(email: String? =""){
+        userRepo.callCheckNumberPhone(email, this::onSignUpSuccess, this::onError)
     }
+
     fun changePassword(email: String? ="", password: String=""){
         userRepo.callChangePassword(email, password, this::onSignUpSuccess, this::onError)
     }
@@ -59,7 +60,7 @@ class UserViewModel: ViewModel() {
         userRepo.callChangeAvatar(filePart, this::onChangeAvatarSuccess, this::onError)
     }
     private fun onLoginSuccess(loginResponse: LoginResponse?){
-        message.value = loginResponse?.message
+        message.value = loginResponse?.messages
         this.loginResponse.value = loginResponse
         user.value = loginResponse?.user
         loginResponse?.token?.let { Constant.TOKEN = it }
@@ -67,15 +68,17 @@ class UserViewModel: ViewModel() {
         Constant.idUser = loginResponse?.user?.id ?: 0
         Constant.user = loginResponse?.user
     }
+    private fun onLogOutSuccess(loginResponse: LoginResponse?){
+        status.value = loginResponse?.status
+    }
     private fun onSignUpSuccess(loginResponse: LoginResponse?){
-        message.value = loginResponse?.message
         this.loginResponse.value = loginResponse
     }
     private fun onSignUpSocialNetworkSuccess(loginResponse: LoginResponse?){
-        statusSocialNetwork.value = loginResponse?.status
+        this.loginResponse.value = loginResponse
     }
     private fun onChangeAvatarSuccess(loginResponse: LoginResponse?){
-        message.value = loginResponse?.message
+        message.value = loginResponse?.messages
         statusChangeAvatar.value = loginResponse?.status
         Constant.user = loginResponse?.user
     }

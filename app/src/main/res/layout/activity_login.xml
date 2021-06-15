@@ -5,7 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
-
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="0dp"
+        android:layout_height="88dp"
+        app:layout_constraintBottom_toTopOf="@+id/glLogin1"
+        app:layout_constraintEnd_toStartOf="@+id/glLoginRight"
+        app:layout_constraintStart_toStartOf="@+id/glLoginLeft"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_app" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glLogin1"
         android:layout_width="wrap_content"
@@ -18,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.75" />
+        app:layout_constraintGuide_percent="0.78" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glLoginLeft"
@@ -34,27 +42,40 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.85" />
 
+    <TextView
+        android:id="@+id/tvLoginFail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="*Số điện thoại hoặc mật khẩu không chính xác"
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/textInputPassword"
+        app:layout_constraintTop_toBottomOf="@+id/textInputPassword" />
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_email"
+        android:id="@+id/textInputPhone"
         style="@style/TextInputLayout.OutlineBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
+        android:hint="Số điện thoại"
         app:boxCornerRadiusBottomEnd="32dp"
+        app:boxCornerRadiusBottomStart="32dp"
         app:boxCornerRadiusTopEnd="32dp"
         app:boxCornerRadiusTopStart="32dp"
-        app:boxCornerRadiusBottomStart="32dp"
-        android:hint="@string/email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/glLogin1">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtLoginEmail"
+            android:id="@+id/edtLoginPhone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:inputType="phone"
+            android:theme="@style/ChangeEditTextCursor" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -62,25 +83,34 @@
         style="@style/TextInputLayout.OutlineBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:boxCornerRadiusBottomEnd="32dp"
-        app:boxCornerRadiusTopEnd="32dp"
-        app:boxCornerRadiusTopStart="32dp"
-        app:boxCornerRadiusBottomStart="32dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
-        app:endIconMode="password_toggle"
         android:hint="@string/password"
+        app:boxCornerRadiusBottomEnd="32dp"
+        app:boxCornerRadiusBottomStart="32dp"
+        app:boxCornerRadiusTopEnd="32dp"
+        app:boxCornerRadiusTopStart="32dp"
+        app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_input_email">
+        app:layout_constraintTop_toBottomOf="@+id/textInputPhone">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtLoginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:theme="@style/ChangeEditTextCursor" />
     </com.google.android.material.textfield.TextInputLayout>
-
+    <CheckBox
+        android:id="@+id/cbSaveAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/ghi_nho_dang_nhap"
+        android:textColorLink="@color/blue"
+        app:layout_constraintStart_toStartOf="@+id/textInputPassword"
+        app:layout_constraintTop_toBottomOf="@+id/tvLoginFail" />
     <TextView
         android:id="@+id/tvLoginForgotPassword"
         android:layout_width="112dp"
@@ -102,32 +132,48 @@
         app:layout_constraintTop_toBottomOf="@+id/cbSaveAccount" />
 
     <com.facebook.login.widget.LoginButton
+        xmlns:facebook="http://schemas.android.com/apk/res-auto"
         android:id="@+id/btnLoginWithFacebook"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/button_facebook"
-        android:drawableStart="@drawable/com_facebook_button_icon"
+        android:layout_marginTop="32dp"
         android:paddingStart="24dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="24dp"
-        android:paddingBottom="16dp"
-        android:text="@string/dang_nhap_voi_facebook"
+        android:paddingTop="12dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="12dp"
+        facebook:com_facebook_login_text="@string/dang_nhap_voi_facebook"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/btnLogin"
         app:layout_constraintStart_toStartOf="@+id/btnLogin"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+
+    <com.shobhitpuri.custombuttons.GoogleSignInButton
+        android:id="@+id/btnLoginGoogle"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
+        android:background="@drawable/button_google"
+        android:text="Đăng nhập với Google"
+        android:paddingEnd="72dp"
+        android:textAlignment="center"
+        app:isDarkTheme="true"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnLoginWithFacebook" />
 
     <TextView
         android:id="@+id/tvQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/ban_chua_co_tai_khoan"
         app:layout_constraintStart_toStartOf="@+id/glLoginLeft"
-        app:layout_constraintTop_toBottomOf="@+id/btnLoginWithFacebook" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLoginGoogle" />
 
     <TextView
         android:id="@+id/tvSignUp"
@@ -140,36 +186,8 @@
         app:layout_constraintStart_toEndOf="@+id/tvQuestion"
         app:layout_constraintTop_toTopOf="@+id/tvQuestion" />
 
-    <com.jpardogo.android.googleprogressbar.library.GoogleProgressBar
-        android:id="@+id/pBLogin"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:translationZ="4dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/glLoginRight"
-        app:layout_constraintStart_toStartOf="@+id/glLoginLeft"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <CheckBox
-        android:id="@+id/cbSaveAccount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="@string/ghi_nho_dang_nhap"
-        android:textColorLink="@color/blue"
-        app:layout_constraintStart_toStartOf="@+id/textInputPassword"
-        app:layout_constraintTop_toBottomOf="@+id/textInputPassword" />
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="0dp"
-        android:layout_height="88dp"
-        app:layout_constraintBottom_toTopOf="@+id/glLogin1"
-        app:layout_constraintEnd_toStartOf="@+id/glLoginRight"
-        app:layout_constraintStart_toStartOf="@+id/glLoginLeft"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_app" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

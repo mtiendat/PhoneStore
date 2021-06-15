@@ -7,14 +7,14 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.Observer
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import com.example.phonestore.BuildConfig
-import com.example.phonestore.extendsion.visible
-import com.example.phonestore.R
 import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivityLoginBinding
 import com.example.phonestore.extendsion.AppEvent
+import com.example.phonestore.extendsion.gone
+import com.example.phonestore.extendsion.visible
 import com.example.phonestore.model.auth.FormLogin
 import com.example.phonestore.model.auth.User
 import com.example.phonestore.services.Constant
@@ -22,23 +22,39 @@ import com.example.phonestore.view.MainActivity
 import com.example.phonestore.viewmodel.UserViewModel
 import com.facebook.*
 import com.facebook.login.LoginResult
-import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
+import java.net.MalformedURLException
+import java.net.URL
+import java.util.regex.Pattern
+
 
 class ActivityLogin: BaseActivity() {
     companion object{
         fun intentFor(context: Context): Intent =
-            Intent(context, ActivityLogin::class.java)
+            Intent(context, ActivityLogin::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
     }
-    private var bindingLogin: ActivityLoginBinding? = null
+    private lateinit var bindingLogin: ActivityLoginBinding
     private var loginViewModel: UserViewModel? = null
     private var callbackManager: CallbackManager? = null
     private var name: String? =""
     private var email: String? =""
+    private var phone: String? =""
     private var avatar: String? =""
     private var idFB: String? = ""
+    private val RC_SIGN_IN = 999
+    private lateinit var mGoogleSignInClient: GoogleSignInClient
     override fun setBinding() {
         bindingLogin = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(bindingLogin?.root)
+        setContentView(bindingLogin.root)
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
     override fun setUI() {
@@ -47,41 +63,55 @@ class ActivityLogin: BaseActivity() {
         if(internet) {
             Toast.makeText(this, "Không có kết nối internet", Toast.LENGTH_SHORT).show()
         }else {
-            bindingLogin?.pBLogin?.setIndeterminateDrawableTiled(
-                    FoldingCirclesDrawable.Builder(this).colors(resources.getIntArray(
-                            R.array.google_colors)).build())
-            bindingLogin?.btnLoginWithFacebook?.setPermissions(listOf("public_profile", "email"))
+
+            bindingLogin.btnLoginWithFacebook.setPermissions(listOf("public_profile", "email"))
             setOnClickListener()
             loginWithFacebook()
+        }
+        bindingLogin.edtLoginPassword.addTextChangedListener {
+            bindingLogin.tvLoginFail.gone()
+            bindingLogin.textInputPassword.error = null
+        }
+        bindingLogin.edtLoginPhone.addTextChangedListener{
+            bindingLogin.tvLoginFail.gone()
+            bindingLogin.textInputPhone.error = null
         }
 
     }
     fun setOnClickListener(){
-        bindingLogin?.btnLogin?.setOnClickListener {
+        bindingLogin.btnLogin.setOnClickListener {
             if(validate()) {
-                if(bindingLogin?.cbSaveAccount?.isChecked == true){
-                    saveSharedPreferences(bindingLogin?.edtLoginEmail?.text.toString(), bindingLogin?.edtLoginPassword?.text.toString())
-                }
+
                 AppEvent.notifyShowPopUp()
-                loginViewModel?.postLogin(FormLogin(bindingLogin?.edtLoginEmail?.text.toString(), bindingLogin?.edtLoginPassword?.text.toString()))
+                loginViewModel?.postLogin(FormLogin(phone = bindingLogin.edtLoginPhone.text.toString(), password = bindingLogin.edtLoginPassword.text.toString(), formality = "normal"))
             }
         }
-        bindingLogin?.tvSignUp?.setOnClickListener {
-            startActivity(ActivitySignUp.intentFor(this))
+        bindingLogin.tvSignUp.setOnClickListener {
+            startActivity(ActivitySignUpInputPhone.intentFor(this))
         }
-        bindingLogin?.tvLoginForgotPassword?.setOnClickListener {
+        bindingLogin.tvLoginForgotPassword.setOnClickListener {
             startActivity(ActivityForgotPassword.intentFor(this))
+        }
+        bindingLogin.btnLoginGoogle.setOnClickListener {
+            loginWithGoogle()
         }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        callbackManager?.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
+        callbackManager?.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            // The Task returned from this call is always completed, no need to attach
+            // a listener.
+            val task: Task<GoogleSignInAccount> =
+                GoogleSignIn.getSignedInAccountFromIntent(data)
+            handleSignInResult(task)
+        }
     }
     private fun loginWithFacebook(){
         callbackManager = CallbackManager.Factory.create()
-        bindingLogin?.btnLoginWithFacebook?.registerCallback(callbackManager, object :FacebookCallback<LoginResult?>{
+        bindingLogin.btnLoginWithFacebook.registerCallback(callbackManager, object :FacebookCallback<LoginResult?>{
             override fun onSuccess(result: LoginResult?) {
-                bindingLogin?.pBLogin?.visible()
+                AppEvent.notifyShowPopUp()
                 getInfoUser(result?.accessToken, result?.accessToken?.userId)
             }
 
@@ -90,7 +120,7 @@ class ActivityLogin: BaseActivity() {
             }
 
             override fun onError(error: FacebookException?) {
-                Toast.makeText(this@ActivityLogin, "Lỗi", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ActivityLogin, "Lỗi không xác định", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -142,7 +172,7 @@ class ActivityLogin: BaseActivity() {
             } else {
                 Log.i("Facebook Email: ", "Không tồn tại")
             }
-            loginViewModel?.postSignUpSocialNetwork(User(0, name, avatar, email, idFB,"","","Facebook"))
+            loginViewModel?.postSignUpSocialNetwork(User(0, name = name, avatar = avatar, email = email, password = null, formality = "facebook"))
         }.executeAsync()
 
 
@@ -151,50 +181,81 @@ class ActivityLogin: BaseActivity() {
     override fun setViewModel() {
         loginViewModel = ViewModelProvider(this@ActivityLogin).get(UserViewModel::class.java)
 
-
     }
 
     override fun setObserve() {
         loginViewModel?.loginResponse?.observe(this, {
             if(it.status) {
+                if(it.messages.equals("accountSocialCreated")){
+                    loginViewModel?.postLogin(FormLogin(email = email, password = "", formality = "socialNetwork"))
+                    saveSharedPreferences("", password = "", email = email)
+                }else{
+                    if(bindingLogin.cbSaveAccount.isChecked){
+                        saveSharedPreferences(bindingLogin.edtLoginPhone.text.toString(), password = bindingLogin.edtLoginPassword.text.toString(), email = null)
+                    }
                 startActivity(MainActivity.intentFor(this))
                 finish()
+                }
             }else {
-                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                bindingLogin.tvLoginFail.visible()
+                bindingLogin.tvLoginFail.text = it.messages
                 AppEvent.notifyClosePopUp()
             }
         })
-        val statusSocialNetworkObserve = Observer<Boolean?>{
-            if(it!=null && it) {
-                loginViewModel?.postLogin(FormLogin(email, idFB))
-                saveSharedPreferences(email, idFB)
-            }
-        }
-        loginViewModel?.statusSocialNetwork?.observe(this, statusSocialNetworkObserve)
     }
-    private fun saveSharedPreferences(email: String?, password: String?){
-        val pref: SharedPreferences = this.getSharedPreferences("saveAccount",Context.MODE_PRIVATE)
-        pref.edit().apply {
-            putString("email", email)
-            putString("password",password)
-        }.apply()
+    private fun saveSharedPreferences(phone:String, email: String?, password: String?){
+        if(email!=null){
+            val pref: SharedPreferences = this.getSharedPreferences("saveAccount",Context.MODE_PRIVATE)
+            pref.edit().apply {
+                putString("email", email)
+                putString("password",password)
+            }.apply()
+        }else{
+            val pref: SharedPreferences = this.getSharedPreferences("saveAccount",Context.MODE_PRIVATE)
+            pref.edit().apply {
+                putString("phone", phone)
+                putString("password",password)
+            }.apply()
+        }
+
     }
     private fun validate(): Boolean {
-        return if (bindingLogin?.edtLoginEmail?.text.isNullOrBlank()) {
-            bindingLogin?.edtLoginEmail?.error = Constant.VALIDATE_EMAIL
-            false
-        } else if (bindingLogin?.edtLoginPassword?.text.isNullOrBlank()) {
-            bindingLogin?.edtLoginPassword?.error = Constant.VALIDATE_PASSWORD
-            false
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(bindingLogin?.edtLoginEmail?.text!!).matches()) {
-            bindingLogin?.edtLoginEmail?.error = Constant.EMAIL_INVALID
-            false
-        } else true
+        var valid = true
+        if (bindingLogin.edtLoginPhone.text.isNullOrBlank()) {
+            bindingLogin.textInputPhone.error = Constant.VALIDATE_PHONE
+            valid = false
+        }else if (!Pattern.compile("^(\\+84|0)+([3|5|7|8|9])+([0-9]{8})$").matcher(bindingLogin.edtLoginPhone.text!!).matches()){
+            bindingLogin.textInputPhone.error = Constant.PHONE_INVALID
+            valid =false
+        }
+        if (bindingLogin.edtLoginPassword.text.isNullOrBlank()) {
+            bindingLogin.textInputPassword.error = Constant.VALIDATE_PASSWORD
+            valid = false
+        }
+
+        return valid
     }
     override fun onSuspendedAccount() {
         runOnUiThread {
             closePopup()
             //XToast(this, "Your account has been suspended").show()
+        }
+    }
+    private fun loginWithGoogle(){
+        val signInIntent = mGoogleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+            val pic = URL(account?.photoUrl.toString())
+            // Signed in successfully, show authenticated UI.
+            email = account?.email
+            AppEvent.notifyShowPopUp()
+            loginViewModel?.postSignUpSocialNetwork(User(0, name = account?.displayName, avatar = pic.toString(), email = account?.email, password = null, formality = "google"))
+
+        } catch (e: ApiException) {
+        } catch (e: MalformedURLException) {
         }
     }
 }

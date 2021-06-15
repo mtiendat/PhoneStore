@@ -87,6 +87,7 @@ class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Re
             holder.bindingHotSale.tvPriceProduct.text = (item.price - (item.price * item.discount)).toInt().toVND()
             holder.bindingHotSale.tvTotalJudge.text = "${item.totalJudge} đánh giá"
             holder.bindingHotSale.ratingBarProduct.rating = item.totalVote?: 0f
+            holder.bindingHotSale.tvNumberDiscount.text = "-${(item.discount*100).toInt()}%"
             setImg(item.img, holder.bindingHotSale.ivProduct, holder.itemView.context)
             holder.bindingHotSale.ivProduct.setOnClickListener {
 //                onItemClick?.invoke(item.idCate)

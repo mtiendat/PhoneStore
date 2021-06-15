@@ -10,7 +10,6 @@
     android:layout_marginStart="2dp"
     android:layout_marginEnd="2dp"
     app:cardCornerRadius="8dp">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,6 +25,50 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/avatars" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctrlDiscount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivProduct">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginBottom="2dp"
+                android:src="@drawable/bg_ic_fire"
+                android:translationZ="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/lnDiscount"
+                android:layout_width="0dp"
+                android:layout_height="12dp"
+                android:background="@drawable/bg_ln_corner"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvNumberDiscount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="-10%"
+                    android:textColor="@color/white"
+                    android:textSize="8sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:id="@+id/tvOldPriceProduct"
             android:layout_width="wrap_content"
@@ -35,7 +78,7 @@
             android:text="99"
             android:textColor="@color/dray"
             android:textSize="10sp"
-            android:textStyle="bold|italic"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tvPriceProduct"
             app:layout_constraintStart_toEndOf="@+id/tvPriceProduct"
             app:layout_constraintTop_toTopOf="@+id/tvPriceProduct" />
@@ -44,11 +87,10 @@
             android:id="@+id/tvPriceProduct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="99"
             android:textColor="@color/red"
             app:layout_constraintStart_toStartOf="@+id/ivProduct"
-            app:layout_constraintTop_toBottomOf="@+id/ivProduct" />
+            app:layout_constraintTop_toBottomOf="@+id/ctrlDiscount" />
 
         <RatingBar
             android:id="@+id/ratingBarProduct"
@@ -75,4 +117,5 @@
             app:layout_constraintStart_toEndOf="@+id/ratingBarProduct"
             app:layout_constraintTop_toTopOf="@+id/ratingBarProduct" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

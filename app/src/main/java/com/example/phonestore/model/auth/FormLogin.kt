@@ -1,3 +1,5 @@
 package com.example.phonestore.model.auth
 
-class FormLogin(var email: String? = "", var password: String? = "")
+import com.google.gson.annotations.SerializedName
+
+class FormLogin(var phone: String? = "", var email: String? = null, var password: String? = "", @SerializedName("htdn") var formality: String? ="")

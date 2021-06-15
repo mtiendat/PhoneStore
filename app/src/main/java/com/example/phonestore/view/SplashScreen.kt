@@ -49,9 +49,6 @@ class SplashScreen :AppCompatActivity() {
                 startActivity(MainActivity.intentFor(this))
                 finish()
             }else {
-                Handler(Looper.getMainLooper()).postDelayed({
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                }, 2000)
                 startActivity(ActivityLogin.intentFor(this))
                 finish()
             }
@@ -59,9 +56,11 @@ class SplashScreen :AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             bindingSplashScreen?.progressBarSplashScreen?.visible()
             val ref: SharedPreferences = this.getSharedPreferences("saveAccount", Context.MODE_PRIVATE)
-            if (ref.getString("email", "") != "") {
-                loginViewModel?.postLogin(FormLogin(ref.getString("email", ""), ref.getString("password", "")))
-            } else {
+            if (ref.getString("phone", "") != "") {
+                loginViewModel?.postLogin(FormLogin(phone = ref.getString("phone", ""), password = ref.getString("password", ""), formality = "normal"))
+            }else if(ref.getString("email", "") != "") {
+                loginViewModel?.postLogin(FormLogin(email = ref.getString("email", ""), password = ref.getString("password", ""), formality = "socialNetwork"))
+            }else{
                 startActivity(ActivityLogin.intentFor(this))
                 finish()
             }

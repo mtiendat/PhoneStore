@@ -44,9 +44,7 @@ class ActivityForgotPassword: BaseActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
     }
     override fun setUI() {
-        bindingForgotPassword?.btnFindEmail?.setOnClickListener {
-            forgotPasswordViewModel?.checkEmail(bindingForgotPassword?.edtFPEmail?.text.toString())
-        }
+
     }
 
 

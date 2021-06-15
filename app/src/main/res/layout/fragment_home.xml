@@ -6,6 +6,7 @@
     android:id="@+id/swipe"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvDetail"
         android:layout_width="match_parent"
@@ -25,35 +26,40 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewTop"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 app:cardCornerRadius="0dp"
                 app:cardElevation="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/glMainBottom"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/background_gradient">
 
-                    <androidx.constraintlayout.widget.Guideline
-                        android:id="@+id/glMainTop"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layout_constraintGuide_percent="0.78" />
+                    <com.example.phonestore.services.AutoScrollRecyclerView
+                        android:id="@+id/rvLogoSupplier"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@color/white"
+                        android:theme="@style/RecyclerView"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
 
                     <com.facebook.shimmer.ShimmerFrameLayout
                         android:id="@+id/shimmerSlideShow"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="200dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
                         android:translationZ="4dp"
-                        app:layout_constraintBottom_toTopOf="@+id/glMainTop"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -69,15 +75,14 @@
 
                         </LinearLayout>
                     </com.facebook.shimmer.ShimmerFrameLayout>
+
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/vpSlideShow"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="200dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
                         android:background="@drawable/background_gradient"
-                        app:layout_constraintBottom_toTopOf="@+id/glMainTop"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -86,189 +91,138 @@
                         android:id="@+id/indicatorContainer"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
+                        android:layout_marginBottom="4dp"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        app:layout_constraintBottom_toTopOf="@+id/glMainTop"
+                        app:layout_constraintBottom_toBottomOf="@+id/vpSlideShow"
                         app:layout_constraintEnd_toEndOf="parent" />
 
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cardViewBotom"
+                    <LinearLayout
+                        android:id="@+id/lnBanner"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="match_parent"
                         android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardElevation="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/glMainTop">
+                        app:layout_constraintTop_toBottomOf="@id/vpSlideShow">
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/ctlFeature"
+                        <ImageView
+                            android:id="@+id/ivBanner"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitXY" />
+                    </LinearLayout>
 
-                            <ImageView
-                                android:id="@+id/ivListSupplier"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:layout_marginTop="4dp"
-                                app:layout_constraintEnd_toStartOf="@+id/ivDiscount"
-                                app:layout_constraintHorizontal_bias="0.5"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/categories" />
-
-                            <ImageView
-                                android:id="@+id/ivDiscount"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:scaleType="fitXY"
-                                android:src="@drawable/mgg"
-                                app:layout_constraintEnd_toStartOf="@+id/ivFreeship"
-                                app:layout_constraintHorizontal_bias="0.5"
-                                app:layout_constraintStart_toEndOf="@+id/ivListSupplier"
-                                app:layout_constraintTop_toTopOf="@+id/ivListSupplier" />
-
-                            <ImageView
-                                android:id="@+id/ivFreeship"
-                                android:layout_width="40dp"
-                                android:layout_height="40dp"
-                                android:scaleType="fitXY"
-                                android:src="@drawable/freeship"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintHorizontal_bias="0.5"
-                                app:layout_constraintStart_toEndOf="@+id/ivDiscount"
-                                app:layout_constraintTop_toTopOf="@+id/ivDiscount" />
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </androidx.cardview.widget.CardView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/glMainBottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="258dp" />
-
-            <ImageView
-                android:id="@+id/ivHotSale"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tvTopSeller"
-                app:layout_constraintStart_toEndOf="@+id/tvTopSeller"
-                app:layout_constraintTop_toTopOf="@+id/tvTopSeller"
-                app:srcCompat="@drawable/custom_state_order_delivered" />
-
-            <View
-                android:id="@+id/viewHotSale"
-                android:layout_width="395dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/dray"
-                app:layout_constraintStart_toStartOf="@+id/tvTopSeller"
-                app:layout_constraintTop_toBottomOf="@+id/tvTopSeller" />
-
-            <TextView
-                android:id="@+id/tvTopSeller"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/hot_sale"
-                android:textSize="18sp"
-                android:textStyle="bold|italic"
-                app:layout_constraintStart_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/glMainBottom" />
-
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTopSeller">
-
-                <com.facebook.shimmer.ShimmerFrameLayout
-                    android:id="@+id/shimmerLayoutHotSale"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:shimmer_repeat_mode="restart"
-                    app:shimmer_shape="radial">
-
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayout3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/lnBanner">
 
-                        <include layout="@layout/shimmer_hotsale_layout" />
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:layout_width="0dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_custom_button_corner_navy"
+                            android:text="KHUYẾN MÃI HOT"
+                            android:textColor="@color/yellow"
+                            android:textStyle="bold"
+                            android:translationZ="4dp"
+                            app:layout_constraintEnd_toStartOf="@+id/glHotSale1"
+                            app:layout_constraintStart_toEndOf="@+id/glHotSale"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                        <include layout="@layout/shimmer_hotsale_layout" />
+                        <LinearLayout
+                            android:id="@+id/linearLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="@drawable/bg_ln_corner_stroke"
+                            android:orientation="vertical"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
 
-                        <include layout="@layout/shimmer_hotsale_layout" />
+                            <com.facebook.shimmer.ShimmerFrameLayout
+                                android:id="@+id/shimmerLayoutHotSale"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="gone"
+                                app:shimmer_repeat_mode="restart"
+                                app:shimmer_shape="radial">
 
-                        <include layout="@layout/shimmer_hotsale_layout" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
 
-                        <include layout="@layout/shimmer_hotsale_layout" />
-                    </LinearLayout>
-                </com.facebook.shimmer.ShimmerFrameLayout>
+                                    <include layout="@layout/shimmer_hotsale_layout" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvHotSale"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    android:theme="@style/RecyclerView" />
-            </LinearLayout>
+                                    <include layout="@layout/shimmer_hotsale_layout" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvLogoSupplier"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="8dp"
-                android:theme="@style/RecyclerView"
-                app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-                app:layout_constraintStart_toStartOf="@+id/linearLayout"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+                                    <include layout="@layout/shimmer_hotsale_layout" />
+
+                                    <include layout="@layout/shimmer_hotsale_layout" />
+
+                                    <include layout="@layout/shimmer_hotsale_layout" />
+                                </LinearLayout>
+                            </com.facebook.shimmer.ShimmerFrameLayout>
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rvHotSale"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_margin="8dp"
+                                android:layout_weight="1"
+                                android:theme="@style/RecyclerView" />
+                        </LinearLayout>
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/glHotSale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.29" />
+
+                        <androidx.constraintlayout.widget.Guideline
+                            android:id="@+id/glHotSale1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintGuide_percent="0.69" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
 
             <TextView
                 android:id="@+id/tvRecommended"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:text="SẢN PHẨM NỔI BẬT"
                 android:textAlignment="viewStart"
                 android:textSize="18sp"
-                android:textStyle="bold|italic"
-                app:layout_constraintStart_toStartOf="@+id/rvLogoSupplier"
-                app:layout_constraintTop_toBottomOf="@+id/rvLogoSupplier" />
-
-            <ImageView
-                android:id="@+id/ivRecommend"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginStart="162dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tvRecommended"
-                app:layout_constraintStart_toStartOf="@+id/tvRecommended"
-                app:layout_constraintTop_toTopOf="@+id/tvRecommended"
-                app:layout_constraintVertical_bias="0.8"
-                app:srcCompat="@drawable/custom_state_order_transported" />
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardViewTop" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnSortPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:background="@color/transparent"
                 android:drawableEnd="@drawable/ic_up"
                 android:paddingStart="30dp"
@@ -276,29 +230,19 @@
                 android:text="@string/sap_xep"
                 android:textAlignment="viewStart"
                 android:textAllCaps="false"
-                app:layout_constraintBottom_toBottomOf="@+id/tvRecommended"
-                app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
-                app:layout_constraintTop_toTopOf="@id/tvRecommended" />
-
-            <View
-                android:id="@+id/viewRecommend"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/dray"
-                app:layout_constraintEnd_toEndOf="@+id/btnSortPrice"
-                app:layout_constraintStart_toStartOf="@+id/tvRecommended"
-                app:layout_constraintTop_toBottomOf="@+id/tvRecommended" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewTop" />
 
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmerLayoutFeaturedProduct"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
-                app:layout_constraintStart_toStartOf="@+id/tvRecommended"
-                app:layout_constraintTop_toBottomOf="@+id/viewRecommend"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvRecommended"
                 app:shimmer_repeat_mode="restart"
                 app:shimmer_shape="radial">
 
@@ -345,12 +289,12 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
+                android:layout_marginTop="32dp"
                 android:translationZ="4dp"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/rvRecommend"
-                app:layout_constraintEnd_toEndOf="@+id/rvLogoSupplier"
-                app:layout_constraintStart_toStartOf="@+id/tvRecommended"
-                app:layout_constraintTop_toBottomOf="@+id/viewRecommend" />
+                android:visibility="invisible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/shimmerLayoutFeaturedProduct" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvRecommend"
@@ -360,7 +304,7 @@
                 android:theme="@style/RecyclerView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/viewRecommend" />
+                app:layout_constraintTop_toBottomOf="@+id/tvRecommended" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvViewAllProduct"

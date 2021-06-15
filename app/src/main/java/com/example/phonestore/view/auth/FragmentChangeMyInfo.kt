@@ -57,7 +57,7 @@ class FragmentChangeMyInfo: BaseFragment() {
         }
         bindingChangeMyInfo?.btnChangeAddress?.setOnClickListener {
             flag = 3
-            it.findNavController().navigate(R.id.action_fragmentChangeMyInfo_to_bottomSheet, bundleOf("data" to Constant.user?.address, "title" to bindingChangeMyInfo?.btnChangeAddress?.text))
+            //it.findNavController().navigate(R.id.action_fragmentChangeMyInfo_to_bottomSheet, bundleOf("data" to Constant.user?.address, "title" to bindingChangeMyInfo?.btnChangeAddress?.text))
         }
     }
     override fun setViewModel() {
@@ -69,7 +69,7 @@ class FragmentChangeMyInfo: BaseFragment() {
                 when(flag){
                     1->bindingChangeMyInfo?.tvChangeName?.text = data
                     2->bindingChangeMyInfo?.tvChangePhone?.text = data
-                    3->Constant.user?.address = data
+                    //3->Constant.user?.address = data
                 }
 
             }else view?.let { it1 -> Snackbar.make(it1, "Lỗi, vui lòng thử lại sau...", Snackbar.LENGTH_SHORT).show() }

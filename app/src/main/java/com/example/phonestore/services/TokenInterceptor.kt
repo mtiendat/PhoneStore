@@ -8,6 +8,7 @@ class TokenInterceptor: Interceptor {
         return chain.proceed(
                 chain.request().newBuilder()
                 .header("Authorization", "Bearer "+ Constant.TOKEN)
+                    .header("Accept", "application/json")
                 .build()
         )
     }

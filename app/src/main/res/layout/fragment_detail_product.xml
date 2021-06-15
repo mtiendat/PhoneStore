@@ -31,7 +31,6 @@
                 <ImageView
                     android:id="@+id/ivDetailPhoto"
                     android:layout_width="match_parent"
-
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toTopOf="@+id/glDetailTop"
                     app:layout_constraintTop_toTopOf="@+id/ctlDetail"
@@ -44,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    app:layout_constraintGuide_begin="320dp" />
+                    app:layout_constraintGuide_percent="0.7" />
 
                 <TextView
                     android:id="@+id/tvDetailName"
@@ -61,7 +60,7 @@
 
                 <RatingBar
                     android:id="@+id/ratingBarDetail"
-                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    style="@style/Widget.AppCompat.RatingBar.Indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -91,6 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
 
+                    android:textColor="@color/dray"
                     app:layout_constraintBottom_toBottomOf="@+id/tvDetailPrice"
                     app:layout_constraintStart_toEndOf="@+id/tvDetailPrice"
                     app:layout_constraintTop_toTopOf="@+id/tvDetailPrice" />
@@ -114,28 +114,16 @@
                     app:layout_constraintStart_toStartOf="@+id/spDetailStorage"
                     app:layout_constraintTop_toBottomOf="@+id/spDetailStorage" />
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.5" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/glDetailBottom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="448dp" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ctrlServiceDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:background="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/glDetailBottom">
+                app:layout_constraintTop_toBottomOf="@id/ctlDetail">
 
                 <ImageView
                     android:id="@+id/ivCompensation"
@@ -208,20 +196,14 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/glDetailSupplier"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_begin="558dp" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ctrlSupplier"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:background="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/glDetailSupplier">
+                app:layout_constraintTop_toBottomOf="@id/ctrlServiceDetail">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/mcvLogoSupplier"
@@ -250,6 +232,7 @@
                     app:layout_constraintStart_toStartOf="@+id/tvSupplierName"
                     app:layout_constraintTop_toBottomOf="@+id/tvSupplierName"
                     app:srcCompat="@drawable/ic_genuine" />
+
                 <View
                     android:id="@+id/viewSupplier"
                     android:layout_width="1dp"
@@ -277,35 +260,24 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="@string/san_pham_lien_quan"
+                    android:textAllCaps="true"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textAllCaps="true"
                     app:layout_constraintStart_toStartOf="@id/mcvLogoSupplier"
                     app:layout_constraintTop_toBottomOf="@id/mcvLogoSupplier" />
-
-                <View
-                    android:id="@+id/viewRelatedProduct"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@color/little_dray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/tvRelatedProductTitle"
-                    app:layout_constraintTop_toBottomOf="@+id/tvRelatedProductTitle" />
 
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/shimmerLayoutRelated"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/viewRelatedProduct"
-                    app:layout_constraintStart_toStartOf="@+id/viewRelatedProduct"
-                    app:layout_constraintTop_toBottomOf="@+id/viewRelatedProduct"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRelatedProductTitle"
                     app:shimmer_repeat_mode="restart"
                     app:shimmer_shape="radial">
 
@@ -337,7 +309,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/viewRelatedProduct" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvRelatedProductTitle" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -365,17 +337,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <View
-                    android:id="@+id/viewCompareProduct"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:background="@color/little_dray"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/tvCompareProductTitle"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCompareProductTitle" />
-
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/shimmerLayoutCompareProduct"
                     android:layout_width="match_parent"
@@ -385,8 +346,7 @@
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewCompareProduct"
-                    app:layout_constraintTop_toTopOf="@+id/viewCompareProduct"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCompareProductTitle"
                     app:shimmer_repeat_mode="restart"
                     app:shimmer_shape="radial">
 
@@ -412,13 +372,13 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@color/white"
                     android:theme="@style/RecyclerView"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/viewCompareProduct" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvCompareProductTitle" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -447,15 +407,6 @@
                     android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/ivTechnology"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvTechnologyTitle"
-                    app:layout_constraintStart_toEndOf="@+id/tvTechnologyTitle"
-                    app:layout_constraintTop_toTopOf="@+id/tvTechnologyTitle"
-                    app:srcCompat="@drawable/custom_button_form" />
 
                 <View
                     android:id="@+id/viewTechnology1"

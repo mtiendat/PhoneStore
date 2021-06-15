@@ -58,6 +58,9 @@
     <style name="EditTextRectangleStyle" parent="FormLoginStyle">
         <item name="android:background">@drawable/custom_edittext_rectangle</item>
     </style>
+    <style name="ChangeEditTextCursor">
+        <item name="colorControlActivated">@color/blue</item>
+    </style>
     <style name="ButtonStyle">
         <item name="android:background">@color/blue</item>
         <item name="android:textColor">@color/white</item>
@@ -121,6 +124,9 @@
     </style>
     <style name="ButtonStyleIcon" parent="ButtonStyleNoIcon">
         <item name="android:drawableEnd">@drawable/ic_next</item>
+    </style>
+    <style name="HighLightButton" >
+        <item name="colorControlHighlight">@color/blue</item>
     </style>
     <style name="ButtonStyleIconArrow" parent="ButtonStyleNoIcon">
         <item name="android:drawableEnd">@drawable/bg_arrow</item>

@@ -49,15 +49,15 @@ interface APIServices {
     fun postLogin(@Body account: FormLogin): Call<LoginResponse>
     @POST("sign-up")
     fun postSignUp(@Body user: User): Call<LoginResponse>
-    @DELETE("sign-out")
+    @DELETE("log-out")
     fun signOut():Call<LoginResponse>
     @PUT("change-info/{id}")
     fun changeInfoUser(@Path("id") idUser: Int?= 0, @Query("name") name: String?, @Query("phone") phone: String?, @Query("address") address: String?):Call<LoginResponse>
     @Multipart
     @POST("change-avatar/{id}")
     fun changeAvatar(@Path("id") idUser: Int? = 0, @Part avatar: MultipartBody.Part): Call<LoginResponse>
-    @POST("check-email")
-    fun checkEmail(@Query("email")email: String? =""): Call<LoginResponse>
+    @POST("check-number-phone")
+    fun checkNumberPhone(@Query("sdt")phone: String? =""): Call<LoginResponse>
     @POST("change-password")
     fun changePassword(@Query("email")email: String? ="", @Query("password")password: String? =""): Call<LoginResponse>
     @GET("thong-bao/{id}")
@@ -80,9 +80,12 @@ interface APIServices {
     fun getAllProduct(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0): Call<ProductResponse>
     @GET("slideshow-product/{id}")
     fun getSlideshowProduct(@Path("id") id: Int?): Call<SlideSlideProductResponse>
-
+    @GET("ram-storage")
+    fun getRamAndStorage(): Call<RamAndStorageResponse>
+    @GET("filter-product")
+    fun filterProduct(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0, @Query("ram") ram: String?, @Query("dungluong") storage: String?, @Query("priceMax") priceMax: String?,  @Query("priceMin") priceMin: String?): Call<ProductResponse>
     @GET("loai-sp-ncc")
-    fun getCateProductBySupplier(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0, @Query("MaNCC") idSupplier: Int? = 0): Call<CateProductResponse>
+    fun getCateProductBySupplier(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0, @Query("ram") ram: String?, @Query("dungluong") storage: String?, @Query("priceMax") priceMax: String?,  @Query("priceMin") priceMin: String?): Call<CateProductResponse>
     @GET("new-loai-sp-ncc")
     fun getNewCateProductBySupplier( @Query("MaNCC") idSupplier: Int? = 0): Call<CateProductResponse>
     @GET("detail-product/{id}")
@@ -91,8 +94,8 @@ interface APIServices {
     fun getProductByColor(@Path("id") id: Int?= 0, @Query("mausac") color: String? ="", @Query("dungluong") storage: String? =""): Call<ProductResponse>
     @GET("related-product/{id}")
     fun getRelatedProduct(@Path("id") id: Int?= 0): Call<ProductResponse>
-    @GET("compare-product")
-    fun getCompareProduct(@Query("price") price: Int?= 0): Call<ProductResponse>
+    @GET("compare-product/{id}")
+    fun getCompareProduct(@Path("id") idCate: Int?, @Query("price") price: Int?= 0): Call<ProductResponse>
 
     @GET("total-product-in-cart/{id}")
     fun getTotalProductInCart(@Path("id") idUser: Int?= 0): Call<CartResponse>

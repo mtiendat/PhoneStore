@@ -27,7 +27,7 @@
         app:layout_constraintGuide_percent="0.8" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_name"
+        android:id="@+id/textInputName"
         style="@style/TextInputLayout.OutlineBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,31 +47,8 @@
             android:id="@+id/edtSignUpFullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/ChangeEditTextCursor"
             android:inputType="textPersonName" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_email"
-        style="@style/TextInputLayout.OutlineBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:hint="@string/email"
-        app:endIconMode="clear_text"
-        app:boxCornerRadiusBottomEnd="32dp"
-        app:boxCornerRadiusBottomStart="32dp"
-        app:boxCornerRadiusTopEnd="32dp"
-        app:boxCornerRadiusTopStart="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_input_name">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtSignUpEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -89,11 +66,12 @@
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_input_email">
+        app:layout_constraintTop_toBottomOf="@+id/textInputName">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtSignUpPassword"
             android:layout_width="match_parent"
+            android:theme="@style/ChangeEditTextCursor"
             android:layout_height="wrap_content"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -119,19 +97,9 @@
             android:id="@+id/edtSignUpConfirmPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:theme="@style/ChangeEditTextCursor"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <CheckBox
-        android:id="@+id/cbPrivacy"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTintMode="@color/blue"
-        android:text="@string/dong_y_chinh_sach"
-        app:layout_constraintStart_toStartOf="@+id/textInputConfirmPassword"
-        app:layout_constraintTop_toBottomOf="@+id/textInputConfirmPassword" />
 
 
     <androidx.appcompat.widget.AppCompatButton
@@ -144,5 +112,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cbPrivacy" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputConfirmPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentMeBinding
+import com.example.phonestore.extendsion.AppEvent
 import com.example.phonestore.extendsion.gone
 import com.example.phonestore.extendsion.visible
 import com.example.phonestore.services.Constant
@@ -29,12 +29,15 @@ import com.facebook.AccessToken
 import com.facebook.GraphRequest
 import com.facebook.HttpMethod
 import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.snackbar.Snackbar
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.*
+
 
 class FragmentMe: BaseFragment() {
     private var bindingMe: FragmentMeBinding? =null
@@ -49,6 +52,7 @@ class FragmentMe: BaseFragment() {
     }
 
     override fun setUI() {
+
         bindingMe?.progressBarUploadImage?.gone()
             changeAvatarFromGallery()
             changeAvatarFromCamera()
@@ -65,11 +69,14 @@ class FragmentMe: BaseFragment() {
 
     }
     fun setOnClickListener(){
+
         bindingMe?.btnFollowOrder?.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentFollowOrder)
         }
         bindingMe?.btnLogout?.setOnClickListener {
+            AppEvent.notifyShowPopUp()
             disconnectFromFacebook()
+            disconnectFromGoogle()
             userViewModel?.postSignOut()
         }
         bindingMe?.btnSettingAccount?.setOnClickListener {
@@ -92,7 +99,8 @@ class FragmentMe: BaseFragment() {
         context?.let { setImg(Constant.user?.avatar, bindingMe?.ivAvatar, it) }
     }
     override fun setObserve() {
-        val statusSignUpObserve = Observer<Boolean> {
+
+        userViewModel?.status?.observe(viewLifecycleOwner, {
             if (it) {
                 val ref = context?.getSharedPreferences("saveAccount", Context.MODE_PRIVATE)
                 ref?.edit()?.clear()?.apply()
@@ -102,8 +110,7 @@ class FragmentMe: BaseFragment() {
                     activity?.finish()
                 }
             }
-        }
-        userViewModel?.status?.observe(viewLifecycleOwner, statusSignUpObserve)
+        })
         val statusChangeAvatarObserver = Observer<Boolean?> {
             if (it!=null && it==true) {
                 view?.let { it1 ->
@@ -228,6 +235,14 @@ class FragmentMe: BaseFragment() {
             AccessToken.refreshCurrentAccessTokenAsync()
             LoginManager.getInstance().logOut()
         }.executeAsync()
+    }
+    private fun disconnectFromGoogle(){
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+        val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+        mGoogleSignInClient.signOut()
+        mGoogleSignInClient.revokeAccess()
     }
 
 }

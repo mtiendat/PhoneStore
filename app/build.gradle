@@ -16,7 +16,6 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -39,6 +38,7 @@ android {
     dataBinding {
         enabled = true
     }
+
 }
 
 dependencies {
@@ -96,13 +96,25 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:6.5.1'
     implementation "androidx.browser:browser:1.3.0"
 
-    implementation platform('com.google.firebase:firebase-bom:27.0.0')
+
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-core:18.0.3'
-    implementation 'com.google.firebase:firebase-messaging:21.1.0'
+    implementation 'com.google.firebase:firebase-core:19.0.0'
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+    implementation platform('com.google.firebase:firebase-bom:28.1.0')
+
+    //login google
+    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.shobhitpuri.custombuttons:google-signin:1.1.0'
+    // Declare the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-auth'
 
     //zig-zig view
     implementation 'ir.beigirad:ZigzagView:1.2.1'
+    implementation 'io.github.florent37:shapeofview:1.4.7'
+
+    //otp
+    implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.2'
 
 
 

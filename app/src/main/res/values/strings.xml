@@ -82,4 +82,5 @@
     <string name="tim_chiec_dien_thoai">Tìm chiếc điện thoại bạn cần</string>
     <string name="cart">Cart</string>
     <string name="sua">Sửa</string>
+    <string name="otp_fail">Mã OTP không hợp lệ vui lòng thử lại sau</string>
 </resources>

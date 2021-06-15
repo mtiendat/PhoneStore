@@ -28,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:background="@drawable/oval"
-            android:translationZ="6dp"
+            android:translationZ="18dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline10"
             app:layout_constraintEnd_toStartOf="@+id/guideline8"
             app:layout_constraintStart_toStartOf="@+id/guideline7" />
