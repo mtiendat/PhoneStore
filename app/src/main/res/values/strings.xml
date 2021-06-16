@@ -16,6 +16,8 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="nhap_password">Nhập password</string>
+    <string name="nhap_password_new">Nhập password mới</string>
+    <string name="nhap_password_old">Nhập password cũ</string>
     <string name="dang_nhap">Đăng nhập</string>
     <string name="dang_nhap_voi_facebook">Đăng nhập với facebook</string>
     <string name="ban_chua_co_tai_khoan">Bạn chưa có tài khoản?</string>

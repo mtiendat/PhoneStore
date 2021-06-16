@@ -50,11 +50,14 @@ class UserViewModel: ViewModel() {
         userRepo.callCheckNumberPhone(email, this::onSignUpSuccess, this::onError)
     }
 
-    fun changePassword(email: String? ="", password: String=""){
-        userRepo.callChangePassword(email, password, this::onSignUpSuccess, this::onError)
+    fun changePassword(phone: String? ="", password: String=""){
+        userRepo.callChangePassword(phone, password, this::onSignUpSuccess, this::onError)
     }
-    fun changeInfoUser(name: String?, phone: String?, address: String?){
-        userRepo.callChangeInfoUser(name, phone,address, this::onLoginSuccess, this::onError)
+    fun checkPassword(phone: String? ="", password: String=""){
+        userRepo.callCheckPassword(phone, password, this::onSignUpSuccess, this::onError)
+    }
+    fun changeInfoUser(name: String?){
+        userRepo.callChangeInfoUser(name, this::onSignUpSuccess, this::onError)
     }
     fun changeAvatar(filePart: MultipartBody.Part){
         userRepo.callChangeAvatar(filePart, this::onChangeAvatarSuccess, this::onError)
@@ -64,7 +67,6 @@ class UserViewModel: ViewModel() {
         this.loginResponse.value = loginResponse
         user.value = loginResponse?.user
         loginResponse?.token?.let { Constant.TOKEN = it }
-
         Constant.idUser = loginResponse?.user?.id ?: 0
         Constant.user = loginResponse?.user
     }
@@ -78,9 +80,8 @@ class UserViewModel: ViewModel() {
         this.loginResponse.value = loginResponse
     }
     private fun onChangeAvatarSuccess(loginResponse: LoginResponse?){
-        message.value = loginResponse?.messages
-        statusChangeAvatar.value = loginResponse?.status
-        Constant.user = loginResponse?.user
+        this.loginResponse.value = loginResponse
+        if(loginResponse?.user!=null) Constant.user = loginResponse.user
     }
     private fun onDeleteNotificationSuccess(b: Boolean?){
         this.status.value = b

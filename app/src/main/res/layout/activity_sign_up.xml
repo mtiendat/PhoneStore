@@ -13,13 +13,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glSignUpTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2" />
-
-    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/glSignUpFoot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,23 +25,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginRight="24dp"
         android:hint="@string/ho_ten"
-        app:endIconMode="clear_text"
         app:boxCornerRadiusBottomEnd="32dp"
         app:boxCornerRadiusBottomStart="32dp"
         app:boxCornerRadiusTopEnd="32dp"
         app:boxCornerRadiusTopStart="32dp"
+        app:endIconMode="clear_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/glSignUpTop">
+        app:layout_constraintTop_toBottomOf="@+id/toolbarSignUp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edtSignUpFullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/ChangeEditTextCursor"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:theme="@style/ChangeEditTextCursor" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

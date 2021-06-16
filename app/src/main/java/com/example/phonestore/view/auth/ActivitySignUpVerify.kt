@@ -10,6 +10,7 @@ import androidx.core.widget.addTextChangedListener
 import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivitySignUpVerifyBinding
 import com.example.phonestore.extendsion.*
+import com.example.phonestore.services.Constant
 import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
@@ -19,13 +20,14 @@ import java.util.concurrent.TimeUnit
 
 class ActivitySignUpVerify: BaseActivity() {
     companion object{
-        fun intentFor(context: Context, number: String): Intent =
-            Intent(context, ActivitySignUpVerify::class.java).putExtra("phone", number)
+        fun intentFor(context: Context, number: String,isForgotPassword: Boolean): Intent =
+            Intent(context, ActivitySignUpVerify::class.java).putExtra("phone", number).putExtra(Constant.FORGOT_PASSWORD, isForgotPassword)
     }
     private lateinit var binding: ActivitySignUpVerifyBinding
     private lateinit var auth: FirebaseAuth
     private var resendToken: ForceResendingToken? = null
     private var storedVerificationId: String? = null
+    private var isForgotPassword = false
     private var number: String? = ""
     private var flag = false
     private val timer = object: CountDownTimer(61000, 1000) {
@@ -97,7 +99,10 @@ class ActivitySignUpVerify: BaseActivity() {
     }
     override fun setUI() {
         binding.btnVerify.setOnClickListener {
-            verifyVerificationCode(binding.edtOtp.text.toString().trim())
+            if(binding.edtOtp.text.toString().isNotEmpty()) {
+                binding.btnVerify.isEnabled = false
+                verifyVerificationCode(binding.edtOtp.text.toString().trim())
+            }
             //startActivity(ActivitySignUp.intentFor(this, number))
         }
         binding.edtOtp.addTextChangedListener {
@@ -147,7 +152,10 @@ class ActivitySignUpVerify: BaseActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    startActivity(ActivitySignUp.intentFor(this, number))
+                    isForgotPassword=intent.getBooleanExtra(Constant.FORGOT_PASSWORD, false)
+                    if(isForgotPassword){
+                        startActivity(ActivityForgotPassword.intentFor(this, number, false))
+                    }else startActivity(ActivitySignUp.intentFor(this, number))
 
                 } else {
                     // Sign in failed, display a message and update the UI

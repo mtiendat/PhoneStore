@@ -31,9 +31,16 @@ class UserRepo {
             onError = {results -> onError.invoke(results)}
         )
     }
-    fun callChangePassword(email: String? ="", password: String? ="", onSuccess: (LoginResponse?)->Unit, onError: (String?)->Unit){
+    fun callChangePassword(phone: String? ="", password: String? ="", onSuccess: (LoginResponse?)->Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.changePassword(email, password),
+            call = APIServices.getInstance()?.changePassword(phone, password),
+            onSuccess = {results -> onSuccess.invoke(results)},
+            onError = {results -> onError.invoke(results)}
+        )
+    }
+    fun callCheckPassword(phone: String? ="", password: String? ="", onSuccess: (LoginResponse?)->Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.checkPassword(phone, password),
             onSuccess = {results -> onSuccess.invoke(results)},
             onError = {results -> onError.invoke(results)}
         )
@@ -45,9 +52,9 @@ class UserRepo {
             onError = {e -> onError.invoke(e)}
         )
     }
-    fun callChangeInfoUser(name: String?, phone: String?, address: String?, onSuccess: (LoginResponse?)->Unit, onError: (String?)->Unit){
+    fun callChangeInfoUser(name: String?, onSuccess: (LoginResponse?)->Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.changeInfoUser(Constant.idUser, name, phone, address),
+            call = APIServices.getInstance()?.changeInfoUser(Constant.idUser, name),
             onSuccess = {results -> onSuccess.invoke(results)},
             onError = {e -> onError.invoke(e)}
         )

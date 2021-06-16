@@ -37,7 +37,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/tvLoginFail"
+        android:id="@+id/tvFail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -58,5 +58,5 @@
         android:text="Tiếp tục"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLoginFail" />
+        app:layout_constraintTop_toBottomOf="@+id/tvFail" />
 </androidx.constraintlayout.widget.ConstraintLayout>

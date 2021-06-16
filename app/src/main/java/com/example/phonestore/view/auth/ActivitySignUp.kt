@@ -46,8 +46,8 @@ class ActivitySignUp: BaseActivity() {
     override fun setObserve() {
 
         signUpViewModel?.loginResponse?.observe(this, {
+            Toast.makeText(this, it.messages, Toast.LENGTH_SHORT).show()
             if(it.status) {
-                Toast.makeText(this, it.messages, Toast.LENGTH_SHORT).show()
                 Handler(Looper.getMainLooper()).postDelayed({
                     startActivity(ActivityLogin.intentFor(this))
                     finish()
@@ -85,7 +85,7 @@ class ActivitySignUp: BaseActivity() {
         if (bindingSignUp.edtSignUpPassword.text.isNullOrBlank()) {
             bindingSignUp.textInputPassword.error = Constant.VALIDATE_PASSWORD
             valid = false
-        }else if(bindingSignUp.edtSignUpPassword.text?.length?:0 <=6|| bindingSignUp.edtSignUpPassword.text?.length?:0 >16){
+        }else if(bindingSignUp.edtSignUpPassword.text?.length?:0 <= 5 || bindingSignUp.edtSignUpPassword.text?.length?:0 >=16){
             bindingSignUp.textInputPassword.error = Constant.VALIDATE_LENGTH_PASSWORD
             valid = false
         }else if(bindingSignUp.edtSignUpPassword.text.toString() != bindingSignUp.edtSignUpConfirmPassword.text.toString()){

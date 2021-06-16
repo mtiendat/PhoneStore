@@ -43,15 +43,12 @@
             <meta-data android:name="android.support.PARRENT_ACTIVITY"
                 android:value=".view.ActivitySignUpVerify"/>
         </activity>
-        <activity android:name=".view.auth.ActivityForgotPassword" android:parentActivityName=".view.auth.ActivityLogin" android:screenOrientation="nosensor">
+        <activity android:name=".view.auth.ActivityForgotPassword" android:parentActivityName=".view.auth.ActivitySignUpVerify" android:screenOrientation="nosensor">
             <meta-data android:name="android.support.PARRENT_ACTIVITY"
-                android:value=".view.ActivityLogin"/>
+                android:value=".view.ActivitySignUpVerify"/>
         </activity>
-        <activity android:name=".view.auth.ActivityChangePassword" android:parentActivityName=".view.auth.ActivityChangePassword" android:screenOrientation="nosensor">
-            <meta-data android:name="android.support.PARRENT_ACTIVITY"
-                android:value=".view.ActivityForgotPassword"/>
-        </activity>
-        <activity android:name=".view.MainActivity" android:parentActivityName=".view.auth.ActivityLogin"
+        <activity android:name=".view.MainActivity"
+            android:parentActivityName=".view.auth.ActivityLogin"
             android:windowSoftInputMode="adjustResize" android:screenOrientation="nosensor">
             <meta-data android:name="android.support.PARRENT_ACTIVITY"
                 android:value=".view.ActivityLogin"/>

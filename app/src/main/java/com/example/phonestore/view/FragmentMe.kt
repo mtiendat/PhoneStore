@@ -40,63 +40,42 @@ import java.io.*
 
 
 class FragmentMe: BaseFragment() {
-    private var bindingMe: FragmentMeBinding? =null
+    private lateinit var bindingMe: FragmentMeBinding
     private var userViewModel: UserViewModel? = null
-    private var resultsLauncherPickImageGallery: ActivityResultLauncher<Intent>? = null
-    private var resultsLauncherTakeAPicture: ActivityResultLauncher<Intent>? = null
-    private var inputPFD: ParcelFileDescriptor? = null
-    private var flag = 0
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View?{
         bindingMe = FragmentMeBinding.inflate(inflater, container, false)
-        return  bindingMe?.root
+        return  bindingMe.root
     }
 
     override fun setUI() {
-
-        bindingMe?.progressBarUploadImage?.gone()
-            changeAvatarFromGallery()
-            changeAvatarFromCamera()
-            findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Int>("key")?.observe(viewLifecycleOwner) {
-                if(flag==0) {
-                    if (it == 1) {
-                        pickImageFromGallery()
-                        flag = 1
-                    } else capturePhoto()
-                }else flag = 0
-            }
+            context?.let { setImg(Constant.user?.avatar, bindingMe.ivAvatar, it) }
             setData()
             setOnClickListener()
-
     }
     fun setOnClickListener(){
 
-        bindingMe?.btnFollowOrder?.setOnClickListener {
+        bindingMe.btnFollowOrder.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentFollowOrder)
         }
-        bindingMe?.btnLogout?.setOnClickListener {
+        bindingMe.btnLogout.setOnClickListener {
             AppEvent.notifyShowPopUp()
             disconnectFromFacebook()
             disconnectFromGoogle()
             userViewModel?.postSignOut()
         }
-        bindingMe?.btnSettingAccount?.setOnClickListener {
+        bindingMe.btnSettingAccount.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentChangeMyInfo)
         }
-        bindingMe?.btnHelper?.setOnClickListener {
+        bindingMe.btnHelper.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentHelper)
         }
-        bindingMe?.cvAvatar?.setOnClickListener {
-            if(Constant.user?.formality !="Facebook") {
-                it.findNavController().navigate(R.id.action_fragmentMe_to_bottomSheetAvatar)
-            }
-        }
-        bindingMe?.btnWarranty?.setOnClickListener {
+
+        bindingMe.btnWarranty.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentWarranty)
         }
     }
     private fun setData(){
-        bindingMe?.tvMyName?.text = Constant.user?.name
-        context?.let { setImg(Constant.user?.avatar, bindingMe?.ivAvatar, it) }
+        bindingMe.tvMyName.text = Constant.user?.name
     }
     override fun setObserve() {
 
@@ -111,117 +90,13 @@ class FragmentMe: BaseFragment() {
                 }
             }
         })
-        val statusChangeAvatarObserver = Observer<Boolean?> {
-            if (it!=null && it==true) {
-                view?.let { it1 ->
-                    bindingMe?.progressBarUploadImage?.gone()
-                    Snackbar.make(it1, Constant.SUCCESS_UPDATE, Snackbar.LENGTH_SHORT).show()
-                }
-            }
-        }
-        userViewModel?.statusChangeAvatar?.observe(viewLifecycleOwner, statusChangeAvatarObserver)
+
     }
 
     override fun setViewModel() {
         userViewModel = ViewModelProvider(this@FragmentMe).get(UserViewModel::class.java)
     }
-    private fun changeAvatarFromGallery(){
-        resultsLauncherPickImageGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
-           if(result.resultCode == Activity.RESULT_OK){
-               result.data?.data.also { returnUri ->
-                   inputPFD = try{
-                       returnUri?.let {
-                           context?.contentResolver?.openFileDescriptor(it, "r")
-                       }!!
-                   }catch (e: FileNotFoundException){
-                       e.printStackTrace()
-                       return@also
-                   }
-                   val fileDescriptor = inputPFD?.fileDescriptor
-                   val inputStream = FileInputStream(fileDescriptor)
-                   val byte = getBytes(inputStream)
-                   val requestBody: RequestBody = byte!!.toRequestBody("multipart/form-data".toMediaTypeOrNull(), 0, byte.size)
-                   val profilePic = MultipartBody.Part.createFormData(
-                           "image",
-                           "image.jpg",
-                           requestBody
-                   )
-                   bindingMe?.progressBarUploadImage?.visible()
-                   context?.let { setImg(returnUri.toString(), bindingMe?.ivAvatar, it) }
-                   userViewModel?.changeAvatar(profilePic)
-               }
-           }
-        }
-    }
-    private fun changeAvatarFromCamera(){
-        resultsLauncherTakeAPicture = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if(result.resultCode == Activity.RESULT_OK) {
-                val imageBitmap = result.data?.extras?.get("data") as Bitmap
-                val file = bitmapToFile(imageBitmap)
-                val inputStream = FileInputStream(file)
-                val byte = getBytes(inputStream)
-                val requestBody: RequestBody = byte!!.toRequestBody("multipart/form-data".toMediaTypeOrNull(), 0, byte.size)
-                val profilePic = MultipartBody.Part.createFormData(
-                        "image",
-                        "image.jpg",
-                        requestBody
-                )
-                bindingMe?.progressBarUploadImage?.visible()
-                userViewModel?.changeAvatar(profilePic)
-                bindingMe?.ivAvatar?.setImageBitmap(imageBitmap)
-            }
 
-        }
-    }
-    private fun getBytes(input: InputStream): ByteArray?{
-        val byteBuff = ByteArrayOutputStream()
-        val bufSize = 1024
-        val buff = ByteArray(bufSize)
-        var len: Int
-        while (input.read(buff).also { len = it } != -1){
-            byteBuff.write(buff, 0, len)
-        }
-        return byteBuff.toByteArray()
-    }
-    private fun bitmapToFile(bitmap: Bitmap): File?{
-        var file: File? = null
-        return try {
-            file = File(context?.dataDir.toString() + File.separator + "image")
-            file.createNewFile()
-
-            //Convert bitmap to byte array
-            val bos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos)
-            val bitmapData = bos.toByteArray()
-
-            //write the bytes in file
-            val fos = FileOutputStream(file)
-            fos.write(bitmapData)
-            fos.flush()
-            fos.close()
-            file
-        } catch (e: Exception) {
-            e.printStackTrace()
-            file // it will return null
-        }
-    }
-    private fun pickImageFromGallery(){
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        resultsLauncherPickImageGallery?.launch(Intent.createChooser(intent, "Select Image"))
-    }
-    private fun capturePhoto(){
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        resultsLauncherTakeAPicture?.launch(cameraIntent)
-    }
-    private fun setImg(img: String?, v: ImageView?, context: Context){
-        if (v != null) {
-            Glide.with(context)
-                    .load(img)
-                    .error(R.drawable.noimage)
-                    .into(v)
-        }
-    }
     private fun disconnectFromFacebook() {
         if (AccessToken.getCurrentAccessToken() == null) {
             return  // already logged out
@@ -244,5 +119,12 @@ class FragmentMe: BaseFragment() {
         mGoogleSignInClient.signOut()
         mGoogleSignInClient.revokeAccess()
     }
-
+    private fun setImg(img: String?, v: ImageView?, context: Context){
+        if (v != null) {
+            Glide.with(context)
+                .load(img)
+                .error(R.drawable.noimage)
+                .into(v)
+        }
+    }
 }

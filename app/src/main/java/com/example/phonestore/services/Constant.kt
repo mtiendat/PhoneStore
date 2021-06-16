@@ -42,7 +42,9 @@ object Constant {
     const val VIEW_MY_ORDER = 6
     const val VIEW_VOTE = 7
     const val REQUEST_ID = 7
+    const val PHONE = "Số điện thoại"
     const val POPUP_MODEL = "popup_model"
+    const val CHANGE_PASSWORD = "Đổi mật khẩu"
     const val YES = "Có"
     const val NO = "Không"
     const val ALL ="Tất cả"
@@ -67,12 +69,14 @@ object Constant {
     const val CHANGE_PASSWORD_SUCCESS = "Đổi mật khẩu thành công"
     const val CONFIRM_PASSWORD_FAILURE = "Xác nhận password chưa đúng"
     const val FIND_ACCOUNT = "Tìm tài khoản"
+    const val FORGOT_PASSWORD = "quên mật khẩu"
     const val DELETED_PRODUCT = "Đã xóa sản phẩm"
     const val LOGIN_FAILURE = "Số điện thoại hoặc mật khẩu không chính xác"
     const val YOUTUBE_FAILURE = "Load trailer failure"
     const val VALIDATE_BUY_PRODUCT = "Bạn được mua tối đa 2 sản phẩm"
     const val VALIDATE_FULL_NAME = "Họ tên không được để trống"
     const val VALIDATE_EMAIL = "Email không được để trống"
+    const val VALIDATE_OLD_PASSWORD ="Bạn chưa nhập mật khẩu cũ"
     const val VALIDATE_PASSWORD = "Password không được để trống"
     const val VALIDATE_LENGTH_PASSWORD = "Mật khẩu từ 6 đến 16 ký tự!"
     const val VALIDATE_PHONE = "Sdt không được để trống"

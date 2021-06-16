@@ -118,9 +118,6 @@
             android:id="@+id/action_fragmentMe_to_fragmentChangeMyInfo"
             app:destination="@id/fragmentChangeMyInfo" />
         <action
-            android:id="@+id/action_fragmentMe_to_bottomSheetAvatar"
-            app:destination="@id/bottomSheetAvatar" />
-        <action
             android:id="@+id/action_fragmentMe_to_fragmentHelper"
             app:destination="@id/fragmentHelper" />
         <action
@@ -166,11 +163,14 @@
     <fragment
         android:id="@+id/fragmentChangeMyInfo"
         android:name="com.example.phonestore.view.auth.FragmentChangeMyInfo"
-        android:label="Thay đổi thông tin cá nhân"
+        android:label="Thông tin cá nhân"
         tools:layout="@layout/fragment_change_myinfo">
         <action
             android:id="@+id/action_fragmentChangeMyInfo_to_bottomSheet"
             app:destination="@id/bottomSheet" />
+        <action
+            android:id="@+id/action_fragmentChangeMyInfo_to_bottomSheetAvatar"
+            app:destination="@id/bottomSheetAvatar" />
     </fragment>
     <dialog
         android:id="@+id/bottomSheet"

@@ -47,6 +47,7 @@ class ActivityLogin: BaseActivity() {
     private var avatar: String? =""
     private var idFB: String? = ""
     private val RC_SIGN_IN = 999
+    private val isForgotPassword = true
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     override fun setBinding() {
         bindingLogin = ActivityLoginBinding.inflate(layoutInflater)
@@ -87,13 +88,13 @@ class ActivityLogin: BaseActivity() {
             }
         }
         bindingLogin.tvSignUp.setOnClickListener {
-            startActivity(ActivitySignUpInputPhone.intentFor(this))
-        }
-        bindingLogin.tvLoginForgotPassword.setOnClickListener {
-            startActivity(ActivityForgotPassword.intentFor(this))
+            startActivity(ActivitySignUpInputPhone.intentFor(this, false))
         }
         bindingLogin.btnLoginGoogle.setOnClickListener {
             loginWithGoogle()
+        }
+        bindingLogin.tvLoginForgotPassword.setOnClickListener {
+            startActivity(ActivitySignUpInputPhone.intentFor(this, isForgotPassword))
         }
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

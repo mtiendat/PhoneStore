@@ -74,7 +74,16 @@ abstract class BaseActivity: AppCompatActivity(), PopupEventListener, AccountSus
     open fun setUI(){}
     open fun setToolBar(){}
     override fun onShowPopup(popup: PopUp?) {
-        showPopup(popup ?: PopUp(popupId = R.layout.popup_loading, isMatchParent = true))
+        if(popup == null){
+            val popup = PopUp(popupId = R.layout.popup_loading, isMatchParent = true)
+            popup.isCancelable = true
+            showPopup(popup )
+        }else {
+            popup.isCancelable = true
+            showPopup(popup )
+        }
+
+
     }
 
     override fun onClosePopup() {

@@ -52,14 +52,16 @@ interface APIServices {
     @DELETE("log-out")
     fun signOut():Call<LoginResponse>
     @PUT("change-info/{id}")
-    fun changeInfoUser(@Path("id") idUser: Int?= 0, @Query("name") name: String?, @Query("phone") phone: String?, @Query("address") address: String?):Call<LoginResponse>
+    fun changeInfoUser(@Path("id") idUser: Int?= 0, @Query("name") name: String?):Call<LoginResponse>
     @Multipart
     @POST("change-avatar/{id}")
     fun changeAvatar(@Path("id") idUser: Int? = 0, @Part avatar: MultipartBody.Part): Call<LoginResponse>
     @POST("check-number-phone")
     fun checkNumberPhone(@Query("sdt")phone: String? =""): Call<LoginResponse>
-    @POST("change-password")
-    fun changePassword(@Query("email")email: String? ="", @Query("password")password: String? =""): Call<LoginResponse>
+    @PUT("change-password")
+    fun changePassword(@Query("phone") phone: String? ="", @Query("password")password: String? =""): Call<LoginResponse>
+    @POST("check-password")
+    fun checkPassword(@Query("phone") phone: String? ="", @Query("password") password: String? =""): Call<LoginResponse>
     @GET("thong-bao/{id}")
     fun getNotification(@Path("id") idUser: Int?= 0): Call<NotificationResponse>
     @PUT("thong-bao/{id}")

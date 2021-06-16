@@ -192,7 +192,6 @@ class FragmentHome : BaseFragment(){
             setViewModel()
             setObserve()
             getData()
-
             bindingHome.swipe.isRefreshing = false
         }
     }
@@ -329,7 +328,6 @@ class FragmentHome : BaseFragment(){
     private fun clearList(){
         listFeaturedProduct?.clear()
         listProduct?.clear()
-        listSupplier?.clear()
     }
 
     override fun onDestroyView() {

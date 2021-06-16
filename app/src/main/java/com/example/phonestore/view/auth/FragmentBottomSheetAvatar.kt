@@ -22,13 +22,13 @@ class FragmentBottomSheetAvatar: BottomSheetDialogFragment() {
     private fun setUI(){
         bindingBottom?.btnChosseLibrary?.setOnClickListener {
             NavHostFragment.findNavController(this).apply {
-                previousBackStackEntry?.savedStateHandle?.set("key", 1)
+                previousBackStackEntry?.savedStateHandle?.set("keyChangeAvatar", 1)
                 popBackStack()
             }
         }
         bindingBottom?.btnTakeAPicture?.setOnClickListener {
             NavHostFragment.findNavController(this).apply {
-                previousBackStackEntry?.savedStateHandle?.set("key", 2)
+                previousBackStackEntry?.savedStateHandle?.set("keyChangeAvatar", 2)
                 popBackStack()
             }
         }
