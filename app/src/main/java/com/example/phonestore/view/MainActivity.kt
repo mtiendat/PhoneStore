@@ -60,20 +60,19 @@ class MainActivity : BaseActivity() {
 
     override fun setViewModel() {
         cartViewModel = ViewModelProvider(this@MainActivity).get(CartViewModel::class.java)
-        val totalProductObserver = Observer<Int?>{
-            icon?.let {
-                it1 -> setBadgeCount(this, icon = it1, it.toString())
-            }
-        }
-        cartViewModel?.totalProduct?.observe(this@MainActivity, totalProductObserver)
-        val totalNotificationObserver = Observer<Int?>{
+        cartViewModel?.totalProduct?.observe(this@MainActivity, {
+                icon?.let {
+                        it1 -> setBadgeCount(this, icon = it1, it.toString())
+                }
+        })
+
+        cartViewModel?.totalNotification?.observe(this@MainActivity, {
             if(it>0) {
                 badgeNotification = bottomNav!!.getOrCreateBadge(R.id.fragmentNotification)
                 badgeNotification?.isVisible = true
                 badgeNotification?.number = it
             }
-        }
-        cartViewModel?.totalNotification?.observe(this@MainActivity, totalNotificationObserver)
+        })
 
     }
 
@@ -173,11 +172,7 @@ class MainActivity : BaseActivity() {
                     hideIconSearch()
                     hideBottomNavigation()
                 }
-                R.id.fragmentMyDiscount ->{
-                    hideIconCart()
-                    hideIconSearch()
-                    hideBottomNavigation()
-                }
+
                 R.id.fragmentDetailTechnology ->{
                     hideIconCart()
                     hideIconSearch()
@@ -229,13 +224,12 @@ class MainActivity : BaseActivity() {
 
         val clearButton =s.findViewById(R.id.search_close_btn) as ImageView
         clearButton.setImageResource(R.drawable.ic_clear)
-
         return true
 
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-//        cartViewModel?.getTotalProduct()
+        cartViewModel?.getTotalProduct()
         return super.onPrepareOptionsMenu(menu)
 
     }

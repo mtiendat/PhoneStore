@@ -67,7 +67,6 @@ class FragmentHome : BaseFragment(){
     }
 
     override fun setUI(){
-
         bindingHome.pbRecommend.setIndeterminateDrawableTiled(
                 FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(R.array.google_colors)).build()
         ) //set progressBar google

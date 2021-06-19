@@ -1,6 +1,7 @@
 package com.example.phonestore.repo
 
 import com.example.phonestore.model.cart.Cart
+import com.example.phonestore.model.cart.CartResponse
 import com.example.phonestore.services.APIRequest
 import com.example.phonestore.services.APIServices
 import com.example.phonestore.services.Constant
@@ -13,24 +14,31 @@ class CartRepo {
             onError = {err -> onError.invoke(err)}
         )
     }
-    fun addToCart(idProduct: Int?, onSuccess: (Boolean?)-> Unit, onError: (String?) -> Unit){
+    fun addToCart(idProduct: Int?, onSuccess: (CartResponse?)-> Unit, onError: (String?) -> Unit){
         APIRequest.callRequest(
             call = APIServices.getInstance()?.addToCart(idProduct, Constant.idUser),
-            onSuccess = {results -> onSuccess.invoke(results?.status)},
+            onSuccess = {results -> onSuccess.invoke(results)},
             onError = {err -> onError.invoke(err)}
         )
     }
-    fun getMyCart(onSuccess: (Cart?)-> Unit, onError: (String?) -> Unit){
+    fun getMyCart(onSuccess: (ArrayList<Cart>?)-> Unit, onError: (String?) -> Unit){
         APIRequest.callRequest(
             call = APIServices.getInstance()?.getMyCart(Constant.idUser),
             onSuccess = {results -> onSuccess.invoke(results?.cart)},
             onError = {err -> onError.invoke(err)}
         )
     }
-    fun deleteItem(idProduct: Int? = 0 ,onSuccess: (Boolean?)-> Unit, onError: (String?) -> Unit){
+    fun deleteItem(idCart: Int?= 0 ,onSuccess: (Boolean?)-> Unit, onError: (String?) -> Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.deleteItem(Constant.idUser, idProduct),
+            call = APIServices.getInstance()?.deleteItem(idCart),
             onSuccess = {results -> onSuccess.invoke(results?.status)},
+            onError = {err -> onError.invoke(err)}
+        )
+    }
+    fun updateItem(idCart: Int?= 0, method: String?, onSuccess: (CartResponse?)-> Unit, onError: (String?) -> Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.updateProductInCart(idCart, method),
+            onSuccess = {results -> onSuccess.invoke(results)},
             onError = {err -> onError.invoke(err)}
         )
     }

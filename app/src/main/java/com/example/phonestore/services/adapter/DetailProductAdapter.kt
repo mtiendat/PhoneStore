@@ -1,5 +1,7 @@
 package com.example.phonestore.services.adapter
 
+import android.app.AlertDialog
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -15,17 +17,20 @@ import com.example.phonestore.databinding.*
 import com.example.phonestore.extendsion.ratingBar
 import com.example.phonestore.extendsion.toVND
 import com.example.phonestore.model.*
+import com.example.phonestore.model.cart.Cart
 import com.example.phonestore.model.cart.DetailCart
 import com.example.phonestore.model.order.MyOrder
 import com.example.phonestore.services.Constant
 
 
 class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var clickCheckBox: ((Int, Boolean, DetailCart, Int)->Unit)? = null
+    var clickCheckBox: ((Int, Boolean, Cart, Int)->Unit)? = null
     var clickMaxMin: ((Int?, Boolean)->Unit)? = null
-    var updateProductInList: ((DetailCart?, Int)-> Unit)? = null
+    var updateProductInList: ((Cart?, Int)-> Unit)? = null
     var nextInfoOrder: ((Int, String?)-> Unit)? = null
     var updateNotification: ((Int?)-> Unit)? = null
+    var updateItemCart: ((Int?, Boolean?)-> Unit)? = null
+    var deleteItemCart: ((Int?)-> Unit)? = null
     fun setItems(listItem: ArrayList<T>) {
         val currentSize: Int? = list?.size
         list?.clear()
@@ -80,12 +85,11 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
         val item = list?.get(position)
         var check: Boolean? = true
 
-        if(holder is ItemProductInCartViewHolder && item is DetailCart){
+        if(holder is ItemProductInCartViewHolder && item is Cart){
             var qty: Int?
             val price: Int?  = item.price
             var total: Int
-
-            holder.bindingProductInCart.tvProInCartName.text = item.nameProduct
+            holder.bindingProductInCart.tvProInCartName.text = item.name
             holder.bindingProductInCart.tvProInCartColor.text = item.color
             holder.bindingProductInCart.tvProInCartStorage.text = item.storage
             holder.bindingProductInCart.tvProInCartPrice.text = item.price.toVND()
@@ -93,23 +97,30 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             qty =  holder.bindingProductInCart.tvProInCartQty.text.toString().toInt()
             holder.bindingProductInCart.cvMin.setOnClickListener {
                 if(qty > 0) {
-                    qty--
-                    updateProductInList?.invoke(item, qty)
-                    holder.bindingProductInCart.tvProInCartQty.text = qty.toString()
-                    if(qty>=0&& check == true) {
-                        clickMaxMin?.invoke(price, false)
+                    if(qty == 1){
+                        alertCancel(holder.itemView.context, item.id)
+                    }else {
+                        updateItemCart?.invoke(item.id, false)
+                        qty--
+                        updateProductInList?.invoke(item, qty)
+                        holder.bindingProductInCart.tvProInCartQty.text = qty.toString()
+                        if(qty>=0&& check == true) {
+                            clickMaxMin?.invoke(price, false)
+                        }
                     }
+
                 }
             }
             holder.bindingProductInCart.cvMax.setOnClickListener {
                 if(qty < 2) {
+                    updateItemCart?.invoke(item.id, true)
                     qty++
                     updateProductInList?.invoke(item, qty)
                     holder.bindingProductInCart.tvProInCartQty.text = qty.toString()
                     if(check == true) {
                         clickMaxMin?.invoke(price, true)
                     }
-                }else Toast.makeText(holder.itemView.context, "Bạn chỉ mua tối đa 2 sản phẩm", Toast.LENGTH_SHORT).show()
+                }
             }
 
             holder.bindingProductInCart.cbItemCart.setOnCheckedChangeListener { _, isChecked ->
@@ -130,18 +141,18 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                 }
             }
             Glide.with(holder.itemView.context)
-                    .load(item.img)
+                    .load(item.avatar)
                     .error(R.drawable.noimage)
                     .into(holder.bindingProductInCart.ivProInCart)
         }
         if(holder is ItemProductOrderViewHolder && item is ProductOrder){
-            holder.bindingProductOrder.tvOrderNameProduct.text = item.product?.nameProduct
+            holder.bindingProductOrder.tvOrderNameProduct.text = item.product?.name
             holder.bindingProductOrder.tvOrderQty.text = item.qty.toString()
             holder.bindingProductOrder.tvOderColorProduct.text = item.product?.color
             holder.bindingProductOrder.tvOrderStorageProduct.text = item.product?.storage
             holder.bindingProductOrder.tvOrderPriceProduct.text = item.product?.price.toVND()
             Glide.with(holder.itemView.context)
-                    .load(item.product?.img)
+                    .load(item.product?.avatar)
                     .error(R.drawable.noimage)
                     .into(holder.bindingProductOrder.ivOrderProduct)
         }
@@ -197,7 +208,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
 
     override fun getItemViewType(position: Int): Int {
         return when(list?.get(0)){
-            is DetailCart -> Constant.VIEW_MYCART
+            is Cart -> Constant.VIEW_MYCART
             is ProductOrder -> Constant.VIEW_PRODUCT_ORDER
             is MyOrder -> Constant.VIEW_MY_ORDER
             is Vote -> Constant.VIEW_VOTE
@@ -224,6 +235,27 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                 btn.text = s
             }
         }
+    }
+    private fun alertCancel(context: Context, id: Int?){
+        val builder = AlertDialog.Builder(context)
+        builder.setMessage(Constant.QUESTION_DELETE)
+        builder.setTitle(Constant.NOTIFICATION)
+        builder.setCancelable(false)
+        builder.setPositiveButton(Constant.YES) { _, _ ->
+            deleteItemCart?.invoke(id)
+        }
+        builder.setNegativeButton(Constant.NO) { dialog, _ ->
+            dialog.cancel()
+        }
+        val alertDialog = builder.create()
+        alertDialog.setOnShowListener {
+            context.let {alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
+                ContextCompat.getColor(it, R.color.blue))}
+            context.let {alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
+                ContextCompat.getColor(it, R.color.blue))}
+        }
+
+        alertDialog.show()
     }
 
 }

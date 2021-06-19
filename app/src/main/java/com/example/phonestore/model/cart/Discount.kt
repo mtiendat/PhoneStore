@@ -5,14 +5,14 @@ import android.os.Parcelable
 
 class Discount(
     var id: Int = 0,
-    var discount: Int? = 0,
+    var discount: Int = 0,
     var dateEnd: String? ="",
     var content: String? = "",
     var condition: String? =""
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
-        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as Int,
         parcel.readString(),
         parcel.readString(),
         parcel.readString()

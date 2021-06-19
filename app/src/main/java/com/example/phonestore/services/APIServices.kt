@@ -101,12 +101,15 @@ interface APIServices {
 
     @GET("total-product-in-cart/{id}")
     fun getTotalProductInCart(@Path("id") idUser: Int?= 0): Call<CartResponse>
-    @POST("them-vao-gio/{id}")
-    fun addToCart(@Path("id") idProduct: Int?= 0, @Query("id") idUser: Int?=0): Call<CartResponse>
-    @GET("gio-hang/{id}")
+    @POST("add-to-cart/{id}")
+    fun addToCart(@Path("id") idProduct: Int?= 0, @Query("id_user") idUser: Int?=0): Call<CartResponse>
+    @GET("my-cart/{id}")
     fun getMyCart(@Path("id") idUser: Int?= 0): Call<DetailCartResponse>
-    @DELETE("xoa-item/{id}")
-    fun deleteItem(@Path("id")idUser: Int?= 0, @Query("MaSP") idProduct: Int?= 0): Call<DetailCartResponse>
+    @DELETE("delete-product-in-cart/{id}")
+    fun deleteItem(@Path("id")idCart: Int?= 0): Call<DetailCartResponse>
+    @PUT("update-cart/{id}")
+    fun updateProductInCart(@Path("id") idProduct: Int?= 0, @Query("plusOrMin") method: String?): Call<CartResponse>
+
     @POST("dat-hang/{id}")
     fun order(@Path("id") idUser: Int?= 0, @Body order: Order): Call<OrderResponse>
     @GET("don-hang/{id}")

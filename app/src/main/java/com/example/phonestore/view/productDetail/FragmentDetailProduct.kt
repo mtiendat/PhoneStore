@@ -23,6 +23,7 @@ import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentDetailProductBinding
 import com.example.phonestore.extendsion.*
 import com.example.phonestore.model.*
+import com.example.phonestore.model.cart.Cart
 import com.example.phonestore.model.cart.DetailCart
 import com.example.phonestore.model.technology.Technology
 import com.example.phonestore.services.Constant
@@ -58,9 +59,8 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private var storage: String? = null
     private var idYT: String? = null
     private var img: String? = null
-    private var price: Int? = 0
+    private var price: Int = 0
     private var supplier: Supplier? = null
-    private var countAddToCart: Int = 0
     private var hadData: Boolean = false
     private var slideRunnable = Runnable {
         bindingProductDetail?.vpSlideShow?.currentItem = bindingProductDetail?.vpSlideShow?.currentItem?.plus(1) ?:0
@@ -120,22 +120,23 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     fun setOnClickListener(){
         bindingProductDetail?.btnAddToCart?.setOnClickListener {
             if(checkSelectSpinner()){
-                if(countAddToCart<2) {
-                    countAddToCart++
-                    cartViewModel?.addToCart(idProduct)
-                }else view?.let { it1 -> Snackbar.make(it1, Constant.VALIDATE_BUY_PRODUCT, Snackbar.LENGTH_SHORT).show() }
-            }else bindingProductDetail?.nsvDetail?.fullScroll(View.FOCUS_UP)
+                cartViewModel?.addToCart(idProduct)
+            }else{
+                bindingProductDetail?.nsvDetail?.fling(0)
+                bindingProductDetail?.nsvDetail?.smoothScrollTo(0, 0)
+            }
         }
+
         bindingProductDetail?.btnBuyNow?.setOnClickListener {
             if (checkSelectSpinner()) {
-                val product = DetailCart(null, null,
-                        idProduct,
-                        1,
-                        this.price,
-                        color,
-                        storage,
-                        bindingProductDetail?.tvDetailName?.text.toString(),
-                        this.img)
+                val product: Cart = Cart( null, null,
+                        idProduct = idProduct,
+                        qty =1,
+                        price = this.price,
+                        color = color,
+                        storage = storage,
+                        name = bindingProductDetail?.tvDetailName?.text.toString(),
+                        avatar = this.img)
                 val productOrder = ProductOrder(product, 1, this.price)
                 this.productBuyNow?.add(productOrder)
                 val item = bundleOf("listProduct" to productBuyNow)
@@ -178,17 +179,23 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         }
     }
     private fun checkSelectSpinner(): Boolean{
-        return when {
-            bindingProductDetail?.spDetailColor?.selectedItem.toString()== Constant.TITLE_COLOR -> {
-                makeToast(Constant.PLEASE_CHOOSE_COLOR)
-                false
-            }
-            bindingProductDetail?.spDetailStorage?.selectedItem.toString() == Constant.TITLE_STORAGE -> {
-                makeToast(Constant.PLEASE_CHOOSE_STORAGE)
-                false
-            }
-            else -> true
+        var string = ""
+        var boolean = true
+
+        if(bindingProductDetail?.spDetailColor?.selectedItem.toString() == Constant.TITLE_COLOR){
+            string = Constant.PLEASE_CHOOSE_COLOR
+            boolean = false
         }
+        if(bindingProductDetail?.spDetailStorage?.selectedItem.toString() == Constant.TITLE_STORAGE){
+            string = Constant.PLEASE_CHOOSE_STORAGE
+            boolean = false
+        }
+        if(bindingProductDetail?.spDetailColor?.selectedItem.toString() == Constant.TITLE_COLOR && bindingProductDetail?.spDetailStorage?.selectedItem.toString() == Constant.TITLE_STORAGE){
+            string ="${Constant.PLEASE_CHOOSE_COLOR} và dung lượng"
+            boolean = false
+        }
+        if(!boolean) makeToast(string)
+        return boolean
     }
     private fun setSpinner(){
         bindingProductDetail?.spDetailColor?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -345,7 +352,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         })
     }
     private fun setObserveCartViewModel(){
-        val totalProductObserver = Observer<Int?>{
+        cartViewModel?.totalProduct?.observe(requireActivity(), {
             context?.let { it1 -> MainActivity.icon?.let { it2 ->
                 MainActivity.setBadgeCount(
                     it1,
@@ -353,15 +360,12 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                     it.toString()
                 )
             } }
-        }
-        cartViewModel?.totalProduct?.observe(requireActivity(), totalProductObserver)
-        val resultsObserve = Observer<Boolean?> {
-            if(it) {
-                makeToast(Constant.SUCCESS_ADD_TO_CART)
-                cartViewModel?.getTotalProduct()
-            }else view?.let { it1 -> Snackbar.make(it1, Constant.VALIDATE_BUY_PRODUCT, Snackbar.LENGTH_SHORT).show() }
-        }
-        cartViewModel?.resultAddToCart?.observe(viewLifecycleOwner, resultsObserve)
+        })
+
+        cartViewModel?.cartResponse?.observe(viewLifecycleOwner, {
+            if(it.status == true) cartViewModel?.getTotalProduct()
+            view?.let { it1 -> Snackbar.make(it1, it.message.toString(), Snackbar.LENGTH_SHORT).show() }
+        })
     }
     private fun getData(){
         hadData = true
@@ -451,9 +455,6 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         inflater.inflate(R.menu.menu_main, menu)
         val itemCart = menu.findItem(R.id.fragmentDetailCart)
         val icon: LayerDrawable = itemCart?.icon as LayerDrawable
-        bindingProductDetail?.btnAddToCart?.setOnClickListener {
-            MainActivity.setBadgeCount(requireContext(), icon, "10")
-        }
     }
     private fun setImg(img: String?, v: ImageView?){
         if (v != null) {

@@ -56,9 +56,6 @@
         <action
             android:id="@+id/action_fragmentDetailCart_to_fragmentOrder"
             app:destination="@id/fragmentOrder" />
-        <action
-            android:id="@+id/action_fragmentDetailCart_to_fragmentMyDiscount"
-            app:destination="@id/fragmentMyDiscount" />
     </fragment>
     <fragment
         android:id="@+id/fragmentOrder"
@@ -218,11 +215,6 @@
         android:name="com.example.phonestore.view.order.FragmentSelectAddress"
         tools:layout="@layout/fragment_address_selection"
         android:label="Chọn địa chỉ của bạn" />
-    <fragment
-        android:id="@+id/fragmentMyDiscount"
-        android:name="com.example.phonestore.view.cart.FragmentMyDiscount"
-        tools:layout="@layout/fragment_my_discount"
-        android:label="Ví voucher" />
     <fragment
         android:id="@+id/fragmentDetailTechnology"
         android:name="com.example.phonestore.view.productDetail.FragmentDetailTechnology"

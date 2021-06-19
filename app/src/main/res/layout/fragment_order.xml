@@ -285,23 +285,39 @@
                         app:layout_constraintTop_toTopOf="@+id/tvOrderTotal1" />
 
                     <TextView
+                        android:id="@+id/tvOrderDiscount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="Giảm giá"
+                        app:layout_constraintStart_toStartOf="@id/tvOrderTotal1"
+                        app:layout_constraintTop_toBottomOf="@id/tvOrderTotal1" />
+
+                    <TextView
+                        android:id="@+id/tvOrderDiscountDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0đ"
+                        app:layout_constraintEnd_toEndOf="@+id/tvOrderTotalMoney"
+                        app:layout_constraintTop_toTopOf="@+id/tvOrderDiscount" />
+
+                    <TextView
                         android:id="@+id/tvOrderShip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
                         android:text="@string/phi_giao_hang"
-                        app:layout_constraintStart_toStartOf="@id/tvOrderTotal1"
-                        app:layout_constraintTop_toBottomOf="@id/tvOrderTotal1" />
+                        app:layout_constraintStart_toStartOf="@id/tvOrderDiscount"
+                        app:layout_constraintTop_toBottomOf="@id/tvOrderDiscount" />
 
                     <TextView
                         android:id="@+id/tvOrderFeeShip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
                         android:layout_marginBottom="8dp"
                         android:text="0đ"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/tvOrderTotalMoney"
+                        app:layout_constraintEnd_toEndOf="@+id/tvOrderDiscountDetail"
                         app:layout_constraintTop_toTopOf="@+id/tvOrderShip" />
 
                     <androidx.appcompat.widget.AppCompatButton

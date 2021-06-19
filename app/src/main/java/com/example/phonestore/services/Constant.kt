@@ -3,8 +3,8 @@ package com.example.phonestore.services
 import com.example.phonestore.model.auth.User
 
 object Constant {
-    const val URL_ROOT = "http://192.168.1.173:8000/"
-    const val URL = "http://192.168.1.173:8000/api/"
+    const val URL_ROOT = "http://192.168.1.172:8000/"
+    const val URL = "http://192.168.1.172:8000/api/"
     const val KEY_API_YOUTUBE= "AIzaSyDrW8Kp1XXdwddwzkg43LJ3MtJTs8jzuqk"
 
     const val APP_ID = 553
@@ -88,4 +88,5 @@ object Constant {
     const val EMAIL_INVALID = "Email không đúng định dạng [xxx@xxxx.xx]"
     const val PHONE_INVALID = "Số điện thoại không hợp lệ"
     const val QUESTION_CANCEL = "Bạn có chắc chắn muốn hủy không?"
+    const val QUESTION_DELETE = "Bạn có muốn xóa sản phẩm?"
 }

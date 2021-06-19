@@ -47,6 +47,7 @@ class FragmentOrder: BaseFragment() {
     private var orderAdapter: DetailProductAdapter<ProductOrder>? = null
     private var totalMoney: Int = 0
     private var idOrder:  Int? = 0
+    private var discount: Int? = 0
     private var orderViewModel: OrderViewModel? = null
     private var isPaymentZaloPay: Boolean = false
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
@@ -125,6 +126,7 @@ class FragmentOrder: BaseFragment() {
         val state  = arguments?.getString("state")
         listProductOrder = arguments?.getParcelableArrayList("listProduct")
         idOrder = arguments?.getInt("idOrder")
+        discount = arguments?.getInt("discount")
         if(isFragmentFollowOrder==true){
             bindingOrderBinding?.tvChangeAddress?.gone()
             if(state==Constant.CANCEL){
@@ -138,6 +140,7 @@ class FragmentOrder: BaseFragment() {
             bindingOrderBinding?.ctrlOrder?.gone()
         }
         totalMoney = listProductOrder?.size?.minus(1) ?: 0 //lấy tổng tiền ở ptu vị trí cuối
+
         bindingOrderBinding?.rvOrderProduct?.isNestedScrollingEnabled = false
         initRecyclerView()
         setOnClickListener()
@@ -172,8 +175,11 @@ class FragmentOrder: BaseFragment() {
         //bindingOrderBinding?.tvOrderAddress?.text = Constant.user?.address
         bindingOrderBinding?.tvOrderNameUser?.text = Constant.user?.name
         bindingOrderBinding?.tvOrderPhoneUser?.text = Constant.user?.phone
-        bindingOrderBinding?.tvOrderTotalMoney?.text = listProductOrder?.get(totalMoney)?.total.toVND()
-        bindingOrderBinding?.tvOrderTotalMoneyFinish?.text = listProductOrder?.get(totalMoney)?.total.toVND()
+        val totalMoneyPre = listProductOrder?.get(totalMoney)?.total?.div(discount!!)
+        bindingOrderBinding?.tvOrderDiscountDetail?.text = totalMoneyPre.toVND()
+        bindingOrderBinding?.tvDiscountValue?.text = "-${discount}%"
+        bindingOrderBinding?.tvOrderTotalMoney?.text = listProductOrder?.get(totalMoney)?.total?.toVND()
+        bindingOrderBinding?.tvOrderTotalMoneyFinish?.text = (listProductOrder?.get(totalMoney)?.total?.minus(totalMoneyPre!!)).toVND()
 
     }
 

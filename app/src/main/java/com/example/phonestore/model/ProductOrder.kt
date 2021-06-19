@@ -2,14 +2,19 @@ package com.example.phonestore.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.example.phonestore.model.cart.Cart
 import com.example.phonestore.model.cart.DetailCart
 
-class ProductOrder(var product: DetailCart? = null, var qty: Int? = 0, var total: Int?  = 0):Parcelable {
+class ProductOrder(var product: Cart? = null, var qty: Int? = 0, var total: Int?  = 0):Parcelable {
     constructor(parcel: Parcel) : this(
-            TODO("product"),
-            parcel.readValue(Int::class.java.classLoader) as? Int)
+        parcel.readParcelable(Cart::class.java.classLoader),
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int
+    ) {
+    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(product, flags)
         parcel.writeValue(qty)
         parcel.writeValue(total)
     }
