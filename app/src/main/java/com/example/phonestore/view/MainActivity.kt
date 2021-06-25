@@ -81,7 +81,7 @@ class MainActivity : BaseActivity() {
         navController = navHostFragment.navController
         appBarConfiguration = AppBarConfiguration.Builder(
                 R.id.fragmentHome,
-                R.id.fragmentSuccessOrder,
+                R.id.fragmentNotification,
                 R.id.fragmentMe
         )
                 .build()
@@ -97,8 +97,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setUI() {
-
-//        cartViewModel?.getTotalNotification()
+        cartViewModel?.getTotalNotification()
     }
     override fun onSupportNavigateUp(): Boolean { //Setup appBarConfiguration có mũi tên back
         return NavigationUI.navigateUp(navController, appBarConfiguration)
@@ -162,6 +161,16 @@ class MainActivity : BaseActivity() {
                     hideIconCart()
                     hideIconSearch()
                 }
+                R.id.fragmentPaymentOption ->{
+                    hideBottomNavigation()
+                    hideIconCart()
+                    hideIconSearch()
+                }
+                R.id.fragmentFollowOrder ->{
+                    hideIconCart()
+                    hideIconSearch()
+                    hideBottomNavigation()
+                }
                 R.id.fragmentWarranty ->{
                     hideIconCart()
                     hideIconSearch()
@@ -179,6 +188,11 @@ class MainActivity : BaseActivity() {
                     hideBottomNavigation()
                 }
                 R.id.fragmentAllProduct ->{
+                    hideBottomNavigation()
+                }
+                R.id.fragmentEditAddress ->{
+                    hideIconCart()
+                    hideIconSearch()
                     hideBottomNavigation()
                 }
                 else-> {

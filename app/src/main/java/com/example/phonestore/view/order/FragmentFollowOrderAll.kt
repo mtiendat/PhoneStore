@@ -1,5 +1,6 @@
 package com.example.phonestore.view.order
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +13,14 @@ import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentFollowOrderAllBinding
 import com.example.phonestore.extendsion.gone
+import com.example.phonestore.extendsion.visible
 import com.example.phonestore.model.order.MyOrder
 import com.example.phonestore.model.ProductOrder
 import com.example.phonestore.services.adapter.DetailProductAdapter
 import com.example.phonestore.viewmodel.OrderViewModel
 
 class FragmentFollowOrderAll: BaseFragment() {
-    private var bindingAllFollow: FragmentFollowOrderAllBinding? = null
+    private lateinit var bindingAllFollow: FragmentFollowOrderAllBinding
     private var orderViewModel: OrderViewModel? = null
     private var myOrderAdapter: DetailProductAdapter<MyOrder>? = null
     private var listMyOrder: ArrayList<MyOrder> = arrayListOf()
@@ -26,31 +28,44 @@ class FragmentFollowOrderAll: BaseFragment() {
     private var state : String? = ""
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingAllFollow = FragmentFollowOrderAllBinding.inflate(inflater, container, false)
-        return bindingAllFollow?.root
+        return bindingAllFollow.root
     }
 
     override fun setViewModel() {
         orderViewModel = ViewModelProvider(this@FragmentFollowOrderAll).get(OrderViewModel::class.java)
     }
     override fun setUI() {
+        bindingAllFollow.swipe.setColorSchemeColors(Color.BLUE)
+        bindingAllFollow.shimmerOrderAll.startShimmer()
         initRecyclerView()
         orderViewModel?.getMyOrder()
     }
     override fun setObserve() {
         val allOrderObserve = Observer<ArrayList<MyOrder>?>{
-                bindingAllFollow?.ivBill?.gone()
+            bindingAllFollow.shimmerOrderAll.stopShimmer()
+            bindingAllFollow.shimmerOrderAll.gone()
+            if(it.size > 0){
                 listMyOrder.addAll(listMyOrder)
                 myOrderAdapter?.setItems(it)
-
+            }else bindingAllFollow.ivBill.visible()
 
         }
         orderViewModel?.listMyOrder?.observe(viewLifecycleOwner, allOrderObserve)
-        val listProductOrderObserve = Observer<ArrayList<ProductOrder>>{
-            val item = bundleOf("idOrder" to idOrder, "listProduct" to it,"state" to state, "key" to true)
+        orderViewModel?.detailOrder?.observe(viewLifecycleOwner, {
+            val item = bundleOf("idOrder" to idOrder, "listProduct" to it.listProduct, "state" to state, "key" to true, "info" to it.order)
             view?.findNavController()?.navigate(R.id.action_fragmentFollowOrder_to_fragmentOrder, item)
-        }
-        orderViewModel?.listProductOrder?.observe(viewLifecycleOwner, listProductOrderObserve)
+        })
 
+    }
+
+    override fun setEvents() {
+        bindingAllFollow.swipe.setOnRefreshListener {
+            listMyOrder.clear()
+            myOrderAdapter?.notifyDataSetChanged()
+            bindingAllFollow.shimmerOrderAll.startShimmer()
+            orderViewModel?.getMyOrder()
+            bindingAllFollow.swipe.isRefreshing = false
+        }
     }
     private fun initRecyclerView(){
         myOrderAdapter = DetailProductAdapter(listMyOrder)
@@ -59,7 +74,7 @@ class FragmentFollowOrderAll: BaseFragment() {
             this.state = state
             orderViewModel?.getListProductOrder(idOrder)
         }
-        bindingAllFollow?.rvAllOrder?.adapter = myOrderAdapter
-        bindingAllFollow?.rvAllOrder?.layoutManager = LinearLayoutManager(context)
+        bindingAllFollow.rvAllOrder.adapter = myOrderAdapter
+        bindingAllFollow.rvAllOrder.layoutManager = LinearLayoutManager(context)
     }
 }

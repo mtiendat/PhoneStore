@@ -3,6 +3,8 @@ package com.example.phonestore.services
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -19,20 +21,19 @@ abstract class SwipeHelper(private val recyclerView: RecyclerView?): ItemTouchHe
 ) {
     private var swipedPosition = -1
     private val buttonBuffer: MutableMap<Int, List<UnderlayButton>> = mutableMapOf()
+    private val gestureDetector: GestureDetector? = null
     private val recoverQueue = object : LinkedList<Int>(){
         override fun add(element: Int): Boolean {
             if(contains(element)) return false
             return super.add(element)
         }
     }
-    private val touchListener = View.OnTouchListener { _, _ ->
+    private val touchListener = View.OnTouchListener { _, e ->
 
         if(swipedPosition < 0) {
             return@OnTouchListener false
         }
 
-
-        recoverQueue.add(swipedPosition)
         swipedPosition = -1
         recoverSwipeItem()
         true

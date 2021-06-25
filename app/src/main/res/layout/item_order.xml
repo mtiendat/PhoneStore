@@ -5,7 +5,9 @@
     android:id="@+id/cvMyOrder"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="8dp"
     android:padding="8dp"
     app:cardCornerRadius="5dp"
     app:cardElevation="5dp">
@@ -18,9 +20,10 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="8dp"
             android:text="@string/dat_hang"
             android:textColor="@color/dray"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/tvOderID"
             app:layout_constraintTop_toTopOf="@+id/textView14" />
 
@@ -28,8 +31,9 @@
             android:id="@+id/tvOrderDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="4dp"
             android:textColor="@color/dray"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="@+id/textView2" />
 
@@ -37,11 +41,9 @@
             android:id="@+id/ivOrderInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.105"
             app:srcCompat="@drawable/ic_next" />
 
         <View
@@ -49,8 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@color/dray"
+            android:background="@color/little_dray"
             app:layout_constraintEnd_toStartOf="@+id/ivOrderInfo"
             app:layout_constraintStart_toStartOf="@+id/textView14"
             app:layout_constraintTop_toBottomOf="@+id/tvOrderDate" />
@@ -59,36 +60,35 @@
             android:id="@+id/btnStateOrder"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/custom_state_order_transported"
+            android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView13"
+            app:layout_constraintEnd_toStartOf="@+id/ivOrderInfo"
+            app:layout_constraintTop_toTopOf="@+id/textView9"
             tools:text="Đã tiếp nhận" />
 
         <TextView
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/tong_tien"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/tvOrderTotal"
-            app:layout_constraintTop_toTopOf="@+id/tvOrderTotal" />
+            app:layout_constraintStart_toStartOf="@+id/tvOrderQtyProduct"
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
         <TextView
             android:id="@+id/tvOrderTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
             android:textColor="@color/red"
             android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/btnStateOrder"
-            app:layout_constraintTop_toTopOf="@+id/btnStateOrder" />
+            app:layout_constraintStart_toEndOf="@+id/textView9"
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
         <TextView
             android:id="@+id/tvOrderQtyProduct"
@@ -96,7 +96,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="2"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/viewOrder"
             app:layout_constraintTop_toBottomOf="@+id/viewOrder" />
 
@@ -106,7 +105,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:text="@string/san_pham"
-            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/tvOrderQtyProduct"
             app:layout_constraintTop_toTopOf="@+id/tvOrderQtyProduct" />
 
@@ -117,6 +115,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:text="@string/id"
+            android:textColor="@color/dray"
+            android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -124,9 +124,19 @@
             android:id="@+id/tvOderID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="italic"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/dray"
+            android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/textView14"
             app:layout_constraintTop_toTopOf="@+id/textView14" />
+
+        <ImageView
+            android:id="@+id/ivMark"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/vector_triangle_red" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

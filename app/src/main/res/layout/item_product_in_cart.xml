@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ctrlCart"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,7 +12,9 @@
         android:layout_height="96dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cbItemCart"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -28,11 +31,11 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/mau"
+        android:layout_marginStart="8dp"
+        android:text="@string/nhom_mau"
         android:textColor="@color/dray"
-        app:layout_constraintStart_toStartOf="@+id/tvProInCartName"
-        app:layout_constraintTop_toBottomOf="@+id/tvProInCartName" />
+        app:layout_constraintStart_toEndOf="@+id/ivProInCart"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     <TextView
         android:id="@+id/tvProInCartColor"
@@ -47,10 +50,12 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dl"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/kha_nang_luu_tru"
         android:textColor="@color/dray"
-        app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintStart_toEndOf="@+id/ivProInCart"
+        app:layout_constraintTop_toBottomOf="@+id/tvProInCartName" />
 
     <TextView
         android:id="@+id/tvProInCartStorage"
@@ -148,6 +153,16 @@
         android:text="TextView"
         android:textColor="@color/red"
         app:layout_constraintStart_toStartOf="@+id/textView5"
-        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <ImageView
+        android:id="@+id/ivHandDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_hand_delete" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

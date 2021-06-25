@@ -25,6 +25,7 @@ class DetailProductViewModel: ViewModel() {
 
     var idProduct: MutableLiveData<Int>? = MutableLiveData()
     var technologyResponse: MutableLiveData<TechnologyResponse>? = MutableLiveData()
+    var technologyCompareResponse: MutableLiveData<TechnologyResponse>? = MutableLiveData()
     private var messageError:  MutableLiveData<String>? = MutableLiveData()
     private var detailProductRepo = DetailProductRepo()
     private var technologyRepo = TakeTechnologyRepo()
@@ -79,6 +80,13 @@ class DetailProductViewModel: ViewModel() {
             )
         }
     }
+    fun getTechnologyCompare(path: String){
+        technologyRepo.getTechnology(
+                path = path,
+                onSuccess = this::onSuccessTechnologyCompare,
+                onError = this::onError
+        )
+    }
 
     private fun onSuccessImageSlideShow(listImage: ArrayList<String>?){
         listImageSlideshow?.value = listImage
@@ -91,6 +99,9 @@ class DetailProductViewModel: ViewModel() {
     }
     private fun onSuccessTechnology(tech: TechnologyResponse?){
         technologyResponse?.value = tech
+    }
+    private fun onSuccessTechnologyCompare(tech: TechnologyResponse?){
+        technologyCompareResponse?.value = tech
     }
 
     private fun onSuccessProductByColor(product: ArrayList<ProductInfo>?){

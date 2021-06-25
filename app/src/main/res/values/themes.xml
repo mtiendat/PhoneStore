@@ -69,7 +69,7 @@
     <style name="ButtonFormStyle" parent="ButtonStyle">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">50dp</item>
-        <item name="android:background">@drawable/custom_button_form</item>
+        <item name="android:background">@drawable/bg_button_form</item>
     </style>
     <style name="ButtonRectangleStyle" parent="ButtonStyle">
         <item name="android:background">@color/blue</item>
@@ -89,7 +89,7 @@
     <style name="ButtonCornerStyle" parent="ButtonStyle">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">32dp</item>
-        <item name="android:background">@drawable/custom_button_corner</item>
+        <item name="android:background">@drawable/bg_button_corner</item>
     </style>
     <style name="tabLayoutStyle">
         <item name="tabTextColor">@color/blue</item>
@@ -148,5 +148,18 @@
     <style name="roundedCorners" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10%</item>
+    </style>
+    <style name="Theme.Transparent" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+    <style name="SwitchStyle" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:track">@drawable/custom_track</item>
+        <item name="android:thumb">@drawable/custom_switch_selector</item>
+        <item name="android:layout_marginEnd">16dp</item>
     </style>
 </resources>

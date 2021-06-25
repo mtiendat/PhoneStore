@@ -4,12 +4,10 @@ import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +22,6 @@ import com.example.phonestore.databinding.FragmentDetailProductBinding
 import com.example.phonestore.extendsion.*
 import com.example.phonestore.model.*
 import com.example.phonestore.model.cart.Cart
-import com.example.phonestore.model.cart.DetailCart
 import com.example.phonestore.model.technology.Technology
 import com.example.phonestore.services.Constant
 import com.example.phonestore.services.adapter.*
@@ -62,6 +59,8 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private var price: Int = 0
     private var supplier: Supplier? = null
     private var hadData: Boolean = false
+
+    private var img2: String? =""
     private var slideRunnable = Runnable {
         bindingProductDetail?.vpSlideShow?.currentItem = bindingProductDetail?.vpSlideShow?.currentItem?.plus(1) ?:0
     }
@@ -117,10 +116,10 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         getData()
         setDetailProduct(product)
     }
-    fun setOnClickListener(){
+    private fun setOnClickListener(){
         bindingProductDetail?.btnAddToCart?.setOnClickListener {
             if(checkSelectSpinner()){
-                cartViewModel?.addToCart(idProduct)
+                cartViewModel?.addToCart(product?.id)
             }else{
                 bindingProductDetail?.nsvDetail?.fling(0)
                 bindingProductDetail?.nsvDetail?.smoothScrollTo(0, 0)
@@ -129,15 +128,16 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
 
         bindingProductDetail?.btnBuyNow?.setOnClickListener {
             if (checkSelectSpinner()) {
-                val product: Cart = Cart( null, null,
+                val product = Cart( null, null,
                         idProduct = idProduct,
                         qty =1,
                         price = this.price,
                         color = color,
                         storage = storage,
+                        priceRoot = this.product?.price ?:0,
                         name = bindingProductDetail?.tvDetailName?.text.toString(),
                         avatar = this.img)
-                val productOrder = ProductOrder(product, 1, this.price)
+                val productOrder = ProductOrder(product, 1)
                 this.productBuyNow?.add(productOrder)
                 val item = bundleOf("listProduct" to productBuyNow)
                 it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentOrder, item)
@@ -281,6 +281,10 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             setDataTechnology(it.technology)
             detailViewModel?.getRelatedProduct(product?.id)
         })
+        detailViewModel?.technologyCompareResponse?.observe(viewLifecycleOwner, {
+            //view?.findNavController()?.navigate(R.id.action_fragmentDetailProduct_to_fragmentCompareProduct, bundleOf("technology1" to technology, "technology2" to it.technology, "iv1" to product?.img, "iv2" to img2))
+            activity?.startActivity(ActivityCompareProduct.intentFor(context, product?.img, img2, technology, it.technology))
+        })
 
         detailViewModel?.listColor?.observe(viewLifecycleOwner, {
             setSpinner(it, bindingProductDetail?.spDetailColor)
@@ -306,8 +310,9 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         })
 
         detailViewModel?.idProduct?.observe(viewLifecycleOwner, {
-            idProduct = it
+            product?.id = it
         })
+
         detailViewModel?.listImageSlideshow?.observe(viewLifecycleOwner, {
                 listSlideshow = it
                 initSlider()
@@ -410,6 +415,10 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     }
     private fun initRecyclerViewCompare(){
         compareAdapter = CompareProductAdapter(listCompareProduct)
+        compareAdapter?.clickCompare = {
+            img2 = it?.img
+            detailViewModel?.getTechnologyCompare(it?.technology!!)
+        }
         bindingProductDetail?.rvCompareProduct?.adapter = compareAdapter
         bindingProductDetail?.rvCompareProduct?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
@@ -437,7 +446,6 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             wasRestore: Boolean
     ) {
         if(!wasRestore){
-            Log.d("YOUTUBE", idYT.toString())
             player?.cueVideo(idYT)
             player?.fullscreenControlFlags = FULLSCREEN_FLAG_CONTROL_SYSTEM_UI
         }

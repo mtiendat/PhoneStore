@@ -1,15 +1,16 @@
 package com.example.phonestore.view.order
 
 import android.app.AlertDialog
-import android.content.Context
-import android.content.Intent
-import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -17,21 +18,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentOrderBinding
-import com.example.phonestore.extendsion.enabled
-import com.example.phonestore.extendsion.gone
-import com.example.phonestore.extendsion.toVND
-import com.example.phonestore.extendsion.visible
+import com.example.phonestore.extendsion.*
+import com.example.phonestore.model.CheckProductID
 import com.example.phonestore.model.ProductOrder
+import com.example.phonestore.model.cart.Cart
+import com.example.phonestore.model.cart.Voucher
 import com.example.phonestore.model.order.Address
 import com.example.phonestore.model.order.AddressStore
+import com.example.phonestore.model.order.Order
 import com.example.phonestore.model.payment.ZaloPayCreateOrderParam
 import com.example.phonestore.services.Constant
 import com.example.phonestore.services.Constant.ADDRESS
+import com.example.phonestore.services.Constant.LISTCHECK
 import com.example.phonestore.services.Constant.PAYMENT
 import com.example.phonestore.services.Constant.SHIPPING
 import com.example.phonestore.services.adapter.DetailProductAdapter
 import com.example.phonestore.services.payment.ZaloPayHelper
 import com.example.phonestore.view.MainActivity
+import com.example.phonestore.view.cart.FragmentDialog
+import com.example.phonestore.view.cart.FragmentMyVoucher
+import com.example.phonestore.viewmodel.CartViewModel
 import com.example.phonestore.viewmodel.OrderViewModel
 import com.google.android.material.snackbar.Snackbar
 import okhttp3.FormBody
@@ -45,11 +51,18 @@ class FragmentOrder: BaseFragment() {
     private var bindingOrderBinding: FragmentOrderBinding? = null
     private var listProductOrder: ArrayList<ProductOrder>? = null
     private var orderAdapter: DetailProductAdapter<ProductOrder>? = null
-    private var totalMoney: Int = 0
+    private var totalMoney: Int? = 0
+    private var totalMoneyPre: Int? = 0
     private var idOrder:  Int? = 0
-    private var discount: Int? = 0
+    private var flag = 0
+    private var voucher: Voucher? = null
+    private var infoOrder: Order? = null
     private var orderViewModel: OrderViewModel? = null
+    private val cartViewModel: CartViewModel by activityViewModels()
     private var isPaymentZaloPay: Boolean = false
+    private var isAtStore = false
+    private var isFragmentFollowOrder: Boolean? = false
+    private var idItem: Int? = null
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingOrderBinding = FragmentOrderBinding.inflate(inflater, container, false)
         return bindingOrderBinding?.root
@@ -60,33 +73,52 @@ class FragmentOrder: BaseFragment() {
     }
 
     override fun setObserve() {
+        cartViewModel.voucher.value = null
         findNavController().currentBackStackEntry?.savedStateHandle?.apply {
             getLiveData<Address>(ADDRESS).observe(viewLifecycleOwner) {
+                idItem = it.id
                 updateAddress(it)
             }
             getLiveData<AddressStore>(SHIPPING).observe(viewLifecycleOwner) {
                 when(it){
                     null -> {
-                        bindingOrderBinding?.tvShip?.text = "Giao hàng nhanh"
+                        bindingOrderBinding?.tvShip?.text = "Giao hàng tận nơi"
                         bindingOrderBinding?.tvFeeShip?.visible()
                     }
                     else -> {
-                        bindingOrderBinding?.tvShip?.text = "Tại cửa hàng"
+                        isAtStore = true
+                        bindingOrderBinding?.tvShip?.text = "Nhận hàng tại cửa hàng"
                         bindingOrderBinding?.tvInfoReceive?.text = "Đ/c: ${it.address}"
                         bindingOrderBinding?.tvFeeShip?.gone()
+                        updateAddress()
+                        idItem = it.id
                     }
                 }
             }
             getLiveData<Int>(PAYMENT).observe(viewLifecycleOwner) {
                 bindingOrderBinding?.tvPayment?.text = when(it){
-                    1 -> "Thanh toán khi nhận hàng"
-                    2 -> "Thanh toán bằng Zalo Pay"
-                    else -> ""
+                    1 -> getString(R.string.payment_cash)
+                    2 -> getString(R.string.payment_zalopay)
+                    else -> getString(R.string.payment_cash)
+                }
+            }
+            getLiveData<CheckProductID>(LISTCHECK).observe(viewLifecycleOwner) {
+                for(id in it.listIDNonExist!!){
+                    var i = 0
+                    listProductOrder?.forEach { product->
+                        if(id.toInt()== product.product?.id){
+                            product.product?.isAvailable = false
+                            orderAdapter?.notifyItemChanged(i)
+                        }
+                        i++
+                    }
+                    i=0
                 }
             }
         }
         orderViewModel?.resultOrder?.observe(viewLifecycleOwner, {
             if(it==true){
+                AppEvent.notifyClosePopUp()
                 view?.findNavController()?.navigate(R.id.action_fragmentOrder_to_fragmentSuccessOrder)
             }
         })
@@ -104,6 +136,7 @@ class FragmentOrder: BaseFragment() {
                     it -> ZaloPaySDK.getInstance().payOrder(it, token, "demozpdk://app", object : PayOrderListener{
                 override fun onPaymentSucceeded(p0: String?, p1: String?, p2: String?) {
                         Toast.makeText(context, "thanh cong", Toast.LENGTH_SHORT).show()
+                    isPaymentZaloPay = true
                 }
 
                 override fun onPaymentCanceled(p0: String?, p1: String?) {
@@ -115,19 +148,61 @@ class FragmentOrder: BaseFragment() {
                 }
 
             })
-                isPaymentZaloPay = true
+
             }
+        })
+        orderViewModel?.addressDefault?.observe(viewLifecycleOwner, {
+            if(it?.id == -1){
+                bindingOrderBinding?.tvOrderPhoneUser?.text = "Nhấn để thêm địa chỉ của bạn"
+                bindingOrderBinding?.tvChangeAddress?.gone()
+            }else{
+                if(flag == 0 ) {
+                    bindingOrderBinding?.tvOrderAddress?.text =
+                        "${it?.address}, ${it?.ward}, ${it?.district}, ${it?.city}"
+                    bindingOrderBinding?.tvOrderNameUser?.text = it?.name
+                    bindingOrderBinding?.tvOrderPhoneUser?.text = it?.phone
+                }
+            }
+
+        })
+        cartViewModel.voucher.observe(viewLifecycleOwner, {
+            if(it!=null) {
+                if (totalMoney!! >= it.condition!!) {
+                    totalMoney = totalMoneyPre
+                    val priceDiscount = (totalMoney!! * it.discount / 100)
+                    bindingOrderBinding?.tvDiscountValue?.text = "-${it?.discount}%"
+                    bindingOrderBinding?.tvOrderDiscountDetail?.text = priceDiscount.toVND()
+                    bindingOrderBinding?.tvOrderTotalMoneyFinish?.text =
+                        (totalMoney!! - priceDiscount).toVND()
+                    totalMoney = (totalMoney!! - priceDiscount)
+                    voucher = it
+                } else {
+                    activity?.let { it1 ->
+                        FragmentDialog.newInstance(
+                            it1,
+                            "Thông báo",
+                            Constant.WARNING_VOUCHER,
+                            "Đóng"
+                        )
+                    }
+                }
+            }
+
         })
 
     }
 
     override fun setUI() {
-        val isFragmentFollowOrder = arguments?.getBoolean("key")
+        isFragmentFollowOrder = arguments?.getBoolean("key", false)
         val state  = arguments?.getString("state")
         listProductOrder = arguments?.getParcelableArrayList("listProduct")
         idOrder = arguments?.getInt("idOrder")
-        discount = arguments?.getInt("discount")
+        voucher = arguments?.getParcelable("voucher")
+        infoOrder = arguments?.getParcelable("info")
         if(isFragmentFollowOrder==true){
+            bindingOrderBinding?.btnDiscountOption?.isEnabled = false
+            bindingOrderBinding?.btnOrderShippingOption?.isEnabled = false
+            bindingOrderBinding?.btnPaymentOption?.isEnabled = false
             bindingOrderBinding?.tvChangeAddress?.gone()
             if(state==Constant.CANCEL){
                 bindingOrderBinding?.btnCancelOrder?.visible()
@@ -138,24 +213,26 @@ class FragmentOrder: BaseFragment() {
                 bindingOrderBinding?.btnCancelOrder?.visible()
             }
             bindingOrderBinding?.ctrlOrder?.gone()
-        }
-        totalMoney = listProductOrder?.size?.minus(1) ?: 0 //lấy tổng tiền ở ptu vị trí cuối
-
+            totalMoney = infoOrder?.totalMoney
+        }else totalMoney = arguments?.getInt("totalMoney", 0)
+        totalMoneyPre = totalMoney
         bindingOrderBinding?.rvOrderProduct?.isNestedScrollingEnabled = false
         initRecyclerView()
         setOnClickListener()
         setInfoOrder()
+        orderViewModel?.getMyAddress()
 
     }
     fun setOnClickListener(){
         bindingOrderBinding?.btnOrderFinish?.setOnClickListener {
-//            val listProductFinish: ArrayList<DetailCart> = arrayListOf()
-//            for(i in listProductOrder!!){
-//                i.product?.let { it1 -> listProductFinish.add(it1) }
-//            }
-//            val order = Order(listProductOrder?.get(totalMoney)?.total, listProductFinish)
-//            orderViewModel?.order(order)
-            createOrder()
+            if(checkProductInOrder()) {
+                AppEvent.notifyShowPopUp()
+                if(bindingOrderBinding?.tvPayment?.text?.equals(getString(R.string.payment_cash)) == true){
+                    orderViewModel?.createOrder(newOrder())
+                }else{
+                    createOrder()
+                }
+            }else activity?.let { FragmentDialog.newInstance(it, "Thông báo", "Vui lòng xóa sản phẩm không hợp lệ trước khi đặt hàng", "OK") }
         }
 
         bindingOrderBinding?.btnCancelOrder?.setOnClickListener {
@@ -164,35 +241,100 @@ class FragmentOrder: BaseFragment() {
         bindingOrderBinding?.tvChangeAddress?.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentOrder_to_fragmentSelectAddress)
         }
+        bindingOrderBinding?.ctrlAddress?.setOnClickListener {
+            if(isFragmentFollowOrder==false) it.findNavController().navigate(R.id.action_fragmentOrder_to_fragmentSelectAddress)
+        }
         bindingOrderBinding?.btnOrderShippingOption?.setOnClickListener {
-            it.findNavController().navigate(R.id.action_fragmentOrder_to_fragmentShippingOption)
+            it.findNavController().navigate(R.id.action_fragmentOrder_to_fragmentShippingOption, bundleOf("listProductOrder" to listProductOrder))
         }
         bindingOrderBinding?.btnPaymentOption?.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentOrder_to_fragmentPaymentOption)
         }
+        bindingOrderBinding?.btnDiscountOption?.setOnClickListener {
+            val dialog = FragmentMyVoucher()
+            activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "Discount") }
+        }
+        bindingOrderBinding?.btnContinue?.setOnClickListener {
+            it?.findNavController()?.navigate(FragmentOrderDirections.actionFragmentOrderToFragmentHome())
+        }
     }
     private fun setInfoOrder(){
-        //bindingOrderBinding?.tvOrderAddress?.text = Constant.user?.address
-        bindingOrderBinding?.tvOrderNameUser?.text = Constant.user?.name
-        bindingOrderBinding?.tvOrderPhoneUser?.text = Constant.user?.phone
-        val totalMoneyPre = listProductOrder?.get(totalMoney)?.total?.div(discount!!)
-        bindingOrderBinding?.tvOrderDiscountDetail?.text = totalMoneyPre.toVND()
-        bindingOrderBinding?.tvDiscountValue?.text = "-${discount}%"
-        bindingOrderBinding?.tvOrderTotalMoney?.text = listProductOrder?.get(totalMoney)?.total?.toVND()
-        bindingOrderBinding?.tvOrderTotalMoneyFinish?.text = (listProductOrder?.get(totalMoney)?.total?.minus(totalMoneyPre!!)).toVND()
+        if(voucher?.discount?:-1 > 0){
+            val totalPre = totalMoney!! * voucher?.discount!! /100
+            bindingOrderBinding?.tvOrderDiscountDetail?.text = totalPre.toVND()
+            bindingOrderBinding?.tvOrderTotalMoney?.text = totalMoney.toVND()
+            bindingOrderBinding?.tvDiscountValue?.text = "-${voucher?.discount}%"
+            bindingOrderBinding?.tvOrderTotalMoneyFinish?.text = totalMoney?.minus(totalPre).toVND()
+            totalMoney = totalMoney?.minus(totalPre)
+
+        }else{
+            bindingOrderBinding?.tvOrderTotalMoney?.text = totalMoney.toVND()
+            bindingOrderBinding?.tvOrderTotalMoneyFinish?.text = totalMoney.toVND()
+        }
+        if(isFragmentFollowOrder==true){
+            if(infoOrder?.idVoucher == null){
+                bindingOrderBinding?.tvDiscountValue?.text =""
+                bindingOrderBinding?.tvOrderTotalMoney?.text = infoOrder?.totalMoney.toVND()
+            }else{
+                bindingOrderBinding?.tvDiscountValue?.text = "-${infoOrder?.idVoucher}%"
+                val priceRoot = (((infoOrder?.totalMoney?.div((100- infoOrder?.idVoucher!!)))?.times(infoOrder?.idVoucher!!)))?.plus(infoOrder?.totalMoney!!)
+                bindingOrderBinding?.tvOrderTotalMoney?.text = priceRoot.toVND()
+                bindingOrderBinding?.tvOrderDiscountDetail?.text = (priceRoot?.div(infoOrder?.idVoucher!!)).toVND()
+            }
+            bindingOrderBinding?.tvPayment?.text = infoOrder?.paymentMethod.toString()
+            bindingOrderBinding?.tvShip?.text = infoOrder?.shippingOption.toString()
+            bindingOrderBinding?.tvOrderTotalDetailTitle?.visible()
+            bindingOrderBinding?.tvOrderTotalDetail?.visible()
+            bindingOrderBinding?.tvOrderTotalDetail?.text = totalMoney.toVND()
+            if(infoOrder?.shippingOption.equals("Nhận hàng tại cửa hàng")){
+                bindingOrderBinding?.tvInfoReceive?.text = "Đ/c: ${infoOrder?.address}"
+            }
+            bindingOrderBinding?.tvFeeShip?.gone()
+        }
 
     }
 
     private fun updateAddress(address: Address){
-        bindingOrderBinding?.tvOrderAddress?.text = address.address
+        bindingOrderBinding?.ctrlAddress?.isEnabled = true
+        bindingOrderBinding?.tvChangeAddress?.visible()
+        bindingOrderBinding?.tvOrderAddressTitle?.text = "Địa chỉ giao hàng"
+        bindingOrderBinding?.tvOrderAddress?.text = "${address?.address}, ${address?.ward}, ${address?.district}, ${address?.city}"
         bindingOrderBinding?.tvOrderNameUser?.text = address.name
         bindingOrderBinding?.tvOrderPhoneUser?.text = address.phone
+
+    }
+    private fun updateAddress(){
+        bindingOrderBinding?.ctrlAddress?.isEnabled = false
+        bindingOrderBinding?.tvChangeAddress?.gone()
+        bindingOrderBinding?.tvOrderAddressTitle?.text = "Thông tin nhận hàng"
+        bindingOrderBinding?.tvOrderNameUser?.text = Constant.user?.name
+        bindingOrderBinding?.tvOrderPhoneUser?.text = Constant.user?.phone
+        bindingOrderBinding?.tvOrderAddress?.text = ""
     }
 
     private fun initRecyclerView(){
         orderAdapter = DetailProductAdapter(listProductOrder)
+        orderAdapter?.deleteItemCart = {
+            AppEvent.notifyShowPopUp()
+            cartViewModel.deleteItem(it)
+            cartViewModel.flagDelete = 1
+            listProductOrder?.removeIf{n ->n.product?.id == it}
+            orderAdapter?.notifyDataSetChanged()
+            cartViewModel.listProduct.value?.removeIf { n ->n?.id == it }
+            Handler(Looper.getMainLooper()).postDelayed({
+                AppEvent.notifyClosePopUp()
+            },500)
+            if(listProductOrder?.size ==0){
+                bindingOrderBinding?.groupOrder?.gone()
+                bindingOrderBinding?.groupNoneProduct?.visible()
+                cartViewModel.getTotalProduct()
+                cartViewModel.flag = 0
+            }
+
+        }
         bindingOrderBinding?.rvOrderProduct?.adapter = orderAdapter
         bindingOrderBinding?.rvOrderProduct?.layoutManager = LinearLayoutManager(context)
+
     }
 
     private fun alertCancel(){
@@ -222,7 +364,7 @@ class FragmentOrder: BaseFragment() {
             AppId = java.lang.String.valueOf(Constant.APP_ID),
                     AppUser = "LD_Mobile",
                     AppTime = appTime.toString(),
-                    Amount = listProductOrder?.get(totalMoney)?.total.toString(),
+                    Amount = totalMoney.toString(),
                     AppTransId = zaloPayHelper.getAppTransId(),
                     EmbedData = "{}",
                     Items = "[]",
@@ -252,13 +394,58 @@ class FragmentOrder: BaseFragment() {
             .build()
         orderViewModel?.getToken(formBody)
     }
-
-
+    private fun checkProductInOrder(): Boolean{
+        listProductOrder?.forEach {
+            if(it.product?.isAvailable == false){
+                return false
+            }
+        }
+        return true
+    }
     override fun onResume() {
         super.onResume()
         if(isPaymentZaloPay){
             findNavController().navigate(R.id.action_fragmentOrder_to_fragmentSuccessOrder)
+            orderViewModel?.createOrder(newOrder())
         }
+    }
+    private fun newOrder(): Order {
+        val listProductFinish: ArrayList<Cart> = arrayListOf()
+        listProductOrder?.forEach {
+            it.product?.let { it1 -> listProductFinish.add(it1) }
+        }
+        var order = Order()
+        if (isAtStore) {
+            order = Order(
+                idVoucher = voucher?.id,
+                idStore = idItem,
+                paymentMethod = bindingOrderBinding?.tvPayment?.text.toString(),
+                shippingOption = bindingOrderBinding?.tvShip?.text.toString(),
+                address = bindingOrderBinding?.tvInfoReceive?.text.toString().replace(
+                        "Đ/c:",
+                        ""),
+                totalMoney = totalMoney,
+                listProduct = listProductFinish
+            )
+        } else {
+            order = Order(
+                idVoucher = voucher?.id,
+                idAccountAddress = idItem,
+                paymentMethod = bindingOrderBinding?.tvPayment?.text.toString(),
+                shippingOption = bindingOrderBinding?.tvShip?.text.toString(),
+                address =  bindingOrderBinding?.tvOrderAddress?.text.toString(),
+                totalMoney = totalMoney,
+                listProduct = listProductFinish
+            )
+        }
+        return order
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cartViewModel.voucher.value = null
+        cartViewModel.resultDeleteItem?.value = null
+        flag = 1
     }
 
 }

@@ -1,8 +1,7 @@
 package com.example.phonestore.repo
 
-import com.example.phonestore.model.order.MyOrder
-import com.example.phonestore.model.order.Order
-import com.example.phonestore.model.ProductOrder
+import com.example.phonestore.model.*
+import com.example.phonestore.model.order.*
 import com.example.phonestore.model.payment.ZaloPayCreateOderResponse
 import com.example.phonestore.model.payment.ZaloPayCreateOrderParam
 import com.example.phonestore.services.APIRequest
@@ -13,7 +12,7 @@ import okhttp3.FormBody
 import okhttp3.RequestBody
 
 class OrderRepo {
-    fun order(order: Order, onSuccess: (Boolean?)-> Unit, onError: (String?) -> Unit ){
+    fun createOrder(order: Order, onSuccess: (Boolean?)-> Unit, onError: (String?) -> Unit ){
         APIRequest.callRequest(
             call = APIServices.getInstance()?.order(Constant.idUser, order),
             onSuccess = {results -> onSuccess.invoke(results?.status)},
@@ -27,10 +26,10 @@ class OrderRepo {
             onError = {e -> onError.invoke(e)}
         )
     }
-    fun getDetailOrder(idOrder: Int? = 0, onSuccess: (ArrayList<ProductOrder>?)->Unit, onError: (String?)->Unit){
+    fun getDetailOrder(idOrder: Int? = 0, onSuccess: (DetailOrderResponse?)->Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
             call = APIServices.getInstance()?.getDetailOrder(idOrder),
-            onSuccess = {results ->results?.listProductOrder.let {onSuccess.invoke(it) }},
+            onSuccess = {results ->results?.let {onSuccess.invoke(it) }},
             onError = {e -> onError.invoke(e)}
         )
     }
@@ -38,6 +37,27 @@ class OrderRepo {
         APIRequest.callRequest(
             call = APIServices.getInstance()?.cancelOrder(idOrder),
             onSuccess = {results ->onSuccess.invoke(results?.status)},
+            onError = {e -> onError.invoke(e)}
+        )
+    }
+    fun getProvince(onSuccess: (ProvinceResponse?)->Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.getProvinceOfStore(),
+            onSuccess = {results ->results?.let {onSuccess.invoke(it) }},
+            onError = {e -> onError.invoke(e)}
+        )
+    }
+    fun callCheckProductInStore(idStore: Int?, list: ParamListID, onSuccess: (CheckProductInStoreResponse?)->Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.checkProduct(idStore, list),
+            onSuccess = {results ->results?.let {onSuccess.invoke(it) }},
+            onError = {e -> onError.invoke(e)}
+        )
+    }
+    fun getAddressStore(idProvince: Int?, onSuccess: (AddressStoreResponse?)->Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.getAddressStore(idProvince),
+            onSuccess = {results ->results?.let {onSuccess.invoke(it) }},
             onError = {e -> onError.invoke(e)}
         )
     }
@@ -49,6 +69,21 @@ class OrderRepo {
             },
             onError = {
                 onError.invoke(it)
+            }
+        )
+    }
+    fun callMyAddress(onSuccess: (Address?)->Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.getMyAddress(),
+            onSuccess = {
+                it?.let {
+                    onSuccess.invoke(it)
+                }
+            },
+            onError = {
+                it?.let {
+                    onError.invoke(it)
+                }
             }
         )
     }

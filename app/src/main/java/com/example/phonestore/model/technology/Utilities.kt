@@ -18,16 +18,20 @@ class Utilities(
 
 ): Parcelable {
     constructor(parcel: Parcel) : this(
-        TODO("security"),
-        TODO("list"),
+        parcel.createTypedArrayList(Name),
+        parcel.createTypedArrayList(Name),
         parcel.readString(),
-        TODO("movie"),
-        TODO("music")
+        parcel.createTypedArrayList(Name),
+        parcel.createTypedArrayList(Name)
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeTypedList(security)
+        parcel.writeTypedList(featureOther)
         parcel.writeString(record)
+        parcel.writeTypedList(movie)
+        parcel.writeTypedList(music)
     }
 
     override fun describeContents(): Int {

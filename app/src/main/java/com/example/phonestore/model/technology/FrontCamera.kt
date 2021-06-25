@@ -16,15 +16,17 @@ class FrontCamera(
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
-        TODO("quality"),
+        parcel.createTypedArrayList(Quality),
         parcel.readString(),
-        TODO("feature")
+        parcel.createTypedArrayList(Name)
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(pixel)
+        parcel.writeTypedList(quality)
         parcel.writeString(flash)
+        parcel.writeTypedList(feature)
     }
 
     override fun describeContents(): Int {

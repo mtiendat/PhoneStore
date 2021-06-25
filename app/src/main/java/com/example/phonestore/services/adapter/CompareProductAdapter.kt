@@ -15,6 +15,7 @@ import com.example.phonestore.model.ProductInfo
 
 class CompareProductAdapter(val listCompareProduct: ArrayList<ProductInfo>?):
     RecyclerView.Adapter<CompareProductAdapter.ItemCompareViewHolder>() {
+    var clickCompare: ((ProductInfo?)->Unit)? = null
     fun setItems(listItem: ArrayList<ProductInfo>) {
         val currentSize: Int? = listCompareProduct?.size
         listCompareProduct?.clear()
@@ -48,6 +49,9 @@ class CompareProductAdapter(val listCompareProduct: ArrayList<ProductInfo>?):
         }
         holder.bindingCompare.ivProductCate.setOnClickListener {
             it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("product" to item))
+        }
+        holder.bindingCompare.tvCompareWith.setOnClickListener {
+            clickCompare?.invoke(item)
         }
         Glide.with(holder.itemView.context)
             .load(item?.img)

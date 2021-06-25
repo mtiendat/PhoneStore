@@ -11,17 +11,18 @@ class Battery(
     var capacity: String? ="",
     @SerializedName("cong_nghe")
     var technology: List<Name>? = listOf(),
-): Parcelable {
+):Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
-        TODO("technology")
+        parcel.createTypedArrayList(Name)
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(type)
         parcel.writeString(capacity)
+        parcel.writeTypedList(technology)
     }
 
     override fun describeContents(): Int {

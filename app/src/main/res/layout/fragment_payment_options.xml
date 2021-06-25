@@ -48,19 +48,21 @@
             android:drawableStart="@drawable/bg_ic_zalo_pay"
             android:drawablePadding="10dp"
             android:paddingStart="10dp"
-            android:text="Thanh toán bằng Zalo Pay" />
+            android:text="Thanh toán bằng ZaloPay" />
     </RadioGroup>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnPaymentConfirm"
         style="@style/ButtonRectangleStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="Xác nhận"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
     <View
         android:id="@+id/view3"

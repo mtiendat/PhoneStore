@@ -3,6 +3,7 @@ package com.example.phonestore.repo
 import com.example.phonestore.model.auth.FormLogin
 import com.example.phonestore.model.auth.LoginResponse
 import com.example.phonestore.model.Notification
+import com.example.phonestore.model.NotificationResponse
 import com.example.phonestore.model.auth.User
 import com.example.phonestore.services.APIRequest
 import com.example.phonestore.services.APIServices
@@ -80,10 +81,12 @@ class UserRepo {
             onError = {e -> onError.invoke(e)}
         )
     }
-    fun callDeleteNotification(idNotification: Int?, onSuccess: (Boolean?)-> Unit, onError: (String?)->Unit){
+    fun callDeleteNotification(idNotification: Int?, onSuccess: (NotificationResponse?)-> Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
             call = APIServices.getInstance()?.deleteNotification(idNotification),
-            onSuccess = {results -> onSuccess.invoke(results?.status)},
+            onSuccess = {results -> results?.let {
+                onSuccess.invoke(results)
+            }},
             onError = {e -> onError.invoke(e)}
         )
     }

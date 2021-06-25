@@ -63,70 +63,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitleShipping" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ctrlChooseAddressStore"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@drawable/custom_ctrl_stroke_active"
-        android:visibility="gone"
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvSnStore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rgShipping">
+        app:layout_constraintTop_toBottomOf="@+id/rgShipping">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvSnStore"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/snStore"
-                android:layout_width="match_parent"
-                android:layout_height="40dp" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvSnStoreTown"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/snStoreTown"
-                android:layout_width="match_parent"
-                android:layout_height="40dp" />
-        </androidx.cardview.widget.CardView>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline5"
+        <androidx.appcompat.widget.AppCompatSpinner
+            android:id="@+id/snStore"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
+            android:layout_height="40dp" />
+    </androidx.cardview.widget.CardView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvAddressStore"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cvSnStore"
-            tools:listitem="@layout/item_address_store" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvAddressStore"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cvSnStore"
+        tools:listitem="@layout/item_address_store" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnShipConfirm"
@@ -134,17 +99,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="9dp"
         android:layout_marginEnd="16dp"
         android:text="Xác nhận"
-        app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvAddressStore" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline11"
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupChooseAdressStore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.9" />
-
+        android:visibility="gone"
+        app:constraint_referenced_ids="cvSnStore,rvAddressStore" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+

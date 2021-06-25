@@ -14,18 +14,20 @@ class RearCamera(
     var flash: String? ="",
     @SerializedName("tinh_nang")
     var feature: List<Name>? = listOf(),
-): Parcelable {
+):Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
-        TODO("quality"),
+        parcel.createTypedArrayList(Quality),
         parcel.readString(),
-        TODO("feature")
+        parcel.createTypedArrayList(Name)
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(pixel)
+        parcel.writeTypedList(video)
         parcel.writeString(flash)
+        parcel.writeTypedList(feature)
     }
 
     override fun describeContents(): Int {

@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginEnd="10dp"
-    app:cardCornerRadius="10dp">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ctrlRootVoucher"
+        android:layout_width="wrap_content"
         android:layout_height="136dp"
-        android:background="@drawable/custome_discount"
-        android:elevation="0dp">
+        android:layout_margin="8dp"
+        android:background="@drawable/bg_custom_voucher_active">
 
         <View
             android:id="@+id/view"
             android:layout_width="1dp"
-            android:layout_height="136dp"
+            android:layout_height="96dp"
+            android:layout_marginStart="8dp"
             android:background="@drawable/dotted"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline6"
+            app:layout_constraintStart_toStartOf="@+id/guideline7"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctrlOvalTop"
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:background="@drawable/oval"
@@ -59,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="247dp" />
+            app:layout_constraintGuide_percent="0.37" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline9"
@@ -69,6 +66,7 @@
             app:layout_constraintGuide_percent="0.95" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctrlOvalBottom"
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:background="@drawable/oval"
@@ -79,13 +77,14 @@
             app:layout_constraintTop_toTopOf="@+id/guideline9" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ctrlVoucher"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="12dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="4dp"
             android:layout_marginBottom="4dp"
-            android:background="@drawable/custom_ctrl_corner_blue"
+            android:background="@drawable/bg_ctrl_corner_blue"
             app:layout_constraintBottom_toTopOf="@+id/guideline9"
             app:layout_constraintEnd_toStartOf="@+id/guideline7"
             app:layout_constraintStart_toStartOf="parent"
@@ -107,22 +106,23 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/ivDiscountInfo"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:id="@+id/ivDelete"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_info"
+            android:src="@drawable/ic_delete_oval"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline10" />
-
+            app:layout_constraintTop_toTopOf="parent" />
         <TextView
             android:id="@+id/tvDiscountContent"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
             android:text="Áp dụng cho đơn hàng từ 5.000.000đ"
-            app:layout_constraintEnd_toEndOf="@+id/ivDiscountInfo"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline8"
             app:layout_constraintTop_toTopOf="@+id/guideline10" />
 
@@ -158,4 +158,3 @@
                 android:textColor="@color/white" />
         </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>

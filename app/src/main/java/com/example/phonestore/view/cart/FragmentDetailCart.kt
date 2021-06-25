@@ -1,6 +1,9 @@
 package com.example.phonestore.view.cart
 
 import android.app.AlertDialog
+import android.content.Context
+import android.os.Handler
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,33 +11,27 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.Navigation.findNavController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.phonestore.extendsion.*
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentDetailCartBinding
-import com.example.phonestore.model.cart.DetailCart
+import com.example.phonestore.extendsion.*
 import com.example.phonestore.model.ProductOrder
 import com.example.phonestore.model.cart.Cart
-import com.example.phonestore.model.cart.Discount
+import com.example.phonestore.model.cart.Voucher
 import com.example.phonestore.services.Constant
-import com.example.phonestore.services.Constant.DISCOUNT
-import com.example.phonestore.services.adapter.DetailProductAdapter
 import com.example.phonestore.services.SwipeHelper
+import com.example.phonestore.services.adapter.DetailProductAdapter
 import com.example.phonestore.view.MainActivity
-import com.example.phonestore.view.productDetail.FragmentDetailTechnology
 import com.example.phonestore.viewmodel.CartViewModel
 import com.google.android.material.snackbar.Snackbar
-import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
-import kotlinx.coroutines.isActive
+import kotlinx.coroutines.cancel
+import okhttp3.internal.notify
 
 class FragmentDetailCart: BaseFragment() {
     private var bindingDetailCart: FragmentDetailCartBinding? = null
@@ -44,25 +41,53 @@ class FragmentDetailCart: BaseFragment() {
     private var listProductChoose: ArrayList<ProductOrder>? = arrayListOf()
     private var totalMoney: Int? = 0
     private var hasDiscount: Int  = 0
+    private var voucher: Voucher?  = null
     private var totalMoneyPrevious: Int? = 0
+    private var isDelete = false
+    private var flag = 0
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingDetailCart = FragmentDetailCartBinding.inflate(inflater, container, false)
         return bindingDetailCart?.root
     }
 
     override fun setUI() {
+        if(flag==0){
+            bindingDetailCart?.progressBarDetailCart?.visible()
+            detailCartViewModel.getMyCart()
+            bindingDetailCart?.rvMyCart?.isNestedScrollingEnabled = false
+        }else{
+            listProductChoose?.clear()
+            totalMoney = detailCartViewModel.totalMoney.value
+                totalMoneyPrevious = totalMoney
+                listProduct?.forEach { item ->
+                    listProductChoose?.add(ProductOrder(item, item.qty))
+                }
+                bindingDetailCart?.tvTotalMoney?.text = totalMoney.toVND()
+                bindingDetailCart?.tvTotalPreDetail?.text = totalMoney.toVND()
+                if(isDelete){
+                    updateTotalHasDiscount()
+                }
+                bindingDetailCart?.rvMyCart?.visible()
+                bindingDetailCart?.tvNoProductInCart?.gone()
+                bindingDetailCart?.progressBarDetailCart?.gone()
+                bindingDetailCart?.ctrlBonus?.visible()
+                bindingDetailCart?.ctrlOrder?.visible()
+                enabledBtnOrder()
+        }
+
+        flag++
         initRecyclerView()
-        detailCartViewModel.getMyCart()
-        bindingDetailCart?.rvMyCart?.isNestedScrollingEnabled = false
+
     }
 
     override fun setEvents() {
         bindingDetailCart?.btnOrder?.setOnClickListener {
-            val item = bundleOf("listProduct" to listProductChoose, "discount" to hasDiscount)
+            val item = bundleOf("listProduct" to listProductChoose, "voucher" to voucher, "totalMoney" to totalMoneyPrevious)
             it.findNavController().navigate(R.id.action_fragmentDetailCart_to_fragmentOrder, item)
+            //listProductChoose?.clear()
         }
         bindingDetailCart?.btnChooseDiscount?.setOnClickListener {
-            val dialog = FragmentMyDiscount()
+            val dialog = FragmentMyVoucher()
             activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "Discount") }
         }
         bindingDetailCart?.ivClearDiscount?.setOnClickListener {
@@ -80,52 +105,64 @@ class FragmentDetailCart: BaseFragment() {
     }
 
     override fun setObserve() {
-        detailCartViewModel.resultDeleteItem.observe(viewLifecycleOwner,{
-            if(it){
-                view?.let { it1 -> Snackbar.make(it1, Constant.DELETED_PRODUCT, Snackbar.LENGTH_SHORT).show()
-                    detailCartViewModel.getTotalProduct()
-                    detailCartViewModel.getMyCart()
+        detailCartViewModel.resultDeleteItem?.observe(viewLifecycleOwner,{
+            if(it!=null) {
+                if (it && detailCartViewModel.flagDelete == 0) {
+                    view?.let { it1 ->
+                        Snackbar.make(it1, Constant.DELETED_PRODUCT, Snackbar.LENGTH_SHORT).show()
+                    }
                 }
             }
         })
-        detailCartViewModel.totalProduct.observe(viewLifecycleOwner, {
-            context?.let { it1 -> MainActivity.icon?.let { it2 ->
-                MainActivity.setBadgeCount(it1, icon = it2, it.toString())
-                }
-            }
-        })
-
         detailCartViewModel.listProduct.observe(viewLifecycleOwner, {
-            if(it===null||it.size==0){//nếu k có sản phẩm nào trong giỏ hàng
-                bindingDetailCart?.rvMyCart?.gone()
-                bindingDetailCart?.tvNoProductInCart?.visible()
-                bindingDetailCart?.progressBarDetailCart?.gone()
-                bindingDetailCart?.ctrlBonus?.gone()
+            if(it==null|| it.size ==0){//nếu k
+                if(detailCartViewModel.flag==0)
+                    setViewNoneProduct()
             }else {
+                context?.let { it1 ->
+                    ContextCompat.getColor(
+                        it1, R.color.red_light)
+                }?.let { it2 -> bindingDetailCart?.btnOrder?.setBackgroundColor(it2) }
+
+                totalMoney = detailCartViewModel.totalMoney.value
+                totalMoneyPrevious = totalMoney
+                listProduct?.addAll(it)
+                detailCartAdapter?.setItems(it)
+                it?.forEach { item ->
+                    listProductChoose?.add(ProductOrder(item, item.qty))
+                }
+                bindingDetailCart?.tvTotalMoney?.text = totalMoney.toVND()
+                bindingDetailCart?.tvTotalPreDetail?.text = totalMoney.toVND()
+                if(isDelete){
+                    updateTotalHasDiscount()
+                }
                 bindingDetailCart?.rvMyCart?.visible()
                 bindingDetailCart?.tvNoProductInCart?.gone()
                 bindingDetailCart?.progressBarDetailCart?.gone()
                 bindingDetailCart?.ctrlBonus?.visible()
-                totalMoney = detailCartViewModel.totalMoney.value
-                listProduct?.addAll(it)
-                it.forEach { item ->
-                    listProductChoose?.add(ProductOrder(item, item.qty, totalMoney))
-                }
-                detailCartAdapter?.setItems(it)
-                bindingDetailCart?.tvTotalMoney?.text = totalMoney.toVND()
-                bindingDetailCart?.tvTotalPreDetail?.text = totalMoney.toVND()
+                bindingDetailCart?.ctrlOrder?.visible()
+                enabledBtnOrder()
             }
         })
-        detailCartViewModel.discount.observe(viewLifecycleOwner, {
-            totalMoneyPrevious = totalMoney
-            hasDiscount = it.discount
-            val priceDiscount = totalMoney?.div(it.discount)
-            bindingDetailCart?.tvDiscount?.text = "-${it.discount}%"
-            bindingDetailCart?.tvDiscountDetail?.text = priceDiscount.toVND()
-            bindingDetailCart?.groupDiscount?.visible()
-            bindingDetailCart?.btnChooseDiscount?.text =""
-            totalMoney = (totalMoney?.minus((totalMoney!! / it.discount)))
-            bindingDetailCart?.tvTotalMoney?.text = totalMoney.toVND()
+        detailCartViewModel.voucher.observe(viewLifecycleOwner, {
+            if(it!=null){
+                if(totalMoney!! >= it?.condition!!){
+                    voucher = it
+                    totalMoneyPrevious = totalMoney
+                    hasDiscount = it.discount
+                    val priceDiscount = (totalMoney!!*it.discount /100)
+                    bindingDetailCart?.tvDiscount?.text = "-${it.discount}%"
+                    bindingDetailCart?.tvDiscountDetail?.text = priceDiscount.toVND()
+                    bindingDetailCart?.groupDiscount?.visible()
+                    bindingDetailCart?.btnChooseDiscount?.text =""
+                    totalMoney = (totalMoney?.minus(priceDiscount))
+                    bindingDetailCart?.tvTotalMoney?.text = totalMoney.toVND()
+                }else{
+                    activity?.let { it1 -> FragmentDialog.newInstance(it1, "Thông báo", Constant.WARNING_VOUCHER,"Đóng") }
+                }
+            }
+
+
         })
 
     }
@@ -137,12 +174,11 @@ class FragmentDetailCart: BaseFragment() {
         bindingDetailCart?.rvMyCart?.layoutManager = LinearLayoutManager(context)
         val itemTouchHelper = bindingDetailCart?.rvMyCart?.let {
             ItemTouchHelper(object : SwipeHelper(it) {
-            override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
-
-                val deleteButton = deleteButton()
-                return listOf(deleteButton)
-            }
-        })
+                override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
+                    val deleteButton = deleteButton(position)
+                    return listOf(deleteButton)
+                }
+            })
         }
         itemTouchHelper?.attachToRecyclerView(bindingDetailCart?.rvMyCart)
     }
@@ -190,21 +226,15 @@ class FragmentDetailCart: BaseFragment() {
             if (state) {
                 totalMoney = totalMoney?.plus(total)
                 if(!checkExist(product.id)){
-                    val productOrder = ProductOrder(product, qty, totalMoney)
+                    val productOrder = ProductOrder(product, qty)
                     if(total>0) {
                         listProductChoose?.add(productOrder)//thêm sp vào ds chờ. Để put qua order
-                    }
-                }else{
-                    for (i in listProductChoose!!) {
-                        if (i.product?.id == product.id) {
-                            i.total = totalMoney //Cập nhật lại số lượng
-                        }
                     }
                 }
 
             } else {
                 totalMoney = totalMoney?.minus(total)
-                val productOrder = ProductOrder(product, qty, totalMoney)
+                val productOrder = ProductOrder(product, qty)
                 listProductChoose?.removeIf { n ->(n.product?.id == productOrder.product?.id) }//remove dùng removeIf để tránh ngoại lệ ConcurrentModificationException và "main" java.lang.IndexOutOfBoundsException
             }
             updateTotalHasDiscount()
@@ -226,7 +256,6 @@ class FragmentDetailCart: BaseFragment() {
         }
         detailCartAdapter?.updateProductInList = { product, qty ->
             if (listProduct != null) {
-
                 if(checkExist(product?.id)) { //Ktra sp có trong list đã chọn chưa
                     if (qty != 0) {
                         for (i in listProductChoose!!) {
@@ -236,7 +265,7 @@ class FragmentDetailCart: BaseFragment() {
                         }
                     } else listProductChoose?.removeIf { n -> n.product?.id == product?.id }//số lượng về 0 thì xóa sp khỏi ds đã chọn
                 }else {
-                    val productOrder = ProductOrder(product, qty, product?.price)
+                    val productOrder = ProductOrder(product, qty)
                     listProductChoose?.add(productOrder)
                 }
 
@@ -244,11 +273,11 @@ class FragmentDetailCart: BaseFragment() {
         }
         detailCartAdapter?.updateItemCart = { id, it ->
             if(it == true){
-                detailCartViewModel?.updateItem(id, "plus")
-            }else detailCartViewModel?.updateItem(id, "min")
+                detailCartViewModel.updateItem(id, "plus")
+            }else detailCartViewModel.updateItem(id, "min")
         }
         detailCartAdapter?.deleteItemCart = {
-            detailCartViewModel?.deleteItem(it)
+            detailCartViewModel.deleteItem(it)
             bindingDetailCart?.progressBarDetailCart?.visible()
         }
     }
@@ -260,39 +289,29 @@ class FragmentDetailCart: BaseFragment() {
         }
         return false
     }
-    private fun deleteButton() : SwipeHelper.UnderlayButton{
+
+    private fun deleteButton(position: Int) : SwipeHelper.UnderlayButton {
         return SwipeHelper.UnderlayButton(
-                this.requireContext(),
-                "Delete",
-                14.0f,
-                android.R.color.holo_red_light,
-                this::handle,
-
-
-        )
+            requireContext(),
+            "Xóa",
+            14.0f,
+            android.R.color.holo_red_light,
+            this::handle)
     }
+
     private fun handle(position: Int){
-            for (i in listProduct!!) {
-                if (listProduct?.get(position) == i){
-                    if(position== listProduct?.size?.minus(1) ?: -1){
-                        bindingDetailCart?.tvTotalMoney?.text = "0"
-                        bindingDetailCart?.tvTotalPreDetail?.text = "0"
-                        bindingDetailCart?.btnOrder?.enabled()
-                    }
-                    detailCartViewModel?.deleteItem(i.idProduct)
-                }
-            }
+        context?.let { alertDelete(it, listProduct?.get(position)?.id, position) }
     }
 
     private fun updateTotalHasDiscount(){
         if(totalMoney?:0 >0){
-            bindingDetailCart?.btnOrder?.unEnabled()
+            enabledBtnOrder()
         }else{
             totalMoney = 0
-            bindingDetailCart?.btnOrder?.enabled()
+            disabledBtnOrder()
         }
         if(hasDiscount > 0){
-            val priceDiscount = totalMoney?.div(hasDiscount)
+            val priceDiscount = (totalMoney!!*hasDiscount/100)
             bindingDetailCart?.tvTotalPreDetail?.text = totalMoney.toVND()
             bindingDetailCart?.tvDiscountDetail?.text = priceDiscount.toVND()
             bindingDetailCart?.tvTotalMoney?.text = (totalMoney?.minus(priceDiscount!!)).toVND()
@@ -303,8 +322,73 @@ class FragmentDetailCart: BaseFragment() {
         }
     }
 
+    private fun alertDelete(context: Context, id: Int?, position: Int){
+        val builder = AlertDialog.Builder(context)
+        builder.setMessage(Constant.QUESTION_DELETE)
+        builder.setTitle(Constant.NOTIFICATION)
+        builder.setCancelable(false)
+        builder.setPositiveButton(Constant.YES) { _, _ ->
+            isDelete = true
+            detailCartViewModel.deleteItem(id)
+            if(hasDiscount==0){
+                bindingDetailCart?.tvTotalMoney?.text = (totalMoney?.minus(listProduct?.get(position)?.price!!)).toVND()
+                bindingDetailCart?.tvTotalPreDetail?.text = (totalMoney?.minus(listProduct?.get(position)?.price!!)).toVND()
+            }else updateTotalHasDiscount()
+
+            listProduct?.removeIf{n ->n.id == id}
+            listProductChoose?.removeIf {n -> n.product?.id == id }
+            detailCartAdapter?.notifyDataSetChanged()
+            context.let { it1 -> MainActivity.icon?.let { it2 ->
+                MainActivity.setBadgeCount(it1, icon = it2, listProduct?.size.toString())
+            }
+            }
+
+            if(listProduct?.size==0) {
+                setViewNoneProduct()
+                detailCartViewModel.listProduct.value = null
+                detailCartViewModel.flag = 1
+
+            }
+        }
+        builder.setNegativeButton(Constant.NO) { dialog, _ ->
+            dialog.cancel()
+            detailCartAdapter?.notifyDataSetChanged()
+        }
+        val alertDialog = builder.create()
+        alertDialog.setOnShowListener {
+            context.let {alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
+                ContextCompat.getColor(it, R.color.blue))}
+            context.let {alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
+                ContextCompat.getColor(it, R.color.blue))}
+        }
+
+        alertDialog.show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        activity?.viewModelStore?.clear()
+        detailCartViewModel.voucher.value = null
+        detailCartViewModel.listProduct.value = null
+        detailCartViewModel.flag = 1
+        detailCartViewModel.resultDeleteItem?.value = null
     }
+
+    private fun setViewNoneProduct(){
+        bindingDetailCart?.rvMyCart?.gone()
+        bindingDetailCart?.tvNoProductInCart?.visible()
+        bindingDetailCart?.progressBarDetailCart?.gone()
+        bindingDetailCart?.ctrlBonus?.gone()
+        disabledBtnOrder()
+        bindingDetailCart?.tvTotalMoney?.text = "0đ"
+    }
+
+    private fun disabledBtnOrder(){
+        bindingDetailCart?.btnOrder?.isEnabled = false
+        bindingDetailCart?.btnOrder?.setBackgroundResource(R.color.dray)
+    }
+    private fun enabledBtnOrder(){
+        bindingDetailCart?.btnOrder?.isEnabled = true
+        bindingDetailCart?.btnOrder?.setBackgroundResource(R.color.red_light)
+    }
+
 }

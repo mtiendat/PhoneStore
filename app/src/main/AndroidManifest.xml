@@ -61,6 +61,8 @@
             <meta-data android:name="android.support.PARRENT_ACTIVITY"
                 android:value=".view.ActivitySignUpInputPhone"/>
         </activity>
+        <activity android:name=".view.order.ActivityChooseInfoAddress" />
+        <activity android:name=".view.productDetail.ActivityCompareProduct" />
     </application>
 
 </manifest>

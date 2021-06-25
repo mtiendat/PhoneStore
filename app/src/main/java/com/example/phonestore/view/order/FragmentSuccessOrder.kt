@@ -3,6 +3,7 @@ package com.example.phonestore.view.order
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +16,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentSuccessOrderBinding
@@ -39,6 +45,29 @@ class FragmentSuccessOrder: BaseFragment() {
         Glide.with(this)
                 .asGif()
                 .load(R.drawable.success)
+                .listener(object: RequestListener<GifDrawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<GifDrawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: GifDrawable?,
+                        model: Any?,
+                        target: Target<GifDrawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        resource?.setLoopCount(1)
+                        return false
+                    }
+
+
+                })
                 .into(bindingSuccessOrder.ivSuccess)
         bindingSuccessOrder.btnContinue.setOnClickListener {
             view?.findNavController()?.navigate(FragmentSuccessOrderDirections.actionFragmentSuccessOrderToFragmentHome())
@@ -61,6 +90,15 @@ class FragmentSuccessOrder: BaseFragment() {
             }
         }
         cartViewModel.totalNotification.observe(requireActivity(), totalNotificationObserver)
+        cartViewModel.totalProduct.observe(requireActivity(), {
+            context?.let { it1 -> MainActivity.icon?.let { it2 ->
+                MainActivity.setBadgeCount(
+                    it1,
+                    icon = it2,
+                    it.toString()
+                )
+            } }
+        })
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

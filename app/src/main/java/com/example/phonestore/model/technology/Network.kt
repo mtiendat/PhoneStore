@@ -23,20 +23,24 @@ class Network(
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
-        TODO("wifi"),
-        TODO("gps"),
-        TODO("bluetooth"),
+        parcel.createTypedArrayList(Name),
+        parcel.createTypedArrayList(Name),
+        parcel.createTypedArrayList(Name),
         parcel.readString(),
         parcel.readString(),
-        TODO("ortherNetwork")
+        parcel.createTypedArrayList(Name)
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(mobileNetwork)
         parcel.writeString(sim)
+        parcel.writeTypedList(wifi)
+        parcel.writeTypedList(gps)
+        parcel.writeTypedList(bluetooth)
         parcel.writeString(portCharge)
         parcel.writeString(jackPhone)
+        parcel.writeTypedList(ortherNetwork)
     }
 
     override fun describeContents(): Int {

@@ -1,8 +1,11 @@
 package com.example.phonestore.view
 
+import android.app.AlertDialog
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -11,7 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentNotificationBinding
+import com.example.phonestore.extendsion.AppEvent
 import com.example.phonestore.model.Notification
+import com.example.phonestore.services.Constant
 import com.example.phonestore.services.adapter.DetailProductAdapter
 import com.example.phonestore.services.SwipeHelper
 import com.example.phonestore.viewmodel.UserViewModel
@@ -22,6 +27,8 @@ class FragmentNotification: BaseFragment() {
     private var notificationViewModel: UserViewModel? = null
     private var notificationAdapter: DetailProductAdapter<Notification>? = null
     private var listNotification: ArrayList<Notification>? = arrayListOf()
+    private var isDelete: Boolean = false
+    private var position: Int = -1
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingNotification = FragmentNotificationBinding.inflate(inflater, container, false)
         return bindingNotification?.root
@@ -32,26 +39,30 @@ class FragmentNotification: BaseFragment() {
     }
 
     override fun setObserve() {
-        val notificationObserve = Observer<ArrayList<Notification>?>{
+        notificationViewModel?.listNotification?.observe(viewLifecycleOwner, {
             it?.let {
-                listNotification?.addAll(it) //bug
+                listNotification?.addAll(it)
                 notificationAdapter?.setItems(it)
             }
-        }
-        notificationViewModel?.listNotification?.observe(viewLifecycleOwner, notificationObserve)
-        val statusObserve = Observer<Boolean?>{
-            if(it) {
+        })
+        notificationViewModel?.notificationResponse?.observe(viewLifecycleOwner, {
+            if(it?.status == true) {
                 view?.let { it1 ->
                     Snackbar.make(
                         it1,
-                        "Xóa thông báo thành công",
+                        it.messages.toString(),
                         Snackbar.LENGTH_SHORT
                     ).show()
                 }
+                if(isDelete){
+                    AppEvent.notifyClosePopUp()
+                    val item = listNotification?.get(position)?.id
+                    listNotification?.removeIf{n ->n.id == item}
+                    notificationAdapter?.notifyDataSetChanged()
+                }
                 updateBadgeNotification()
             }
-        }
-        notificationViewModel?.status?.observe(viewLifecycleOwner, statusObserve)
+        })
     }
 
     override fun setUI() {
@@ -60,7 +71,6 @@ class FragmentNotification: BaseFragment() {
         notificationAdapter?.updateNotification = {
             notificationViewModel?.updateNotification(it)
             updateBadgeNotification()
-
         }
     }
     private fun updateBadgeNotification(){
@@ -76,7 +86,7 @@ class FragmentNotification: BaseFragment() {
         bindingNotification?.rvNotification?.layoutManager = LinearLayoutManager(context)
         bindingNotification?.rvNotification?.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         bindingNotification?.rvNotification?.layoutManager = LinearLayoutManager(context)
-        val itemTouchHelper = ItemTouchHelper(object : SwipeHelper(bindingNotification?.rvNotification) {
+        val itemTouchHelper = ItemTouchHelper(object : SwipeHelper(bindingNotification?.rvNotification!!) {
             override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
                 val deleteButton = deleteButton()
                 return listOf(deleteButton)
@@ -94,10 +104,31 @@ class FragmentNotification: BaseFragment() {
             )
     }
     private fun handle(position: Int){
-        val item = listNotification?.get(position)?.id
-        listNotification?.removeIf{n ->n.id == item}
-        notificationAdapter?.notifyDataSetChanged()
-        notificationViewModel?.deleteNotification(item)
+        context?.let { alertDelete(it, position = position) }
+    }
+    private fun alertDelete(context: Context, position: Int){
+        val builder = AlertDialog.Builder(context)
+        builder.setMessage(Constant.QUESTION_DELETE)
+        builder.setTitle(Constant.NOTIFICATION)
+        builder.setCancelable(false)
+        builder.setPositiveButton(Constant.YES) { _, _ ->
+            isDelete = true
+            this.position = position
+            AppEvent.notifyShowPopUp()
+            notificationViewModel?.deleteNotification(listNotification?.get(position)?.id)
+        }
+        builder.setNegativeButton(Constant.NO) { dialog, _ ->
+            dialog.cancel()
+            notificationAdapter?.notifyDataSetChanged()
+        }
+        val alertDialog = builder.create()
+        alertDialog.setOnShowListener {
+            context.let {alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
+                ContextCompat.getColor(it, R.color.blue))}
+            context.let {alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
+                ContextCompat.getColor(it, R.color.blue))}
+        }
 
+        alertDialog.show()
     }
 }

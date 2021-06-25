@@ -11,17 +11,23 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="16dp"
-        android:paddingStart="10dp"
+        android:buttonTint="@color/blue"
+        android:drawablePadding="8dp"
+        android:paddingStart="8dp"
         android:text="2-14 Võ Văn Ngân, Phường Trường Thọ, Thành phố Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam "
+        android:drawableEnd="@drawable/bg_ic_arrow_square"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:buttonTint="@color/blue"/>
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/little_dray"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChild"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rbAddressStore"
-        app:layout_constraintStart_toStartOf="@+id/rbAddressStore"
-        app:layout_constraintEnd_toEndOf="@+id/rbAddressStore"/>
+        tools:listitem="@layout/item_string" />
 </androidx.constraintlayout.widget.ConstraintLayout>

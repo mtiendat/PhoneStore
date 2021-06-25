@@ -16,23 +16,29 @@ class Cart(var id: Int?,
            var color: String? ="",
            var storage: String? ="",
            var price: Int,
-           var discount: Float = 0f): Parcelable {
+           var priceRoot: Int,
+           var discount: Float = 0f,
+           var isAvailable: Boolean? = true,
+           var isChecked: Boolean = true
+): Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.readInt(),
-        parcel.readValue(Int::class.java.classLoader) as? Int,
-        parcel.readValue(Int::class.java.classLoader) as? Int,
-        parcel.readValue(Int::class.java.classLoader) as? Int,
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readString(),
-        parcel.readValue(Int::class.java.classLoader) as Int,
-        parcel.readValue(Float::class.java.classLoader) as Float
+        parcel.readInt(),
+        parcel.readFloat(),
+        parcel.readByte() != 0.toByte()
     ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        id?.let { parcel.writeInt(it) }
+        parcel.writeValue(id)
         parcel.writeValue(idUser)
         parcel.writeValue(idProduct)
         parcel.writeValue(qty)
@@ -40,8 +46,10 @@ class Cart(var id: Int?,
         parcel.writeString(avatar)
         parcel.writeString(color)
         parcel.writeString(storage)
-        parcel.writeValue(price)
-        parcel.writeValue(discount)
+        parcel.writeInt(price)
+        parcel.writeInt(priceRoot)
+        parcel.writeFloat(discount)
+        parcel.writeByte(if (isAvailable == true) 1 else 0)
     }
 
     override fun describeContents(): Int {

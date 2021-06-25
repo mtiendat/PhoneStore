@@ -6,9 +6,8 @@ import com.example.phonestore.model.auth.LoginResponse
 import com.example.phonestore.model.auth.User
 import com.example.phonestore.model.cart.CartResponse
 import com.example.phonestore.model.cart.DetailCartResponse
-import com.example.phonestore.model.order.MyOrderResponse
-import com.example.phonestore.model.order.Order
-import com.example.phonestore.model.order.OrderResponse
+import com.example.phonestore.model.cart.VoucherResponse
+import com.example.phonestore.model.order.*
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -30,16 +29,17 @@ interface APIServices {
                     .readTimeout(20, TimeUnit.SECONDS)
                     .connectTimeout(20,TimeUnit.SECONDS)
             httpClient.addInterceptor(logging)
-            return Retrofit.Builder()
+                return Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
                     .baseUrl(Constant.URL)
                     .client(httpClient.build())
                     .build()
                     .create(APIServices::class.java)
+
         }
         fun getInstance() : APIServices? {
             synchronized(APIServices::class.java){
-                instance = create()
+              instance = create()
             }
             return instance
         }
@@ -62,14 +62,16 @@ interface APIServices {
     fun changePassword(@Query("phone") phone: String? ="", @Query("password")password: String? =""): Call<LoginResponse>
     @POST("check-password")
     fun checkPassword(@Query("phone") phone: String? ="", @Query("password") password: String? =""): Call<LoginResponse>
-    @GET("thong-bao/{id}")
+
+    @GET("notification/{id}")
     fun getNotification(@Path("id") idUser: Int?= 0): Call<NotificationResponse>
-    @PUT("thong-bao/{id}")
-    fun updateNotification(@Path("id") idUser: Int?= 0): Call<NotificationResponse>
-    @DELETE("thong-bao/{id}")
+    @PUT("notification/{id}")
+    fun updateNotification(@Path("id") idNotification: Int?= 0): Call<NotificationResponse>
+    @DELETE("notification/{id}")
     fun deleteNotification(@Path("id") idNotification: Int?= 0): Call<NotificationResponse>
-    @GET("tong-thong-bao/{id}")
+    @GET("total-notification/{id}")
     fun getTotalNotification(@Path("id") idUser: Int?= 0): Call<NotificationResponse>
+
     @GET("slideshow")
     fun getSlideshow(): Call<SlideshowResponse>
     @GET("hotsale")
@@ -109,14 +111,22 @@ interface APIServices {
     fun deleteItem(@Path("id")idCart: Int?= 0): Call<DetailCartResponse>
     @PUT("update-cart/{id}")
     fun updateProductInCart(@Path("id") idProduct: Int?= 0, @Query("plusOrMin") method: String?): Call<CartResponse>
+    @GET("my-voucher/{id}")
+    fun getMyVoucher(@Path("id") idUser: Int?= 0): Call<VoucherResponse>
+    @DELETE("delete-voucher/{id}")
+    fun getDeleteVoucher(@Path("id") idVoucher: Int?= 0): Call<VoucherResponse>
 
-    @POST("dat-hang/{id}")
+    @POST("create-order/{id}")
     fun order(@Path("id") idUser: Int?= 0, @Body order: Order): Call<OrderResponse>
-    @GET("don-hang/{id}")
-    fun getMyOrder(@Path("id") idUser: Int?= 0, @Query("state") s: String? ="all"): Call<MyOrderResponse>
-    @GET("chi-tiet-don-hang/{id}")
+    @GET("province-store")
+    fun getProvinceOfStore(): Call<ProvinceResponse>
+    @GET("address-store/{id}")
+    fun getAddressStore(@Path("id") idProvince: Int?= 0): Call<AddressStoreResponse>
+    @GET("my-order/{id}")
+    fun getMyOrder(@Path("id") idUser: Int?= 0, @Query("state") s: String? = "all"): Call<MyOrderResponse>
+    @GET("detail-order/{id}")
     fun getDetailOrder(@Path("id") idOrder: Int?= 0): Call<DetailOrderResponse>
-    @POST("huy-don-hang/{id}")
+    @POST("cancel-order/{id}")
     fun cancelOrder(@Path("id") idOrder: Int?= 0): Call<MyOrderResponse>
     @GET("tim-kiem-ten")
     fun searchName(@Query("q") q: String? =""): Call<SearchResponse>
@@ -125,5 +135,24 @@ interface APIServices {
     @POST("danh-gia/{id}")
     fun postVote(@Path("id")idCate: Int? = 0, @Body vote: Vote): Call<VoteResponse>
 
-
+    @POST("check-product/{id}")
+    fun checkProduct(@Path("id") idStore: Int? = 0, @Body list: ParamListID): Call<CheckProductInStoreResponse>
+    @POST("my-address")
+    fun createMyAddress(@Body address: Address?): Call<ListMyAddressResponse>
+    @GET("my-address-default")
+    fun getMyAddress(): Call<Address>
+    @PUT("my-address/{id}")
+    fun updateMyAddress(@Path("id") idAddress: Int? = 0, @Body address: Address?): Call<ListMyAddressResponse>
+    @DELETE("my-address/{id}")
+    fun deleteMyAddress(@Path("id") idAddress: Int? = 0): Call<ListMyAddressResponse>
+    @GET("my-address/{id}")
+    fun getListMyAddress(@Path("id") id: Int? = 0): Call<ListMyAddressResponse>
+    @GET("city")
+    fun getCity(): Call<InfoAddressResponse>
+    @GET("district")
+    fun getDistrict(@Query("id") id: String?): Call<InfoAddressResponse>
+    @GET("ward")
+    fun getWard(@Query("id") id: String?): Call<InfoAddressResponse>
+    @GET("id-address")
+    fun getIdCityAndDistrict(@Query("city") city: String?, @Query("district") district: String?): Call<ArrayList<String>?>
 }

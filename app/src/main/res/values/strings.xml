@@ -56,7 +56,7 @@
     <string name="theo_doi_don_hang">Theo dõi đơn hàng</string>
     <string name="ho_tro">Hỗ trợ</string>
     <string name="dang_xuat">Đăng xuất</string>
-    <string name="kien_hang_cua_ban">Kiện hàng của bạn:</string>
+    <string name="kien_hang_cua_ban">Kiện hàng của bạn</string>
     <string name="giao_hang_nhanh">Giao hàng nhanh</string>
     <string name="free_ship">Free ship</string>
     <string name="nhan_hang">Nhận hàng trong vòng 2 giờ làm việc</string>
@@ -66,13 +66,13 @@
     <string name="hinh_thuc_nhan_hang">Hình thức nhận hàng</string>
     <string name="huy">Hủy</string>
     <string name="thanh_toan_khi_nhan_hang">Thanh toán khi nhận hàng</string>
-    <string name="dat_hang">Đặt hàng</string>
+    <string name="dat_hang">Đặt hàng </string>
     <string name="vui_long_giu_dien_thoai">Vui lòng giữ điện thoại, nhân viên chúng tôi sẽ gọi xác nhận đơn hàng của bạn!</string>
     <string name="thanh_cong">Thành công</string>
     <string name="tiep_tuc_mua_sam">Tiếp tục mua sắm</string>
     <string name="tong_tien">Tổng tiền:</string>
     <string name="san_pham">sản phẩm</string>
-    <string name="id">#</string>
+    <string name="id">ID: </string>
     <string name="mau">Màu sắc:</string>
     <string name="dl">Dung lượng:</string>
     <string name="kha_nang_luu_tru">Khả năng lưu trữ: </string>
@@ -85,4 +85,8 @@
     <string name="cart">Cart</string>
     <string name="sua">Sửa</string>
     <string name="otp_fail">Mã OTP không hợp lệ vui lòng thử lại sau</string>
+    <string name="payment_cash">Thanh toán khi nhận hàng</string>
+    <string name="payment_zalopay">Thanh toán bằng ZaloPay</string>
+    <string name="shipping_store">Nhận tại cửa hàng</string>
+    <string name="shipping_at_home">Giao hàng tận nơi</string>
 </resources>

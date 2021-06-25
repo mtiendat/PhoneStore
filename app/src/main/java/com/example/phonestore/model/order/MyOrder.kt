@@ -2,10 +2,10 @@ package com.example.phonestore.model.order
 
 import com.google.gson.annotations.SerializedName
 
-class MyOrder(  var id: Int, var iduser: Int,
-                @SerializedName("SDT") var phone: String? ="",
-                @SerializedName("SoLuongSP") var qty: Int = 0,
-                @SerializedName("DiaChi") var address: String? ="",
-                @SerializedName("ThanhTien") var totalMoney: Int? = 0,
-                @SerializedName("TrangThaiDH") var state: String? = "",
-                @SerializedName("NgayLap") var date: String? = "")
+class MyOrder(  var id: Int,
+                @SerializedName("id_tk") var iduser: Int,
+                @SerializedName("soluong_sp") var qty: Int = 0,
+                @SerializedName("diachigiaohang") var address: String? ="",
+                @SerializedName("tongtien") var totalMoney: Int? = 0,
+                @SerializedName("trangthaidonhang") var state: String? = "",
+                @SerializedName("thoigian") var date: String? = "")

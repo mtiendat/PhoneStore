@@ -85,6 +85,12 @@
         <action
             android:id="@+id/action_fragmentOrder_to_fragmentSelectAddress"
             app:destination="@id/fragmentSelectAddress" />
+        <action
+            android:id="@+id/action_fragmentOrder_to_fragmentHome"
+            app:destination="@id/fragmentHome"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/fragmentSuccessOrder"
@@ -186,7 +192,7 @@
         tools:layout="@layout/fragment_supplier"/>
     <fragment
         android:id="@+id/fragmentDiscount"
-        android:name="com.example.phonestore.view.cart.FragmentDiscount"
+        android:name="com.example.phonestore.view.cart.FragmentDialog"
         android:label="Mã giảm giá" />
     <fragment
         android:id="@+id/fragmentListSupplier"
@@ -214,7 +220,11 @@
         android:id="@+id/fragmentSelectAddress"
         android:name="com.example.phonestore.view.order.FragmentSelectAddress"
         tools:layout="@layout/fragment_address_selection"
-        android:label="Chọn địa chỉ của bạn" />
+        android:label="Chọn địa chỉ của bạn" >
+        <action
+            android:id="@+id/action_fragmentSelectAddress_to_fragmentEditAddress"
+            app:destination="@id/fragmentEditAddress" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentDetailTechnology"
         android:name="com.example.phonestore.view.productDetail.FragmentDetailTechnology"
@@ -225,4 +235,19 @@
         android:name="com.example.phonestore.view.FragmentAllProduct"
         tools:layout="@layout/fragment_all_product"
         android:label="Tất cả sản phẩm" />
+    <fragment
+        android:id="@+id/fragmentNotification"
+        android:name="com.example.phonestore.view.FragmentNotification"
+        tools:layout="@layout/fragment_notification"
+        android:label="Thông báo" />
+    <fragment
+        android:id="@+id/fragmentEditAddress"
+        android:name="com.example.phonestore.view.order.FragmentEditAddress"
+        tools:layout="@layout/fragment_edit_address"
+        android:label="Sửa địa chỉ" >
+        <action
+            android:id="@+id/action_fragmentEditAddress_to_bottomSheet"
+            app:destination="@id/bottomSheet" />
+    </fragment>
+
 </navigation>

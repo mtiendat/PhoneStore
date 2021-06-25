@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.phonestore.model.auth.FormLogin
 import com.example.phonestore.model.auth.LoginResponse
 import com.example.phonestore.model.Notification
+import com.example.phonestore.model.NotificationResponse
 import com.example.phonestore.model.auth.User
 import com.example.phonestore.repo.NetworkState
 import com.example.phonestore.repo.UserRepo
@@ -19,6 +20,7 @@ class UserViewModel: ViewModel() {
     var message:  MutableLiveData<String> = MutableLiveData()
     var status:  MutableLiveData<Boolean> = MutableLiveData()
     var loginResponse:  MutableLiveData<LoginResponse> = MutableLiveData()
+    var notificationResponse:  MutableLiveData<NotificationResponse> = MutableLiveData()
     var statusSocialNetwork:  MutableLiveData<Boolean> = MutableLiveData()
     var statusChangeAvatar: MutableLiveData<Boolean> = MutableLiveData()
     var listNotification: MutableLiveData<ArrayList<Notification>?> = MutableLiveData()
@@ -83,8 +85,8 @@ class UserViewModel: ViewModel() {
         this.loginResponse.value = loginResponse
         if(loginResponse?.user!=null) Constant.user = loginResponse.user
     }
-    private fun onDeleteNotificationSuccess(b: Boolean?){
-        this.status.value = b
+    private fun onDeleteNotificationSuccess(n: NotificationResponse?){
+        this.notificationResponse.value = n
     }
     private fun onNotificationSuccess(list: ArrayList<Notification>?){
         listNotification.value = list

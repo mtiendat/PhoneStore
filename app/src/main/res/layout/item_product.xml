@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/custom_ctrl_stroke_few">
+    android:background="@drawable/bg_ctrl_stroke_few">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnNumberDiscount"
