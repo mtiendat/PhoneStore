@@ -19,6 +19,7 @@ class Cart(var id: Int?,
            var priceRoot: Int,
            var discount: Float = 0f,
            var isAvailable: Boolean? = true,
+           var isQtyAvailable: Boolean? = true,
            var isChecked: Boolean = true
 ): Parcelable {
     constructor(parcel: Parcel) : this(

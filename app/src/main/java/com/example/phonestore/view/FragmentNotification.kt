@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -18,7 +17,7 @@ import com.example.phonestore.extendsion.AppEvent
 import com.example.phonestore.model.Notification
 import com.example.phonestore.services.Constant
 import com.example.phonestore.services.adapter.DetailProductAdapter
-import com.example.phonestore.services.SwipeHelper
+import com.example.phonestore.services.widget.SwipeHelper
 import com.example.phonestore.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
 

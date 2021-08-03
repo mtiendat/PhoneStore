@@ -10,6 +10,7 @@ import com.example.phonestore.databinding.ItemAddressBinding
 import com.example.phonestore.databinding.ItemAddressStoreBinding
 import com.example.phonestore.extendsion.gone
 import com.example.phonestore.extendsion.visible
+import com.example.phonestore.model.Comment
 import com.example.phonestore.model.order.Address
 import com.example.phonestore.model.order.AddressStore
 
@@ -25,36 +26,17 @@ class SelectAddressStoreAdapter():
     var itemClick: ((address: AddressStore?, adapter: ListProductCheckAdapter)-> Unit)? = null
     private var itemPrevious: ItemAddressStoreBinding? = null
     private var listAddress: ArrayList<AddressStore>? = arrayListOf()
-    fun submitList(addressItemList: ArrayList<AddressStore>?) {
-        if (listAddress?.isEmpty() == true) {
-            listAddress = addressItemList
-            addressItemList?.size?.let { notifyItemRangeInserted(0, it) }
-        } else {
-            val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
-                override fun getOldListSize(): Int {
-                    return listAddress?.size ?:0
-                }
-
-                override fun getNewListSize(): Int {
-                    return listAddress?.size ?:0
-                }
-
-                override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                    if (newItemPosition >= addressItemList?.size?:0 && oldItemPosition >= listAddress?.size ?:0)
-                        return false
-                    return listAddress?.get(oldItemPosition)?.id == addressItemList?.get(newItemPosition)?.id
-                }
-
-                override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                    if (newItemPosition >= addressItemList?.size?:0 && oldItemPosition >= listAddress?.size ?:0)
-                        return false
-                    val newProduct = addressItemList?.get(newItemPosition)
-                    val oldProduct = listAddress?.get(oldItemPosition)
-                    return (newProduct === oldProduct)
-                }
-            })
-            listAddress = addressItemList
-            result.dispatchUpdatesTo(this)
+    fun setItems(listItem: ArrayList<AddressStore>?) {
+        val currentSize: Int = listAddress?.size?:0
+        listAddress?.clear()
+        if (listItem != null) {
+            listAddress?.addAll(listItem)
+        }
+        notifyItemRangeRemoved(0, currentSize)
+        listAddress?.size.let {
+            if (it != null) {
+                notifyItemRangeInserted(0, it)
+            }
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressStoreViewHolder =

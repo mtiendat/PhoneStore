@@ -48,7 +48,7 @@
             android:drawableStart="@drawable/bg_ic_zalo_pay"
             android:drawablePadding="10dp"
             android:paddingStart="10dp"
-            android:text="Thanh toán bằng ZaloPay" />
+            android:text="Thanh toán ZaloPay" />
     </RadioGroup>
 
     <androidx.appcompat.widget.AppCompatButton

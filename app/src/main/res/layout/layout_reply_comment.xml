@@ -3,12 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvAvatarVote"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:id="@+id/cvAvatarComment"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:cardCornerRadius="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,32 +24,40 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_reply_comment"
-        style="@style/TextInputLayout.OutlineBox"
+        style="@style/TextInputLayout.OutlineBox.Small"
         android:layout_width="0dp"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/transparent"
         app:boxCornerRadiusBottomEnd="32dp"
         app:boxCornerRadiusBottomStart="32dp"
         app:boxCornerRadiusTopEnd="32dp"
         app:boxCornerRadiusTopStart="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cvAvatarVote"
+        app:hintEnabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnSendVote"
-        app:layout_constraintStart_toEndOf="@+id/cvAvatarVote"
-        app:layout_constraintTop_toTopOf="@+id/cvAvatarVote">
+        app:layout_constraintStart_toEndOf="@+id/cvAvatarComment"
+        app:layout_constraintTop_toTopOf="@+id/cvAvatarComment">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtLoginEmail"
+            android:id="@+id/edtContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Viết câu trả lời "
-            android:inputType="textEmailAddress" />
+            android:hint="Trả lời"
+            android:inputType="textEmailAddress"
+            android:paddingTop="10dp"
+            android:paddingBottom="12dp"
+            android:textSize="14sp"
+            android:theme="@style/ChangeEditTextCursor" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/btnSendVote"
         android:layout_width="40dp"
         android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:src="@drawable/ic_send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

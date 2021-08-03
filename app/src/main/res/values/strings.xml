@@ -86,7 +86,8 @@
     <string name="sua">Sửa</string>
     <string name="otp_fail">Mã OTP không hợp lệ vui lòng thử lại sau</string>
     <string name="payment_cash">Thanh toán khi nhận hàng</string>
-    <string name="payment_zalopay">Thanh toán bằng ZaloPay</string>
+    <string name="payment_zalopay">Thanh toán ZaloPay</string>
     <string name="shipping_store">Nhận tại cửa hàng</string>
     <string name="shipping_at_home">Giao hàng tận nơi</string>
+    <string name="edittext_hint"><font size="14">Nhập phản hồi</font></string>
 </resources>

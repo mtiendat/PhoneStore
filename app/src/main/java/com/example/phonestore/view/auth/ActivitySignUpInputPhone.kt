@@ -51,7 +51,7 @@ class ActivitySignUpInputPhone: BaseActivity() {
             if(isForgotPassword){
                 startActivity(ActivitySignUpVerify.intentFor(this, binding.edtInputPhone.text.toString(), isForgotPassword))
             }else {
-                binding.tvFail.text = it.messages
+                binding.tvFail.text = it?.messages
                 binding.tvFail.visible()
             }
         }

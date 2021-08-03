@@ -19,6 +19,10 @@ class Order(
         var shippingOption: String? ="",
         @SerializedName("diachigiaohang")
         var address: String? ="",
+        @SerializedName("hoten")
+        var name: String? ="",
+        @SerializedName("sdt")
+        var phone: String? ="",
         @SerializedName("tongtien")
         var totalMoney: Int? = 0,
         @SerializedName("infoUser")
@@ -29,6 +33,8 @@ class Order(
                 parcel.readValue(Int::class.java.classLoader) as? Int,
                 parcel.readValue(Int::class.java.classLoader) as? Int,
                 parcel.readValue(Int::class.java.classLoader) as? Int,
+                parcel.readString(),
+                parcel.readString(),
                 parcel.readString(),
                 parcel.readString(),
                 parcel.readString(),
@@ -45,6 +51,8 @@ class Order(
                 parcel.writeString(paymentMethod)
                 parcel.writeString(shippingOption)
                 parcel.writeString(address)
+                parcel.writeString(name)
+                parcel.writeString(phone)
                 parcel.writeValue(totalMoney)
                 parcel.writeParcelable(infoUser, flags)
         }

@@ -64,5 +64,11 @@ class CartRepo {
             onError = {e -> onError.invoke(e)}
         )
     }
-
+    fun callPostView(onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.postView(),
+            onSuccess = {},
+            onError = {onError.invoke(it)}
+        )
+    }
 }

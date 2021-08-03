@@ -74,12 +74,23 @@
                 app:layout_constraintStart_toStartOf="@+id/tvPriceRelatedProduct"
                 app:layout_constraintTop_toBottomOf="@+id/tvPriceRelatedProduct" />
 
-            <RatingBar
+            <com.willy.ratingbar.ScaleRatingBar
                 android:id="@+id/ratingBarRelatedProduct"
-                style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:progressTint="@color/gold"
+                android:layout_marginBottom="8dp"
+                app:srb_clearRatingEnabled="true"
+                app:srb_clickable="true"
+                app:srb_drawableEmpty="@drawable/ic_rating_none"
+                app:srb_drawableFilled="@drawable/ic_rating_fill"
+                app:srb_isIndicator="true"
+                app:srb_minimumStars="0"
+                app:srb_numStars="5"
+                app:srb_scrollable="true"
+                app:srb_starHeight="15dp"
+                app:srb_starPadding="2dp"
+                app:srb_starWidth="15dp"
+                app:srb_stepSize="0.1"
                 app:layout_constraintStart_toStartOf="@+id/tvPriceOldRelatedProduct"
                 app:layout_constraintTop_toBottomOf="@+id/tvPriceOldRelatedProduct" />
         </androidx.constraintlayout.widget.ConstraintLayout>

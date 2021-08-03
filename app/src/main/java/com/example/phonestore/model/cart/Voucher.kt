@@ -15,7 +15,9 @@ class Voucher(
     var end_date: String? ="",
     @SerializedName("dieukien")
     var condition: Int? = 0,
-    var active: Boolean? = false
+    var active: Boolean? = false,
+    @SerializedName("sl")
+    var qty: Int? = 0
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -24,7 +26,8 @@ class Voucher(
         parcel.readInt(),
         parcel.readString(),
         parcel.readValue(Int::class.java.classLoader) as? Int,
-        parcel.readValue(Boolean::class.java.classLoader) as? Boolean
+        parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
+        parcel.readValue(Int::class.java.classLoader) as? Int
     ) {
     }
 
@@ -36,6 +39,7 @@ class Voucher(
         parcel.writeString(end_date)
         parcel.writeValue(condition)
         parcel.writeValue(active)
+        parcel.writeValue(qty)
     }
 
     override fun describeContents(): Int {

@@ -41,7 +41,7 @@ class ActivityForgotPassword: BaseActivity() {
     override fun setObserve() {
         forgotPasswordViewModel?.loginResponse?.observe(this@ActivityForgotPassword, {
             if(isChangePassword){
-                if(it.status){
+                if(it?.status == true){
                     forgotPasswordViewModel?.changePassword(
                         phone = numberPhone,
                         password = bindingForgotPassword.edtFPPassword.text.toString()
@@ -49,8 +49,8 @@ class ActivityForgotPassword: BaseActivity() {
                     isChangePassword = false
                 }else bindingForgotPassword.textInputOldPassword.error = "Mật khẩu cũ chưa chính xác"
             }else {
-                Toast.makeText(this, it.messages.toString(), Toast.LENGTH_SHORT).show()
-                if (it.status) {
+                Toast.makeText(this, it?.messages.toString(), Toast.LENGTH_SHORT).show()
+                if (it?.status == true) {
                     Handler(Looper.getMainLooper()).postDelayed({
                         startActivity(ActivityLogin.intentFor(this))
                         finish()

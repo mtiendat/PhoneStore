@@ -1,14 +1,11 @@
 package com.example.phonestore.view
 
-import android.content.Context
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -20,16 +17,19 @@ import com.example.phonestore.extendsion.gone
 import com.example.phonestore.extendsion.visible
 import com.example.phonestore.model.Filter
 import com.example.phonestore.model.ProductInfo
-import com.example.phonestore.services.EndlessRecyclerViewScrollListener
+import com.example.phonestore.services.widget.EndlessRecyclerViewScrollListener
 import com.example.phonestore.services.adapter.AllProductAdapter
-import com.example.phonestore.view.productDetail.FragmentDetailTechnology
 import com.example.phonestore.viewmodel.AllProductViewModel
 
 class FragmentAllProduct : BaseFragment() {
+    private lateinit var dialog: FragmentDialogFilter
     private lateinit var binding: FragmentAllProductBinding
     private var viewModel: AllProductViewModel? = null
     private var adapter : AllProductAdapter = AllProductAdapter()
-    private var listProductCurrent: ArrayList<ProductInfo>? = arrayListOf()
+    private var listProductCurrent: ArrayList<ProductInfo?>? = arrayListOf()
+    private var filterCurrent: Filter? = null
+    private var isFilter: Boolean = false
+
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         binding = FragmentAllProductBinding.inflate(inflater, container, false)
         return binding.root
@@ -37,7 +37,7 @@ class FragmentAllProduct : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.shimmerLayoutAllProduct?.startShimmer()
+        binding.shimmerLayoutAllProduct.startShimmer()
         viewModel?.getAllProduct(1, 8)
     }
     override fun setViewModel() {
@@ -47,26 +47,44 @@ class FragmentAllProduct : BaseFragment() {
     override fun setObserve() {
       viewModel?.listProduct?.observe(viewLifecycleOwner, {
           if (it != null) {
+              binding.groupNotFound.gone()
               binding.shimmerLayoutAllProduct.stopShimmer()
               binding.shimmerLayoutAllProduct.gone()
-              listProductCurrent?.clear()
               listProductCurrent?.addAll(it)
               adapter.notifyDataSetChanged()
+              binding.swipe.isRefreshing = false
+              if(it.size == 0){
+                  binding.groupNotFound.visible()
+              }
           }
       })
         viewModel?.ramAndStorage?.observe(viewLifecycleOwner, {
-            val dialog = FragmentDialogFilter()
-            dialog.arguments = bundleOf("ramAndStorage" to it)
+            binding.btnFilter.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+            binding.btnFilter.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_filter_blue,0)
+            binding.btnClear.visible()
+            dialog.arguments = bundleOf("ramAndStorage" to it, "filterOld" to filterCurrent)
             activity?.supportFragmentManager?.let {
                 dialog.show(it, "Filter")
             }
+            isFilter = true
         })
         activity?.supportFragmentManager?.setFragmentResultListener("requestKey", viewLifecycleOwner){ key, bundle ->
             if(key == "requestKey"){
-                val filter = bundle.getParcelable<Filter>("filter")
-                binding.shimmerLayoutAllProduct.visible()
-                binding.shimmerLayoutAllProduct.startShimmer()
-                viewModel?.filterProduct(1, 8, ram = filter?.ram, storage = filter?.storage, priceMax = filter?.priceMax, priceMin = filter?.priceMin)
+                val filter:Filter? = bundle.getParcelable<Filter?>("filter")
+                if(filter!=null){
+                    binding.groupNotFound.gone()
+                    binding.shimmerLayoutAllProduct.visible()
+                    binding.shimmerLayoutAllProduct.startShimmer()
+                    listProductCurrent?.clear()
+                    viewModel?.filterProduct(1, 8, ram = filter.ram, storage = filter.storage, priceMax = filter.priceMax, priceMin = filter.priceMin)
+                    filterCurrent = filter
+                }else{
+                    binding.btnFilter.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+                    binding.btnFilter.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_filter,0)
+                    binding.btnClear.gone()
+                    filterCurrent = null
+                }
+
             }
         }
     }
@@ -75,20 +93,10 @@ class FragmentAllProduct : BaseFragment() {
         context?.let {
             binding.swipe.setColorSchemeColors(ContextCompat.getColor(it, R.color.blue))
         }
-        val staggeredGridLayoutManager = StaggeredGridLayoutManager(
-            2,
-            LinearLayoutManager.VERTICAL
-        )
         adapter.listProduct = listProductCurrent
         binding.rvAllProduct.adapter = adapter
-        binding.rvAllProduct.layoutManager = staggeredGridLayoutManager
-        binding.rvAllProduct.addOnScrollListener(object :
-            EndlessRecyclerViewScrollListener(staggeredGridLayoutManager){
-            override fun onLoadMore(page: Int, totalItemsCount: Int) {
-               viewModel?.getAllProduct(page, 8)
-            }
 
-        })
+        setOnScrollRecyclerview()
     }
 
     override fun setEvents() {
@@ -98,7 +106,9 @@ class FragmentAllProduct : BaseFragment() {
             listProductCurrent?.clear()
             viewModel?.listProduct?.value?.clear()
             viewModel?.getAllProduct(1, 8)
-            binding.swipe.isRefreshing = false
+            binding.rvAllProduct.clearOnScrollListeners()
+            setOnScrollRecyclerview()
+
         }
         binding.btnSort.setOnClickListener {
             changeStateBtnSort()
@@ -124,9 +134,62 @@ class FragmentAllProduct : BaseFragment() {
         binding.btnFilter.setOnClickListener {
             viewModel?.getRamAndStorage()
         }
+        binding.btnClear.setOnClickListener {
+            binding.btnFilter.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            binding.btnFilter.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_filter,0)
+            binding.shimmerLayoutAllProduct.visible()
+            binding.shimmerLayoutAllProduct.startShimmer()
+            viewModel?.getAllProduct(1, 8)
+            binding.btnClear.gone()
+            listProductCurrent?.clear()
+            viewModel?.listProduct?.value?.clear()
+            binding.rvAllProduct.clearOnScrollListeners()
+            setOnScrollRecyclerview()
+
+        }
     }
     private fun changeStateBtnSort(){
-        if( binding.sort.visibility == View.GONE) binding.sort.visible() else  binding.sort.gone()
+        if( binding.sort.visibility == View.GONE) {
+            binding.btnSort.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue))
+            binding.btnSort.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_sort_blue,0)
+            binding.sort.visible()
+        } else  {
+            binding.btnSort.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            binding.btnSort.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_sort,0)
+            binding.sort.gone()
+        }
+    }
+    private fun setOnScrollRecyclerview(){
+        val staggeredGridLayoutManager = StaggeredGridLayoutManager(
+            2,
+            LinearLayoutManager.VERTICAL
+        )
+        binding.rvAllProduct.layoutManager = staggeredGridLayoutManager
+        binding.rvAllProduct.addOnScrollListener(object :
+            EndlessRecyclerViewScrollListener(staggeredGridLayoutManager){
+            override fun onLoadMore(page: Int, totalItemsCount: Int) {
+                viewModel?.getAllProduct(page, 8)
+            }
+        })
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        dialog = FragmentDialogFilter()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(isFilter){
+            dialog.dismiss()
+        }
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
     }
 
 }

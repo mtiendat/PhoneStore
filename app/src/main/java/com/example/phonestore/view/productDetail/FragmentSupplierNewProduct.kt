@@ -40,11 +40,11 @@ class FragmentSupplierNewProduct(var supplier: Supplier?): BaseFragment() {
 //        supplierViewModel?.getNewCateProductBySupplier( idSupplier = supplier?.id)
     }
     private fun initRecyclerView(){
-        adapter = ProductAdapter(listCateProductInfo)
-        bindingSupplierNewProduct?.rvSupplierNewProduct?.adapter = adapter
-        bindingSupplierNewProduct?.rvSupplierNewProduct?.layoutManager = StaggeredGridLayoutManager(
-                2,
-                LinearLayoutManager.VERTICAL
-        )
+//        adapter = ProductAdapter(listCateProductInfo)
+//        bindingSupplierNewProduct?.rvSupplierNewProduct?.adapter = adapter
+//        bindingSupplierNewProduct?.rvSupplierNewProduct?.layoutManager = StaggeredGridLayoutManager(
+//                2,
+//                LinearLayoutManager.VERTICAL
+//        )
     }
 }

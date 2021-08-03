@@ -64,13 +64,23 @@
         app:layout_constraintTop_toBottomOf="@+id/ctrlTop">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnWishList"
+            style="@style/ButtonStyleIcon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Danh sách yêu thích"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnFollowOrder"
             style="@style/ButtonStyleIcon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
             android:text="@string/theo_doi_don_hang"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/btnWishList" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSettingAccount"

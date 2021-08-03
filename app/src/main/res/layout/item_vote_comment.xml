@@ -7,10 +7,10 @@
     android:padding="10dp">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cvAvatarVote"
+        android:id="@+id/cvAvatarComment"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         app:cardCornerRadius="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,111 +26,242 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Tiên Đạt"
-        android:textColor="@color/dray"
+        android:fontFamily="@font/sf_pro_text_medium"
+        android:text="aaaaaa"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/cvAvatarVote"
-        app:layout_constraintTop_toTopOf="@+id/cvAvatarVote" />
+        app:layout_constraintStart_toEndOf="@+id/cvAvatarComment"
+        app:layout_constraintTop_toTopOf="@+id/cvAvatarComment" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="16dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/white"
+        android:drawableStart="@drawable/bg_ic_verify"
+        android:drawablePadding="4dp"
+        android:fontFamily="@font/sf_pro_text_regular"
+        android:stateListAnimator="@null"
+        android:text="Đã mua tại LD Mobile"
+        android:textAllCaps="false"
+        android:textColor="@color/green"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/tvNameVote"
+        app:layout_constraintTop_toTopOf="@+id/cvAvatarComment" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/spOption"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@color/white"
+        android:src="@drawable/bg_ic_option"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <io.github.florent37.shapeofview.shapes.BubbleView
+        android:id="@+id/optionComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="1dp"
+        android:elevation="2dp"
+        android:translationY="4dp"
+        android:visibility="gone"
+        app:arrow_posititon_percent="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/spOption"
+        app:shape_bubble_arrowHeight="1dp"
+        app:shape_bubble_arrowPosition="top"
+        app:shape_bubble_arrowWidth="1dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEditComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:fontFamily="@font/sf_pro_text_regular"
+                android:text="Sửa"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:theme="@style/HighLightButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnDeleteComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:fontFamily="@font/sf_pro_text_regular"
+                android:text="Xóa"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:theme="@style/HighLightButton"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnEditComment" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </io.github.florent37.shapeofview.shapes.BubbleView>
     <TextView
         android:id="@+id/tvVoteDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginTop="4dp"
+        android:text="aaaa"
         android:textColor="@color/dray"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/tvContentVote"
-        app:layout_constraintTop_toBottomOf="@+id/rbDetailVote" />
+        app:layout_constraintStart_toStartOf="@+id/rbComment"
+        app:layout_constraintTop_toBottomOf="@+id/rbComment" />
 
-    <RatingBar
-        android:id="@+id/rbDetailVote"
-        style="@style/Widget.AppCompat.RatingBar.Small"
+    <com.willy.ratingbar.ScaleRatingBar
+        android:id="@+id/rbComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:progressTint="@color/gold"
-        android:stepSize="1"
+        android:layout_marginStart="8dp"
+        app:srb_clearRatingEnabled="true"
+        app:srb_clickable="true"
+        app:srb_drawableEmpty="@drawable/ic_rating_none"
+        app:srb_drawableFilled="@drawable/ic_rating_fill"
+        app:srb_isIndicator="true"
+        app:srb_minimumStars="0"
+        app:srb_numStars="5"
+        app:srb_scrollable="true"
+        app:srb_starHeight="15dp"
+        app:srb_starPadding="2dp"
+        app:srb_starWidth="15dp"
+        app:srb_stepSize="1"
         app:layout_constraintStart_toStartOf="@+id/tvNameVote"
         app:layout_constraintTop_toBottomOf="@+id/tvNameVote" />
 
     <TextView
-        android:id="@+id/tvContentVote"
+        android:id="@+id/tvContent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/sf_pro_text_regular"
         android:maxLines="4"
-        android:text="TextView"
+        android:text="aaaa"
         android:textAlignment="viewStart"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/rbDetailVote"
+        app:layout_constraintStart_toStartOf="@+id/rbComment"
         app:layout_constraintTop_toBottomOf="@+id/tvVoteDate" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayoutComment"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="@id/tvContent"
+        app:layout_constraintTop_toBottomOf="@+id/tvContent"
+        app:shimmer_repeat_mode="restart"
+        app:shimmer_shape="radial">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <include layout="@layout/item_image" />
+
+            <include layout="@layout/item_image" />
+
+            <include layout="@layout/item_image" />
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChildImage"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/tvContentVote"
-        app:layout_constraintStart_toStartOf="@id/tvContentVote"
-        app:layout_constraintTop_toBottomOf="@+id/tvContentVote"
+        app:layout_constraintEnd_toEndOf="@+id/tvContent"
+        app:layout_constraintStart_toStartOf="@id/tvContent"
+        app:layout_constraintTop_toBottomOf="@+id/tvContent"
         tools:listitem="@layout/item_image_comment" />
 
     <include
-
-        android:id="@+id/include"
+        android:id="@+id/control"
         layout="@layout/layout_like_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/rvChildImage"
+        app:layout_constraintStart_toStartOf="@+id/tvContent"
         app:layout_constraintTop_toBottomOf="@+id/rvChildImage" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnTotalReply"
         android:layout_width="0dp"
         android:layout_height="24dp"
-        android:background="@color/white"
-        android:drawableEnd="@drawable/bg_arrow"
+        android:layout_marginEnd="8dp"
+        android:background="@color/background"
+        android:drawableEnd="@drawable/ic_arrow_down"
+        android:fontFamily="@font/sf_pro_display_medium"
         android:paddingStart="10dp"
         android:stateListAnimator="@null"
-        android:text="10 lượt reply"
+        android:text="0 lượt reply"
         android:textAlignment="viewStart"
         android:textAllCaps="false"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/rvChildImage"
-        app:layout_constraintStart_toStartOf="@+id/include"
-        app:layout_constraintTop_toBottomOf="@+id/include" />
+        android:textColor="@color/black50"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/control"
+        app:layout_constraintTop_toBottomOf="@+id/control" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_child_reply"
+    <LinearLayout
+        android:id="@+id/ln_reply"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/rvChildImage"
-        app:layout_constraintStart_toStartOf="@+id/include"
-        app:layout_constraintTop_toBottomOf="@+id/btnTotalReply">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <include
-        android:id="@+id/sendComment"
-        layout="@layout/layout_reply_comment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/bg_ctrl_corner_bottomleft_bottom_right"
+        android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/include"
-        app:layout_constraintTop_toBottomOf="@id/rv_child_reply" />
+        app:layout_constraintStart_toStartOf="@+id/btnTotalReply"
+        app:layout_constraintTop_toBottomOf="@+id/btnTotalReply">
 
-    <View
-        android:id="@+id/viewVote"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_child_reply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnViewAllReply"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/white"
+            android:fontFamily="@font/sf_pro_display_medium"
+            android:stateListAnimator="@null"
+            android:text="Xem tất cả"
+            android:textSize="12dp"
+            android:textAllCaps="false"
+            android:textColor="@color/blue" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvCategory"
         android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/little_dray"
-
-        app:layout_constraintEnd_toEndOf="@id/tvContentVote"
-        app:layout_constraintStart_toStartOf="@id/cvAvatarVote"
-        app:layout_constraintTop_toBottomOf="@+id/sendComment" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textColor="@color/dray"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/control"
+        app:layout_constraintTop_toBottomOf="@+id/ln_reply" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

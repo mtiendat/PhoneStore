@@ -8,8 +8,8 @@ import com.bumptech.glide.Glide
 import com.example.phonestore.R
 import com.example.phonestore.databinding.SlideItemContainerBinding
 
-class SlideshowProductAdapter(private var sliderItem: ArrayList<String>?, private var viewPager2: ViewPager2?): RecyclerView.Adapter<SlideshowProductAdapter.SliderViewHolder>() {
-    private var list: ArrayList<String>? = arrayListOf()
+class SlideshowProductAdapter(private var sliderItem: ArrayList<String?>?, private var viewPager2: ViewPager2?): RecyclerView.Adapter<SlideshowProductAdapter.SliderViewHolder>() {
+    private var list: ArrayList<String?>? = arrayListOf()
     private val runnable = Runnable {
         sliderItem?.let { list?.addAll(it) }
 //        sliderItem.clear()
@@ -34,7 +34,6 @@ class SlideshowProductAdapter(private var sliderItem: ArrayList<String>?, privat
 
     override fun onBindViewHolder(holder: SliderViewHolder, position: Int) {
         val item = sliderItem?.get(position)
-
         Glide.with(holder.itemView.context)
             .load(item)
             .error(R.drawable.noimage)

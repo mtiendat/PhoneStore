@@ -1,13 +1,8 @@
 package com.example.phonestore.view.cart
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.format.DateUtils.getMonthString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,16 +10,12 @@ import android.view.Window
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.phonestore.R
 import com.example.phonestore.databinding.FragmentMyVoucherBinding
 import com.example.phonestore.extendsion.gone
 import com.example.phonestore.extendsion.visible
-import com.example.phonestore.model.cart.Voucher
 import com.example.phonestore.services.Constant
-import com.example.phonestore.services.SwipeHelper
 import com.example.phonestore.services.adapter.SelectDiscountAdapter
 import com.example.phonestore.viewmodel.CartViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -79,10 +70,13 @@ class FragmentMyVoucher: DialogFragment() {
             }
         })
         cartViewModel.deleteVoucher.observe(viewLifecycleOwner, {
-            if(it?.status==true){
-                cartViewModel.getMyVoucher()
+            if(it!=null){
+                if(it.status ==true){
+                    cartViewModel.getMyVoucher()
+                }
+                view?.let {it1 -> Snackbar.make(it1, it?.message?:"", Snackbar.LENGTH_SHORT).show()}
             }
-            view?.let {it1 -> Snackbar.make(it1, it?.message?:"", Snackbar.LENGTH_SHORT).show()}
+
 
         })
     }
@@ -114,5 +108,10 @@ class FragmentMyVoucher: DialogFragment() {
                 ContextCompat.getColor(it, R.color.blue))}
         }
         alertDialog.show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cartViewModel.deleteVoucher.value = null
     }
 }

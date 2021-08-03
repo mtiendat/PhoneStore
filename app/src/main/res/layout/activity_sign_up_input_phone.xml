@@ -20,6 +20,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="24dp"
         android:hint="Nhập số điện thoại"
+        android:textColorHint="@color/black50"
         app:boxCornerRadiusBottomEnd="32dp"
         app:boxCornerRadiusBottomStart="32dp"
         app:boxCornerRadiusTopEnd="32dp"
@@ -33,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
+            android:textColor="@color/black"
             android:theme="@style/ChangeEditTextCursor" />
     </com.google.android.material.textfield.TextInputLayout>
 

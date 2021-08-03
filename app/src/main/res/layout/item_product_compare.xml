@@ -73,25 +73,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivProductCate" />
 
-    <RatingBar
+    <com.willy.ratingbar.ScaleRatingBar
         android:id="@+id/ratingBarProduct"
-        style="@style/Widget.AppCompat.RatingBar.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:numStars="5"
-        android:progressTint="@color/gold"
-        android:rating="0.1"
-        android:stepSize="0.1"
+        app:srb_clearRatingEnabled="true"
+        app:srb_clickable="true"
+        app:srb_drawableEmpty="@drawable/ic_rating_none"
+        app:srb_drawableFilled="@drawable/ic_rating_fill"
+        app:srb_isIndicator="true"
+        app:srb_minimumStars="0"
+        app:srb_numStars="5"
+        app:srb_scrollable="true"
+        app:srb_starHeight="15dp"
+        app:srb_starPadding="2dp"
+        app:srb_starWidth="15dp"
+        app:srb_stepSize="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPriceProductCate" />
+        app:layout_constraintTop_toBottomOf="@+id/tvPriceProductCate"/>
 
     <TextView
         android:id="@+id/tvTotalJudge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:text="99 đánh giá"
         android:textColor="@color/dray"
         android:textSize="10sp"

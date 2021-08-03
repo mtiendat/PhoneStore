@@ -91,14 +91,14 @@ class FragmentChangeMyInfo: BaseFragment() {
     }
     override fun setObserve() {
         userViewModel?.loginResponse?.observe(viewLifecycleOwner, {
-            if(it.status){
+            if(it?.status == true){
                 if(!isUpdateAvatar) {
                     bindingChangeMyInfo.tvChangeName.text = data
                     Constant.user?.name = data
                 }else bindingChangeMyInfo.progressBarUploadImage.gone()
-                view?.let { it1 -> Snackbar.make(it1, it.messages.toString(), Snackbar.LENGTH_SHORT).show() }
+                view?.let { it1 -> Snackbar.make(it1, it?.messages.toString(), Snackbar.LENGTH_SHORT).show() }
 
-            }else view?.let { it1 -> Snackbar.make(it1, it.messages.toString(), Snackbar.LENGTH_SHORT).show() }
+            }else view?.let { it1 -> Snackbar.make(it1, it?.messages.toString(), Snackbar.LENGTH_SHORT).show() }
         })
     }
     private fun changeAvatarFromGallery(){

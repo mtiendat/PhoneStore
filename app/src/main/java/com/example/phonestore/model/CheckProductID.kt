@@ -9,10 +9,13 @@ class CheckProductID(
     var listIDExist: ArrayList<String>? = arrayListOf(),
     @SerializedName("nonExist")
     var listIDNonExist: ArrayList<String>? = arrayListOf(),
+    @SerializedName("downOne")
+    var listIDDownOne: ArrayList<String>? = arrayListOf(),
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         TODO("listIDExist"),
-        TODO("listIDNonExist")
+        TODO("listIDNonExist"),
+        TODO("listIDDownOne")
     ) {
     }
 

@@ -32,8 +32,8 @@ class OrderViewModel: ViewModel() {
     fun getListProductOrder(idOrder: Int? = 0){
         orderRepo.getDetailOrder(idOrder, this::onSuccessDetailOrder, this::onError)
     }
-    fun checkProductInStore(idStore: Int?, list: ParamListID){
-        orderRepo.callCheckProductInStore(idStore, list, this::onSuccessCheckProductInStore, this::onError)
+    fun checkProductInStore(idStore: Int?,method: String?, list: ParamListHasQty){
+        orderRepo.callCheckProductInStore(idStore,method, list, this::onSuccessCheckProductInStore, this::onError)
     }
     fun cancelOrder(idOrder: Int? = 0){
         orderRepo.cancelOrder(idOrder, this::onSuccessCancelOrder, this::onError)

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -22,7 +21,7 @@ import com.example.phonestore.extendsion.visible
 import com.example.phonestore.model.order.Address
 import com.example.phonestore.services.Constant
 import com.example.phonestore.services.Constant.ADDRESS
-import com.example.phonestore.services.SwipeHelper
+import com.example.phonestore.services.widget.SwipeHelper
 import com.example.phonestore.services.adapter.SelectAddressAdapter
 import com.example.phonestore.viewmodel.AddressViewModel
 import com.google.android.material.snackbar.Snackbar

@@ -14,9 +14,9 @@ import com.example.phonestore.extendsion.toVND
 import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.model.ProductInfo
 
-class RelatedProductAdapter(val listRelatedProduct: ArrayList<ProductInfo>?):
+class RelatedProductAdapter(val listRelatedProduct: ArrayList<ProductInfo?>?):
     RecyclerView.Adapter<RelatedProductAdapter.ItemRelatedProductViewHolder>() {
-    fun setItems(listItem: ArrayList<ProductInfo>) {
+    fun setItems(listItem: ArrayList<ProductInfo?>) {
         val currentSize: Int? = listRelatedProduct?.size
         listRelatedProduct?.clear()
         listRelatedProduct?.addAll(listItem)
@@ -37,11 +37,11 @@ class RelatedProductAdapter(val listRelatedProduct: ArrayList<ProductInfo>?):
 
     override fun onBindViewHolder(holder: ItemRelatedProductViewHolder, position: Int) {
         val item = listRelatedProduct?.get(position)
-        holder.bindingRelated.tvNameRelatedProduct.text = item?.name
+        holder.bindingRelated.tvNameRelatedProduct.text = "${item?.name} ${item?.storage}"
         holder.bindingRelated.tvPriceRelatedProduct.text =  (item?.price?.minus((item.price * item.discount)))?.toInt().toVND()
         holder.bindingRelated.tvPriceOldRelatedProduct.text = item?.price.toVND()
         holder.bindingRelated.tvPriceOldRelatedProduct.paintFlags = holder.bindingRelated.tvPriceOldRelatedProduct.strikeThrough()
-        holder.bindingRelated.ratingBarRelatedProduct.rating = item?.totalVote?: 0.1f
+        holder.bindingRelated.ratingBarRelatedProduct.rating = if(item?.totalJudge?:0f>0)(item?.totalVote?.div(item.totalJudge))?:0f else 0f
         holder.bindingRelated.btnDiscount.text = "-${item?.discount?.times(100)?.toInt()}%"
         holder.bindingRelated.ivRelatedProduct.setOnClickListener {
                 it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("product" to item))

@@ -61,6 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
+        android:textColorHint="@color/black50"
         android:hint="Số điện thoại"
         app:boxCornerRadiusBottomEnd="32dp"
         app:boxCornerRadiusBottomStart="32dp"
@@ -75,6 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
+            android:textColor="@color/black"
             android:theme="@style/ChangeEditTextCursor" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,6 +88,7 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:hint="@string/password"
+        android:textColorHint="@color/black50"
         app:boxCornerRadiusBottomEnd="32dp"
         app:boxCornerRadiusBottomStart="32dp"
         app:boxCornerRadiusTopEnd="32dp"
@@ -100,6 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
+            android:textColor="@color/black"
             android:theme="@style/ChangeEditTextCursor" />
     </com.google.android.material.textfield.TextInputLayout>
     <CheckBox
@@ -108,6 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="@string/ghi_nho_dang_nhap"
+        android:textColor="@color/black"
         android:textColorLink="@color/blue"
         app:layout_constraintStart_toStartOf="@+id/textInputPassword"
         app:layout_constraintTop_toBottomOf="@+id/tvLoginFail" />
@@ -131,22 +136,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cbSaveAccount" />
 
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Hoặc"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/glLoginRight"
+        app:layout_constraintStart_toStartOf="@+id/glLoginLeft"
+        app:layout_constraintTop_toBottomOf="@id/btnLogin" />
+
     <com.facebook.login.widget.LoginButton
-        xmlns:facebook="http://schemas.android.com/apk/res-auto"
         android:id="@+id/btnLoginWithFacebook"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:paddingStart="24dp"
         android:paddingTop="12dp"
         android:paddingEnd="8dp"
         android:paddingBottom="12dp"
-        facebook:com_facebook_login_text="@string/dang_nhap_voi_facebook"
         android:textColor="@color/white"
+        app:com_facebook_login_text="@string/dang_nhap_voi_facebook"
         app:layout_constraintEnd_toEndOf="@+id/btnLogin"
         app:layout_constraintStart_toStartOf="@+id/btnLogin"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <com.shobhitpuri.custombuttons.GoogleSignInButton
         android:id="@+id/btnLoginGoogle"

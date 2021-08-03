@@ -12,8 +12,9 @@ class ProductInfo(var id: Int = 0,
                   @SerializedName("hinhanh") var img: String?= "",
                   @SerializedName("mausac") var color: String?= "",
                   @SerializedName("tensp") var name: String? = "",
-                  @SerializedName("tongluotvote") var totalVote: Float? = 0f,
-                  @SerializedName("tongdanhgia") var totalJudge: Int? = 0,
+                  @SerializedName("like") var wish: Boolean? = false,
+                  @SerializedName("tongluotvote") var totalVote: Float = 0f,
+                  @SerializedName("tongdanhgia") var totalJudge: Float = 0f,
                   @SerializedName("id_msp") var idCate: Int? = 0): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -24,8 +25,9 @@ class ProductInfo(var id: Int = 0,
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readValue(Float::class.java.classLoader) as? Float,
-        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
+        parcel.readFloat(),
+        parcel.readFloat(),
         parcel.readValue(Int::class.java.classLoader) as? Int
     ) {
     }
@@ -39,8 +41,9 @@ class ProductInfo(var id: Int = 0,
         parcel.writeString(img)
         parcel.writeString(color)
         parcel.writeString(name)
-        parcel.writeValue(totalVote)
-        parcel.writeValue(totalJudge)
+        parcel.writeValue(wish)
+        parcel.writeFloat(totalVote)
+        parcel.writeFloat(totalJudge)
         parcel.writeValue(idCate)
     }
 

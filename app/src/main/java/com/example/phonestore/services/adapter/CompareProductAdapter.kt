@@ -13,10 +13,10 @@ import com.example.phonestore.extendsion.strikeThrough
 import com.example.phonestore.extendsion.toVND
 import com.example.phonestore.model.ProductInfo
 
-class CompareProductAdapter(val listCompareProduct: ArrayList<ProductInfo>?):
+class CompareProductAdapter(val listCompareProduct: ArrayList<ProductInfo?>?):
     RecyclerView.Adapter<CompareProductAdapter.ItemCompareViewHolder>() {
     var clickCompare: ((ProductInfo?)->Unit)? = null
-    fun setItems(listItem: ArrayList<ProductInfo>) {
+    fun setItems(listItem: ArrayList<ProductInfo?>) {
         val currentSize: Int? = listCompareProduct?.size
         listCompareProduct?.clear()
         listCompareProduct?.addAll(listItem)
@@ -41,8 +41,8 @@ class CompareProductAdapter(val listCompareProduct: ArrayList<ProductInfo>?):
         holder.bindingCompare.tvPriceProductCate.text =  (item?.price?.minus((item.price * item.discount)))?.toInt().toVND()
         holder.bindingCompare.tvOldPriceProductCate.text = item?.price.toVND()
         holder.bindingCompare.tvOldPriceProductCate.paintFlags = holder.bindingCompare.tvOldPriceProductCate.strikeThrough()
-        holder.bindingCompare.tvTotalJudge.text = "${item?.totalJudge} đánh giá"
-        holder.bindingCompare.ratingBarProduct.rating = item?.totalVote?: 0.1f
+        holder.bindingCompare.tvTotalJudge.text = "${item?.totalJudge?.toInt()} đánh giá"
+        holder.bindingCompare.ratingBarProduct.rating =if(item?.totalJudge?:0f>0f)(item?.totalVote?.div(item.totalJudge))?.toFloat()?:0f else 0f
         holder.bindingCompare.btnNumberDiscount.text = "-${item?.discount?.times(100)?.toInt()}%"
         holder.bindingCompare.ivProductCate.setOnClickListener {
             it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("product" to item))

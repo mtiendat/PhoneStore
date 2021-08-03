@@ -3,8 +3,10 @@ package com.example.phonestore.view
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.LayerDrawable
+import android.os.CountDownTimer
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
@@ -53,9 +55,19 @@ class MainActivity : BaseActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var cartViewModel: CartViewModel? = null
     private var badgeNotification: com.google.android.material.badge.BadgeDrawable? = null
+    private val timerView = object: CountDownTimer(10000, 1000) {
+        override fun onTick(millisUntilFinished: Long) {
+
+        }
+
+        override fun onFinish() {
+            cartViewModel?.postView()
+        }
+    }
     override fun setBinding() {
         bindingMain = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bindingMain?.root)
+
     }
 
     override fun setViewModel() {
@@ -73,7 +85,7 @@ class MainActivity : BaseActivity() {
                 badgeNotification?.number = it
             }
         })
-
+        timerView.start()
     }
 
     override fun setToolBar() {
@@ -91,7 +103,6 @@ class MainActivity : BaseActivity() {
         }
         setupActionBarWithNavController(navController, appBarConfiguration)
         bottomNav = bindingMain?.bottomNavigationView
-
         bindingMain?.bottomNavigationView?.setupWithNavController(navController)
         visibilityNavElements(navController)
     }
@@ -110,6 +121,9 @@ class MainActivity : BaseActivity() {
                     hideBottomNavigation()
                     hideIconSearch()
                     showIconCart()
+                }
+                R.id.fragmentWishList -> {
+                    hideBottomNavigation()
                 }
                 R.id.fragmentDetailCart -> {
                     hideBottomNavigation()
@@ -137,9 +151,10 @@ class MainActivity : BaseActivity() {
                     hideIconCart()
                     showIconSearch()
                 }
-                R.id.fragmentAllVote -> {
+                R.id.fragmentAllCommment -> {
+                    hideIconSearch()
                     hideBottomNavigation()
-                    showIconSearch()
+                    hideIconCart()
                 }
                 R.id.fragmentChangeMyInfo -> {
                     hideBottomNavigation()
@@ -157,6 +172,11 @@ class MainActivity : BaseActivity() {
                     showIconSearch()
                 }
                 R.id.fragmentShippingOption ->{
+                    hideBottomNavigation()
+                    hideIconCart()
+                    hideIconSearch()
+                }
+                R.id.fragmentReply ->{
                     hideBottomNavigation()
                     hideIconCart()
                     hideIconSearch()
@@ -191,6 +211,11 @@ class MainActivity : BaseActivity() {
                     hideBottomNavigation()
                 }
                 R.id.fragmentEditAddress ->{
+                    hideIconCart()
+                    hideIconSearch()
+                    hideBottomNavigation()
+                }
+                R.id.fragmentComment ->{
                     hideIconCart()
                     hideIconSearch()
                     hideBottomNavigation()
@@ -233,7 +258,7 @@ class MainActivity : BaseActivity() {
         itemCart = menu?.findItem(R.id.fragmentDetailCart)
         icon = itemCart?.icon as LayerDrawable
         val s = itemSearch?.actionView as SearchView
-        s.queryHint ="Bạn cần tìm gì ?"
+        s.queryHint ="Bạn cần tìm điện thoại gì ?"
         searchView = WeakReference(s)
 
         val clearButton =s.findViewById(R.id.search_close_btn) as ImageView
@@ -250,6 +275,9 @@ class MainActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+    }
+    fun handleToolbar(){
+        if(bindingMain?.toolbarMain?.toolbar?.visibility == View.VISIBLE) bindingMain?.toolbarMain?.toolbar?.gone() else bindingMain?.toolbarMain?.toolbar?.visible()
     }
 
 

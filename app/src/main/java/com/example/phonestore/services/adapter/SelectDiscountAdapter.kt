@@ -20,8 +20,9 @@ class SelectDiscountAdapter():
     RecyclerView.Adapter<SelectDiscountAdapter.DiscountViewHolder>() {
     class DiscountViewHolder(val binding: ItemDiscountBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(item: Voucher?){
+            binding.voucher = item
             binding.tvDiscountContent.text = "Áp dụng cho đơn hàng từ ${item?.condition.toVND()}"
-            binding.tvDiscountDate.text = item?.end_date
+            binding.tvDiscountDate.text = "HSD: ${item?.end_date}"
             binding.tvDiscountNumber.text = "${item?.discount}%"
 
             if(item?.active == false){
@@ -38,35 +39,18 @@ class SelectDiscountAdapter():
     var itemClick: ((voucher: Voucher?)-> Unit)? = null
     var deleteItem: ((id: Int?)->Unit)? = null
     fun submitList(discountItemList: ArrayList<Voucher>?) {
-        if (listDiscount?.isEmpty() == true) {
-            listDiscount = discountItemList
-            discountItemList?.size?.let { notifyItemRangeInserted(0, it) }
-        } else {
-            val result = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
-                override fun getOldListSize(): Int {
-                    return listDiscount?.size ?:0
-                }
-
-                override fun getNewListSize(): Int {
-                    return listDiscount?.size ?:0
-                }
-
-                override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                    if (newItemPosition >= discountItemList?.size?:0 && oldItemPosition >= listDiscount?.size ?:0)
-                        return false
-                    return listDiscount?.get(oldItemPosition)?.id == discountItemList?.get(newItemPosition)?.id
-                }
-
-                override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                    if (newItemPosition >= discountItemList?.size?:0 && oldItemPosition >= listDiscount?.size ?:0)
-                        return false
-                    val newProduct = discountItemList?.get(newItemPosition)
-                    val oldProduct = listDiscount?.get(oldItemPosition)
-                    return (newProduct === oldProduct)
-                }
-            })
-            listDiscount = discountItemList
-            result.dispatchUpdatesTo(this)
+        val currentSize: Int? = listDiscount?.size
+        listDiscount?.clear()
+        if (discountItemList != null) {
+            listDiscount?.addAll(discountItemList)
+        }
+        if (currentSize != null) {
+            notifyItemRangeRemoved(0, currentSize)
+        }
+        listDiscount?.size.let {
+            if (it != null) {
+                notifyItemRangeInserted(0, it)
+            }
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiscountViewHolder =

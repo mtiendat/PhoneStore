@@ -7,15 +7,15 @@ import android.os.Looper
 
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Observer
+
 import androidx.lifecycle.ViewModelProvider
 import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivitySignUpBinding
+import com.example.phonestore.extendsion.AppEvent
 import com.example.phonestore.model.auth.User
 import com.example.phonestore.services.Constant
 import com.example.phonestore.viewmodel.UserViewModel
 
-import java.util.regex.Pattern
 
 class ActivitySignUp: BaseActivity() {
     companion object{
@@ -44,15 +44,17 @@ class ActivitySignUp: BaseActivity() {
     }
 
     override fun setObserve() {
-
         signUpViewModel?.loginResponse?.observe(this, {
-            Toast.makeText(this, it.messages, Toast.LENGTH_SHORT).show()
-            if(it.status) {
+            Toast.makeText(this, it?.messages, Toast.LENGTH_SHORT).show()
+            if(it?.status == true) {
                 Handler(Looper.getMainLooper()).postDelayed({
                     startActivity(ActivityLogin.intentFor(this))
                     finish()
                 }, 2000)
             }
+        })
+        signUpViewModel?.message?.observe(this, {
+            Toast.makeText(this, "Có lỗi xảy ra, vui lòng thử lại", Toast.LENGTH_SHORT).show()
         })
     }
     override fun setUI() {
@@ -61,8 +63,10 @@ class ActivitySignUp: BaseActivity() {
                 signUpViewModel?.postSignUp(
                     User(name = bindingSignUp.edtSignUpFullName.text.toString(),
                         password = bindingSignUp.edtSignUpPassword.text.toString(),
-                        phone = numberPhone
+                        phone = numberPhone,
+                        formality = "normal"
                 ))
+                AppEvent.notifyShowPopUp()
             }
         }
 

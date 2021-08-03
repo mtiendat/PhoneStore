@@ -37,7 +37,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/background_gradient">
 
-                    <com.example.phonestore.services.AutoScrollRecyclerView
+                    <com.example.phonestore.services.widget.AutoScrollRecyclerView
                         android:id="@+id/rvLogoSupplier"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
@@ -181,6 +181,7 @@
                                 android:layout_height="0dp"
                                 android:layout_margin="8dp"
                                 android:layout_weight="1"
+                                android:visibility="gone"
                                 android:theme="@style/RecyclerView" />
                         </LinearLayout>
 
@@ -218,21 +219,74 @@
                 app:layout_constraintTop_toBottomOf="@id/cardViewTop" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnSortPrice"
+                android:id="@+id/btnSort"
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
+                android:layout_height="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:background="@color/transparent"
-                android:drawableEnd="@drawable/ic_up"
-                android:paddingStart="30dp"
-                android:paddingEnd="0dp"
-                android:text="@string/sap_xep"
-                android:textAlignment="viewStart"
+                android:drawableEnd="@drawable/ic_next"
+                android:background="@color/white"
+                android:stateListAnimator="@null"
+                android:text="Xem tất cả"
                 android:textAllCaps="false"
+                app:layout_constraintBottom_toBottomOf="@+id/tvRecommended"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardViewTop" />
 
+            <io.github.florent37.shapeofview.shapes.BubbleView
+                android:id="@+id/sort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:elevation="4dp"
+                android:translationZ="6dp"
+                android:visibility="gone"
+                app:arrow_posititon_percent="0.5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnSort"
+                app:shape_bubble_arrowHeight="1dp"
+                app:shape_bubble_arrowPosition="top"
+                app:shape_bubble_arrowWidth="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_ctrl_stroke"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnPriceDown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:text="Giá thấp nhất"
+                        android:textAlignment="viewStart"
+                        android:textAllCaps="false"
+                        android:theme="@style/HighLightButton"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnPriceHigh"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackground"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:text="Giá cao nhất"
+                        android:textAlignment="viewStart"
+                        android:textAllCaps="false"
+                        android:theme="@style/HighLightButton"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/btnPriceDown" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </io.github.florent37.shapeofview.shapes.BubbleView>
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmerLayoutFeaturedProduct"
                 android:layout_width="match_parent"
@@ -302,22 +356,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:theme="@style/RecyclerView"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvRecommended" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvViewAllProduct"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="Xem tất cả sản phẩm >>"
-                android:textColor="@color/blue"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/rvRecommend" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>

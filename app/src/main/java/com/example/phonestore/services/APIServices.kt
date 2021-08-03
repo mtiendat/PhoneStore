@@ -25,10 +25,9 @@ interface APIServices {
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
             val httpClient: OkHttpClient.Builder = OkHttpClient.Builder()
-                    .addInterceptor(tokenInterceptor)
                     .readTimeout(20, TimeUnit.SECONDS)
                     .connectTimeout(20,TimeUnit.SECONDS)
-            httpClient.addInterceptor(logging)
+            httpClient.addInterceptor(logging).addNetworkInterceptor(RateLimitInterceptor())
                 return Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
                     .baseUrl(Constant.URL)
@@ -45,6 +44,8 @@ interface APIServices {
         }
     }
 
+    @POST("increase-view")
+    fun postView(): Call<LoginResponse>
     @POST("log-in")
     fun postLogin(@Body account: FormLogin): Call<LoginResponse>
     @POST("sign-up")
@@ -93,13 +94,18 @@ interface APIServices {
     @GET("new-loai-sp-ncc")
     fun getNewCateProductBySupplier( @Query("MaNCC") idSupplier: Int? = 0): Call<CateProductResponse>
     @GET("detail-product/{id}")
-    fun getDetailProduct(@Path("id") id: Int?= 0): Call<DetailProductResponse>
+    fun getDetailProduct(@Path("id") id: Int?=0, @Query("id_tk") idUser: Int?= 0): Call<DetailProductResponse>
     @GET("change-color-storage/{id}")
-    fun getProductByColor(@Path("id") id: Int?= 0, @Query("mausac") color: String? ="", @Query("dungluong") storage: String? =""): Call<ProductResponse>
+    fun getProductByColor(@Path("id") id: Int?= 0, @Query("mausac") color: String? ="", @Query("dungluong") storage: String? ="", @Query("id_tk") idUser: Int?= 0): Call<ProductResponse>
     @GET("related-product/{id}")
     fun getRelatedProduct(@Path("id") id: Int?= 0): Call<ProductResponse>
     @GET("compare-product/{id}")
     fun getCompareProduct(@Path("id") idCate: Int?, @Query("price") price: Int?= 0): Call<ProductResponse>
+    @GET("check-comment/{id}")
+    fun checkComment(@Path("id") idUser: Int?, @Query("idProduct") idProduct: Int?= 0): Call<CheckCommentResponse>
+
+    @POST("list-product-comment")
+    fun getListProductNotComment(@Body listID: ParamListID?): Call<ProductResponse>
 
     @GET("total-product-in-cart/{id}")
     fun getTotalProductInCart(@Path("id") idUser: Int?= 0): Call<CartResponse>
@@ -128,19 +134,46 @@ interface APIServices {
     fun getDetailOrder(@Path("id") idOrder: Int?= 0): Call<DetailOrderResponse>
     @POST("cancel-order/{id}")
     fun cancelOrder(@Path("id") idOrder: Int?= 0): Call<MyOrderResponse>
-    @GET("tim-kiem-ten")
+    @GET("search")
     fun searchName(@Query("q") q: String? =""): Call<SearchResponse>
-    @GET("danh-gia/{id}")
-    fun getListVote(@Path("id")idCate: Int? = 0, @Query("idUser") idUser: Int?, @Query("all") all: Boolean? = false): Call<VoteResponse>
-    @POST("danh-gia/{id}")
-    fun postVote(@Path("id")idCate: Int? = 0, @Body vote: Vote): Call<VoteResponse>
-
+    @GET("list-comment/{id}")
+    fun getListComment(@Path("id")idProduct: Int? = 0, @Query("id_tk") idUser: Int?): Call<CommentResponse>
+    @GET("list-reply/{id}")
+    fun getListReply(@Path("id")idComment: Int? = 0): Call<ReplyResponse>
+    @DELETE("delete-comment/{id}")
+    fun deleteComment(@Path("id")idComment: Int? = 0): Call<ReplyResponse>
+    @POST("comment")
+    fun postComment(@Body comment: Comment): Call<PostCommentResponse>
+    @Multipart
+    @POST("upload-image-comment/{id}")
+    fun postImageComment(@Path("id")idComment: Int? = 0, @Part image: ArrayList<MultipartBody.Part>): Call<CommentResponse>
+    @Multipart
+    @POST("update-image-new-comment/{id}")
+    fun updateImageNewComment(@Path("id")idComment: Int? = 0, @Part image: ArrayList<MultipartBody.Part>? = arrayListOf()): Call<CommentResponse>
+    @POST("update-image-old-comment/{id}")
+    fun updateImageOldComment(@Path("id")idComment: Int? = 0,  @Body listID: UpdateImageModel): Call<CommentResponse>
+    @PUT("update-comment/{id}")
+    fun updateComment(@Path("id")idComment: Int? = 0, @Body comment: Comment): Call<PostCommentResponse>
+    @POST("reply")
+    fun postReply(@Body reply: Reply): Call<ReplyResponse>
+    @POST("like/{id}")
+    fun postLike(@Path("id")idComment: Int? = 0, @Query("id_tk") idUser: Int?): Call<ReplyResponse>
+    @DELETE("like/{id}")
+    fun deleteLike(@Path("id")idComment: Int? = 0, @Query("id_tk") idUser: Int?): Call<ReplyResponse>
     @POST("check-product/{id}")
-    fun checkProduct(@Path("id") idStore: Int? = 0, @Body list: ParamListID): Call<CheckProductInStoreResponse>
+    fun checkProduct(@Path("id") idStore: Int? = 0,@Query("method") method: String?, @Body list: ParamListHasQty): Call<CheckProductInStoreResponse>
+    @GET("check-warranty")
+    fun checkWarranty(@Query("imei") imei: String?): Call<WarrantyResponse>
+    @GET("wishlist/{id}")
+    fun wishList(@Path("id") idUser: Int? = 0): Call<WishListResponse>
+    @GET("add-to-wishlist")
+    fun addToWishList(@Query("id_tk") idUser: Int? = 0, @Query("id_sp") idProduct: Int? = 0): Call<WishListResponse>
+    @DELETE("delete-wishlist")
+    fun deleteWishList(@Query("id_tk") idUser: Int? = 0, @Query("id_sp") idProduct: Int? = 0): Call<WishListResponse>
     @POST("my-address")
     fun createMyAddress(@Body address: Address?): Call<ListMyAddressResponse>
-    @GET("my-address-default")
-    fun getMyAddress(): Call<Address>
+    @GET("my-address-default/{id}")
+    fun getMyAddress(@Path("id") id: Int? = 0): Call<Address>
     @PUT("my-address/{id}")
     fun updateMyAddress(@Path("id") idAddress: Int? = 0, @Body address: Address?): Call<ListMyAddressResponse>
     @DELETE("my-address/{id}")

@@ -47,9 +47,9 @@ class OrderRepo {
             onError = {e -> onError.invoke(e)}
         )
     }
-    fun callCheckProductInStore(idStore: Int?, list: ParamListID, onSuccess: (CheckProductInStoreResponse?)->Unit, onError: (String?)->Unit){
+    fun callCheckProductInStore(idStore: Int?, method: String?, list: ParamListHasQty, onSuccess: (CheckProductInStoreResponse?)->Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.checkProduct(idStore, list),
+            call = APIServices.getInstance()?.checkProduct(idStore,method, list),
             onSuccess = {results ->results?.let {onSuccess.invoke(it) }},
             onError = {e -> onError.invoke(e)}
         )
@@ -74,7 +74,7 @@ class OrderRepo {
     }
     fun callMyAddress(onSuccess: (Address?)->Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.getMyAddress(),
+            call = APIServices.getInstance()?.getMyAddress(Constant.idUser),
             onSuccess = {
                 it?.let {
                     onSuccess.invoke(it)

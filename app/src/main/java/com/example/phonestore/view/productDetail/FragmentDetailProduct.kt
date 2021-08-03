@@ -7,9 +7,12 @@ import android.os.Looper
 import android.view.*
 import android.widget.*
 import androidx.core.os.bundleOf
+import androidx.core.view.doOnLayout
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
@@ -33,9 +36,9 @@ import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI
 import com.google.android.youtube.player.YouTubePlayerSupportFragmentX
-import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
+import java.math.BigDecimal
+import java.math.RoundingMode
 import kotlin.math.abs
-
 
 class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener {
     companion object {
@@ -51,7 +54,9 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private var detailViewModel: DetailProductViewModel? = null
     private var product: ProductInfo? = null
     private var technology: Technology? = null
-    private var idProduct: Int?=0
+    private var idProduct: Int= 0
+    private var idComment: Int= 0
+    private var positionDelete: Int? = 0
     private var color: String? = null
     private var storage: String? = null
     private var idYT: String? = null
@@ -59,7 +64,10 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private var price: Int = 0
     private var supplier: Supplier? = null
     private var hadData: Boolean = false
-
+    private var isStorage: Boolean = false
+    private var isStorageOrColor: Boolean = false
+    private var isLoveFirst: Boolean = true
+    private var isSetImgFirst: Boolean = true
     private var img2: String? =""
     private var slideRunnable = Runnable {
         bindingProductDetail?.vpSlideShow?.currentItem = bindingProductDetail?.vpSlideShow?.currentItem?.plus(1) ?:0
@@ -68,13 +76,14 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private var sliderAdapter : SlideshowProductAdapter? = null
     private var slideHandler: Handler = Handler(Looper.getMainLooper())
     private var relatedProductAdapter: RelatedProductAdapter? = null
-    private var voteAdapter: DetailProductAdapter<Vote>? = null
+    private var commentAdapter: CommentAdapter? = null
     private var compareAdapter: CompareProductAdapter? = null
-    private var listSlideshow: ArrayList<String> = arrayListOf()
-    private var listRelatedProduct: ArrayList<ProductInfo>? = arrayListOf()
-    private var listCompareProduct: ArrayList<ProductInfo>? = arrayListOf()
+    private var listSlideshow: ArrayList<String?>? = arrayListOf()
+    private var listRelatedProduct: ArrayList<ProductInfo?>? = arrayListOf()
+    private var listCompareProduct: ArrayList<ProductInfo?>? = arrayListOf()
     private var productBuyNow: ArrayList<ProductOrder>? = arrayListOf()
-    private var listVote: ArrayList<Vote>? = arrayListOf()
+    private var listComment: ArrayList<Comment>? = arrayListOf()
+    private var listIDComment: ArrayList<Int>? = arrayListOf()
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingProductDetail = FragmentDetailProductBinding.inflate(inflater, container, false)
 
@@ -85,6 +94,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         return bindingProductDetail?.root
     }
     override fun setUI() {
+        (activity as MainActivity).handleToolbar()
         MainActivity.itemSearch?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 return true
@@ -95,26 +105,19 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             }
 
         })
-        bindingProductDetail?.pbLoadVote?.setIndeterminateDrawableTiled(
-                FoldingCirclesDrawable.Builder(context).colors(resources.getIntArray(
-                        R.array.google_colors)).build())
-
         productBuyNow?.clear()
         product = arguments?.getParcelable("product")
         val query = arguments?.getString("name")
-//        MainActivity.searchView?.get()?.isIconified = false //Xóa tìm kiếm
-//        MainActivity.searchView?.get()?.clearFocus()
         MainActivity.itemSearch?.collapseActionView()
         (requireActivity() as MainActivity).supportActionBar?.title = query //setTitle
-        bindingProductDetail?.shimmerLayoutRelated?.startShimmer()
-        bindingProductDetail?.shimmerLayoutCompareProduct?.startShimmer()
+        bindingProductDetail?.shimmer?.shimmerDetailProduct?.startShimmer()
         initRecyclerViewRelated()
         initRecyclerViewCompare()
         initRecyclerViewVote()
-        setOnClickListener()
         setSpinner()
         getData()
         setDetailProduct(product)
+        setOnClickListener()
     }
     private fun setOnClickListener(){
         bindingProductDetail?.btnAddToCart?.setOnClickListener {
@@ -125,13 +128,12 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                 bindingProductDetail?.nsvDetail?.smoothScrollTo(0, 0)
             }
         }
-
         bindingProductDetail?.btnBuyNow?.setOnClickListener {
             if (checkSelectSpinner()) {
                 val product = Cart( null, null,
-                        idProduct = idProduct,
-                        qty =1,
-                        price = this.price,
+                        idProduct = if(idProduct==0) product?.id else idProduct,
+                        qty = 1,
+                        price = product?.price?:0,
                         color = color,
                         storage = storage,
                         priceRoot = this.product?.price ?:0,
@@ -139,19 +141,16 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                         avatar = this.img)
                 val productOrder = ProductOrder(product, 1)
                 this.productBuyNow?.add(productOrder)
-                val item = bundleOf("listProduct" to productBuyNow)
+                val item = bundleOf("listProduct" to productBuyNow, "totalMoney" to product.price)
                 it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentOrder, item)
             }else bindingProductDetail?.nsvDetail?.fullScroll(View.FOCUS_UP)
         }
-//        bindingProductDetail?.btnSendVote?.setOnClickListener {
-//            if(validateVote()){
-//                val vote = Vote(idUser = Constant.idUser, content = bindingProductDetail?.edtVote?.text.toString(), vote = bindingProductDetail?.rbVote?.rating?.toInt() ?:1)
-////                detailViewModel?.postVote(idCate, vote)
-//                bindingProductDetail?.pbLoadVote?.visible()
-//            }
-//        }
+        bindingProductDetail?.btnSendReview?.setOnClickListener {
+            findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentComment, bundleOf("listId" to listIDComment))
+
+        }
         bindingProductDetail?.btnViewAllVote?.setOnClickListener {
-            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentAllVote, bundleOf("idCate" to product?.idCate))
+            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentAllVote, bundleOf("idProduct" to product?.id))
         }
         bindingProductDetail?.ivSupplierLogo?.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentSupplier, bundleOf("supplier" to supplier))
@@ -176,6 +175,16 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             bindingProductDetail?.vpSlideShow?.currentItem = bindingProductDetail?.vpSlideShow?.currentItem?.minus(
                 1
             )?: 0
+        }
+        bindingProductDetail?.cbWishList?.setOnCheckedChangeListener { _, isChecked ->
+            if(isLoveFirst||isStorageOrColor){
+                if(isChecked){
+                    detailViewModel?.addToWishList(product?.id)
+                }else detailViewModel?.deleteToWishList(product?.id)
+          }
+        }
+        bindingProductDetail?.cbShare?.setOnClickListener {
+
         }
     }
     private fun checkSelectSpinner(): Boolean{
@@ -209,18 +218,23 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                     0 -> {
                     }
                     else -> {
-                        color = parent?.getItemAtPosition(position).toString()
-                        if(storage!=null) {
-                            detailViewModel?.getColorOrStorageProduct(
+                        if(!isSetImgFirst){
+                            color = parent?.getItemAtPosition(position).toString()
+                            if(storage!=null) {
+                                detailViewModel?.getColorOrStorageProduct(
                                     idCate = product?.idCate,
                                     color = color!!,
                                     storage = storage!!
-                            )
-                        }else  detailViewModel?.getColorOrStorageProduct(
+                                )
+                            }else  detailViewModel?.getColorOrStorageProduct(
                                 idCate = product?.idCate,
                                 color = color!!,
                                 storage = ""
-                        )
+                            )
+                            isStorage = false
+                            isStorageOrColor = false
+                            isLoveFirst = false
+                        }else isSetImgFirst = false
                     }
                 }
             }
@@ -239,18 +253,23 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                     0 -> {
                     }
                     else -> {
-                        storage =  parent?.getItemAtPosition(position).toString()
-                        if(color!=null){
-                            detailViewModel?.getColorOrStorageProduct(
+                        if (!isSetImgFirst) {
+                            storage = parent?.getItemAtPosition(position).toString()
+                            if (color != null) {
+                                detailViewModel?.getColorOrStorageProduct(
                                     product?.idCate,
                                     color = color!!,
                                     storage = storage!!
-                            )
-                        }else detailViewModel?.getColorOrStorageProduct(
-                                 product?.idCate,
+                                )
+                            } else detailViewModel?.getColorOrStorageProduct(
+                                product?.idCate,
                                 color = "",
                                 storage = storage!!
-                        )
+                            )
+                            isStorage = true
+                            isStorageOrColor = false
+                            isLoveFirst = false
+                        }
                     }
                 }
             }
@@ -275,10 +294,11 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         detailViewModel?.detailProduct?.observe(viewLifecycleOwner, {
             setDetailCateProduct(it)
             detailViewModel?.getTechnology(product?.technology!!)
+            detailViewModel?.checkComment(product?.id)
         })
         detailViewModel?.technologyResponse?.observe(viewLifecycleOwner,{
-            technology = it.technology
-            setDataTechnology(it.technology)
+            technology = it?.technology
+            setDataTechnology(it?.technology)
             detailViewModel?.getRelatedProduct(product?.id)
         })
         detailViewModel?.technologyCompareResponse?.observe(viewLifecycleOwner, {
@@ -288,14 +308,17 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
 
         detailViewModel?.listColor?.observe(viewLifecycleOwner, {
             setSpinner(it, bindingProductDetail?.spDetailColor)
+            setFirstSpinner(product?.color?:"", it, bindingProductDetail?.spDetailColor)
         })
 
         detailViewModel?.listStorage?.observe(viewLifecycleOwner, {
-                setSpinner(it, bindingProductDetail?.spDetailStorage)
+            setSpinner(it, bindingProductDetail?.spDetailStorage)
+            setFirstSpinner(product?.storage?:"", it, bindingProductDetail?.spDetailStorage)
+
         })
 
         detailViewModel?.color?.observe(viewLifecycleOwner, {
-                if(this.img !=it) {
+                if(this.img != it) {
                     setImg(it, bindingProductDetail?.ivDetailPhoto)
                     this.img = it
                 }
@@ -306,54 +329,91 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         })
 
         detailViewModel?.priceNew?.observe(viewLifecycleOwner, {
-            bindingProductDetail?.tvDetailPrice?.text = it
+            bindingProductDetail?.tvDetailPrice?.text = it.toVND()
+            product?.price = it
         })
-
+        detailViewModel?.wish?.observe(viewLifecycleOwner, {
+           bindingProductDetail?.cbWishList?.isChecked = it
+            isStorageOrColor = true
+        })
         detailViewModel?.idProduct?.observe(viewLifecycleOwner, {
             product?.id = it
+            if(isStorage){
+                detailViewModel?.checkComment(it)
+                detailViewModel?.getListComment(it)
+            }
+            idProduct = it
+
+        })
+        detailViewModel?.checkComment?.observe(viewLifecycleOwner, {
+            if(it?.status == true){
+                listIDComment = it.listId
+                bindingProductDetail?.btnSendReview?.visible()
+            }else bindingProductDetail?.btnSendReview?.gone()
         })
 
         detailViewModel?.listImageSlideshow?.observe(viewLifecycleOwner, {
                 listSlideshow = it
                 initSlider()
-                bindingProductDetail?.shimmerSlideShow?.stopShimmer()
-                bindingProductDetail?.shimmerSlideShow?.gone()
         })
         detailViewModel?.relatedProduct?.observe(viewLifecycleOwner, {
-            listRelatedProduct?.addAll(it)
             relatedProductAdapter?.setItems(it)
-            bindingProductDetail?.shimmerLayoutRelated?.stopShimmer()
-            bindingProductDetail?.shimmerLayoutRelated?.gone()
             detailViewModel?.getCompareProduct(product?.idCate, product?.price)
         })
         detailViewModel?.compareProduct?.observe(viewLifecycleOwner,{
             compareAdapter?.setItems(it)
-            bindingProductDetail?.shimmerLayoutCompareProduct?.stopShimmer()
-            bindingProductDetail?.shimmerLayoutCompareProduct?.gone()
+            detailViewModel?.getListComment(product?.id)
 
         })
-        detailViewModel?.listVote?.observe(viewLifecycleOwner, {
-            if(it.size > 0) {
+        detailViewModel?.listComment?.observe(viewLifecycleOwner, {
+            if(it?.size?:-1 > 0) {
                 bindingProductDetail?.tvNoVote?.gone()
                 bindingProductDetail?.btnViewAllVote?.visible()
+                bindingProductDetail?.chartVote?.root?.visible()
+                bindingProductDetail?.viewCharVote?.visible()
+                bindingProductDetail?.rvVote?.visible()
+                listComment?.clear()
+                if(it?.size?:0 > 5){
+                    it?.subList(0,5)?.let { it1 -> listComment?.addAll(it1) }
+                }else it?.let { it1 -> listComment?.addAll(it1) }
+                commentAdapter?.setItems(listComment)
+                setViewRating(it)
+            }else {
+                bindingProductDetail?.chartVote?.root?.gone()
+                bindingProductDetail?.tvNoVote?.visible()
+                bindingProductDetail?.rvVote?.gone()
+                bindingProductDetail?.viewCharVote?.gone()
+                bindingProductDetail?.btnViewAllVote?.gone()
             }
-            listVote?.addAll(it)
-            voteAdapter?.setItems(it)
+            if(bindingProductDetail?.groupDetailProduct?.visibility == View.GONE){
+                bindingProductDetail?.shimmer?.shimmerDetailProduct?.stopShimmer()
+                bindingProductDetail?.shimmer?.ctrlDetail?.gone()
+                bindingProductDetail?.groupDetailProduct?.visible()
+                (activity as MainActivity).handleToolbar()
+            }
+
         })
 
-        detailViewModel?.bought?.observe(viewLifecycleOwner, {
-            if(!it){
-                //bindingProductDetail?.groupSendVote?.gone()
-            }
-        })
-        detailViewModel?.messageSuccess?.observe(viewLifecycleOwner, {
-            if(it){
-                //bindingProductDetail?.edtVote?.text?.clear()
-                //bindingProductDetail?.rbVote?.rating = 0f
+        detailViewModel?.statusComment?.observe(viewLifecycleOwner, {
+            if(it?.status == true){
                 view?.let { it1 -> Snackbar.make(it1, Constant.SUCCESS_VOTED, Snackbar.LENGTH_SHORT).show() }
-                detailViewModel?.getListVote(product?.idCate)
-                bindingProductDetail?.pbLoadVote?.gone()
             }else view?.let { it1 -> Snackbar.make(it1, Constant.ERROR_VOTED, Snackbar.LENGTH_SHORT).show() }
+        })
+        detailViewModel?.statusReply?.observe(viewLifecycleOwner, {
+            if(it == true){
+                view?.let { it1 -> Snackbar.make(it1, Constant.SUCCESS_REPLY, Snackbar.LENGTH_SHORT).show() }
+                detailViewModel?.getListReply(idComment)
+            }else view?.let { it1 -> Snackbar.make(it1, Constant.ERROR_VOTED, Snackbar.LENGTH_SHORT).show() }
+        })
+        detailViewModel?.statusDeleteComment?.observe(viewLifecycleOwner, {
+            if(it.status){
+                view?.let { it1 -> Snackbar.make(it1, it.message?:"", Snackbar.LENGTH_SHORT).show() }
+                positionDelete?.let {
+                        it1 -> commentAdapter?.listComment?.removeAt(it1)
+                    commentAdapter?.notifyItemRemoved(it1)
+                }
+
+            }else view?.let { it1 -> Snackbar.make(it1, "", Snackbar.LENGTH_SHORT).show() }
         })
     }
     private fun setObserveCartViewModel(){
@@ -376,7 +436,6 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         hadData = true
         detailViewModel?.getDetailProduct(product?.id)
         detailViewModel?.getListImageSlideshow(product?.id)
-//        detailViewModel?.getListVote(idCate)
     }
 
     private fun setDetailProduct(product: ProductInfo?){
@@ -384,20 +443,38 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         bindingProductDetail?.tvDetailPrice?.text = (product?.price?.minus((product.price * product.discount)))?.toInt().toVND()
         bindingProductDetail?.tvDetaiPriceOld?.text = product?.price.toVND()
         bindingProductDetail?.tvDetaiPriceOld?.paintFlags = bindingProductDetail?.tvDetaiPriceOld?.strikeThrough()!!
-        bindingProductDetail?.ratingBarDetail?.rating = product?.totalVote?: 0.1f
 
         this.img = product?.img
         setImg(product?.img, bindingProductDetail?.ivDetailPhoto)
 
+        bindingProductDetail?.chartVote?.ctrlVote?.setOnClickListener {
+            if(bindingProductDetail?.chartVote?.lnVote?.visibility == View.GONE) {
+                bindingProductDetail?.chartVote?.lnVote?.visible()
+                bindingProductDetail?.chartVote?.btnTotalJudge?.setCompoundDrawablesWithIntrinsicBounds(0, 0,R.drawable.ic_arrow_up,0)
+            }
+            else  {
+                bindingProductDetail?.chartVote?.lnVote?.gone()
+                bindingProductDetail?.chartVote?.btnTotalJudge?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down,0)
+            }
+        }
+        bindingProductDetail?.chartVote?.btnTotalJudge?.setOnClickListener {
+            if(bindingProductDetail?.chartVote?.lnVote?.visibility == View.GONE) {
+                bindingProductDetail?.chartVote?.lnVote?.visible()
+                bindingProductDetail?.chartVote?.btnTotalJudge?.setCompoundDrawablesWithIntrinsicBounds(0, 0,R.drawable.ic_arrow_up,0)
+            }
+            else  {
+                bindingProductDetail?.chartVote?.lnVote?.gone()
+                bindingProductDetail?.chartVote?.btnTotalJudge?.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_arrow_down,0)
+            }
+        }
     }
-    private fun setSpinner(list: List<String>, spinner: Spinner?){
-        val adapterSpinner = context?.let { ArrayAdapter(
-                it,
-                android.R.layout.simple_spinner_item,
-                list.toList()
-        ) }
-        adapterSpinner?.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+    private fun setSpinner(list: ArrayList<String?>?, spinner: Spinner?){
+        val adapterSpinner = CustomDropDownAdapter(requireContext(), R.layout.item_spinner, list)
+        //adapterSpinner?.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
         spinner?.adapter = adapterSpinner
+        spinner?.doOnLayout {
+            spinner.dropDownWidth = spinner.width
+        }
     }
     private fun setDetailCateProduct(product: DetailProduct?){
         (requireActivity() as MainActivity).supportActionBar?.title = product?.name
@@ -405,6 +482,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         setImg(product?.supplier?.logoSupplier, bindingProductDetail?.ivSupplierLogo)
         supplier = product?.supplier
         idYT = product?.trailer
+        bindingProductDetail?.cbWishList?.isChecked = product?.like?:false
         youtubePlayerFragment?.initialize(Constant.KEY_API_YOUTUBE, this)
     }
 
@@ -423,23 +501,22 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         bindingProductDetail?.rvCompareProduct?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
     }
     private fun initRecyclerViewVote(){
-        voteAdapter = DetailProductAdapter(listVote)
-        bindingProductDetail?.rvVote?.adapter = voteAdapter
+        commentAdapter = CommentAdapter()
+        commentAdapter?.intoReply = {
+            findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentReply, bundleOf("comment" to it))
+        }
+        commentAdapter?.likeComment = { id, state ->
+            if(state) detailViewModel?.postLike(id) else detailViewModel?.deleteLike(id)
+        }
+        commentAdapter?.deleteComment = { id, position ->
+            positionDelete = position
+            detailViewModel?.deleteComment(id)
+        }
+        bindingProductDetail?.rvVote?.adapter = commentAdapter
+        bindingProductDetail?.rvVote?.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         bindingProductDetail?.rvVote?.layoutManager = LinearLayoutManager(context)
     }
-//    private fun validateVote(): Boolean{
-//        return when {
-//            bindingProductDetail?.rbVote?.rating == 0f -> {
-//                Toast.makeText(context, Constant.PLEASE_CHOOSE_VOTE, Toast.LENGTH_SHORT).show()
-//                false
-//            }
-//            bindingProductDetail?.edtVote?.text.isNullOrBlank() -> {
-//                bindingProductDetail?.edtVote?.error = Constant.VALIDATE_VOTE
-//                false
-//            }
-//            else -> true
-//        }
-//    }
+    //YOUTUBE
     override fun onInitializationSuccess(
             p0: YouTubePlayer.Provider?,
             player: YouTubePlayer?,
@@ -473,16 +550,16 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                 .into(v)
         }
     }
-    private fun setDataTechnology(technology: Technology){
-        bindingProductDetail?.tvTechnologyScreenDetail?.text = technology.screen?.technology
-        bindingProductDetail?.tvTechnologyOSDetail?.text = technology.os_cpu?.name
-        bindingProductDetail?.tvTechnologyRearCameraDetail?.text = technology.rearCamera?.pixel
-        bindingProductDetail?.tvTechnologyFrontCameraDetail?.text = technology.frontCamera?.pixel
-        bindingProductDetail?.tvTechnologyChipDetail?.text = technology.os_cpu?.cpu
-        bindingProductDetail?.tvTechnologyRamDetail?.text = technology.storage?.ram
-        bindingProductDetail?.tvDetailStorageInternalDetail?.text = technology.storage?.internal
-        bindingProductDetail?.tvDetailStorageSimDetail?.text = technology.network?.sim
-        bindingProductDetail?.tvDetailStoragePinDetail?.text = technology.battery?.capacity
+    private fun setDataTechnology(technology: Technology?){
+        bindingProductDetail?.tvTechnologyScreenDetail?.text = technology?.screen?.technology
+        bindingProductDetail?.tvTechnologyOSDetail?.text = technology?.os_cpu?.name
+        bindingProductDetail?.tvTechnologyRearCameraDetail?.text = technology?.rearCamera?.pixel
+        bindingProductDetail?.tvTechnologyFrontCameraDetail?.text = technology?.frontCamera?.pixel
+        bindingProductDetail?.tvTechnologyChipDetail?.text = technology?.os_cpu?.cpu
+        bindingProductDetail?.tvTechnologyRamDetail?.text = technology?.storage?.ram
+        bindingProductDetail?.tvDetailStorageInternalDetail?.text = technology?.storage?.internal
+        bindingProductDetail?.tvDetailStorageSimDetail?.text = technology?.network?.sim
+        bindingProductDetail?.tvDetailStoragePinDetail?.text = technology?.battery?.capacity
     }
 
     private fun initSlider(){
@@ -510,8 +587,63 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         })
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    private fun setViewRating(listComment: ArrayList<Comment>?){
+        var star1 = 0
+        var star2 = 0
+        var star3 = 0
+        var star4 = 0
+        var star5 = 0
+        var pro1 = 0f
+        var pro2 = 0f
+        var pro3 = 0f
+        var pro4 = 0f
+        var pro5 = 0f
+        var totalJudge = 0
+        listComment?.forEach {
+            when(it.vote){
+                5 -> star5++
+                4 -> star4++
+                3 -> star3++
+                2 -> star2++
+                1 -> star1++
+            }
+            totalJudge+=it.vote
+        }
+        bindingProductDetail?.chartVote?.tvNum5?.text = star5.toString()
+        bindingProductDetail?.chartVote?.tvNum4?.text = star4.toString()
+        bindingProductDetail?.chartVote?.tvNum3?.text = star3.toString()
+        bindingProductDetail?.chartVote?.tvNum2?.text = star2.toString()
+        bindingProductDetail?.chartVote?.tvNum1?.text = star1.toString()
+        val total: Float = (star1 + star2 + star3 + star4 + star5).toFloat()
+        pro1 = star1.div((total / 100))
+        pro2 = star2.div(total.div(100))
+        pro3 = star3.div(total.div(100))
+        pro4 = star4.div(total.div(100))
+        pro5 = star5.div(total.div(100))
+        bindingProductDetail?.chartVote?.progressBar1?.progress = pro1.toInt()
+        bindingProductDetail?.chartVote?.progressBar2?.progress = pro2.toInt()
+        bindingProductDetail?.chartVote?.progressBar3?.progress = pro3.toInt()
+        bindingProductDetail?.chartVote?.progressBar4?.progress = pro4.toInt()
+        bindingProductDetail?.chartVote?.progressBar5?.progress = pro5.toInt()
+        //comment
+        val decimal = BigDecimal((totalJudge.div(listComment?.size?.toFloat()?:0f)).toDouble()).setScale(1, RoundingMode.HALF_EVEN)
+        bindingProductDetail?.chartVote?.tvTotalVote?.text = decimal.toString()
+        bindingProductDetail?.chartVote?.ratingBarVote?.rating = totalJudge.div(listComment?.size?.toFloat()?:0f).toFloat()
+        bindingProductDetail?.chartVote?.btnTotalJudge?.text = "${listComment?.size} đánh giá"
+        bindingProductDetail?.ratingBarDetail?.rating = totalJudge.div(listComment?.size?.toFloat()?:0f).toFloat()
+    }
+    fun setFirstSpinner(key: String, list: ArrayList<String?>?, spinner: Spinner?){
+        for (i in list?.indices?: listOf()) {
+            if(list?.get(i) == key){
+                spinner?.setSelection(i)
+                break
+            }
+        }
+
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
 }

@@ -17,9 +17,9 @@ import okhttp3.MultipartBody
 class UserViewModel: ViewModel() {
     private var userRepo: UserRepo = UserRepo()
     var user: MutableLiveData<User> = MutableLiveData()
-    var message:  MutableLiveData<String> = MutableLiveData()
+    var message:  MutableLiveData<String?> = MutableLiveData()
     var status:  MutableLiveData<Boolean> = MutableLiveData()
-    var loginResponse:  MutableLiveData<LoginResponse> = MutableLiveData()
+    var loginResponse:  MutableLiveData<LoginResponse?> = MutableLiveData()
     var notificationResponse:  MutableLiveData<NotificationResponse> = MutableLiveData()
     var statusSocialNetwork:  MutableLiveData<Boolean> = MutableLiveData()
     var statusChangeAvatar: MutableLiveData<Boolean> = MutableLiveData()

@@ -12,7 +12,7 @@ import com.example.phonestore.R
 import com.example.phonestore.extendsion.*
 import com.example.phonestore.model.PopUp
 import com.example.phonestore.services.Constant
-import com.example.phonestore.services.PopupDialog
+import com.example.phonestore.services.widget.PopupDialog
 import vn.zalopay.sdk.Environment
 import vn.zalopay.sdk.ZaloPaySDK
 import java.util.*

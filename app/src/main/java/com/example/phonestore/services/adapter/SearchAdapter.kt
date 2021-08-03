@@ -8,13 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.phonestore.R
 import com.example.phonestore.databinding.ItemSearchNameBinding
 import com.example.phonestore.model.CateProductInfo
+import com.example.phonestore.model.ProductInfo
 
-class SearchAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class SearchAdapter<E>(var listProduct: ArrayList<E?>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var onSetFlag:(()->Unit)? = null
-    fun setItems(list: ArrayList<E>) {
+    fun setItems(list: ArrayList<E?>?) {
         val currentSize: Int? = listProduct?.size
         listProduct?.clear()
-        listProduct?.addAll(list)
+        if (list != null) {
+            listProduct?.addAll(list)
+        }
         if (currentSize != null) {
             notifyItemRangeRemoved(0, currentSize)
         }
@@ -30,11 +33,11 @@ class SearchAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Rec
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = listProduct?.get(position)
-        if(holder is ItemSearchNameViewHolder && item is CateProductInfo){
+        if(holder is ItemSearchNameViewHolder && item is ProductInfo){
             holder.bindingSearch.btnSearchName.text = item.name
             holder.bindingSearch.btnSearchName.setOnClickListener {
                 onSetFlag?.invoke()
-                it.findNavController().navigate(R.id.action_fragmentSearch_to_fragmentDetailProduct, bundleOf("idCate" to item.id, "name" to item.name))
+                it.findNavController().navigate(R.id.action_fragmentSearch_to_fragmentDetailProduct, bundleOf("product" to item))
             }
         }
     }

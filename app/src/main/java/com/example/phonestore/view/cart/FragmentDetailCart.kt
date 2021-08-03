@@ -2,17 +2,12 @@ package com.example.phonestore.view.cart
 
 import android.app.AlertDialog
 import android.content.Context
-import android.os.Handler
-import android.os.Parcelable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -25,13 +20,11 @@ import com.example.phonestore.model.ProductOrder
 import com.example.phonestore.model.cart.Cart
 import com.example.phonestore.model.cart.Voucher
 import com.example.phonestore.services.Constant
-import com.example.phonestore.services.SwipeHelper
+import com.example.phonestore.services.widget.SwipeHelper
 import com.example.phonestore.services.adapter.DetailProductAdapter
 import com.example.phonestore.view.MainActivity
 import com.example.phonestore.viewmodel.CartViewModel
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.cancel
-import okhttp3.internal.notify
 
 class FragmentDetailCart: BaseFragment() {
     private var bindingDetailCart: FragmentDetailCartBinding? = null
@@ -111,14 +104,17 @@ class FragmentDetailCart: BaseFragment() {
                     view?.let { it1 ->
                         Snackbar.make(it1, Constant.DELETED_PRODUCT, Snackbar.LENGTH_SHORT).show()
                     }
+                    if(listProduct?.size==0) {
+                        setViewNoneProduct()
+                        detailCartViewModel.listProduct.value = null
+                    }
                 }
             }
         })
         detailCartViewModel.listProduct.observe(viewLifecycleOwner, {
-            if(it==null|| it.size ==0){//nếu k
-                if(detailCartViewModel.flag==0)
+            if(it?.size == 0){//nếu k
                     setViewNoneProduct()
-            }else {
+            }else if(it?.size?:-1 >0) {
                 context?.let { it1 ->
                     ContextCompat.getColor(
                         it1, R.color.red_light)
@@ -126,8 +122,12 @@ class FragmentDetailCart: BaseFragment() {
 
                 totalMoney = detailCartViewModel.totalMoney.value
                 totalMoneyPrevious = totalMoney
-                listProduct?.addAll(it)
-                detailCartAdapter?.setItems(it)
+                if (it != null) {
+                    listProduct?.addAll(it)
+                    detailCartAdapter?.setItems(it)
+                }
+
+
                 it?.forEach { item ->
                     listProductChoose?.add(ProductOrder(item, item.qty))
                 }
@@ -184,38 +184,6 @@ class FragmentDetailCart: BaseFragment() {
     }
     private fun featuresCart(){
         //set checkbox
-//        detailCartAdapter?.clickCheckBox = { total, state, product, qty ->
-//            if (total == 0 && !state && totalMoney == 0) { // loại đc trườg hợp check rồi, sau đó bỏ check nhưg tổng tiền = 0 thì nó sẽ trừ tiếp -> âm
-//                totalMoney = 0
-//            }
-//            if (state) {
-//                totalMoney += total
-//                if(!checkExist(product.id)){
-//                    val productOrder = ProductOrder(product, qty, totalMoney)
-//                    if(total>0) {
-//                        listProductChoose?.add(productOrder)//thêm sp vào ds chờ. Để put qua order
-//                    }
-//                }else{
-//                    for (i in listProductChoose!!) {
-//                            if (i.product?.id == product.id) {
-//                                i.total = totalMoney //Cập nhật lại số lượng
-//                            }
-//                        }
-//                }
-//
-//            } else {
-//                totalMoney -= total
-//                val productOrder = ProductOrder(product, qty, totalMoney)
-//
-//                listProductChoose?.removeIf { n ->(n.product?.id == productOrder.product?.id) }//remove dùng removeIf để tránh ngoại lệ ConcurrentModificationException và "main" java.lang.IndexOutOfBoundsException
-//            }
-//            if(totalMoney>0){
-//                bindingDetailCart?.btnOrder?.unEnabled()
-//            }else{
-//                bindingDetailCart?.btnOrder?.enabled()
-//            }
-//            bindingDetailCart?.tvTotalMoney?.text = totalMoney.toVND()
-//        }
         detailCartAdapter?.clickCheckBox = { total, state, product, qty ->
             if(hasDiscount?:0 >0){
                 totalMoney = totalMoneyPrevious
@@ -261,6 +229,7 @@ class FragmentDetailCart: BaseFragment() {
                         for (i in listProductChoose!!) {
                             if (i.product?.id == product?.id) {
                                 i.qty = qty //Cập nhật lại số lượng
+                                i.product?.isQtyAvailable = true
                             }
                         }
                     } else listProductChoose?.removeIf { n -> n.product?.id == product?.id }//số lượng về 0 thì xóa sp khỏi ds đã chọn
@@ -274,11 +243,22 @@ class FragmentDetailCart: BaseFragment() {
         detailCartAdapter?.updateItemCart = { id, it ->
             if(it == true){
                 detailCartViewModel.updateItem(id, "plus")
-            }else detailCartViewModel.updateItem(id, "min")
+                listProduct?.forEach {
+                    if(it.idProduct == id){
+                        it.qty = it.qty?.plus(1)
+                    }
+                }
+            }else {
+                detailCartViewModel.updateItem(id, "min")
+                listProduct?.forEach {
+                    if(it.idProduct == id){
+                        it.qty = it.qty?.minus(1)
+                    }
+                }
+            }
         }
-        detailCartAdapter?.deleteItemCart = {
-            detailCartViewModel.deleteItem(it)
-            bindingDetailCart?.progressBarDetailCart?.visible()
+        detailCartAdapter?.deleteItemCart = { id, position ->
+            context?.let { alertDelete(it, id, position) }
         }
     }
     private fun checkExist(idProduct: Int?): Boolean{
@@ -323,7 +303,7 @@ class FragmentDetailCart: BaseFragment() {
     }
 
     private fun alertDelete(context: Context, id: Int?, position: Int){
-        val builder = AlertDialog.Builder(context)
+        val builder = AlertDialog.Builder(context, R.style.MyDialogTheme)
         builder.setMessage(Constant.QUESTION_DELETE)
         builder.setTitle(Constant.NOTIFICATION)
         builder.setCancelable(false)
@@ -331,8 +311,8 @@ class FragmentDetailCart: BaseFragment() {
             isDelete = true
             detailCartViewModel.deleteItem(id)
             if(hasDiscount==0){
-                bindingDetailCart?.tvTotalMoney?.text = (totalMoney?.minus(listProduct?.get(position)?.price!!)).toVND()
-                bindingDetailCart?.tvTotalPreDetail?.text = (totalMoney?.minus(listProduct?.get(position)?.price!!)).toVND()
+                bindingDetailCart?.tvTotalMoney?.text = (totalMoney?.minus(listProduct?.get(position)?.price?.times(listProduct?.get(position)?.qty?:0)?:0)).toVND()
+                bindingDetailCart?.tvTotalPreDetail?.text = (totalMoney?.minus(listProduct?.get(position)?.price?.times(listProduct?.get(position)?.qty?:0)?:0)).toVND()
             }else updateTotalHasDiscount()
 
             listProduct?.removeIf{n ->n.id == id}
@@ -341,13 +321,6 @@ class FragmentDetailCart: BaseFragment() {
             context.let { it1 -> MainActivity.icon?.let { it2 ->
                 MainActivity.setBadgeCount(it1, icon = it2, listProduct?.size.toString())
             }
-            }
-
-            if(listProduct?.size==0) {
-                setViewNoneProduct()
-                detailCartViewModel.listProduct.value = null
-                detailCartViewModel.flag = 1
-
             }
         }
         builder.setNegativeButton(Constant.NO) { dialog, _ ->
@@ -361,7 +334,6 @@ class FragmentDetailCart: BaseFragment() {
             context.let {alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
                 ContextCompat.getColor(it, R.color.blue))}
         }
-
         alertDialog.show()
     }
 
@@ -369,7 +341,6 @@ class FragmentDetailCart: BaseFragment() {
         super.onDestroyView()
         detailCartViewModel.voucher.value = null
         detailCartViewModel.listProduct.value = null
-        detailCartViewModel.flag = 1
         detailCartViewModel.resultDeleteItem?.value = null
     }
 

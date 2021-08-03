@@ -34,7 +34,6 @@ class CartViewModel: ViewModel() {
         if(listProduct.value?.size == null){
             cartRepo.callMyCart(this::onSuccessMyCart, this::onError)
         }
-
     }
     fun deleteItem(idCart: Int? = 0){
         cartRepo.callDeleteItem(idCart, this::onSuccessDeleteItemCart, this::onError)
@@ -82,5 +81,8 @@ class CartViewModel: ViewModel() {
     }
     private fun onError(e: String?){
         message.value = e
+    }
+    fun postView(){
+        cartRepo.callPostView(this::onError)
     }
 }

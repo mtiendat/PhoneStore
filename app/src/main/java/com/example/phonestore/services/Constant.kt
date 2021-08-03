@@ -22,7 +22,9 @@ object Constant {
     const val REFRESH_TOKEN_INVALID = 1011
     const val ACCOUNT_SUSPENDED = 1012
     const val ACCOUNT_DELETED = 407
-
+    const val KEY_URL = "url_image"
+    const val IS_EDIT = "isEdit"
+    const val POSITION ="position"
     var TOKEN: String? = ""
     var idUser: Int  = 0
     var user: User? = null
@@ -45,10 +47,11 @@ object Constant {
     const val VIEW_VOTE = 7
     const val REQUEST_ID = 7
     const val INFO_ADDRESS_CODE = 64
+    const val PERMISSION_READ_WRITE_CAMERA_CODE = 0x009
     const val PHONE = "Số điện thoại"
     const val POPUP_MODEL = "popup_model"
     const val CHANGE_PASSWORD = "Đổi mật khẩu"
-    const val COMPARE = "So sánh"
+    const val COMPARE = "So sánh chi tiết"
     const val CITY = "Tỉnh/Thành phố"
     const val DISTRICT = "Quận/Huyện"
     const val WARD = "Phường/Xã"
@@ -68,7 +71,8 @@ object Constant {
     const val PLEASE_CHOOSE_STORAGE ="Bạn chưa chọn dung lượng"
     const val PLEASE_CHOOSE_VOTE = "Bạn chưa chọn thang đánh giá"
     const val PLEASE_ACCEPT_PERMISSION = "Quyền Camera và Storage là cần thiết cho app hoạt động bình thường"
-    const val SUCCESS_VOTED ="Đánh giá thành công"
+    const val SUCCESS_VOTED ="Gửi đánh giá thành công"
+    const val SUCCESS_REPLY ="Gửi thành công"
     const val SUCCESS_ADD_TO_CART ="Thêm vào giỏ hàng thành công"
     const val SUCCESS_LOG_OUT ="Đăng xuất thành công"
     const val SUCCESS_UPDATE ="Cập nhật thành công"
@@ -97,7 +101,7 @@ object Constant {
     const val PHONE_INVALID = "Số điện thoại không hợp lệ"
     const val QUESTION_CANCEL = "Bạn có chắc chắn muốn hủy không?"
     const val QUESTION_DELETE = "Bạn có muốn xóa sản phẩm?"
-    const val QUESTION_DELETE_VOUCHER = "Bạn có muốn xóa sản phẩm?"
+    const val QUESTION_DELETE_VOUCHER = "Bạn có muốn xóa voucher?"
     const val QUESTION_DELETE_ADDRESS = "Bạn có muốn xóa địa chỉ này?"
     const val WARNING_VOUCHER = "Giá trị đơn hàng chưa đủ điều kiện"
     const val WARNING_ADDRESS_STORE = "Bạn chưa chọn địa chỉ cửa hàng"

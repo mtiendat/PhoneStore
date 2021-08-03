@@ -40,13 +40,19 @@
             app:destination="@id/fragmentOrder" />
         <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentAllVote"
-            app:destination="@id/fragmentAllVote" />
+            app:destination="@id/fragmentAllCommment" />
         <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentSupplier"
             app:destination="@id/fragmentSupplier" />
         <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentDetailTechnology"
             app:destination="@id/fragmentDetailTechnology" />
+        <action
+            android:id="@+id/action_fragmentDetailProduct_to_fragmentReply"
+            app:destination="@id/fragmentReply" />
+        <action
+            android:id="@+id/action_fragmentDetailProduct_to_fragmentComment"
+            app:destination="@id/fragmentComment" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailCart"
@@ -126,6 +132,9 @@
         <action
             android:id="@+id/action_fragmentMe_to_fragmentWarranty"
             app:destination="@id/fragmentWarranty" />
+        <action
+            android:id="@+id/action_fragmentMe_to_fragmentWishList"
+            app:destination="@id/fragmentWishList" />
     </fragment>
     <fragment
         android:id="@+id/fragmentFollowOrder"
@@ -154,10 +163,14 @@
     <action android:id="@+id/action_fragmentSearch_to_fragmentDetailProduct"
         app:destination="@id/fragmentDetailProduct"/>
     <fragment
-        android:id="@+id/fragmentAllVote"
-        android:name="com.example.phonestore.view.productDetail.FragmentAllVote"
+        android:id="@+id/fragmentAllCommment"
+        android:name="com.example.phonestore.view.productDetail.FragmentAllComment"
         android:label="Tất cả đánh giá"
-        tools:layout="@layout/fragment_all_vote"/>
+        tools:layout="@layout/fragment_all_comment">
+        <action
+            android:id="@+id/action_fragmentAllCommment_to_fragmentReply"
+            app:destination="@id/fragmentReply" />
+    </fragment>
     <activity
         android:id="@+id/activityLogin"
         android:name="com.example.phonestore.view.auth.ActivityLogin"
@@ -249,5 +262,27 @@
             android:id="@+id/action_fragmentEditAddress_to_bottomSheet"
             app:destination="@id/bottomSheet" />
     </fragment>
-
+    <fragment
+        android:id="@+id/fragmentReply"
+        android:name="com.example.phonestore.view.productDetail.FragmentReply"
+        tools:layout="@layout/fragment_reply_comment"
+        android:label="Trả lời" />
+    <fragment
+        android:id="@+id/fragmentComment"
+        android:name="com.example.phonestore.view.productDetail.FragmentComment"
+        tools:layout="@layout/fragment_comment"
+        android:label="Gửi đánh giá">
+        <action
+            android:id="@+id/action_fragmentComment_to_bottomSheetAvatar"
+            app:destination="@id/bottomSheetAvatar" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentWishList"
+        android:name="com.example.phonestore.view.FragmentWishList"
+        tools:layout="@layout/fragment_wish_list"
+        android:label="Danh sách yêu thích" >
+        <action
+            android:id="@+id/action_fragmentWishList_to_fragmentDetailProduct"
+            app:destination="@id/fragmentDetailProduct" />
+    </fragment>
 </navigation>

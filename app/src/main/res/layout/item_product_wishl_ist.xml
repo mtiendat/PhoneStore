@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_ctrl_stroke_few">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNumberDiscount"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="right"
+        android:background="@drawable/ic_bookmark"
+        android:text="-10%"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        android:translationZ="4dp"
+        app:layout_constraintEnd_toEndOf="@+id/ivProductCate"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivProductCate"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/iphone_12_mini_green" />
+
+    <ImageView
+        android:id="@+id/ivLove"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/transparent"
+        android:src="@drawable/ic_love"
+        android:translationY="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/tvOldPriceProductCate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="8dp"
+        android:text="999"
+        android:textColor="@color/dray"
+        app:layout_constraintBottom_toBottomOf="@+id/tvPriceProductCate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvPriceProductCate"
+        app:layout_constraintTop_toTopOf="@+id/tvPriceProductCate" />
+
+    <TextView
+        android:id="@+id/tvPriceProductCate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="9999"
+        android:textColor="@color/red"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameProductCate" />
+
+    <TextView
+        android:id="@+id/tvNameProductCate"
+        android:layout_width="0dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:maxLines="2"
+        android:paddingStart="0dp"
+        android:paddingEnd="8dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivProductCate" />
+
+    <com.willy.ratingbar.ScaleRatingBar
+        android:id="@+id/ratingBarProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvPriceProductCate"
+        app:srb_clearRatingEnabled="true"
+        app:srb_clickable="true"
+        app:srb_drawableEmpty="@drawable/ic_rating_none"
+        app:srb_drawableFilled="@drawable/ic_rating_fill"
+        app:srb_isIndicator="true"
+        app:srb_minimumStars="0"
+        app:srb_numStars="5"
+        app:srb_scrollable="true"
+        app:srb_starHeight="15dp"
+        app:srb_starPadding="2dp"
+        app:srb_starWidth="15dp"
+        app:srb_stepSize="0.1" />
+
+    <TextView
+        android:id="@+id/tvTotalJudge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="99 đánh giá"
+        android:textColor="@color/dray"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ratingBarProduct"
+        app:layout_constraintTop_toTopOf="@+id/ratingBarProduct" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

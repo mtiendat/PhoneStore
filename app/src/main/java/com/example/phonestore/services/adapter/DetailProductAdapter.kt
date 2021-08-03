@@ -33,7 +33,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
     var nextInfoOrder: ((Int, String?)-> Unit)? = null
     var updateNotification: ((Int?)-> Unit)? = null
     var updateItemCart: ((Int?, Boolean?)-> Unit)? = null
-    var deleteItemCart: ((Int?)-> Unit)? = null
+    var deleteItemCart: ((Int, Int)-> Unit)? = null
     fun setItems(listItem: ArrayList<T>) {
         val currentSize: Int? = list?.size
         list?.clear()
@@ -48,7 +48,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
     class ItemProductInCartViewHolder(val bindingProductInCart: ItemProductInCartBinding): RecyclerView.ViewHolder(bindingProductInCart.root)
     class ItemProductOrderViewHolder(val bindingProductOrder: ItemProductOrderBinding): RecyclerView.ViewHolder(bindingProductOrder.root)
     class ItemMyOrderViewHolder(val bindingMyOrder: ItemOrderBinding): RecyclerView.ViewHolder(bindingMyOrder.root)
-    class ItemVoteViewHolder(val bindingItemVote: ItemVoteCommentBinding):RecyclerView.ViewHolder(bindingItemVote.root)
+
     class ItemNotificationViewHolder(val bindingItemNotification: ItemNotificationBinding): RecyclerView.ViewHolder(bindingItemNotification.root)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -60,15 +60,6 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             }
             Constant.VIEW_MY_ORDER -> {
                 ItemMyOrderViewHolder(ItemOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-            }
-            Constant.VIEW_VOTE -> {
-                ItemVoteViewHolder(
-                        ItemVoteCommentBinding.inflate(
-                                LayoutInflater.from(parent.context),
-                                parent,
-                                false
-                        )
-                )
             }
             Constant.NOTIFICATION_ID -> {
                 ItemNotificationViewHolder(
@@ -101,7 +92,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             holder.bindingProductInCart.cvMin.setOnClickListener {
                 if(qty > 0) {
                     if(qty == 1){
-                        alertCancel(holder.itemView.context, item.id)
+                        deleteItemCart?.invoke(item.id!!, position)
                     }else {
                         updateItemCart?.invoke(item.id, false)
                         qty--
@@ -158,8 +149,9 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             holder.bindingProductOrder.tvOrderPriceProduct.text = item.product?.price.toVND()
             holder.bindingProductOrder.lnUnavailable.visibility = if(item.product?.isAvailable==true) View.GONE else  View.VISIBLE
             holder.bindingProductOrder.ivDelete.visibility = if(item.product?.isAvailable==true) View.GONE else  View.VISIBLE
+            holder.bindingProductOrder.ivWarning.visibility = if(item.product?.isQtyAvailable==true) View.GONE else  View.VISIBLE
             holder.bindingProductOrder.ivDelete.setOnClickListener {
-                deleteItemCart?.invoke(item.product?.id)
+                deleteItemCart?.invoke(item.product?.id!!, position)
             }
             Glide.with(holder.itemView.context)
                     .load(item.product?.avatar)
@@ -176,17 +168,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                 nextInfoOrder?.invoke(item.id, item.state)
             }
         }
-        if(holder is ItemVoteViewHolder && item is Vote){
-            holder.bindingItemVote.tvNameVote.text = item.name
-            holder.bindingItemVote.tvContentVote.text = item.content
-            holder.bindingItemVote.tvVoteDate.text = item.date
-            holder.bindingItemVote.rbDetailVote.rating = item.vote.toFloat()
 
-            Glide.with(holder.itemView.context)
-                .load(item.avatarUser)
-                .into(holder.bindingItemVote.ivAvatarComment)
-
-        }
         if(holder is ItemNotificationViewHolder && item is Notification){
             holder.bindingItemNotification.tvNotiTitle.text = item.title
             holder.bindingItemNotification.tvNotiContent.text = item.content
@@ -220,7 +202,6 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             is Cart -> Constant.VIEW_MYCART
             is ProductOrder -> Constant.VIEW_PRODUCT_ORDER
             is MyOrder -> Constant.VIEW_MY_ORDER
-            is Vote -> Constant.VIEW_VOTE
             is Notification -> Constant.NOTIFICATION_ID
             else -> 1
         }
@@ -253,27 +234,6 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                 btn.text = s
             }
         }
-    }
-    private fun alertCancel(context: Context, id: Int?){
-        val builder = AlertDialog.Builder(context)
-        builder.setMessage(Constant.QUESTION_DELETE)
-        builder.setTitle(Constant.NOTIFICATION)
-        builder.setCancelable(false)
-        builder.setPositiveButton(Constant.YES) { _, _ ->
-            deleteItemCart?.invoke(id)
-        }
-        builder.setNegativeButton(Constant.NO) { dialog, _ ->
-            dialog.cancel()
-        }
-        val alertDialog = builder.create()
-        alertDialog.setOnShowListener {
-            context.let {alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
-                ContextCompat.getColor(it, R.color.blue))}
-            context.let {alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(
-                ContextCompat.getColor(it, R.color.blue))}
-        }
-
-        alertDialog.show()
     }
 
 }

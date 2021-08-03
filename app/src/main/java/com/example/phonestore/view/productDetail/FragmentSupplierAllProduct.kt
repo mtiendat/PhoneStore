@@ -19,7 +19,7 @@ class FragmentSupplierAllProduct(var supplier: Supplier?): BaseFragment() {
     private var bindingSupplierAllProduct: FragmentSupplierAllProductBinding? = null
     private var supplierViewModel: ProductViewModel? = null
     private var adapter: ProductAdapter<CateProductInfo>? = null
-    private var listCateProductInfo: ArrayList<CateProductInfo> = arrayListOf()
+    private var listCateProductInfo: ArrayList<CateProductInfo?> = arrayListOf()
     private var orderBy: Int = 0
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingSupplierAllProduct = FragmentSupplierAllProductBinding.inflate(inflater, container, false)
@@ -41,23 +41,23 @@ class FragmentSupplierAllProduct(var supplier: Supplier?): BaseFragment() {
     override fun setUI() {
         initRecyclerView()
 //        supplierViewModel?.getListCateProduct(1, idSupplier = supplier?.id)
-        bindingSupplierAllProduct?.btnSortAllProduct?.setOnClickListener {
-            if(orderBy ==0) {
-                listCateProductInfo.sortWith { o1, o2 ->
-                    o1.priceNew - o2.priceNew //Tăng dần
-                }
-                adapter?.notifyDataSetChanged()
-                orderBy = 1
-                bindingSupplierAllProduct?.btnSortAllProduct?.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_down,0)
-                return@setOnClickListener
-            }else if(orderBy==1)
-                listCateProductInfo  .sortWith { o1, o2 ->
-                    o2.priceNew - o1.priceNew //Giảm dần
-                }
-            adapter?.notifyDataSetChanged()
-            orderBy = 0
-            bindingSupplierAllProduct?.btnSortAllProduct?.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_up,0)
-        }
+//        bindingSupplierAllProduct?.btnSortAllProduct?.setOnClickListener {
+//            if(orderBy ==0) {
+//                listCateProductInfo.sortWith { o1, o2 ->
+//                    o1?.priceNew?.minus(o2?.priceNew) //Tăng dần
+//                }
+//                adapter?.notifyDataSetChanged()
+//                orderBy = 1
+//                bindingSupplierAllProduct?.btnSortAllProduct?.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_down,0)
+//                return@setOnClickListener
+//            }else if(orderBy==1)
+//                listCateProductInfo  .sortWith { o1, o2 ->
+//                    o2?.priceNew - o1?.priceNew //Giảm dần
+//                }
+//            adapter?.notifyDataSetChanged()
+//            orderBy = 0
+//            bindingSupplierAllProduct?.btnSortAllProduct?.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_up,0)
+//        }
     }
 
     private fun initRecyclerView(){

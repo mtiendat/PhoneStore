@@ -7,7 +7,7 @@ import com.example.phonestore.model.RamAndStorageResponse
 import com.example.phonestore.repo.AllProductRepo
 
 class AllProductViewModel: ViewModel() {
-    var listProduct: MutableLiveData<ArrayList<ProductInfo>?> = MutableLiveData()
+    var listProduct: MutableLiveData<ArrayList<ProductInfo?>?> = MutableLiveData()
     var ramAndStorage: MutableLiveData<RamAndStorageResponse?> = MutableLiveData()
     var message: MutableLiveData<String?> = MutableLiveData()
     private var allProductRepo = AllProductRepo()
@@ -22,7 +22,7 @@ class AllProductViewModel: ViewModel() {
         allProductRepo.filterProduct(page, perPage, ram, storage, priceMax, priceMin, this::onSuccessListProduct, this::onError)
     }
 
-    private fun onSuccessListProduct(list: ArrayList<ProductInfo>?){
+    private fun onSuccessListProduct(list: ArrayList<ProductInfo?>?){
         listProduct.value = list
 
     }

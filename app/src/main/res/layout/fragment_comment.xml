@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Các sản phẩm bạn chưa đánh giá: "
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvListProductNotComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView3" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitleVote"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Gửi đánh giá ngay(*): "
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvListProductNotComment" />
+
+    <TextView
+        android:id="@+id/tvPleaseVote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vui lòng chọn thang điểm"
+        android:textColor="@color/red"
+        android:textSize="12sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/rbVote"
+        app:layout_constraintTop_toBottomOf="@+id/rbVote" />
+    <com.willy.ratingbar.ScaleRatingBar
+        android:id="@+id/rbVote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitleVote"
+        app:srb_clearRatingEnabled="true"
+        app:srb_clickable="false"
+        app:srb_drawableEmpty="@drawable/ic_rating_none"
+        app:srb_drawableFilled="@drawable/ic_rating_fill"
+        app:srb_isIndicator="false"
+        app:srb_minimumStars="0"
+        app:srb_numStars="5"
+        app:srb_scrollable="true"
+        app:srb_starHeight="30dp"
+        app:srb_starPadding="2dp"
+        app:srb_starWidth="30dp"
+        app:srb_stepSize="1" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvImage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/rbVote"
+        app:layout_constraintTop_toBottomOf="@+id/rbVote" />
+
+    <EditText
+        android:id="@+id/edtVote"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/custom_edittext_comment"
+        android:ems="10"
+        android:gravity="top"
+        android:hint="@string/nhap_nhan_xet_cua_ban"
+        android:inputType="textMultiLine"
+        android:overScrollMode="always"
+        android:padding="15dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:scrollbarStyle="insideInset"
+        android:scrollbars="vertical"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dray"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/rbVote"
+        app:layout_constraintTop_toBottomOf="@+id/rvImage" />
+
+    <TextView
+        android:id="@+id/tv250"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(*)Tối đa 250 kí tự"
+        android:textColor="@color/dray"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="@+id/edtVote"
+        app:layout_constraintTop_toBottomOf="@+id/edtVote" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnAddAttachment"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_stroke_corner"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:text="Thêm ảnh"
+        android:textAllCaps="false"
+        android:textColor="@color/blue"
+        app:layout_constraintStart_toStartOf="@+id/edtVote"
+        app:layout_constraintTop_toBottomOf="@id/edtVote" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSendVote"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginTop="24dp"
+        android:background="@color/blue"
+        android:text="@string/gui"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/edtVote"
+        app:layout_constraintTop_toBottomOf="@+id/edtVote" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/groupProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="appCompatTextView3,rvListProductNotComment" />
+</androidx.constraintlayout.widget.ConstraintLayout>

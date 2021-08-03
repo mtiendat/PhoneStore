@@ -61,10 +61,9 @@ class ActivityLogin: BaseActivity() {
     override fun setUI() {
         val manager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
         val internet = manager.isActiveNetworkMetered
-        if(internet) {
+        if(!internet) {
             Toast.makeText(this, "Không có kết nối internet", Toast.LENGTH_SHORT).show()
         }else {
-
             bindingLogin.btnLoginWithFacebook.setPermissions(listOf("public_profile", "email"))
             setOnClickListener()
             loginWithFacebook()
@@ -82,7 +81,6 @@ class ActivityLogin: BaseActivity() {
     fun setOnClickListener(){
         bindingLogin.btnLogin.setOnClickListener {
             if(validate()) {
-
                 AppEvent.notifyShowPopUp()
                 loginViewModel?.postLogin(FormLogin(phone = bindingLogin.edtLoginPhone.text.toString(), password = bindingLogin.edtLoginPassword.text.toString(), formality = "normal"))
             }
@@ -186,8 +184,8 @@ class ActivityLogin: BaseActivity() {
 
     override fun setObserve() {
         loginViewModel?.loginResponse?.observe(this, {
-            if(it.status) {
-                if(it.messages.equals("accountSocialCreated")){
+            if(it?.status == true) {
+                if(it?.messages.equals("accountSocialCreated")){
                     loginViewModel?.postLogin(FormLogin(email = email, password = "", formality = "socialNetwork"))
                     saveSharedPreferences("", password = "", email = email)
                 }else{
@@ -199,7 +197,7 @@ class ActivityLogin: BaseActivity() {
                 }
             }else {
                 bindingLogin.tvLoginFail.visible()
-                bindingLogin.tvLoginFail.text = it.messages
+                bindingLogin.tvLoginFail.text = it?.messages
                 AppEvent.notifyClosePopUp()
             }
         })

@@ -24,12 +24,14 @@ import com.example.phonestore.services.Constant
 import com.example.phonestore.view.productDetail.FragmentDetailProduct
 
 
-class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ProductAdapter<E>(var listProduct: ArrayList<E?>? = arrayListOf()): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var onItemSupplierClick:((Int)->Unit)? =null
-    fun setItems(list: ArrayList<E>) {
+    fun setItems(list: ArrayList<E?>?) {
             val currentSize: Int? = listProduct?.size
             listProduct?.clear()
+        if (list != null) {
             listProduct?.addAll(list)
+        }
             if (currentSize != null) {
                 notifyItemRangeRemoved(0, currentSize)
             }
@@ -85,12 +87,11 @@ class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Re
             holder.bindingHotSale.tvOldPriceProduct.text = item.price.toVND()
             holder.bindingHotSale.tvOldPriceProduct.paintFlags = holder.bindingHotSale.tvOldPriceProduct.strikeThrough()
             holder.bindingHotSale.tvPriceProduct.text = (item.price - (item.price * item.discount)).toInt().toVND()
-            holder.bindingHotSale.tvTotalJudge.text = "${item.totalJudge} đánh giá"
-            holder.bindingHotSale.ratingBarProduct.rating = item.totalVote?: 0f
+            holder.bindingHotSale.tvTotalJudge.text = "${item.totalJudge.toInt()} đánh giá"
+            holder.bindingHotSale.ratingBarProduct.rating = if(item.totalJudge>0) (item.totalVote/ item.totalJudge).toFloat() else 0f
             holder.bindingHotSale.tvNumberDiscount.text = "-${(item.discount*100).toInt()}%"
             setImg(item.img, holder.bindingHotSale.ivProduct, holder.itemView.context)
             holder.bindingHotSale.ivProduct.setOnClickListener {
-//                onItemClick?.invoke(item.idCate)
                 FragmentDetailProduct.actionToFragmentDetail(it, bundleOf("product" to item))
             }
         }
@@ -101,14 +102,12 @@ class ProductAdapter<E>(var listProduct: ArrayList<E>?): RecyclerView.Adapter<Re
                 onItemSupplierClick?.invoke(item.id)
             }
         }
-
         if(holder is ShimmerRecommendViewHolder){
             Handler(Looper.getMainLooper()).postDelayed({
                 holder.bindingShimmer.shimmerItemRecommend.gone()
             }, 5000)
 
         }
-
     }
 
     override fun getItemCount(): Int {

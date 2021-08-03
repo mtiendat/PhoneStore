@@ -73,6 +73,9 @@ class FragmentMe: BaseFragment() {
         bindingMe.btnWarranty.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentWarranty)
         }
+        bindingMe.btnWishList.setOnClickListener {
+            it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentWishList)
+        }
     }
     private fun setData(){
         bindingMe.tvMyName.text = Constant.user?.name

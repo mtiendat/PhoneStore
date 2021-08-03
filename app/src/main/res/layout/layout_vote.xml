@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ctrlVote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvTotalVote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sf_pro_text_semibold"
+            android:text="4.5"
+            android:textSize="34sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.willy.ratingbar.ScaleRatingBar
+            android:id="@+id/ratingBarVote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/tvTotalVote"
+            app:layout_constraintTop_toTopOf="@+id/tvTotalVote"
+            app:srb_clearRatingEnabled="true"
+            app:srb_clickable="true"
+            app:srb_drawableEmpty="@drawable/ic_rating_none"
+            app:srb_drawableFilled="@drawable/ic_rating_fill"
+            app:srb_isIndicator="true"
+            app:srb_minimumStars="0"
+            app:srb_numStars="5"
+            app:srb_scrollable="true"
+            app:srb_starHeight="30dp"
+            app:srb_starPadding="2dp"
+            app:srb_starWidth="30dp"
+            app:srb_stepSize="0.1" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTotalJudge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@color/white"
+            android:drawableEnd="@drawable/ic_arrow_down"
+            android:fontFamily="@font/sf_pro_text_medium"
+            android:stateListAnimator="@null"
+            android:textAllCaps="false"
+            android:textColor="@color/dray"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ratingBarVote"
+            app:layout_constraintStart_toEndOf="@+id/ratingBarVote"
+            app:layout_constraintTop_toTopOf="@+id/ratingBarVote" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/lnVote"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline23"
+        app:layout_constraintTop_toBottomOf="@+id/ctrlVote">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/rb5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srb_clearRatingEnabled="true"
+                app:srb_clickable="true"
+                app:srb_drawableEmpty="@drawable/ic_rating_none"
+                app:srb_drawableFilled="@drawable/ic_rating_fill"
+                app:srb_isIndicator="true"
+                app:srb_numStars="5"
+                app:srb_rating="5"
+                app:srb_scrollable="true"
+                app:srb_starHeight="16dp"
+                app:srb_starPadding="2dp"
+                app:srb_starWidth="16dp"
+                app:srb_stepSize="1" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progressBar5"
+                android:layout_width="160dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:indicatorColor="@color/blue"
+                app:trackCornerRadius="8dp"
+                app:trackThickness="4dp" />
+
+            <TextView
+                android:id="@+id/tvNum5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="0"
+                android:textColor="@color/dray"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/rb4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srb_clearRatingEnabled="true"
+                app:srb_clickable="true"
+                app:srb_drawableEmpty="@drawable/ic_rating_none"
+                app:srb_drawableFilled="@drawable/ic_rating_fill"
+                app:srb_isIndicator="true"
+                app:srb_minimumStars="0"
+                app:srb_numStars="5"
+                app:srb_rating="4"
+                app:srb_scrollable="true"
+                app:srb_starHeight="16dp"
+                app:srb_starPadding="2dp"
+                app:srb_starWidth="16dp"
+                app:srb_stepSize="1" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progressBar4"
+                android:layout_width="160dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:indicatorColor="@color/blue"
+                app:trackCornerRadius="8dp"
+                app:trackThickness="4dp" />
+
+            <TextView
+                android:id="@+id/tvNum4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="0"
+                android:textColor="@color/dray"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/rb3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srb_clearRatingEnabled="true"
+                app:srb_clickable="true"
+                app:srb_drawableEmpty="@drawable/ic_rating_none"
+                app:srb_drawableFilled="@drawable/ic_rating_fill"
+                app:srb_isIndicator="true"
+                app:srb_minimumStars="0"
+                app:srb_numStars="5"
+                app:srb_rating="3"
+                app:srb_scrollable="true"
+                app:srb_starHeight="16dp"
+                app:srb_starPadding="2dp"
+                app:srb_starWidth="16dp"
+                app:srb_stepSize="1" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progressBar3"
+                android:layout_width="160dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:indicatorColor="@color/blue"
+                app:trackCornerRadius="8dp"
+                app:trackThickness="4dp" />
+
+            <TextView
+                android:id="@+id/tvNum3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="0"
+                android:textColor="@color/dray"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/rb2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srb_clearRatingEnabled="true"
+                app:srb_clickable="true"
+                app:srb_drawableEmpty="@drawable/ic_rating_none"
+                app:srb_drawableFilled="@drawable/ic_rating_fill"
+                app:srb_isIndicator="true"
+                app:srb_minimumStars="0"
+                app:srb_numStars="5"
+                app:srb_rating="2"
+                app:srb_scrollable="true"
+                app:srb_starHeight="16dp"
+                app:srb_starPadding="2dp"
+                app:srb_starWidth="16dp"
+                app:srb_stepSize="1" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progressBar2"
+                android:layout_width="160dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:indicatorColor="@color/blue"
+                app:trackCornerRadius="8dp"
+                app:trackThickness="4dp" />
+
+            <TextView
+                android:id="@+id/tvNum2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="0"
+                android:textColor="@color/dray"
+                android:textSize="12sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.willy.ratingbar.ScaleRatingBar
+                android:id="@+id/rb1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srb_clearRatingEnabled="true"
+                app:srb_clickable="true"
+                app:srb_drawableEmpty="@drawable/ic_rating_none"
+                app:srb_drawableFilled="@drawable/ic_rating_fill"
+                app:srb_isIndicator="true"
+                app:srb_minimumStars="0"
+                app:srb_numStars="5"
+                app:srb_rating="1"
+                app:srb_scrollable="true"
+                app:srb_starHeight="16dp"
+                app:srb_starPadding="2dp"
+                app:srb_starWidth="16dp"
+                app:srb_stepSize="1" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progressBar1"
+                android:layout_width="160dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:indicatorColor="@color/blue"
+                app:trackCornerRadius="8dp"
+                app:trackThickness="4dp" />
+
+            <TextView
+                android:id="@+id/tvNum1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="0"
+                android:textColor="@color/dray"
+                android:textSize="12sp" />
+        </TableRow>
+
+
+    </LinearLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.08" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvAvatarComment"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ivAvatarComment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnTotalLike"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:background="@color/white"
+        android:drawableStart="@drawable/bg_ic_like"
+        android:drawablePadding="8dp"
+        android:stateListAnimator="@null"
+        android:text="0 lượt thích"
+        android:textColor="@color/dray"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/dray"
+        app:layout_constraintBottom_toBottomOf="@+id/btnTotalLike"
+        app:layout_constraintStart_toEndOf="@+id/btnTotalLike"
+        app:layout_constraintTop_toTopOf="@+id/btnTotalLike" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:fontFamily="@font/sf_pro_display_medium"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/cvAvatarComment"
+        app:layout_constraintTop_toTopOf="@+id/cvAvatarComment" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnTotalReply"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/white"
+        android:drawableStart="@drawable/bg_ic_reply"
+        android:drawablePadding="8dp"
+        android:stateListAnimator="@null"
+        android:text="60 lượt trả lời"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textColor="@color/dray"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/view4"
+        app:layout_constraintTop_toTopOf="@+id/btnTotalLike" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/sf_pro_text_regular"
+        android:textColor="@color/dray"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/rbComment"
+        app:layout_constraintTop_toBottomOf="@+id/rbComment" />
+
+    <RatingBar
+        android:id="@+id/rbComment"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:progressTint="@color/gold"
+        android:stepSize="1"
+        app:layout_constraintStart_toStartOf="@+id/btnTotalLike"
+        app:layout_constraintTop_toBottomOf="@+id/btnTotalLike" />
+
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:maxLines="4"
+        android:textAlignment="viewStart"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/rbComment"
+        app:layout_constraintTop_toBottomOf="@+id/rvChildImage" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerLayoutComment"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_margin="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/cvAvatarComment"
+        app:layout_constraintTop_toBottomOf="@+id/tvDate"
+        app:shimmer_repeat_mode="restart"
+        app:shimmer_shape="radial">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <include layout="@layout/item_image" />
+
+            <include layout="@layout/item_image" />
+
+            <include layout="@layout/item_image" />
+
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvChildImage"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/cvAvatarComment"
+        app:layout_constraintTop_toBottomOf="@+id/tvDate"
+        tools:listitem="@layout/item_image_comment" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/background"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvContent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvReply"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/control"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/control"
+            layout="@layout/layout_reply_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

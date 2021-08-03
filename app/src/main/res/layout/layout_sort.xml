@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <io.github.florent37.shapeofview.shapes.BubbleView
-        android:id="@+id/sort"
+        android:id="@+id/optionComment"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         app:arrow_posititon_percent="0.5"
@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnPriceDown"
+                android:id="@+id/btnEditComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -36,7 +36,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnPriceHigh"
+                android:id="@+id/btnDeleteComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
@@ -47,7 +47,7 @@
                 android:textAllCaps="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnPriceDown" />
+                app:layout_constraintTop_toBottomOf="@+id/btnEditComment" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </io.github.florent37.shapeofview.shapes.BubbleView>
 </LinearLayout>

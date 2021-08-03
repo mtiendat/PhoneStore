@@ -21,6 +21,8 @@ class ListProductCheckAdapter():
         val item = list?.get(position)
         if(item?.contains("Còn hàng") == true){
             holder.binding.tvCheckProduct.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
+        }else if(item?.contains("Chỉ còn 1") == true){
+            holder.binding.tvCheckProduct.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.organe))
         }else holder.binding.tvCheckProduct.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
         holder.binding.tvCheckProduct.text = item
     }

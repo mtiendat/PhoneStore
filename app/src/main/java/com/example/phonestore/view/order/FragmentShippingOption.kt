@@ -1,15 +1,22 @@
 package com.example.phonestore.view.order
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
+import android.location.Location
+import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -19,17 +26,16 @@ import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentShippingOptionsBinding
 import com.example.phonestore.extendsion.gone
 import com.example.phonestore.extendsion.visible
-import com.example.phonestore.model.CheckProductID
-import com.example.phonestore.model.ParamListID
-import com.example.phonestore.model.ProductOrder
-import com.example.phonestore.model.Province
+import com.example.phonestore.model.*
 import com.example.phonestore.model.order.AddressStore
-import com.example.phonestore.model.order.CheckProductInStoreResponse
 import com.example.phonestore.services.Constant
+import com.example.phonestore.services.CustomToast
+import com.example.phonestore.services.GpsUtils
 import com.example.phonestore.services.adapter.ListProductCheckAdapter
 import com.example.phonestore.services.adapter.SelectAddressStoreAdapter
 import com.example.phonestore.view.cart.FragmentDialog
 import com.example.phonestore.viewmodel.OrderViewModel
+import com.google.android.gms.location.*
 
 class FragmentShippingOption: BaseFragment() {
     private var bindingShippingOption: FragmentShippingOptionsBinding? = null
@@ -43,6 +49,83 @@ class FragmentShippingOption: BaseFragment() {
     private var listProductOrder: ArrayList<ProductOrder>? = arrayListOf()
     private var checkedList: CheckProductID? = null
     private var isStore: Boolean = false
+    private var mFusedLocationClient: FusedLocationProviderClient? = null
+    private var locationRequest: LocationRequest? = null
+    private var locationCallback: LocationCallback? = null
+    private var currentLongitude: Double? = 0.0
+    private var currentLatitude: Double? = 0.0
+    private var isGPS = false
+    private val requestMultiplePermissions =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            if (permissions[Manifest.permission.ACCESS_FINE_LOCATION] == true && permissions[Manifest.permission.ACCESS_COARSE_LOCATION] == true) {
+
+            } else {
+
+            }
+        }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        GpsUtils(requireContext()).turnGPSOn(object : GpsUtils.onGpsListener {
+            override fun gpsStatus(isGPSEnable: Boolean) {
+                // turn on GPS
+                isGPS = isGPSEnable
+            }
+        })
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
+        locationRequest = LocationRequest.create()
+        locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest?.interval = 2 * 1000
+        locationRequest?.fastestInterval = 2 * 1000
+        locationCallback = (object: LocationCallback(){
+            override fun onLocationResult(locationResult: LocationResult) {
+                for (location: Location in locationResult.locations) {
+                    currentLatitude = location.latitude
+                    currentLongitude = location.longitude
+                    if (mFusedLocationClient != null) {
+                        mFusedLocationClient?.removeLocationUpdates(locationCallback)
+                    }
+                }
+            }
+        })
+        getLocation()
+    }
+
+    private fun getLocation() {
+        context?.let {
+                if (ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_FINE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    requestMultiplePermissions.launch(
+                        arrayOf(
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                        )
+                    )
+                    return
+                }
+                if(isGPS){
+                    mFusedLocationClient?.lastLocation?.addOnSuccessListener(requireActivity()) { location ->
+                        if (location != null) {
+                            currentLatitude = location.latitude
+                            currentLongitude = location.longitude
+
+                        }
+                    }
+                }else {
+                    CustomToast(requireContext(), "Vui lòng bật vị trí")
+                    mFusedLocationClient?.requestLocationUpdates(locationRequest, locationCallback, null);
+
+                }
+            }
+
+    }
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingShippingOption = FragmentShippingOptionsBinding.inflate(inflater, container, false)
         return bindingShippingOption?.root
@@ -91,7 +174,7 @@ class FragmentShippingOption: BaseFragment() {
         })
         viewModel?.listAddressStore?.observe(viewLifecycleOwner, {
             if (it != null) {
-                adapter?.submitList(it)
+                adapter?.setItems(it)
             }
 
         })
@@ -99,15 +182,22 @@ class FragmentShippingOption: BaseFragment() {
             val list: ArrayList<String> = arrayListOf()
             for(id in it?.check?.listIDExist!!){
                 listProductOrder?.forEach { pro ->
-                    if(pro.product?.id == id.toInt()){
+                    if(pro.product?.idProduct == id.toInt()){
                         list.add("${pro.product?.name} ${pro.product?.storage} ${pro.product?.color}: Còn hàng")
                     }
                 }
             }
             for(id in it.check?.listIDNonExist!!){
                 listProductOrder?.forEach { pro ->
-                    if(pro.product?.id == id.toInt()){
+                    if(pro.product?.idProduct == id.toInt()){
                         list.add("${pro.product?.name} ${pro.product?.storage} ${pro.product?.color}: Hết hàng")
+                    }
+                }
+            }
+            for(id in it.check?.listIDDownOne!!){
+                listProductOrder?.forEach { pro ->
+                    if(pro.product?.idProduct == id.toInt()){
+                        list.add("${pro.product?.name} ${pro.product?.storage} ${pro.product?.color}: Chỉ còn 1 sản phẩm")
                     }
                 }
             }
@@ -119,6 +209,7 @@ class FragmentShippingOption: BaseFragment() {
     }
     override fun setUI() {
     listProductOrder = arguments?.getParcelableArrayList("listProductOrder")
+
     }
     private fun setSpinner(list: List<Province>){
         val listProvince = arrayListOf<String>()
@@ -171,12 +262,14 @@ class FragmentShippingOption: BaseFragment() {
                 listAddress.clear()
                 adapter = SelectAddressStoreAdapter ()
                 adapter?.itemClick = {address, adapter ->
-                    val listID = arrayListOf<Int>()
+                    val listID = arrayListOf<ParamTwoInt>()
                     listProductOrder?.forEach { product ->
-                        product.product?.id?.let { it1 -> listID.add(it1) }
+                        product.product?.idProduct?.let {
+                                it1 -> listID.add(ParamTwoInt(it1, product.qty?:0))
+                        }
                     }
-                    val param = ParamListID(listID = listID)
-                    viewModel?.checkProductInStore(address?.id, param)
+                    val param = ParamListHasQty(listID = listID)
+                    viewModel?.checkProductInStore(address?.id,"store", param)
                     addressStore = address
                     childAdapter = adapter
                 }
@@ -199,6 +292,15 @@ class FragmentShippingOption: BaseFragment() {
                 bindingShippingOption?.groupChooseAdressStore?.gone()
                 addressStore = null
                 this.isClick = true
+            }
+        }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 555) {
+                isGPS = true // flag maintain before get location
+
             }
         }
     }
