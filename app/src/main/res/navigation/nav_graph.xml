@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentComment"
             app:destination="@id/fragmentComment" />
+        <action
+            android:id="@+id/action_fragmentDetailProduct_to_bottomSheetCart"
+            app:destination="@id/bottomSheetCart" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailCart"
@@ -67,7 +70,7 @@
         android:id="@+id/fragmentOrder"
         android:name="com.example.phonestore.view.order.FragmentOrder"
         tools:layout="@layout/fragment_order"
-        android:label="Kiểm tra" >
+        android:label="Kiểm tra đơn hàng" >
         <action
             android:id="@+id/action_fragmentOrder_to_fragmentSuccessOrder"
             app:destination="@id/fragmentSuccessOrder" />
@@ -135,6 +138,9 @@
         <action
             android:id="@+id/action_fragmentMe_to_fragmentWishList"
             app:destination="@id/fragmentWishList" />
+        <action
+            android:id="@+id/action_fragmentMe_to_fragmentContact"
+            app:destination="@id/fragmentContact" />
     </fragment>
     <fragment
         android:id="@+id/fragmentFollowOrder"
@@ -285,4 +291,13 @@
             android:id="@+id/action_fragmentWishList_to_fragmentDetailProduct"
             app:destination="@id/fragmentDetailProduct" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentContact"
+        android:name="com.example.phonestore.view.FragmentContact"
+        android:label="Liên hệ với chúng tôi" />
+    <dialog
+        android:id="@+id/bottomSheetCart"
+        android:name="com.example.phonestore.view.productDetail.FragmentBottomSheetCart"
+        tools:layout="@layout/fragment_bottom_sheet_cart">
+    </dialog>
 </navigation>

@@ -77,6 +77,7 @@
         <activity android:name=".view.order.ActivityChooseInfoAddress" />
         <activity android:name=".view.productDetail.ActivityCompareProduct" />
         <activity android:name=".view.productDetail.ActivityPreviewPhoto" />
+        <activity android:name=".view.auth.ActivityCropPhoto" />
     </application>
 
 </manifest>

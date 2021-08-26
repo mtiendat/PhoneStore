@@ -68,7 +68,6 @@ class FragmentWarranty: BaseFragment() {
     }
 
     override fun setUI() {
-        bindingWarranty.edtImei.setText("766886096157001")
         bindingWarranty.edtImei.addTextChangedListener {
             bindingWarranty.textInputImei.error = null
         }

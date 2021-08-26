@@ -31,11 +31,13 @@
                     android:id="@+id/ivDetailPhoto"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
+                    android:layout_marginStart="64dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="64dp"
                     app:layout_constraintBottom_toTopOf="@+id/glDetailTop"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/ctlDetail"
-                    app:layout_constraintVertical_bias="0.0"
-                    tools:srcCompat="@drawable/iphone_12_mini_green" />
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/glDetailTop"
@@ -753,7 +755,7 @@
                     layout="@layout/layout_vote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="32dp"
                     android:layout_marginTop="16dp"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"

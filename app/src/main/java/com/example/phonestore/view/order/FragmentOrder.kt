@@ -48,6 +48,7 @@ import vn.zalopay.sdk.ZaloPayError
 import vn.zalopay.sdk.ZaloPaySDK
 import vn.zalopay.sdk.listeners.PayOrderListener
 import java.util.*
+import java.util.regex.Pattern
 
 class FragmentOrder: BaseFragment() {
     private var bindingOrderBinding: FragmentOrderBinding? = null
@@ -170,14 +171,14 @@ class FragmentOrder: BaseFragment() {
         })
         orderViewModel?.addressDefault?.observe(viewLifecycleOwner, {
             if(it?.id == -1){
-                bindingOrderBinding?.tvOrderPhoneUser?.text = "Nhấn để thêm địa chỉ của bạn"
+                if(bindingOrderBinding?.tvOrderPhoneUser?.text.isNullOrEmpty()) bindingOrderBinding?.tvOrderPhoneUser?.setText("Nhấn để thêm địa chỉ")
                 bindingOrderBinding?.tvChangeAddress?.gone()
             }else{
                 if(isFragmentFollowOrder == false && !isAtStore&& address == null) {
                     bindingOrderBinding?.tvOrderAddress?.text =
                         "${it?.address}, ${it?.ward}, ${it?.district}, ${it?.city}"
                     bindingOrderBinding?.tvOrderNameUser?.text = it?.name
-                    bindingOrderBinding?.tvOrderPhoneUser?.text = it?.phone
+                    bindingOrderBinding?.tvOrderPhoneUser?.setText(it?.phone)
                     address = it
                 }
             }
@@ -262,7 +263,7 @@ class FragmentOrder: BaseFragment() {
             totalMoney = infoOrder?.totalMoney
         }else {
             totalMoney = arguments?.getInt("totalMoney", 0)
-            if(address==null)orderViewModel?.getMyAddress()
+            if(address==null) orderViewModel?.getMyAddress()
         }
         totalMoneyPre = totalMoney
         bindingOrderBinding?.rvOrderProduct?.isNestedScrollingEnabled = false
@@ -342,7 +343,7 @@ class FragmentOrder: BaseFragment() {
             bindingOrderBinding?.tvOrderTotalDetail?.visible()
             bindingOrderBinding?.tvOrderTotalDetail?.text = totalMoney.toVND()
             bindingOrderBinding?.tvOrderNameUser?.text = infoOrder?.name
-            bindingOrderBinding?.tvOrderPhoneUser?.text = infoOrder?.phone
+            bindingOrderBinding?.tvOrderPhoneUser?.setText(infoOrder?.phone)
             if(infoOrder?.shippingOption.equals("Nhận hàng tại cửa hàng")){
                 bindingOrderBinding?.tvInfoReceive?.text = "Đ/c: ${infoOrder?.address}"
                 bindingOrderBinding?.tvOrderAddressTitle?.text = "Thông tin nhận hàng"
@@ -359,14 +360,25 @@ class FragmentOrder: BaseFragment() {
         bindingOrderBinding?.tvOrderAddressTitle?.text = "Địa chỉ giao hàng"
         bindingOrderBinding?.tvOrderAddress?.text = "${address?.address}, ${address?.ward}, ${address?.district}, ${address?.city}"
         bindingOrderBinding?.tvOrderNameUser?.text = address.name
-        bindingOrderBinding?.tvOrderPhoneUser?.text = address.phone
+        bindingOrderBinding?.tvOrderAddress?.post {
+            bindingOrderBinding?.tvOrderPhoneUser?.setText(address.phone)
+            bindingOrderBinding?.tvOrderPhoneUser?.isFocusable = false
+        }
+
     }
     private fun updateAddress(){
         bindingOrderBinding?.ctrlAddress?.isEnabled = false
         bindingOrderBinding?.tvChangeAddress?.gone()
         bindingOrderBinding?.tvOrderAddressTitle?.text = "Thông tin nhận hàng"
         bindingOrderBinding?.tvOrderNameUser?.text = Constant.user?.name
-        bindingOrderBinding?.tvOrderPhoneUser?.text = Constant.user?.phone
+        bindingOrderBinding?.tvOrderAddress?.post {
+            if (Constant.user?.phone == null) {
+                bindingOrderBinding?.tvOrderPhoneUser?.setText("Thêm số điện thoại của bạn")
+                bindingOrderBinding?.tvOrderPhoneUser?.isFocusable = true
+                bindingOrderBinding?.tvOrderPhoneUser?.isFocusableInTouchMode = true
+
+            } else bindingOrderBinding?.tvOrderPhoneUser?.setText(Constant.user?.phone)
+        }
         bindingOrderBinding?.tvOrderAddress?.text = ""
     }
 
@@ -459,6 +471,12 @@ class FragmentOrder: BaseFragment() {
                 return false
             }else if(it.product?.isQtyAvailable == false){
                 activity?.let { FragmentDialog.newInstance(it, "Thông báo", "Vui lòng giảm số lượng sản phẩm trước khi đặt hàng", "OK") }
+                return false
+            }else if(bindingOrderBinding?.tvOrderPhoneUser?.text.toString().contains( "Nhấn để thêm địa chỉ của bạn")){
+                activity?.let { FragmentDialog.newInstance(it, "Thông báo", "Vui lòng chọn địa chỉ trước khi đặt hàng", "OK") }
+                return false
+            }else if(!Pattern.compile("^(\\+84|0)+([3|5|7|8|9])+([0-9]{8})\$").matcher(bindingOrderBinding?.tvOrderPhoneUser?.text!!).matches()){
+                activity?.let { FragmentDialog.newInstance(it, "Thông báo", "Vui lòng thêm số điện thoại hợp lê ", "OK") }
                 return false
             }
         }

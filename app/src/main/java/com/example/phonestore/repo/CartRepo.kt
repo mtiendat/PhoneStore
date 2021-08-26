@@ -15,9 +15,9 @@ class CartRepo {
             onError = {err -> onError.invoke(err)}
         )
     }
-    fun callAddToCart(idProduct: Int?, onSuccess: (CartResponse?)-> Unit, onError: (String?) -> Unit){
+    fun callAddToCart(storage: String?,image: String?, onSuccess: (CartResponse?)-> Unit, onError: (String?) -> Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.addToCart(idProduct, Constant.idUser),
+            call = APIServices.getInstance()?.addToCart(Constant.idUser, storage, image),
             onSuccess = {results -> onSuccess.invoke(results)},
             onError = {err -> onError.invoke(err)}
         )

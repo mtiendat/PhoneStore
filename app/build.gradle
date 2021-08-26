@@ -18,12 +18,23 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-
+    signingConfigs {
+        release {
+            storeFile file('../keystore.jks')
+            storePassword "09112000"
+            keyAlias "keyalias"
+            keyPassword "09112000"
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
+        debug{}
+        uat{}
+
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -38,6 +49,11 @@ android {
     dataBinding {
         enabled = true
     }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
 
 }
 
@@ -122,4 +138,7 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-location:18.0.0'
     implementation 'com.google.guava:guava:30.1.1-android'
+
+    //crop image
+    implementation 'com.github.takusemba:cropme:2.0.8'
 }

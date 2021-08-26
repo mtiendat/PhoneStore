@@ -25,6 +25,7 @@ interface APIServices {
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BODY
             val httpClient: OkHttpClient.Builder = OkHttpClient.Builder()
+                .addNetworkInterceptor(tokenInterceptor)
                     .readTimeout(20, TimeUnit.SECONDS)
                     .connectTimeout(20,TimeUnit.SECONDS)
             httpClient.addInterceptor(logging).addNetworkInterceptor(RateLimitInterceptor())
@@ -88,7 +89,7 @@ interface APIServices {
     @GET("ram-storage")
     fun getRamAndStorage(): Call<RamAndStorageResponse>
     @GET("filter-product")
-    fun filterProduct(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0, @Query("ram") ram: String?, @Query("dungluong") storage: String?, @Query("priceMax") priceMax: String?,  @Query("priceMin") priceMin: String?): Call<ProductResponse>
+    fun filterProduct(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0, @Query("ram") ram: String?, @Query("dungluong") storage: String?, @Query("priceMax") priceMax: String?,  @Query("priceMin") priceMin: String?, @Query("suppliers", encoded = true) listSupplierID: String? = "[]"): Call<ProductResponse>
     @GET("loai-sp-ncc")
     fun getCateProductBySupplier(@Query("page") page: Int?= 0, @Query("per_page") perPage: Int? = 0, @Query("ram") ram: String?, @Query("dungluong") storage: String?, @Query("priceMax") priceMax: String?,  @Query("priceMin") priceMin: String?): Call<CateProductResponse>
     @GET("new-loai-sp-ncc")
@@ -109,8 +110,8 @@ interface APIServices {
 
     @GET("total-product-in-cart/{id}")
     fun getTotalProductInCart(@Path("id") idUser: Int?= 0): Call<CartResponse>
-    @POST("add-to-cart/{id}")
-    fun addToCart(@Path("id") idProduct: Int?= 0, @Query("id_user") idUser: Int?=0): Call<CartResponse>
+    @POST("add-to-cart")
+    fun addToCart(@Query("id_user") idUser: Int?=0, @Query("dungluong") storage: String?, @Query("hinhanh") image: String?): Call<CartResponse>
     @GET("my-cart/{id}")
     fun getMyCart(@Path("id") idUser: Int?= 0): Call<DetailCartResponse>
     @DELETE("delete-product-in-cart/{id}")

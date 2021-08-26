@@ -20,6 +20,7 @@ import com.example.phonestore.model.ProductInfo
 import com.example.phonestore.services.widget.EndlessRecyclerViewScrollListener
 import com.example.phonestore.services.adapter.AllProductAdapter
 import com.example.phonestore.viewmodel.AllProductViewModel
+import okhttp3.internal.notify
 
 class FragmentAllProduct : BaseFragment() {
     private lateinit var dialog: FragmentDialogFilter
@@ -66,6 +67,7 @@ class FragmentAllProduct : BaseFragment() {
             activity?.supportFragmentManager?.let {
                 dialog.show(it, "Filter")
             }
+            AppEvent.notifyClosePopUp()
             isFilter = true
         })
         activity?.supportFragmentManager?.setFragmentResultListener("requestKey", viewLifecycleOwner){ key, bundle ->
@@ -76,7 +78,7 @@ class FragmentAllProduct : BaseFragment() {
                     binding.shimmerLayoutAllProduct.visible()
                     binding.shimmerLayoutAllProduct.startShimmer()
                     listProductCurrent?.clear()
-                    viewModel?.filterProduct(1, 8, ram = filter.ram, storage = filter.storage, priceMax = filter.priceMax, priceMin = filter.priceMin)
+                    viewModel?.filterProduct(1, 8, ram = filter.ram, storage = filter.storage, priceMax = filter.priceMax, priceMin = filter.priceMin, filter.listIDSupplier)
                     filterCurrent = filter
                 }else{
                     binding.btnFilter.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
@@ -133,6 +135,7 @@ class FragmentAllProduct : BaseFragment() {
         }
         binding.btnFilter.setOnClickListener {
             viewModel?.getRamAndStorage()
+            AppEvent.notifyShowPopUp()
         }
         binding.btnClear.setOnClickListener {
             binding.btnFilter.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))

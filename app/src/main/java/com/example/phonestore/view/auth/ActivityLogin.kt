@@ -59,15 +59,12 @@ class ActivityLogin: BaseActivity() {
     }
 
     override fun setUI() {
-        val manager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-        val internet = manager.isActiveNetworkMetered
-        if(!internet) {
-            Toast.makeText(this, "Không có kết nối internet", Toast.LENGTH_SHORT).show()
-        }else {
+
+
             bindingLogin.btnLoginWithFacebook.setPermissions(listOf("public_profile", "email"))
             setOnClickListener()
             loginWithFacebook()
-        }
+
         bindingLogin.edtLoginPassword.addTextChangedListener {
             bindingLogin.tvLoginFail.gone()
             bindingLogin.textInputPassword.error = null

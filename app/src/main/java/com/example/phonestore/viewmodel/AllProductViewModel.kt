@@ -18,8 +18,8 @@ class AllProductViewModel: ViewModel() {
     fun getRamAndStorage(){
         allProductRepo.callRamAndStorage(this::onSuccessListRamAndStorage, this::onError)
     }
-    fun filterProduct(page: Int?, perPage: Int?, ram: String? ="", storage: String?="", priceMax: String?="", priceMin: String?=""){
-        allProductRepo.filterProduct(page, perPage, ram, storage, priceMax, priceMin, this::onSuccessListProduct, this::onError)
+    fun filterProduct(page: Int?, perPage: Int?, ram: String? ="", storage: String?="", priceMax: String?="", priceMin: String?="", listSupplierID: List<Int>?){
+        allProductRepo.filterProduct(page, perPage, ram, storage, priceMax, priceMin,listSupplierID, this::onSuccessListProduct, this::onError)
     }
 
     private fun onSuccessListProduct(list: ArrayList<ProductInfo?>?){

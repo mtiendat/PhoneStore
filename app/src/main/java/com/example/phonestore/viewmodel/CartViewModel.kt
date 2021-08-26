@@ -21,8 +21,8 @@ class CartViewModel: ViewModel() {
     var totalMoney: MutableLiveData<Int> = MutableLiveData()
     var deleteVoucher: MutableLiveData<VoucherResponse?> = MutableLiveData()
     private var cartRepo: CartRepo = CartRepo()
-    fun addToCart(idProduct: Int?){
-        cartRepo.callAddToCart(idProduct, this::onSuccessAddToCart, this::onError)
+    fun addToCart(storage: String?,image: String?){
+        cartRepo.callAddToCart(storage, image, this::onSuccessAddToCart, this::onError)
     }
     fun getTotalProduct(){
         cartRepo.callTotalProductInCart(this::onSuccessTotalProduct, this::onError)

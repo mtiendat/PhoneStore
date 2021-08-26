@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 <item android:id="@+id/fragmentHome"
-    android:icon="@drawable/ic_home"
+    android:icon="@drawable/ic_home_new"
     android:title="@string/trang_chu"/>
     <item android:id="@+id/fragmentNotification"
-        android:icon="@drawable/ic_notification"
+        android:icon="@drawable/ic_notification_new"
         android:title="@string/thong_bao"/>
     <item android:id="@+id/fragmentMe"
-        android:icon="@drawable/ic_person"
+        android:icon="@drawable/ic_user"
         android:title="@string/tai_khoan"/>
 </menu>

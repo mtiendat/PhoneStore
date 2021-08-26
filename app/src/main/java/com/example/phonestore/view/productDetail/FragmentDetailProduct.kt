@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.*
 import android.widget.*
+import androidx.core.app.ShareCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.FragmentTransaction
@@ -25,8 +26,11 @@ import com.example.phonestore.databinding.FragmentDetailProductBinding
 import com.example.phonestore.extendsion.*
 import com.example.phonestore.model.*
 import com.example.phonestore.model.cart.Cart
+import com.example.phonestore.model.cart.ParamCart
 import com.example.phonestore.model.technology.Technology
 import com.example.phonestore.services.Constant
+import com.example.phonestore.services.Constant.IMAGE
+import com.example.phonestore.services.Constant.STORAGE
 import com.example.phonestore.services.adapter.*
 import com.example.phonestore.view.MainActivity
 import com.example.phonestore.viewmodel.CartViewModel
@@ -39,6 +43,7 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragmentX
 import java.math.BigDecimal
 import java.math.RoundingMode
 import kotlin.math.abs
+
 
 class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener {
     companion object {
@@ -84,6 +89,9 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private var productBuyNow: ArrayList<ProductOrder>? = arrayListOf()
     private var listComment: ArrayList<Comment>? = arrayListOf()
     private var listIDComment: ArrayList<Int>? = arrayListOf()
+    private var listColor: ArrayList<String>? = arrayListOf()
+    private var listStorage: ArrayList<String>? = arrayListOf()
+
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingProductDetail = FragmentDetailProductBinding.inflate(inflater, container, false)
 
@@ -121,12 +129,14 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     }
     private fun setOnClickListener(){
         bindingProductDetail?.btnAddToCart?.setOnClickListener {
-            if(checkSelectSpinner()){
-                cartViewModel?.addToCart(product?.id)
-            }else{
-                bindingProductDetail?.nsvDetail?.fling(0)
-                bindingProductDetail?.nsvDetail?.smoothScrollTo(0, 0)
-            }
+            val listStorage =  listStorage
+            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_bottomSheetCart, bundleOf(IMAGE to listColor, STORAGE to listStorage, "color" to color, "storage" to storage))
+//            if(checkSelectSpinner()){
+//                cartViewModel?.addToCart(product?.id)
+//            }else{
+//                bindingProductDetail?.nsvDetail?.fling(0)
+//                bindingProductDetail?.nsvDetail?.smoothScrollTo(0, 0)
+//            }
         }
         bindingProductDetail?.btnBuyNow?.setOnClickListener {
             if (checkSelectSpinner()) {
@@ -152,12 +162,12 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         bindingProductDetail?.btnViewAllVote?.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentAllVote, bundleOf("idProduct" to product?.id))
         }
-        bindingProductDetail?.ivSupplierLogo?.setOnClickListener {
-            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentSupplier, bundleOf("supplier" to supplier))
-        }
-        bindingProductDetail?.tvSupplierName?.setOnClickListener {
-            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentSupplier, bundleOf("supplier" to supplier))
-        }
+//        bindingProductDetail?.ivSupplierLogo?.setOnClickListener {
+//            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentSupplier, bundleOf("supplier" to supplier))
+//        }
+//        bindingProductDetail?.tvSupplierName?.setOnClickListener {
+//            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentSupplier, bundleOf("supplier" to supplier))
+//        }
         bindingProductDetail?.btnTechnologyDetailMore?.setOnClickListener {
             activity?.supportFragmentManager?.let {
                 val dialogTechnology = FragmentDetailTechnology()
@@ -184,7 +194,13 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
           }
         }
         bindingProductDetail?.cbShare?.setOnClickListener {
-
+            activity?.let { it1 ->
+                ShareCompat.IntentBuilder.from(it1)
+                    .setType("text/plain")
+                    .setChooserTitle("Chia sẻ sản phẩm này")
+                    .setText("https://ldmobile.cdth18d.asia/dienthoai/${product?.name?.replace(" ", "-")}" )
+                    .startChooser()
+            }
         }
     }
     private fun checkSelectSpinner(): Boolean{
@@ -214,10 +230,6 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                     position: Int,
                     id: Long
             ) {
-                when(position){
-                    0 -> {
-                    }
-                    else -> {
                         if(!isSetImgFirst){
                             color = parent?.getItemAtPosition(position).toString()
                             if(storage!=null) {
@@ -235,8 +247,6 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                             isStorageOrColor = false
                             isLoveFirst = false
                         }else isSetImgFirst = false
-                    }
-                }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -249,11 +259,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                     position: Int,
                     id: Long
             ) {
-                when(position){
-                    0 -> {
-                    }
-                    else -> {
-                        if (!isSetImgFirst) {
+                if (!isSetImgFirst) {
                             storage = parent?.getItemAtPosition(position).toString()
                             if (color != null) {
                                 detailViewModel?.getColorOrStorageProduct(
@@ -269,8 +275,6 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                             isStorage = true
                             isStorageOrColor = false
                             isLoveFirst = false
-                        }
-                    }
                 }
             }
 
@@ -431,6 +435,12 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             if(it.status == true) cartViewModel?.getTotalProduct()
             view?.let { it1 -> Snackbar.make(it1, it.message.toString(), Snackbar.LENGTH_SHORT).show() }
         })
+        findNavController().currentBackStackEntry?.savedStateHandle?.apply {
+            getLiveData<ParamCart>("paramCart").observe(viewLifecycleOwner) {
+                cartViewModel?.addToCart(it.storage, it. image)
+            }
+
+        }
     }
     private fun getData(){
         hadData = true
@@ -484,6 +494,8 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         idYT = product?.trailer
         bindingProductDetail?.cbWishList?.isChecked = product?.like?:false
         youtubePlayerFragment?.initialize(Constant.KEY_API_YOUTUBE, this)
+        listColor?.addAll(product?.listImage?: arrayListOf<String>())
+        listStorage?.addAll(product?.listStorage?: arrayListOf<String>())
     }
 
     private fun initRecyclerViewRelated(){
@@ -639,11 +651,6 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                 break
             }
         }
-
-    }
-
-    override fun onResume() {
-        super.onResume()
 
     }
 }

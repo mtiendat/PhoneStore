@@ -3,8 +3,8 @@ package com.example.phonestore.services
 import com.example.phonestore.model.auth.User
 
 object Constant {
-    const val URL_ROOT = "http://192.168.1.172:8000/"
-    const val URL = "http://192.168.1.172:8000/api/"
+    const val URL_ROOT = "https://ldmobile.cdth18d.asia/"
+    const val URL = "https://ldmobile.cdth18d.asia/api/"
     const val URL_API_ADDRESS= "https://thongtindoanhnghiep.co/api/"
     const val KEY_API_YOUTUBE= "AIzaSyDrW8Kp1XXdwddwzkg43LJ3MtJTs8jzuqk"
 
@@ -28,13 +28,17 @@ object Constant {
     var TOKEN: String? = ""
     var idUser: Int  = 0
     var user: User? = null
-
+    const val CROP_PHOTO_BY_GALLERY = "CROP_PHOTO_BY_GALLERY"
+    const val CROP_PHOTO_BY_CAMERA = "CROP_PHOTO_BY_URI"
+    const val CROP_PHOTO_ID = 976
     const val ADDRESS = "Address"
     const val SHIPPING = "Shipping"
     const val LISTCHECK = "listCheck"
     const val PAYMENT = "Payment"
     const val DISCOUNT = "Discount"
-
+    const val STORAGE = "STORAGE"
+    const val IMAGE = "IMAGE"
+    const val ISADD_ORBUY = "ISADDORBUY"
     const val CHANNEL_ID = "successOrderNotification"
     const val NOTIFICATION_ID = 1
     const val VIEW_HOTSALE_PRODUCT = 0

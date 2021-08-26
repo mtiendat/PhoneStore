@@ -130,6 +130,11 @@ class MainActivity : BaseActivity() {
                     hideIconSearch()
                     hideIconCart()
                 }
+                R.id.fragmentContact -> {
+                    hideBottomNavigation()
+                    hideIconSearch()
+                    hideIconCart()
+                }
                 R.id.fragmentOrder -> {
                     hideBottomNavigation()
                     hideIconCart()
@@ -216,6 +221,11 @@ class MainActivity : BaseActivity() {
                     hideBottomNavigation()
                 }
                 R.id.fragmentComment ->{
+                    hideIconCart()
+                    hideIconSearch()
+                    hideBottomNavigation()
+                }
+                R.id.bottomSheetCart -> {
                     hideIconCart()
                     hideIconSearch()
                     hideBottomNavigation()

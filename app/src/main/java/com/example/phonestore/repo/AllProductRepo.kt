@@ -23,9 +23,9 @@ class AllProductRepo {
             onError = {message -> onError.invoke(message)}
         )
     }
-    fun filterProduct(page: Int?, perPage: Int?,ram: String?, storage: String?, priceMax: String?, priceMin: String?, onSuccess: (ArrayList<ProductInfo?>?) -> Unit, onError: (String?)-> Unit){
+    fun filterProduct(page: Int?, perPage: Int?,ram: String?, storage: String?, priceMax: String?, priceMin: String?, listSupplierID: List<Int>?, onSuccess: (ArrayList<ProductInfo?>?) -> Unit, onError: (String?)-> Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.filterProduct( page = page, perPage = perPage, ram = ram, storage = storage, priceMax = priceMax, priceMin = priceMin),
+            call = APIServices.getInstance()?.filterProduct( page = page, perPage = perPage, ram = ram, storage = storage, priceMax = priceMax, priceMin = priceMin, listSupplierID.toString().replace(" ", "")),
             onSuccess = {results -> results?.let { onSuccess.invoke(it.listProduct) } },
             onError = {message -> onError.invoke(message)}
         )

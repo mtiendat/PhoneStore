@@ -41,13 +41,7 @@ class SplashScreen :AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
         }
-        val manager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
-        val internet = manager.isActiveNetworkMetered
-            bindingSplashScreen?.progressBarSplashScreen?.setIndeterminateDrawableTiled(
-                    FoldingCirclesDrawable.Builder(this).colors(resources.getIntArray(
-                            R.array.google_colors)).build())
-        init()
-            //checkAndRequestPermissions()
+        checkAndRequestPermissions()
         
     }
     private fun hideSystemUI() {
@@ -169,7 +163,6 @@ class SplashScreen :AppCompatActivity() {
                                 }
                             }
                         } else {
-
                             init()
                         }
                     }

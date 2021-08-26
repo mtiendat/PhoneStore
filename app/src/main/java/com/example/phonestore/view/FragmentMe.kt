@@ -1,28 +1,19 @@
 package com.example.phonestore.view
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.os.ParcelFileDescriptor
-import android.provider.MediaStore
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentMeBinding
 import com.example.phonestore.extendsion.AppEvent
-import com.example.phonestore.extendsion.gone
-import com.example.phonestore.extendsion.visible
 import com.example.phonestore.services.Constant
 import com.example.phonestore.viewmodel.UserViewModel
 import com.facebook.AccessToken
@@ -32,10 +23,6 @@ import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.material.snackbar.Snackbar
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.*
 
 
@@ -67,7 +54,7 @@ class FragmentMe: BaseFragment() {
             it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentChangeMyInfo)
         }
         bindingMe.btnHelper.setOnClickListener {
-            it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentHelper)
+            it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentContact)
         }
 
         bindingMe.btnWarranty.setOnClickListener {
@@ -76,6 +63,14 @@ class FragmentMe: BaseFragment() {
         bindingMe.btnWishList.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentMe_to_fragmentWishList)
         }
+        bindingMe.btnChat.setOnClickListener{
+            val intent = Intent()
+            intent.action = Intent.ACTION_VIEW
+            intent.setPackage("com.facebook.orca")
+            intent.data = Uri.parse("https://m.me/" + "157073173138532")
+            startActivity(intent)
+        }
+
     }
     private fun setData(){
         bindingMe.tvMyName.text = Constant.user?.name

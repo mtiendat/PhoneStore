@@ -3,12 +3,13 @@ package com.example.phonestore.model
 import android.os.Parcel
 import android.os.Parcelable
 
-class Filter(var ram: String?= null, var storage: String? = null, var priceMax: String? = null, var priceMin: String?= null): Parcelable {
+class Filter(var ram: String?= null, var storage: String? = null, var priceMax: String? = null, var priceMin: String?= null, var listIDSupplier: List<Int>? = listOf()): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString()
+        parcel.readString(),
+        TODO("listIDSupplier")
     ) {
     }
 

@@ -13,8 +13,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.core.os.bundleOf
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -41,6 +41,7 @@ class FragmentChangeMyInfo: BaseFragment() {
     private var userViewModel: UserViewModel? = null
     private var resultsLauncherPickImageGallery: ActivityResultLauncher<Intent>? = null
     private var resultsLauncherTakeAPicture: ActivityResultLauncher<Intent>? = null
+    private var resultsLauncherCropPhoto: ActivityResultLauncher<Intent>? = null
     private var inputPFD: ParcelFileDescriptor? = null
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingChangeMyInfo = FragmentChangeMyinfoBinding.inflate(inflater, container, false)
@@ -67,6 +68,7 @@ class FragmentChangeMyInfo: BaseFragment() {
         context?.let { setImg(Constant.user?.avatar, bindingChangeMyInfo.ivAvatar, it) }
         bindingChangeMyInfo.tvChangeName.text = Constant.user?.name
         bindingChangeMyInfo.tvChangePhone.text = Constant.user?.phone
+        cropPhoto()
         changeAvatarFromGallery()
         changeAvatarFromCamera()
         setOnClickListener()
@@ -105,26 +107,8 @@ class FragmentChangeMyInfo: BaseFragment() {
         resultsLauncherPickImageGallery = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){ result ->
             if(result.resultCode == Activity.RESULT_OK){
                 result.data?.data.also { returnUri ->
-                    inputPFD = try{
-                        returnUri?.let {
-                            context?.contentResolver?.openFileDescriptor(it, "r")
-                        }!!
-                    }catch (e: FileNotFoundException){
-                        e.printStackTrace()
-                        return@also
-                    }
-                    val fileDescriptor = inputPFD?.fileDescriptor
-                    val inputStream = FileInputStream(fileDescriptor)
-                    val byte = getBytes(inputStream)
-                    val requestBody: RequestBody = byte!!.toRequestBody("multipart/form-data".toMediaTypeOrNull(), 0, byte.size)
-                    val profilePic = MultipartBody.Part.createFormData(
-                        "image",
-                        "image.jpg",
-                        requestBody
-                    )
-                    bindingChangeMyInfo.progressBarUploadImage.visible()
-                    context?.let { setImg(returnUri.toString(), bindingChangeMyInfo.ivAvatar, it) }
-                    userViewModel?.changeAvatar(profilePic)
+                    resultsLauncherCropPhoto?.launch(Intent(requireContext(), ActivityCropPhoto::class.java).putExtra(
+                        Constant.CROP_PHOTO_BY_GALLERY, returnUri).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                     isUpdateAvatar = true
                 }
             }
@@ -134,54 +118,14 @@ class FragmentChangeMyInfo: BaseFragment() {
         resultsLauncherTakeAPicture = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if(result.resultCode == Activity.RESULT_OK) {
                 val imageBitmap = result.data?.extras?.get("data") as Bitmap
-                val file = bitmapToFile(imageBitmap)
-                val inputStream = FileInputStream(file)
-                val byte = getBytes(inputStream)
-                val requestBody: RequestBody = byte!!.toRequestBody("multipart/form-data".toMediaTypeOrNull(), 0, byte.size)
-                val profilePic = MultipartBody.Part.createFormData(
-                    "image",
-                    "image.jpg",
-                    requestBody
-                )
-                bindingChangeMyInfo.progressBarUploadImage.visible()
-                userViewModel?.changeAvatar(profilePic)
-                bindingChangeMyInfo.ivAvatar.setImageBitmap(imageBitmap)
+                resultsLauncherCropPhoto?.launch(Intent(requireContext(), ActivityCropPhoto::class.java).putExtra(
+                    Constant.CROP_PHOTO_BY_CAMERA, imageBitmap).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+
                 isUpdateAvatar = true
             }
         }
     }
-    private fun getBytes(input: InputStream): ByteArray?{
-        val byteBuff = ByteArrayOutputStream()
-        val bufSize = 1024
-        val buff = ByteArray(bufSize)
-        var len: Int
-        while (input.read(buff).also { len = it } != -1){
-            byteBuff.write(buff, 0, len)
-        }
-        return byteBuff.toByteArray()
-    }
-    private fun bitmapToFile(bitmap: Bitmap): File?{
-        var file: File? = null
-        return try {
-            file = File(context?.dataDir.toString() + File.separator + "image")
-            file.createNewFile()
 
-            //Convert bitmap to byte array
-            val bos = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos)
-            val bitmapData = bos.toByteArray()
-
-            //write the bytes in file
-            val fos = FileOutputStream(file)
-            fos.write(bitmapData)
-            fos.flush()
-            fos.close()
-            file
-        } catch (e: Exception) {
-            e.printStackTrace()
-            file // it will return null
-        }
-    }
     private fun pickImageFromGallery(){
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
@@ -197,6 +141,16 @@ class FragmentChangeMyInfo: BaseFragment() {
                 .load(img)
                 .error(R.drawable.noimage)
                 .into(v)
+        }
+    }
+    private fun cropPhoto(){
+        resultsLauncherCropPhoto =  registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if(result.resultCode == Activity.RESULT_OK) {
+                Glide.with(this)
+                    .load(Constant.user?.avatar)
+                    .error(R.drawable.noimage)
+                    .into(bindingChangeMyInfo.ivAvatar)
+            }
         }
     }
 

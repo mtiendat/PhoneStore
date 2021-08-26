@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/tvClose"
@@ -70,6 +71,27 @@
         app:layout_constraintTop_toBottomOf="@+id/tvClose" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitleSupplier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Hãng phân phối:"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/guideline13"
+        app:layout_constraintTop_toBottomOf="@+id/groupRam" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSupplier"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvTitleSupplier"
+        app:layout_constraintTop_toTopOf="@id/tvTitleSupplier" />
+
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTitlePrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,7 +99,7 @@
         android:text="Khoảng giá(đ):"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/guideline13"
-        app:layout_constraintTop_toBottomOf="@+id/groupRam" />
+        app:layout_constraintTop_toBottomOf="@+id/rvSupplier" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -152,4 +174,10 @@
             android:paddingStart="10dp"
             android:textSize="16sp" />
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top" />
 </androidx.constraintlayout.widget.ConstraintLayout>
