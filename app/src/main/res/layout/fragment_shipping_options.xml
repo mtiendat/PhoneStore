@@ -35,7 +35,8 @@
             android:background="@color/white"
             android:buttonTint="@color/blue"
             android:paddingStart="10dp"
-            android:text="Giao hàng tận nơi" />
+            android:text="Giao hàng tận nơi"
+            android:textColor="@color/black" />
 
         <RadioButton
             android:id="@+id/btnAtStore"
@@ -47,7 +48,8 @@
             android:drawableEnd="@drawable/ic_arrow_down"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:text="Nhận hàng tại siêu thị" />
+            android:text="Nhận hàng tại siêu thị"
+            android:textColor="@color/black" />
     </RadioGroup>
 
     <View

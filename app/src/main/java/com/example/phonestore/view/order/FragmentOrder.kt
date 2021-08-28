@@ -150,11 +150,12 @@ class FragmentOrder: BaseFragment() {
             }
         })
         orderViewModel?.tokenZaloPayOrder?.observe(viewLifecycleOwner, { token ->
-            activity?.let {
+            if(!isPaymentZaloPay){
+                activity?.let {
                     it -> ZaloPaySDK.getInstance().payOrder(it, token, "demozpdk://app", object : PayOrderListener{
                 override fun onPaymentSucceeded(p0: String?, p1: String?, p2: String?) {
                         Toast.makeText(context, "thanh cong", Toast.LENGTH_SHORT).show()
-                    isPaymentZaloPay = true
+
                 }
 
                 override fun onPaymentCanceled(p0: String?, p1: String?) {
@@ -165,9 +166,11 @@ class FragmentOrder: BaseFragment() {
                     Toast.makeText(context, "that bai", Toast.LENGTH_SHORT).show()
                 }
 
-            })
-
+             })
+             }
+                isPaymentZaloPay = true
             }
+
         })
         orderViewModel?.addressDefault?.observe(viewLifecycleOwner, {
             if(it?.id == -1){
@@ -286,6 +289,7 @@ class FragmentOrder: BaseFragment() {
                     orderViewModel?.checkProductInStore(address?.id,"delivery", param)
 
                 }else{
+                    isPaymentZaloPay = false
                     createOrder()
                 }
             }
@@ -484,10 +488,10 @@ class FragmentOrder: BaseFragment() {
     }
     override fun onResume() {
         super.onResume()
-        if(isPaymentZaloPay){
-            findNavController().navigate(R.id.action_fragmentOrder_to_fragmentSuccessOrder)
-            orderViewModel?.createOrder(newOrder())
-        }
+//        if(isPaymentZaloPay){
+//            findNavController().navigate(R.id.action_fragmentOrder_to_fragmentSuccessOrder)
+//            orderViewModel?.createOrder(newOrder())
+//        }
     }
     private fun newOrder(): Order {
         val listProductFinish: ArrayList<Cart> = arrayListOf()
