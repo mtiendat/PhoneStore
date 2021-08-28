@@ -1,6 +1,7 @@
 package com.example.phonestore.view
 
 import android.graphics.Color
+import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
@@ -10,6 +11,8 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.view.get
 import androidx.lifecycle.Observer
@@ -56,10 +59,28 @@ class FragmentHome : BaseFragment(){
     private var idSupplier: Int? = null
     private var orderBy: Int = 0
     private var flagSupplier = 0
+
     private var slideRunnable = Runnable {
         bindingHome.vpSlideShow.currentItem = bindingHome.vpSlideShow.currentItem.plus(1) ?:0
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.onBackPressedDispatcher
+            ?.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    Toast.makeText(context, R.string.back_exit, Toast.LENGTH_SHORT).show()
+                    if(!isEnabled){
+                        activity?.onBackPressed()
+                    }
+                    isEnabled = false
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        isEnabled = true
+                    }, 2000)
+                }
+            }
+            )
+    }
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingHome = FragmentHomeBinding.inflate(inflater, container, false)
         return bindingHome.root

@@ -7,6 +7,7 @@
     android:background="@drawable/theme">
 
     <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivLogo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline20"
@@ -15,16 +16,31 @@
         app:layout_constraintTop_toTopOf="@+id/guideline19"
         app:srcCompat="@mipmap/logo" />
 
-    <com.jpardogo.android.googleprogressbar.library.GoogleProgressBar
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivNameLogo"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline22"
+        app:srcCompat="@drawable/logo_app" />
+
+<!--    <com.jpardogo.android.googleprogressbar.library.GoogleProgressBar-->
+<!--        android:id="@+id/progressBarSplashScreen"-->
+<!--        style="?android:attr/progressBarStyle"-->
+<!--        android:layout_width="32dp"-->
+<!--        android:layout_height="32dp"-->
+<!--        android:translationZ="4dp"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="@+id/guideline4" />-->
+    <com.example.phonestore.services.widget.HorizontalDottedProgress
         android:id="@+id/progressBarSplashScreen"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:translationZ="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4" />
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/retry"
         android:layout_width="wrap_content"
@@ -72,6 +88,13 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.31" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.27" />
+
     <ImageView
         android:id="@+id/ivFail"
         android:layout_width="40dp"
@@ -87,4 +110,5 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         app:constraint_referenced_ids="retry,ivFail" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

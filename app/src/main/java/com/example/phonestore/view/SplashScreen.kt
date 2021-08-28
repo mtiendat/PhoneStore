@@ -14,6 +14,7 @@ import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -41,6 +42,9 @@ class SplashScreen :AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
         }
+        val slideAnimation = AnimationUtils.loadAnimation(this, R.anim.side_slide)
+        bindingSplashScreen?.ivLogo?.startAnimation(slideAnimation)
+        bindingSplashScreen?.ivNameLogo?.startAnimation(slideAnimation)
         checkAndRequestPermissions()
         
     }

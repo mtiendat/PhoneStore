@@ -90,4 +90,5 @@
     <string name="shipping_store">Nhận tại cửa hàng</string>
     <string name="shipping_at_home">Giao hàng tận nơi</string>
     <string name="edittext_hint"><font size="14">Nhập phản hồi</font></string>
+    <string name="back_exit">Nhấn back 1 lần nữa để thoát</string>
 </resources>

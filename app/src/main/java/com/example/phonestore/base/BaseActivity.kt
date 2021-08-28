@@ -51,6 +51,7 @@ abstract class BaseActivity: AppCompatActivity(), PopupEventListener, AccountSus
         setBinding()
         setToolBar()
         setUI()
+
     }
     private fun showPopup(
         popup: PopUp?
@@ -109,4 +110,6 @@ abstract class BaseActivity: AppCompatActivity(), PopupEventListener, AccountSus
         super.onNewIntent(intent)
         ZaloPaySDK.getInstance().onResult(intent)
     }
+    private var doubleBackToExitPressedOnce = false
+
 }
