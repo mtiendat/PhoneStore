@@ -16,7 +16,7 @@ import com.example.phonestore.model.ProductInfo
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
 
-class AllProductAdapter(var listProduct: ArrayList<ProductInfo?>? = arrayListOf()): RecyclerView.Adapter<AllProductAdapter.ProductViewHolder>() {
+class AllProductAdapter(var listProduct: ArrayList<ProductInfo?>? = arrayListOf(), var click: (()-> Unit)?= null): RecyclerView.Adapter<AllProductAdapter.ProductViewHolder>() {
     class ProductViewHolder(val binding: ItemProductBinding): RecyclerView.ViewHolder(
         binding.root
     )
@@ -35,9 +35,11 @@ class AllProductAdapter(var listProduct: ArrayList<ProductInfo?>? = arrayListOf(
         holder.binding.tvTotalJudge.text = "${item?.totalJudge?.toInt()} đánh giá"
         setImg(item?.img, holder.binding.ivProductCate, holder.itemView.context)
         holder.binding.ivProductCate.setOnClickListener {
+            click?.invoke()
             it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("product" to item))
         }
         holder.binding.tvNameProductCate.setOnClickListener {
+            click?.invoke()
             it.findNavController().navigate(R.id.action_global_fragmentDetailProduct, bundleOf("product" to item))
         }
     }
