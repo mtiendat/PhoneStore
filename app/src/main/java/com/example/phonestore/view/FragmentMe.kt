@@ -1,5 +1,6 @@
 package com.example.phonestore.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -10,6 +11,7 @@ import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
+import com.example.phonestore.BuildConfig
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentMeBinding
@@ -34,10 +36,12 @@ class FragmentMe: BaseFragment() {
         return  bindingMe.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun setUI() {
             context?.let { setImg(Constant.user?.avatar, bindingMe.ivAvatar, it) }
             setData()
             setOnClickListener()
+        bindingMe.tvVersion.text = "v" + BuildConfig.VERSION_NAME
     }
     fun setOnClickListener(){
 
