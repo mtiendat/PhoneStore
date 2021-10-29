@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.example.phonestore.R
 import com.example.phonestore.databinding.SlideImageProductItemBinding
 
-class SlideShowImageAdapter(private var sliderItem: ArrayList<String>?): RecyclerView.Adapter<SlideShowImageAdapter.ItemImageVieHolder>() {
+class SlideShowImageAdapter(private var sliderItem: ArrayList<String>?, var onClick: (Int) -> Unit): RecyclerView.Adapter<SlideShowImageAdapter.ItemImageVieHolder>() {
     class ItemImageVieHolder(val binding: SlideImageProductItemBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemImageVieHolder {
@@ -20,6 +20,9 @@ class SlideShowImageAdapter(private var sliderItem: ArrayList<String>?): Recycle
             .load(item)
             .error(R.drawable.noimage)
             .into(holder.binding.ivProduct)
+        holder.binding.ivProduct.setOnClickListener {
+            onClick.invoke(position)
+        }
     }
 
     override fun getItemCount(): Int {

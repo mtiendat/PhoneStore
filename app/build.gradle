@@ -115,12 +115,12 @@ dependencies {
 
 
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-core:19.0.0'
+    implementation 'com.google.firebase:firebase-core:19.0.1'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
     implementation platform('com.google.firebase:firebase-bom:28.1.0')
-
+    implementation 'com.google.firebase:firebase-database:20.0.2'
     //login google
-    implementation 'com.google.android.gms:play-services-auth:19.0.0'
+    implementation 'com.google.android.gms:play-services-auth:19.2.0'
     implementation 'com.shobhitpuri.custombuttons:google-signin:1.1.0'
     // Declare the dependency for the Firebase Authentication library
     // When using the BoM, you don't specify versions in Firebase library dependencies
@@ -141,4 +141,10 @@ dependencies {
 
     //crop image
     implementation 'com.github.takusemba:cropme:2.0.8'
+
+    //bootstrap
+    implementation 'com.beardedhen:androidbootstrap:2.3.1'
+
+    //zoom imageview
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
 }

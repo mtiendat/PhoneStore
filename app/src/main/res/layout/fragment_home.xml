@@ -20,7 +20,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:background="@color/background">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewTop"
@@ -128,6 +128,7 @@
                             android:layout_width="0dp"
                             android:layout_height="32dp"
                             android:background="@drawable/bg_custom_button_corner_navy"
+                            android:fontFamily="@font/sf_pro_display_semibold"
                             android:text="KHUYẾN MÃI HOT"
                             android:textColor="@color/yellow"
                             android:textStyle="bold"
@@ -154,7 +155,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="8dp"
-                                android:visibility="visible"
                                 app:shimmer_repeat_mode="restart"
                                 app:shimmer_shape="radial">
 
@@ -181,8 +181,8 @@
                                 android:layout_height="0dp"
                                 android:layout_margin="8dp"
                                 android:layout_weight="1"
-                                android:visibility="gone"
-                                android:theme="@style/RecyclerView" />
+                                android:theme="@style/RecyclerView"
+                                android:visibility="gone" />
                         </LinearLayout>
 
                         <androidx.constraintlayout.widget.Guideline
@@ -207,14 +207,19 @@
 
             <TextView
                 android:id="@+id/tvRecommended"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="SẢN PHẨM NỔI BẬT"
+                android:background="@color/white"
+                android:fontFamily="@font/sf_pro_text_semibold"
+                android:padding="8dp"
+                android:text="Sản phẩm nổi bật"
                 android:textAlignment="viewStart"
-                android:textSize="18sp"
+                android:textAllCaps="true"
+                android:textColor="@color/blue"
+                android:textSize="16sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cardViewTop" />
 
@@ -224,11 +229,13 @@
                 android:layout_height="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:drawableEnd="@drawable/ic_next"
                 android:background="@color/white"
+                android:drawableEnd="@drawable/ic_baseline_navigate_next"
+                android:fontFamily="@font/sf_pro_text_regular"
                 android:stateListAnimator="@null"
                 android:text="Xem tất cả"
                 android:textAllCaps="false"
+                android:textColor="@color/blue"
                 app:layout_constraintBottom_toBottomOf="@+id/tvRecommended"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardViewTop" />
@@ -287,13 +294,11 @@
                         app:layout_constraintTop_toBottomOf="@+id/btnPriceDown" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </io.github.florent37.shapeofview.shapes.BubbleView>
+
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmerLayoutFeaturedProduct"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvRecommended"
@@ -354,7 +359,7 @@
                 android:id="@+id/rvRecommend"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="1dp"
                 android:theme="@style/RecyclerView"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"

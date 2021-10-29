@@ -3,25 +3,21 @@ package com.example.phonestore.services.adapter
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.os.bundleOf
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.phonestore.extendsion.ratingBar
 import com.example.phonestore.extendsion.toVND
 import com.example.phonestore.R
 import com.example.phonestore.databinding.*
 import com.example.phonestore.extendsion.gone
 import com.example.phonestore.extendsion.strikeThrough
-import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.model.ProductInfo
 import com.example.phonestore.model.Supplier
 import com.example.phonestore.services.Constant
-import com.example.phonestore.view.productDetail.FragmentDetailProduct
+import com.example.phonestore.view.product.FragmentDetailProduct
 
 
 class ProductAdapter<E>(var listProduct: ArrayList<E?>? = arrayListOf()): RecyclerView.Adapter<RecyclerView.ViewHolder>() {

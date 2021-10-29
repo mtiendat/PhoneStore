@@ -43,7 +43,7 @@ class SlideshowAdapter(private var sliderItem: ArrayList<Slideshow>?, private va
         val item = sliderItem?.get(position)
 
         holder.bindingImage.imageSlide.setOnClickListener {
-            nextChrome(holder, item)
+            //nextChrome(holder, item)
         }
         Glide.with(holder.itemView.context)
             .load(item?.img)

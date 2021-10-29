@@ -1,12 +1,10 @@
-package com.example.phonestore.view.productDetail
+package com.example.phonestore.view.product
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentSupplierNewProductBinding
 import com.example.phonestore.model.CateProductInfo

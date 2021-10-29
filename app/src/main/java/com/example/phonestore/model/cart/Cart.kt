@@ -20,7 +20,9 @@ class Cart(var id: Int?,
            var discount: Float = 0f,
            var isAvailable: Boolean? = true,
            var isQtyAvailable: Boolean? = true,
-           var isChecked: Boolean = true
+           var isChecked: Boolean = true,
+           @SerializedName("slton")
+           var qtyInWH: Int?,
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
@@ -34,7 +36,10 @@ class Cart(var id: Int?,
         parcel.readInt(),
         parcel.readInt(),
         parcel.readFloat(),
-        parcel.readByte() != 0.toByte()
+        parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
+        parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
+        parcel.readByte() != 0.toByte(),
+        parcel.readValue(Int::class.java.classLoader) as? Int
     ) {
     }
 
@@ -50,7 +55,10 @@ class Cart(var id: Int?,
         parcel.writeInt(price)
         parcel.writeInt(priceRoot)
         parcel.writeFloat(discount)
-        parcel.writeByte(if (isAvailable == true) 1 else 0)
+        parcel.writeValue(isAvailable)
+        parcel.writeValue(isQtyAvailable)
+        parcel.writeByte(if (isChecked) 1 else 0)
+        parcel.writeValue(qtyInWH)
     }
 
     override fun describeContents(): Int {

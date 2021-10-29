@@ -1,9 +1,9 @@
 package com.example.phonestore.view.auth
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -21,13 +21,16 @@ import com.example.phonestore.services.Constant
 import com.example.phonestore.view.MainActivity
 import com.example.phonestore.viewmodel.UserViewModel
 import com.facebook.*
+import com.facebook.internal.WebDialog
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.google.firebase.messaging.FirebaseMessaging
 import java.net.MalformedURLException
 import java.net.URL
 import java.util.regex.Pattern
@@ -49,6 +52,7 @@ class ActivityLogin: BaseActivity() {
     private val RC_SIGN_IN = 999
     private val isForgotPassword = true
     private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private var token: String? =""
     override fun setBinding() {
         bindingLogin = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(bindingLogin.root)
@@ -56,11 +60,18 @@ class ActivityLogin: BaseActivity() {
             .requestEmail()
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(ContentValues.TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+            // cLjQCgXgQqC3yvAuJrjWpD:APA91bHqtdCfiAxD3dxLmhhpMwMADCD79L07fnqC0GgXNL0WWz4Ti2IcO23mO5-5eWAv6vqhJvb4ZsJYJePdltSieBZrVOdSdCNKxJKL_aYZLLEOfm5DJiX84TR71mZXR_Q8w9V-bEX4
+            // Get new FCM registration token
+            token = task.result
+        })
     }
 
     override fun setUI() {
-
-
             bindingLogin.btnLoginWithFacebook.setPermissions(listOf("public_profile", "email"))
             setOnClickListener()
             loginWithFacebook()
@@ -79,7 +90,7 @@ class ActivityLogin: BaseActivity() {
         bindingLogin.btnLogin.setOnClickListener {
             if(validate()) {
                 AppEvent.notifyShowPopUp()
-                loginViewModel?.postLogin(FormLogin(phone = bindingLogin.edtLoginPhone.text.toString(), password = bindingLogin.edtLoginPassword.text.toString(), formality = "normal"))
+                loginViewModel?.postLogin(FormLogin(phone = bindingLogin.edtLoginPhone.text.toString(), password = bindingLogin.edtLoginPassword.text.toString(), formality = "normal", device_token = token))
             }
         }
         bindingLogin.tvSignUp.setOnClickListener {

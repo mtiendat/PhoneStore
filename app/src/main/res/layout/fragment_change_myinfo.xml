@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
@@ -42,7 +43,7 @@
         android:text="@string/name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cvAvatar" />
+        app:layout_constraintTop_toBottomOf="@+id/tabToChange" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnChangePhone"
@@ -91,4 +92,15 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnChangePhone" />
+
+    <TextView
+        android:id="@+id/tabToChange"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Nhấn để thay đổi"
+        android:textColor="@color/dray"
+        app:layout_constraintEnd_toEndOf="@+id/cvAvatar"
+        app:layout_constraintStart_toStartOf="@+id/cvAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/cvAvatar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

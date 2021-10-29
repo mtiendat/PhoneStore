@@ -2,19 +2,12 @@ package com.example.phonestore.services.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.widget.AppCompatButton
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.phonestore.R
-import com.example.phonestore.databinding.ItemAddressStoreBinding
 import com.example.phonestore.databinding.ItemDiscountBinding
-import com.example.phonestore.extendsion.enabled
+import com.example.phonestore.extendsion.disable
 import com.example.phonestore.extendsion.toVND
-import com.example.phonestore.model.cart.Discount
 import com.example.phonestore.model.cart.Voucher
-import com.example.phonestore.model.order.AddressStore
 
 class SelectDiscountAdapter():
     RecyclerView.Adapter<SelectDiscountAdapter.DiscountViewHolder>() {
@@ -26,7 +19,7 @@ class SelectDiscountAdapter():
             binding.tvDiscountNumber.text = "${item?.discount}%"
 
             if(item?.active == false){
-                binding.btnDiscountSubmit.enabled()
+                binding.btnDiscountSubmit.disable()
                 binding.ctrlVoucher.setBackgroundResource(R.color.dray)
                 binding.ctrlRootVoucher.setBackgroundResource(R.drawable.bg_custom_voucher_nonactive)
                 binding.ctrlOvalTop.setBackgroundResource(R.drawable.oval_gray)

@@ -141,7 +141,7 @@ class DetailProductViewModel: ViewModel() {
         detailProductRepo.wishList(this::onSuccessWishList, this::onError)
     }
     private fun onSuccessImageSlideShow(listImage: ArrayList<String?>?){
-        listImageSlideshow?.value = listImage
+        listImageSlideshow.value = listImage
     }
 
     private fun onSuccessDetailProduct(cate: DetailProduct?){

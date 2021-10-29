@@ -61,13 +61,14 @@ class FragmentMyVoucher: DialogFragment() {
 
     private fun setViewModel(){
         cartViewModel.listMyVoucher.observe(viewLifecycleOwner, {
-            bindingMyVoucher.pbMyVoucher.gone()
             if(it?.size == 0){
                 bindingMyVoucher.groupVoucher.gone()
                 bindingMyVoucher.groupNoVoucher.visible()
             }else {
                 adapter.submitList(it)
+                bindingMyVoucher.groupVoucher.visible()
             }
+            bindingMyVoucher.pbMyVoucher.gone()
         })
         cartViewModel.deleteVoucher.observe(viewLifecycleOwner, {
             if(it!=null){
@@ -76,8 +77,6 @@ class FragmentMyVoucher: DialogFragment() {
                 }
                 view?.let {it1 -> Snackbar.make(it1, it?.message?:"", Snackbar.LENGTH_SHORT).show()}
             }
-
-
         })
     }
     override fun onStart() {

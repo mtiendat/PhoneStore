@@ -1,4 +1,4 @@
-package com.example.phonestore.view.productDetail
+package com.example.phonestore.view.product
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +8,10 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.phonestore.extendsion.gone
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentAllCommentBinding
+import com.example.phonestore.extendsion.gone
 import com.example.phonestore.services.adapter.CommentAdapter
 import com.example.phonestore.viewmodel.DetailProductViewModel
 

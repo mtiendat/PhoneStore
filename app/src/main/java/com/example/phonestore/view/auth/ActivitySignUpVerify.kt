@@ -38,7 +38,7 @@ class ActivitySignUpVerify: BaseActivity() {
         }
 
         override fun onFinish() {
-            binding.tvSendAgain.unEnabled()
+            binding.tvSendAgain.enable()
             binding.tvSendAgain.setBackgroundColor(ContextCompat.getColor(this@ActivitySignUpVerify, com.example.phonestore.R.color.white))
             binding.tvSendAgain.setTextColor(ContextCompat.getColor(this@ActivitySignUpVerify, com.example.phonestore.R.color.red))
         }
@@ -92,10 +92,8 @@ class ActivitySignUpVerify: BaseActivity() {
         auth.useAppLanguage()
         //auth.firebaseAuthSettings.setAppVerificationDisabledForTesting(true)
         //auth.firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber(formatPhone(number), "123456");
-        AppEvent.notifyShowPopUp()
-
-
-
+        binding.groupTimer.visible()
+        timer.start()
     }
     override fun setUI() {
         binding.btnVerify.setOnClickListener {
@@ -120,11 +118,12 @@ class ActivitySignUpVerify: BaseActivity() {
                     .setForceResendingToken(resendToken!!) // ForceResendingToken from callbacks
                     .build()
                 PhoneAuthProvider.verifyPhoneNumber(options)
-                AppEvent.notifyShowPopUp()
             }else{
                 sendVerificationCode(formatPhone(number))
             }
-            binding.tvSendAgain.enabled()
+            binding.groupTimer.visible()
+            timer.start()
+            binding.tvSendAgain.disable()
             binding.tvSendAgain.setBackgroundColor(ContextCompat.getColor(this@ActivitySignUpVerify, com.example.phonestore.R.color.white))
             binding.tvSendAgain.setTextColor(ContextCompat.getColor(this@ActivitySignUpVerify, com.example.phonestore.R.color.dray))
         }
@@ -192,11 +191,7 @@ class ActivitySignUpVerify: BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        if(flag) {
-            binding.groupTimer.visible()
-            timer.start()
-            AppEvent.notifyClosePopUp()
-        } else sendVerificationCode(formatPhone(number))
+        sendVerificationCode(formatPhone(number))
     }
 
 

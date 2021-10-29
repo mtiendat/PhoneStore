@@ -5,9 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.core.view.doOnLayout
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -16,13 +14,8 @@ import com.example.phonestore.databinding.ItemVoteCommentBinding
 import com.example.phonestore.extendsion.gone
 import com.example.phonestore.extendsion.visible
 import com.example.phonestore.model.Comment
-import com.example.phonestore.model.Notification
-import com.example.phonestore.model.ProductOrder
-import com.example.phonestore.model.Reply
-import com.example.phonestore.model.cart.Cart
-import com.example.phonestore.model.order.MyOrder
 import com.example.phonestore.services.Constant
-import com.example.phonestore.view.productDetail.ActivityPreviewPhoto
+import com.example.phonestore.view.product.ActivityPreviewPhoto
 
 
 class CommentAdapter: RecyclerView.Adapter<CommentAdapter.ItemCommentViewHolder>() {
@@ -70,6 +63,7 @@ class CommentAdapter: RecyclerView.Adapter<CommentAdapter.ItemCommentViewHolder>
             }
 
         }
+        holder.bindingItemVote.tvEdited.visibility = if(item.edited == 1) View.VISIBLE else View.GONE
         holder.bindingItemVote.control.btnReply.setOnClickListener {
             intoReply?.invoke(item)
         }
@@ -132,6 +126,7 @@ class CommentAdapter: RecyclerView.Adapter<CommentAdapter.ItemCommentViewHolder>
                 holder.bindingItemVote.optionComment.visible()
             else holder.bindingItemVote.optionComment.gone()
         }
+        holder.bindingItemVote.spOption.visibility = if(item.idUser == Constant.user?.id) View.VISIBLE else View.GONE
         holder.bindingItemVote.btnEditComment.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentComment, bundleOf("isEdit" to  true, "comment" to item))
         }

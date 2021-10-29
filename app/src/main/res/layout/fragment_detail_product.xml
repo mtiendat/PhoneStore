@@ -5,7 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/popup"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:background="@drawable/bg_ctrl_stroke_corner_black"
+        android:translationZ="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <com.example.phonestore.services.widget.HorizontalDottedProgress
+            android:id="@+id/progressBarSplashScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsvDetail"
         android:layout_width="match_parent"
@@ -27,18 +48,47 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
+                <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/ivDetailPhoto"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginStart="64dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="64dp"
                     app:layout_constraintBottom_toTopOf="@+id/glDetailTop"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/ctlDetail"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintTop_toTopOf="@+id/ctlDetail">
 
+
+                </androidx.viewpager2.widget.ViewPager2>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/bg_ctrl_stroke__corner_gray"
+                    android:orientation="horizontal"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/glDetailTop"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:id="@+id/tvNumImageProduct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:gravity="center"
+                        android:text="1" />
+
+                    <TextView
+                        android:id="@+id/tvNumMaxImageProduct"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:text="/12" />
+                </LinearLayout>
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/glDetailTop"
                     android:layout_width="wrap_content"
@@ -47,17 +97,34 @@
                     app:layout_constraintGuide_percent="0.7" />
 
                 <TextView
+                    android:id="@+id/tvDetailState"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:textSize="18sp"
+                    android:text="Hang sap ve"
+                    android:textColor="@color/red"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toStartOf="@+id/cbWishList"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ivDetailPhoto" />
+
+                <TextView
                     android:id="@+id/tvDetailName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/cbWishList"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ivDetailPhoto" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvDetailState" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/cbWishList"
@@ -130,6 +197,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:gravity="right"
+                    android:background="@color/white"
+                    android:popupBackground="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/spDetailColor"
                     app:layout_constraintTop_toBottomOf="@+id/spDetailColor" />
@@ -142,6 +211,8 @@
                     android:layout_marginEnd="8dp"
                     android:spinnerMode="dropdown"
                     android:textAlignment="center"
+                    android:background="@color/white"
+                    android:popupBackground="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvDetailName" />
 
@@ -716,6 +787,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/guideline12" />
 
@@ -735,6 +807,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:background="@color/white"
+                android:paddingBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ctrlTechnology">
@@ -789,13 +862,10 @@
                     android:id="@+id/tvNoVote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/chua_co_danh_gia_nao"
-                    android:textColor="@color/dray"
-                    android:textStyle="italic"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvVoteComment" />
+                    android:text="(0)"
+
+                    app:layout_constraintStart_toEndOf="@+id/tvVoteComment"
+                    app:layout_constraintTop_toTopOf="@+id/tvVoteComment" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvVote"
@@ -811,9 +881,8 @@
                     android:id="@+id/btnSendReview"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="32dp"
                     android:background="@drawable/bg_stroke_corner"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
@@ -833,6 +902,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -841,6 +911,9 @@
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:background="@drawable/custom_stroke_button"
+            android:drawableStart="@drawable/bg_ic_cart_blue"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:text="@string/them_vao_gio_hang"
             android:textColor="@color/blue"
             app:layout_constraintEnd_toStartOf="@+id/btnBuyNow"
@@ -869,7 +942,30 @@
             app:layout_constraintStart_toEndOf="@+id/glFeature"
             app:layout_constraintTop_toTopOf="@+id/btnAddToCart" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layoutDescription="@xml/fragment_detail_product_xml_constraintlayout5_scene"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/motionCart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/bg_ic_cart_blue"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 
     <include
         android:id="@+id/shimmer"
@@ -880,5 +976,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:constraint_referenced_ids="nsvDetail,ctrlFeature" />
+        app:constraint_referenced_ids="nsvDetail" />
 </androidx.constraintlayout.widget.ConstraintLayout>

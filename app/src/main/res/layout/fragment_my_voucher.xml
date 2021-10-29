@@ -12,11 +12,12 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:drawableEnd="@drawable/ic_clear"
+        android:fontFamily="@font/sf_pro_text_bold"
         android:paddingStart="18dp"
         android:paddingEnd="18dp"
         android:stateListAnimator="@null"
-        android:textAlignment="center"
         android:text="VÍ VOUCHER"
+        android:textAlignment="center"
         android:textSize="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,8 +28,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCloseDialog"
-         />
+        app:layout_constraintTop_toBottomOf="@+id/btnCloseDialog" />
 
     <ImageView
         android:id="@+id/imageView8"
@@ -54,6 +54,7 @@
         android:id="@+id/groupVoucher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:constraint_referenced_ids="rvMyDiscount" />
 
     <androidx.constraintlayout.widget.Group

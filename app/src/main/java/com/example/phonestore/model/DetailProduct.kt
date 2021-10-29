@@ -11,5 +11,6 @@ class DetailProduct(var id: Int = 1,
                     @SerializedName("dsHinhAnh") var listImage: ArrayList<String>? = arrayListOf(),
                     @SerializedName("nhacungcap") var supplier: Supplier,
                     @SerializedName("like") var like: Boolean? = false,
-                    @SerializedName("id_youtube") var trailer: String? =""
+                    @SerializedName("id_youtube") var trailer: String? ="",
+                    @SerializedName("trangthai") var state: Int?
 )

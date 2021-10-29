@@ -68,6 +68,9 @@ class FragmentChangeMyInfo: BaseFragment() {
         context?.let { setImg(Constant.user?.avatar, bindingChangeMyInfo.ivAvatar, it) }
         bindingChangeMyInfo.tvChangeName.text = Constant.user?.name
         bindingChangeMyInfo.tvChangePhone.text = Constant.user?.phone
+        if(Constant.user?.formality != "normal") {
+            bindingChangeMyInfo.tabToChange.gone()
+        }
         cropPhoto()
         changeAvatarFromGallery()
         changeAvatarFromCamera()
@@ -82,6 +85,9 @@ class FragmentChangeMyInfo: BaseFragment() {
             if(Constant.user?.formality == "normal") {
                 it.findNavController().navigate(R.id.action_fragmentChangeMyInfo_to_bottomSheetAvatar)
             }
+        }
+        bindingChangeMyInfo.tabToChange.setOnClickListener {
+                it.findNavController().navigate(R.id.action_fragmentChangeMyInfo_to_bottomSheetAvatar)
         }
         bindingChangeMyInfo.btnChangePassword.setOnClickListener {
             startActivity(context?.let { it1 -> ActivityForgotPassword.intentFor(it1, Constant.user?.phone, true) })

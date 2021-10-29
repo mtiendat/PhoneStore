@@ -13,8 +13,12 @@ class ProductViewModel: ViewModel() {
     var listSupplier: MutableLiveData<ArrayList<Supplier?>?> = MutableLiveData()
     var keyword: String? =""
     var warrantyResponse: MutableLiveData<WarrantyResponse?> = MutableLiveData()
+    var qtyResponse: MutableLiveData<QtyResponse?> = MutableLiveData()
+    var product: MutableLiveData<ProductInfo?> = MutableLiveData()
+    var price: MutableLiveData<Int?> = MutableLiveData()
     private var messageError:  MutableLiveData<String> = MutableLiveData()
     private var productRepo: ProductRepo = ProductRepo()
+
     fun getSlideShow(){
         if(listSlideshow.value?.size  == null) { //Nếu đã có dữ liệu thì không call api trong trường hợp back fragment
             productRepo.callSlideShow( this::onSuccessListSlideShow, this::onError)
@@ -52,6 +56,17 @@ class ProductViewModel: ViewModel() {
     fun searchName(q: String?){
         productRepo.searchName(q, this::onSuccessResultSearch, this::onError)
     }
+    fun checkQtyProductInWareHouse(color: String?, storage: String?){
+        productRepo.callCheckQtyProductInWareHouse(color, storage, this::onSuccessQtyResponse, this::onError)
+        // else productRepo.getCateProductBySupplier(page, idSupplier, perPage, this::onSuccessListCateProduct, this::onError)
+    }
+    fun checkQtyProductByColorStorage(id: Int, color: String?, storage: String?){
+        productRepo.callCheckQtyProductByColorStorage(id, color, storage, this::onSuccessListProductByColor, this::onError)
+        // else productRepo.getCateProductBySupplier(page, idSupplier, perPage, this::onSuccessListCateProduct, this::onError)
+    }
+    fun getInfoProduct(image: String?, storage: String?){
+        productRepo.callInfoProduct(image, storage, this::onSuccessProductResponse, this::onError)
+    }
     private fun onSuccessResultSearch(list: ArrayList<ProductInfo?>?){
         listResultSearch.value = list
     }
@@ -61,11 +76,19 @@ class ProductViewModel: ViewModel() {
     private fun onSuccessListHotSaleProduct(list:ArrayList<ProductInfo?>?){
         listProduct.value = list
     }
+    private fun onSuccessListProductByColor(p: ProductInfoCart?){
+        listProduct.value = p?.list
+        price.value = p?.priceOfProduct
+    }
     private fun onSuccessListCateProduct(list: ArrayList<ProductInfo?>?){
         this.listFeaturedProduct.value = list
     }
-
-
+    private fun onSuccessQtyResponse(q: QtyResponse?){
+        this.qtyResponse.value = q
+    }
+    private fun onSuccessProductResponse(q: ProductInfo?){
+        this.product.value = q
+    }
     private fun onSuccessSupplier(list: ArrayList<Supplier?>?){
         this.listSupplier.value = list
     }

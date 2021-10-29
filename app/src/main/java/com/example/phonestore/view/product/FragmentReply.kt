@@ -1,4 +1,4 @@
-package com.example.phonestore.view.productDetail
+package com.example.phonestore.view.product
 
 import android.app.Activity
 import android.content.Intent

@@ -1,9 +1,8 @@
-package com.example.phonestore.view.productDetail
+package com.example.phonestore.view.product
 
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.unit.Constraints
 import com.example.phonestore.base.BaseActivity
 import com.example.phonestore.databinding.ActivityPreviewPhotoBinding
 import com.example.phonestore.extendsion.visible
@@ -72,9 +71,8 @@ class ActivityPreviewPhoto: BaseActivity() {
                 val resultIntent = Intent()
                 resultIntent.putExtra("data", listAttachment).putExtra("delete", listDelete)
                 setResult(AppCompatActivity.RESULT_OK, resultIntent)
-                finish()
             }
-
+            finish()
         }
     }
 

@@ -2,6 +2,7 @@ package com.example.phonestore.view
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.ContentValues
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
@@ -28,25 +29,33 @@ import com.example.phonestore.services.Constant
 import com.example.phonestore.services.CustomToast
 import com.example.phonestore.view.auth.ActivityLogin
 import com.example.phonestore.viewmodel.UserViewModel
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
 
 class SplashScreen :AppCompatActivity() {
     private var loginViewModel: UserViewModel? = null
     private var bindingSplashScreen: SplashscreenBinding? = null
     private var isDisconnected = false
+    private var token: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindingSplashScreen = SplashscreenBinding.inflate(layoutInflater)
         setContentView(bindingSplashScreen?.root)
         hideSystemUI()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
-        }
         val slideAnimation = AnimationUtils.loadAnimation(this, R.anim.side_slide)
         bindingSplashScreen?.ivLogo?.startAnimation(slideAnimation)
         bindingSplashScreen?.ivNameLogo?.startAnimation(slideAnimation)
         checkAndRequestPermissions()
-        
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(ContentValues.TAG, "Fetching FCM registration token failed", task.exception)
+                return@OnCompleteListener
+            }
+            // cLjQCgXgQqC3yvAuJrjWpD:APA91bHqtdCfiAxD3dxLmhhpMwMADCD79L07fnqC0GgXNL0WWz4Ti2IcO23mO5-5eWAv6vqhJvb4ZsJYJePdltSieBZrVOdSdCNKxJKL_aYZLLEOfm5DJiX84TR71mZXR_Q8w9V-bEX4
+            // Get new FCM registration token
+            token = task.result
+        })
     }
     private fun hideSystemUI() {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -85,9 +94,9 @@ class SplashScreen :AppCompatActivity() {
             bindingSplashScreen?.progressBarSplashScreen?.visible()
             val ref: SharedPreferences = this.getSharedPreferences("saveAccount", Context.MODE_PRIVATE)
             if (ref.getString("phone", "") != "") {
-                loginViewModel?.postLogin(FormLogin(phone = ref.getString("phone", ""), password = ref.getString("password", ""), formality = "normal"))
+                loginViewModel?.postLogin(FormLogin(phone = ref.getString("phone", ""), password = ref.getString("password", ""), formality = "normal", device_token = token))
             }else if(ref.getString("email", "") != "") {
-                loginViewModel?.postLogin(FormLogin(email = ref.getString("email", ""), password = ref.getString("password", ""), formality = "socialNetwork"))
+                loginViewModel?.postLogin(FormLogin(email = ref.getString("email", ""), password = ref.getString("password", ""), formality = "socialNetwork", device_token = token))
             }else{
                 startActivity(ActivityLogin.intentFor(this))
                 finish()
@@ -100,9 +109,9 @@ class SplashScreen :AppCompatActivity() {
                 bindingSplashScreen?.progressBarSplashScreen?.visible()
                 val ref: SharedPreferences = this.getSharedPreferences("saveAccount", Context.MODE_PRIVATE)
                 if (ref.getString("phone", "") != "") {
-                    loginViewModel?.postLogin(FormLogin(phone = ref.getString("phone", ""), password = ref.getString("password", ""), formality = "normal"))
+                    loginViewModel?.postLogin(FormLogin(phone = ref.getString("phone", ""), password = ref.getString("password", ""), formality = "normal", device_token = token))
                 }else if(ref.getString("email", "") != "") {
-                    loginViewModel?.postLogin(FormLogin(email = ref.getString("email", ""), password = ref.getString("password", ""), formality = "socialNetwork"))
+                    loginViewModel?.postLogin(FormLogin(email = ref.getString("email", ""), password = ref.getString("password", ""), formality = "socialNetwork", device_token = token))
                 }else{
                     startActivity(ActivityLogin.intentFor(this))
                     finish()

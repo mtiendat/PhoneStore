@@ -27,6 +27,8 @@ class Order(
         var totalMoney: Int? = 0,
         @SerializedName("infoUser")
         var infoUser: Address? = null,
+        @SerializedName("trangthaidonhang")
+        var state: String? = null,
         var listProduct: ArrayList<Cart> = arrayListOf()
 ): Parcelable {
         constructor(parcel: Parcel) : this(
@@ -40,6 +42,7 @@ class Order(
                 parcel.readString(),
                 parcel.readValue(Int::class.java.classLoader) as? Int,
                 parcel.readParcelable(Address::class.java.classLoader),
+                parcel.readString(),
                 TODO("listProduct")
         ) {
         }
@@ -55,6 +58,7 @@ class Order(
                 parcel.writeString(phone)
                 parcel.writeValue(totalMoney)
                 parcel.writeParcelable(infoUser, flags)
+                parcel.writeString(state)
         }
 
         override fun describeContents(): Int {

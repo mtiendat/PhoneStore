@@ -121,7 +121,6 @@ class FragmentShippingOption: BaseFragment() {
                 }else {
                     CustomToast(requireContext(), "Vui lòng bật vị trí")
                     mFusedLocationClient?.requestLocationUpdates(locationRequest, locationCallback, null);
-
                 }
             }
 

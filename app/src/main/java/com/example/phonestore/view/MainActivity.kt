@@ -53,7 +53,7 @@ class MainActivity : BaseActivity() {
     private var bindingMain: ActivityMainBinding? = null
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private var cartViewModel: CartViewModel? = null
+    var cartViewModel: CartViewModel? = null
     private var badgeNotification: com.google.android.material.badge.BadgeDrawable? = null
     private val timerView = object: CountDownTimer(10000, 1000) {
         override fun onTick(millisUntilFinished: Long) {
@@ -144,7 +144,6 @@ class MainActivity : BaseActivity() {
                     hideBottomNavigation()
                     hideIconCart()
                     hideIconSearch()
-
                 }
                 R.id.fragmentSearch -> {
                     hideBottomNavigation()

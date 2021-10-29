@@ -21,8 +21,8 @@ class CartViewModel: ViewModel() {
     var totalMoney: MutableLiveData<Int> = MutableLiveData()
     var deleteVoucher: MutableLiveData<VoucherResponse?> = MutableLiveData()
     private var cartRepo: CartRepo = CartRepo()
-    fun addToCart(storage: String?,image: String?){
-        cartRepo.callAddToCart(storage, image, this::onSuccessAddToCart, this::onError)
+    fun addToCart(storage: String?,image: String?, qty: Int?){
+        cartRepo.callAddToCart(storage, image, qty, this::onSuccessAddToCart, this::onError)
     }
     fun getTotalProduct(){
         cartRepo.callTotalProductInCart(this::onSuccessTotalProduct, this::onError)
@@ -65,9 +65,8 @@ class CartViewModel: ViewModel() {
     private fun onSuccessMyCart(cart: ArrayList<Cart>?){
         var total = 0
         cart?.forEach {
-            total += if(it.qty == 2){
-                it.price*2
-            }else it.price
+            total += it.price * it.qty!!
+
         }
         totalMoney.value = total
         listProduct.value = cart

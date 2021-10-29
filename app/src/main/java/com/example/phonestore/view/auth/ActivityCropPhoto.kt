@@ -72,6 +72,7 @@ class ActivityCropPhoto: BaseActivity() {
             if(it?.status == true){
                 Constant.user = it.user
                 setResult(RESULT_OK)
+                com.example.phonestore.extendsion.AppEvent.notifyClosePopUp()
                 finish()
             }
         })

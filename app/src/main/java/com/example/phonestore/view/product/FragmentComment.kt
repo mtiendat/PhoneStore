@@ -1,15 +1,13 @@
-package com.example.phonestore.view.productDetail
+package com.example.phonestore.view.product
 
 import android.Manifest
 import android.Manifest.permission.*
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,12 +34,9 @@ import com.example.phonestore.services.adapter.ImageCommentAdapter
 import com.example.phonestore.services.adapter.ProductNotCommentAdapter
 import com.example.phonestore.viewmodel.DetailProductViewModel
 import com.google.android.material.snackbar.Snackbar
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.*
 import java.text.SimpleDateFormat

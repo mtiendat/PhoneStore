@@ -1,14 +1,14 @@
-package com.example.phonestore.view.productDetail
+package com.example.phonestore.view.product
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.example.phonestore.extendsion.gone
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentSupplierBinding
+import com.example.phonestore.extendsion.gone
 import com.example.phonestore.model.Supplier
 import com.example.phonestore.services.Constant
 import com.example.phonestore.services.adapter.TabLayoutAdapter

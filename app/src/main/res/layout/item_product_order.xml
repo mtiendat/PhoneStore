@@ -116,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Không có sẵn"
+            android:text="Hết hàng"
             android:textAlignment="center"
             android:textColor="@color/white" />
     </LinearLayout>

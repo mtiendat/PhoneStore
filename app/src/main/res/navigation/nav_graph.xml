@@ -12,11 +12,19 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_fragmentHome_to_fragmentDetailProduct"
-            app:destination="@id/fragmentDetailProduct" />
+            app:destination="@id/fragmentDetailProduct"
+            app:enterAnim="@anim/activity_enter"
+            app:exitAnim="@anim/activity_close_enter"
+            app:popEnterAnim="@anim/activity_close_enter"
+            app:popExitAnim="@anim/activity_close_exit"/>
 
         <action
             android:id="@+id/action_fragmentHome_to_fragmentSearch"
-            app:destination="@id/fragmentSearch" />
+            app:destination="@id/fragmentSearch"
+            app:enterAnim="@anim/activity_enter"
+            app:exitAnim="@anim/activity_close_enter"
+            app:popEnterAnim="@anim/activity_close_enter"
+            app:popExitAnim="@anim/activity_close_exit"/>
         <action
             android:id="@+id/action_fragmentHome_to_fragmentDiscount"
             app:destination="@id/fragmentDiscount" />
@@ -25,37 +33,65 @@
             app:destination="@id/fragmentListSupplier" />
         <action
             android:id="@+id/action_fragmentHome_to_fragmentAllProduct"
-            app:destination="@id/fragmentAllProduct" />
+            app:destination="@id/fragmentAllProduct"
+            app:enterAnim="@anim/activity_enter"
+            app:exitAnim="@anim/activity_close_enter"
+            app:popEnterAnim="@anim/activity_close_enter"
+            app:popExitAnim="@anim/activity_close_exit"/>
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentOrder"
+            app:destination="@id/fragmentOrder" />
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailProduct"
-        android:name="com.example.phonestore.view.productDetail.FragmentDetailProduct"
+        android:name="com.example.phonestore.view.product.FragmentDetailProduct"
+        android:label="   "
         tools:layout="@layout/fragment_detail_product" >
 
         <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentHome"
             app:destination="@id/fragmentHome" />
         <action
-            android:id="@+id/action_fragmentDetailProduct_to_fragmentOrder"
-            app:destination="@id/fragmentOrder" />
-        <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentAllVote"
-            app:destination="@id/fragmentAllCommment" />
+            app:destination="@id/fragmentAllCommment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentSupplier"
             app:destination="@id/fragmentSupplier" />
         <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentDetailTechnology"
-            app:destination="@id/fragmentDetailTechnology" />
+            app:destination="@id/fragmentDetailTechnology"
+            app:enterAnim="@anim/activity_enter"
+            app:exitAnim="@anim/activity_close_enter"
+            app:popEnterAnim="@anim/activity_close_enter"
+            app:popExitAnim="@anim/activity_close_exit"/>
         <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentReply"
-            app:destination="@id/fragmentReply" />
+            app:destination="@id/fragmentReply"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_fragmentDetailProduct_to_fragmentComment"
-            app:destination="@id/fragmentComment" />
+            app:destination="@id/fragmentComment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_fragmentDetailProduct_to_bottomSheetCart"
             app:destination="@id/bottomSheetCart" />
+        <action
+            android:id="@+id/action_fragmentDetailProduct_to_fragmentOrder"
+            app:destination="@id/fragmentOrder"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailCart"
@@ -64,7 +100,11 @@
         android:label="Giỏ hàng của bạn" >
         <action
             android:id="@+id/action_fragmentDetailCart_to_fragmentOrder"
-            app:destination="@id/fragmentOrder" />
+            app:destination="@id/fragmentOrder"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/fragmentOrder"
@@ -73,7 +113,12 @@
         android:label="Kiểm tra đơn hàng" >
         <action
             android:id="@+id/action_fragmentOrder_to_fragmentSuccessOrder"
-            app:destination="@id/fragmentSuccessOrder" />
+            app:destination="@id/fragmentSuccessOrder"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
         <action
             android:id="@+id/action_fragmentOrder_to_fragmentFollowOrder"
             app:destination="@id/fragmentFollowOrder"
@@ -111,7 +156,11 @@
             app:destination="@id/fragmentHome"
             app:launchSingleTop="true"
             app:popUpTo="@+id/nav_graph"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/activity_enter"
+            app:exitAnim="@anim/activity_close_enter"
+            app:popEnterAnim="@anim/activity_close_enter"
+            app:popExitAnim="@anim/activity_close_exit"/>
     </fragment>
     <fragment
         android:id="@+id/fragmentMe"
@@ -120,27 +169,55 @@
         android:label="" >
         <action
             android:id="@+id/action_fragmentMe_to_fragmentFollowOrder"
-            app:destination="@id/fragmentFollowOrder" />
+            app:destination="@id/fragmentFollowOrder"
+            app:enterAnim="@anim/activity_enter"
+            app:exitAnim="@anim/activity_close_enter"
+            app:popEnterAnim="@anim/activity_close_enter"
+            app:popExitAnim="@anim/activity_close_exit"/>
         <action
             android:id="@+id/action_fragmentMe_to_activityLogin"
             app:destination="@id/activityLogin"
             app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/activity_enter"
+            app:exitAnim="@anim/activity_close_enter"
+            app:popEnterAnim="@anim/activity_close_enter"
+            app:popExitAnim="@anim/activity_close_exit"/>
         <action
             android:id="@+id/action_fragmentMe_to_fragmentChangeMyInfo"
-            app:destination="@id/fragmentChangeMyInfo" />
+            app:destination="@id/fragmentChangeMyInfo"
+            app:enterAnim="@anim/activity_enter"
+            app:exitAnim="@anim/activity_close_enter"
+            app:popEnterAnim="@anim/activity_close_enter"
+            app:popExitAnim="@anim/activity_close_exit"/>
         <action
             android:id="@+id/action_fragmentMe_to_fragmentHelper"
-            app:destination="@id/fragmentHelper" />
+            app:destination="@id/fragmentHelper"
+            app:enterAnim="@anim/activity_enter"
+            app:exitAnim="@anim/activity_close_enter"
+            app:popEnterAnim="@anim/activity_close_enter"
+            app:popExitAnim="@anim/activity_close_exit"/>
         <action
             android:id="@+id/action_fragmentMe_to_fragmentWarranty"
-            app:destination="@id/fragmentWarranty" />
+            app:destination="@id/fragmentWarranty"
+            app:enterAnim="@anim/activity_enter"
+            app:exitAnim="@anim/activity_close_enter"
+            app:popEnterAnim="@anim/activity_close_enter"
+            app:popExitAnim="@anim/activity_close_exit"/>
         <action
             android:id="@+id/action_fragmentMe_to_fragmentWishList"
-            app:destination="@id/fragmentWishList" />
+            app:destination="@id/fragmentWishList"
+            app:enterAnim="@anim/activity_enter"
+            app:exitAnim="@anim/activity_close_enter"
+            app:popEnterAnim="@anim/activity_close_enter"
+            app:popExitAnim="@anim/activity_close_exit"/>
         <action
             android:id="@+id/action_fragmentMe_to_fragmentContact"
-            app:destination="@id/fragmentContact" />
+            app:destination="@id/fragmentContact"
+            app:enterAnim="@anim/activity_enter"
+            app:exitAnim="@anim/activity_close_enter"
+            app:popEnterAnim="@anim/activity_close_enter"
+            app:popExitAnim="@anim/activity_close_exit"/>
     </fragment>
     <fragment
         android:id="@+id/fragmentFollowOrder"
@@ -149,7 +226,11 @@
         android:label="Đơn hàng của bạn" >
         <action
             android:id="@+id/action_fragmentFollowOrder_to_fragmentOrder"
-            app:destination="@id/fragmentOrder" />
+            app:destination="@id/fragmentOrder"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/fragmentAllFollowOrder"
@@ -157,20 +238,33 @@
         tools:layout="@layout/fragment_follow_order_all"
         android:label="FragmentAllFollowOrder" />
     <action android:id="@+id/action_global_fragmentFollowOrder" app:destination="@id/fragmentFollowOrder"/>
-    <action android:id="@+id/action_global_fragmentOrder" app:destination="@id/fragmentOrder"/>
+    <action android:id="@+id/action_global_fragmentOrder" app:destination="@id/fragmentOrder"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"/>
     <fragment
         android:id="@+id/fragmentSearch"
         android:name="com.example.phonestore.view.FragmentSearch"
         android:label=""
         tools:layout="@layout/fragment_search"/>
-    <action android:id="@+id/action_global_fragmentDetailProduct" app:destination="@id/fragmentDetailProduct"/>
+    <action android:id="@+id/action_global_fragmentDetailProduct"
+        app:destination="@id/fragmentDetailProduct"
+        app:enterAnim="@anim/activity_enter"
+        app:exitAnim="@anim/activity_close_enter"
+        app:popEnterAnim="@anim/activity_close_enter"
+        app:popExitAnim="@anim/activity_close_exit"/>
     <action android:id="@+id/action_fragmentSearch_to_fragmentHome"
         app:destination="@id/fragmentHome"/>
     <action android:id="@+id/action_fragmentSearch_to_fragmentDetailProduct"
-        app:destination="@id/fragmentDetailProduct"/>
+        app:destination="@id/fragmentDetailProduct"
+        app:enterAnim="@anim/activity_enter"
+        app:exitAnim="@anim/activity_close_enter"
+        app:popEnterAnim="@anim/activity_close_enter"
+        app:popExitAnim="@anim/activity_close_exit"/>
     <fragment
         android:id="@+id/fragmentAllCommment"
-        android:name="com.example.phonestore.view.productDetail.FragmentAllComment"
+        android:name="com.example.phonestore.view.product.FragmentAllComment"
         android:label="Tất cả đánh giá"
         tools:layout="@layout/fragment_all_comment">
         <action
@@ -206,7 +300,7 @@
     </dialog>
     <fragment
         android:id="@+id/fragmentSupplier"
-        android:name="com.example.phonestore.view.productDetail.FragmentSupplier"
+        android:name="com.example.phonestore.view.product.FragmentSupplier"
         android:label=""
         tools:layout="@layout/fragment_supplier"/>
     <fragment
@@ -242,11 +336,15 @@
         android:label="Chọn địa chỉ của bạn" >
         <action
             android:id="@+id/action_fragmentSelectAddress_to_fragmentEditAddress"
-            app:destination="@id/fragmentEditAddress" />
+            app:destination="@id/fragmentEditAddress"
+            app:enterAnim="@anim/activity_enter"
+            app:exitAnim="@anim/activity_close_enter"
+            app:popEnterAnim="@anim/activity_close_enter"
+            app:popExitAnim="@anim/activity_close_exit"/>
     </fragment>
     <fragment
         android:id="@+id/fragmentDetailTechnology"
-        android:name="com.example.phonestore.view.productDetail.FragmentDetailTechnology"
+        android:name="com.example.phonestore.view.product.FragmentDetailTechnology"
         tools:layout="@layout/fragment_detail_technology"
         android:label="Thông số kỹ thuật chi tiết" />
     <fragment
@@ -270,12 +368,12 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentReply"
-        android:name="com.example.phonestore.view.productDetail.FragmentReply"
+        android:name="com.example.phonestore.view.product.FragmentReply"
         tools:layout="@layout/fragment_reply_comment"
         android:label="Trả lời" />
     <fragment
         android:id="@+id/fragmentComment"
-        android:name="com.example.phonestore.view.productDetail.FragmentComment"
+        android:name="com.example.phonestore.view.product.FragmentComment"
         tools:layout="@layout/fragment_comment"
         android:label="Gửi đánh giá">
         <action
@@ -289,7 +387,11 @@
         android:label="Danh sách yêu thích" >
         <action
             android:id="@+id/action_fragmentWishList_to_fragmentDetailProduct"
-            app:destination="@id/fragmentDetailProduct" />
+            app:destination="@id/fragmentDetailProduct"
+            app:enterAnim="@anim/activity_enter"
+            app:exitAnim="@anim/activity_close_enter"
+            app:popEnterAnim="@anim/activity_close_enter"
+            app:popExitAnim="@anim/activity_close_exit"/>
     </fragment>
     <fragment
         android:id="@+id/fragmentContact"
@@ -297,7 +399,14 @@
         android:label="Liên hệ với chúng tôi" />
     <dialog
         android:id="@+id/bottomSheetCart"
-        android:name="com.example.phonestore.view.productDetail.FragmentBottomSheetCart"
+        android:name="com.example.phonestore.view.product.FragmentBottomSheetCart"
         tools:layout="@layout/fragment_bottom_sheet_cart">
+        <action
+            android:id="@+id/action_bottomSheetCart_to_fragmentOrder"
+            app:destination="@id/fragmentOrder"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </dialog>
 </navigation>

@@ -1,18 +1,23 @@
 package com.example.phonestore.base
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.beardedhen.androidbootstrap.TypefaceProvider
 import com.example.phonestore.R
 import com.example.phonestore.extendsion.*
 import com.example.phonestore.model.PopUp
 import com.example.phonestore.services.Constant
 import com.example.phonestore.services.widget.PopupDialog
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import vn.zalopay.sdk.Environment
 import vn.zalopay.sdk.ZaloPaySDK
 import java.util.*
@@ -46,11 +51,13 @@ abstract class BaseActivity: AppCompatActivity(), PopupEventListener, AccountSus
 //        } catch (e: PackageManager.NameNotFoundException) {
 //        } catch (e: NoSuchAlgorithmException) {
 //        }
+        TypefaceProvider.registerDefaultIconSets()
         setViewModel()
         setObserve()
         setBinding()
         setToolBar()
         setUI()
+
 
     }
     private fun showPopup(

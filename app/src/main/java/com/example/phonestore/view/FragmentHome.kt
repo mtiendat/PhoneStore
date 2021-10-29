@@ -49,7 +49,6 @@ class FragmentHome : BaseFragment(){
     private var featuredProductAdapter: FeaturedProductAdapter? = null
     private var listSlideshow: ArrayList<Slideshow> = arrayListOf()
     private var slideHandler: Handler = Handler(Looper.getMainLooper())
-    private var productInfo: ProductInfo = ProductInfo()
     private var listProduct: ArrayList<ProductInfo?>? = arrayListOf()
     private var listSupplier: ArrayList<Supplier?>? = arrayListOf()
     private var listFeaturedProduct: ArrayList<ProductInfo?>? = arrayListOf()
@@ -57,9 +56,7 @@ class FragmentHome : BaseFragment(){
     private var savePage: Int = 2
     private var flag = 0
     private var idSupplier: Int? = null
-    private var orderBy: Int = 0
     private var flagSupplier = 0
-
     private var slideRunnable = Runnable {
         bindingHome.vpSlideShow.currentItem = bindingHome.vpSlideShow.currentItem.plus(1) ?:0
     }
@@ -183,6 +180,7 @@ class FragmentHome : BaseFragment(){
             setObserve()
             getData()
             bindingHome.swipe.isRefreshing = false
+            (activity as MainActivity).cartViewModel?.getTotalProduct()
         }
     }
     private fun getData(){
@@ -301,6 +299,11 @@ class FragmentHome : BaseFragment(){
         //gán lại rổng, để không bị tăng item khi backPress
         listSlideshow.clear()
         sliderAdapter?.notifyDataSetChanged()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).cartViewModel?.getTotalProduct()
     }
 }
 

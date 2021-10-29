@@ -123,7 +123,9 @@ class FragmentSuccessOrder: BaseFragment() {
     }
     private fun sendNotification(){
         with(context?.let { NotificationManagerCompat.from(it) }) {
-            getNotificationBuilder()?.let { this?.notify(Constant.NOTIFICATION_ID, it.build()) }
+            getNotificationBuilder()?.let {
+                this?.notify(Constant.NOTIFICATION_ID, it.build())
+            }
         }
     }
     private fun getNotificationBuilder(): NotificationCompat.Builder? {
@@ -136,5 +138,6 @@ class FragmentSuccessOrder: BaseFragment() {
                     .setStyle(NotificationCompat.BigTextStyle())
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
         }
+
     }
 }

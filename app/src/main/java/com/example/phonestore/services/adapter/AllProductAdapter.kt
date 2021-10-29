@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.phonestore.R
 import com.example.phonestore.databinding.ItemProductBinding
+import com.example.phonestore.extendsion.gone
 import com.example.phonestore.extendsion.strikeThrough
 import com.example.phonestore.extendsion.toVND
 import com.example.phonestore.model.ProductInfo
@@ -31,8 +32,13 @@ class AllProductAdapter(var listProduct: ArrayList<ProductInfo?>? = arrayListOf(
         holder.binding.tvOldPriceProductCate.text = item?.price.toVND()
         holder.binding.tvOldPriceProductCate.paintFlags = holder.binding.tvOldPriceProductCate.strikeThrough()
         holder.binding.ratingBarProduct.rating =if(item?.totalJudge?:0f > 0f)(item?.totalVote?.div(item.totalJudge))?:0f else 0f
-        holder.binding.btnNumberDiscount.text = "-${item?.discount?.times(100)?.toInt()}%"
+        holder.binding.btnNumberDiscount.text = if(item?.discount?.times(100)?.toInt() == 0){
+            "New"
+        }else "-${item?.discount?.times(100)?.toInt()}%"
         holder.binding.tvTotalJudge.text = "${item?.totalJudge?.toInt()} đánh giá"
+        if(holder.binding.tvPriceProductCate.text == holder.binding.tvOldPriceProductCate.text){
+            holder.binding.tvOldPriceProductCate.text = ""
+        }
         setImg(item?.img, holder.binding.ivProductCate, holder.itemView.context)
         holder.binding.ivProductCate.setOnClickListener {
             click?.invoke()

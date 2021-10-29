@@ -1,5 +1,6 @@
 package com.example.phonestore.repo
 
+import android.graphics.Color
 import com.example.phonestore.model.*
 import com.example.phonestore.services.APIRequest
 import com.example.phonestore.services.APIServices
@@ -35,10 +36,17 @@ class ProductRepo {
         )
     }
 
-    fun getNewCateProductBySupplier( idSupplier: Int? = 0, onSuccess: (ArrayList<CateProductInfo>?) -> Unit, onError: (String?)->Unit){
+    fun callCheckQtyProductInWareHouse(color: String?, storage: String?, onSuccess: (QtyResponse) -> Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?. getNewCateProductBySupplier( idSupplier),
-            onSuccess = {results -> results?.listCate?.let { onSuccess.invoke(it) } },
+            call = APIServices.getInstance()?.checkQtyProductInWareHouse(color, storage),
+            onSuccess = {results -> results?.let { onSuccess.invoke(it) } },
+            onError = {message -> onError.invoke(message)}
+        )
+    }
+    fun callCheckQtyProductByColorStorage(id: Int, color: String?, storage: String?, onSuccess: (ProductInfoCart?) -> Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.checkQtyProductByColorStorage(id, color, storage),
+            onSuccess = {results -> results?.product?.let { onSuccess.invoke(it) } },
             onError = {message -> onError.invoke(message)}
         )
     }
@@ -49,6 +57,15 @@ class ProductRepo {
             onError = {message -> onError.invoke(message)}
         )
     }
+
+    fun callInfoProduct(image: String?, storage: String?, onSuccess: (ProductInfo) -> Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APIServices.getInstance()?.getInfoProduct(storage, image),
+            onSuccess = {results -> results?.product?.let { onSuccess.invoke(it) } },
+            onError = {message -> onError.invoke(message)}
+        )
+    }
+
     fun checkWarranty(imei: String?, onSuccess: (WarrantyResponse?) -> Unit, onError: (String?) -> Unit){
         APIRequest.callRequest(
             call = APIServices.getInstance()?.checkWarranty(imei),

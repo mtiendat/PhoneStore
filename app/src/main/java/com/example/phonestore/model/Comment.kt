@@ -35,7 +35,9 @@ class Comment(
     @SerializedName("dsHinhAnh")
     var listAttachment: ArrayList<Attachment>? = arrayListOf(),
     @SerializedName("dsPhanHoi")
-    var listReply: ArrayList<Reply>? = arrayListOf()
+    var listReply: ArrayList<Reply>? = arrayListOf(),
+    @SerializedName("chinhsua")
+    var edited: Int =  0
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -53,7 +55,8 @@ class Comment(
         parcel.readString(),
         parcel.readByte() != 0.toByte(),
         TODO("listAttachment"),
-        TODO("listReply")
+        TODO("listReply"),
+        parcel.readInt()
     ) {
     }
 
@@ -71,6 +74,7 @@ class Comment(
         parcel.writeString(color)
         parcel.writeString(storage)
         parcel.writeByte(if (hasLike) 1 else 0)
+        parcel.writeValue(edited)
     }
 
     override fun describeContents(): Int {
@@ -87,3 +91,4 @@ class Comment(
         }
     }
 }
+

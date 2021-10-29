@@ -1,4 +1,4 @@
-package com.example.phonestore.view.productDetail
+package com.example.phonestore.view.product
 
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
@@ -6,12 +6,14 @@ import android.os.Handler
 import android.os.Looper
 import android.view.*
 import android.widget.*
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.app.ShareCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.doOnLayout
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import bolts.AppLinkNavigation.navigate
 import com.bumptech.glide.Glide
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
@@ -39,6 +42,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.youtube.player.YouTubeInitializationResult
 import com.google.android.youtube.player.YouTubePlayer
 import com.google.android.youtube.player.YouTubePlayer.FULLSCREEN_FLAG_CONTROL_SYSTEM_UI
+import com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener
 import com.google.android.youtube.player.YouTubePlayerSupportFragmentX
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -66,7 +70,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private var storage: String? = null
     private var idYT: String? = null
     private var img: String? = null
-    private var price: Int = 0
+    private var nameProductToSetBottomCart: String? = null
     private var supplier: Supplier? = null
     private var hadData: Boolean = false
     private var isStorage: Boolean = false
@@ -79,6 +83,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     }
     private var youtubePlayerFragment: YouTubePlayerSupportFragmentX? = null
     private var sliderAdapter : SlideshowProductAdapter? = null
+    private lateinit var sliderImageProductAdapter : SlideShowImageAdapter
     private var slideHandler: Handler = Handler(Looper.getMainLooper())
     private var relatedProductAdapter: RelatedProductAdapter? = null
     private var commentAdapter: CommentAdapter? = null
@@ -91,7 +96,8 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private var listIDComment: ArrayList<Int>? = arrayListOf()
     private var listColor: ArrayList<String>? = arrayListOf()
     private var listStorage: ArrayList<String>? = arrayListOf()
-
+    private var listImageProduct: ArrayList<String>? = arrayListOf()
+    private var state: Int? = 1
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingProductDetail = FragmentDetailProductBinding.inflate(inflater, container, false)
 
@@ -117,7 +123,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         product = arguments?.getParcelable("product")
         val query = arguments?.getString("name")
         MainActivity.itemSearch?.collapseActionView()
-        (requireActivity() as MainActivity).supportActionBar?.title = query //setTitle
+        (activity as MainActivity).supportActionBar?.title = query //setTitle
         bindingProductDetail?.shimmer?.shimmerDetailProduct?.startShimmer()
         initRecyclerViewRelated()
         initRecyclerViewCompare()
@@ -126,11 +132,29 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         getData()
         setDetailProduct(product)
         setOnClickListener()
+        bindingProductDetail?.motionLayout?.setTransitionListener(object : MotionLayout.TransitionListener{
+            override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
+            }
+
+            override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {
+
+            }
+
+            override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+                bindingProductDetail?.motionLayout?.progress = 0f
+            }
+
+            override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
+
+            }
+
+
+        })
     }
     private fun setOnClickListener(){
         bindingProductDetail?.btnAddToCart?.setOnClickListener {
-            val listStorage =  listStorage
-            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_bottomSheetCart, bundleOf(IMAGE to listColor, STORAGE to listStorage, "color" to color, "storage" to storage))
+            bindingProductDetail?.motionLayout?.visible()
+            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_bottomSheetCart, bundleOf(IMAGE to listColor, STORAGE to listStorage, "color" to color, "storage" to storage, "nameProduct" to nameProductToSetBottomCart, "idProduct" to product?.idCate, "ACTION_CART" to true))
 //            if(checkSelectSpinner()){
 //                cartViewModel?.addToCart(product?.id)
 //            }else{
@@ -139,21 +163,9 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
 //            }
         }
         bindingProductDetail?.btnBuyNow?.setOnClickListener {
-            if (checkSelectSpinner()) {
-                val product = Cart( null, null,
-                        idProduct = if(idProduct==0) product?.id else idProduct,
-                        qty = 1,
-                        price = product?.price?:0,
-                        color = color,
-                        storage = storage,
-                        priceRoot = this.product?.price ?:0,
-                        name = bindingProductDetail?.tvDetailName?.text.toString(),
-                        avatar = this.img)
-                val productOrder = ProductOrder(product, 1)
-                this.productBuyNow?.add(productOrder)
-                val item = bundleOf("listProduct" to productBuyNow, "totalMoney" to product.price)
-                it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentOrder, item)
-            }else bindingProductDetail?.nsvDetail?.fullScroll(View.FOCUS_UP)
+            bindingProductDetail?.motionLayout?.visible()
+            it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_bottomSheetCart, bundleOf(IMAGE to listColor, STORAGE to listStorage, "color" to color, "storage" to storage, "nameProduct" to nameProductToSetBottomCart, "idProduct" to product?.idCate, "ACTION_CART" to false))
+
         }
         bindingProductDetail?.btnSendReview?.setOnClickListener {
             findNavController().navigate(R.id.action_fragmentDetailProduct_to_fragmentComment, bundleOf("listId" to listIDComment))
@@ -246,6 +258,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                             isStorage = false
                             isStorageOrColor = false
                             isLoveFirst = false
+                            showPopup()
                         }else isSetImgFirst = false
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -267,7 +280,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                                     color = color!!,
                                     storage = storage!!
                                 )
-                            } else detailViewModel?.getColorOrStorageProduct(
+                            }else detailViewModel?.getColorOrStorageProduct(
                                 product?.idCate,
                                 color = "",
                                 storage = storage!!
@@ -275,6 +288,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                             isStorage = true
                             isStorageOrColor = false
                             isLoveFirst = false
+                    showPopup()
                 }
             }
 
@@ -322,10 +336,13 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         })
 
         detailViewModel?.color?.observe(viewLifecycleOwner, {
-                if(this.img != it) {
-                    setImg(it, bindingProductDetail?.ivDetailPhoto)
-                    this.img = it
+            for (i in 0 until listImageProduct?.size!!) {
+                if(listImageProduct?.get(i) == it){
+                    bindingProductDetail?.ivDetailPhoto?.setCurrentItem(i, true)
+                    break
                 }
+            }
+            closePopup()
         })
 
         detailViewModel?.priceOld?.observe(viewLifecycleOwner, {
@@ -335,6 +352,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         detailViewModel?.priceNew?.observe(viewLifecycleOwner, {
             bindingProductDetail?.tvDetailPrice?.text = it.toVND()
             product?.price = it
+            closePopup()
         })
         detailViewModel?.wish?.observe(viewLifecycleOwner, {
            bindingProductDetail?.cbWishList?.isChecked = it
@@ -370,8 +388,8 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
 
         })
         detailViewModel?.listComment?.observe(viewLifecycleOwner, {
+            bindingProductDetail?.tvNoVote?.text = "(${it?.size})"
             if(it?.size?:-1 > 0) {
-                bindingProductDetail?.tvNoVote?.gone()
                 bindingProductDetail?.btnViewAllVote?.visible()
                 bindingProductDetail?.chartVote?.root?.visible()
                 bindingProductDetail?.viewCharVote?.visible()
@@ -384,7 +402,6 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                 setViewRating(it)
             }else {
                 bindingProductDetail?.chartVote?.root?.gone()
-                bindingProductDetail?.tvNoVote?.visible()
                 bindingProductDetail?.rvVote?.gone()
                 bindingProductDetail?.viewCharVote?.gone()
                 bindingProductDetail?.btnViewAllVote?.gone()
@@ -393,6 +410,22 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
                 bindingProductDetail?.shimmer?.shimmerDetailProduct?.stopShimmer()
                 bindingProductDetail?.shimmer?.ctrlDetail?.gone()
                 bindingProductDetail?.groupDetailProduct?.visible()
+                when(state){
+                    0 -> {
+                        bindingProductDetail?.tvDetailState?.visible()
+                        bindingProductDetail?.tvDetailState?.text = getString(R.string.pro_coming_soon)
+                        bindingProductDetail?.ctrlFeature?.gone()
+                    }
+                    2 -> {
+                        bindingProductDetail?.tvDetailState?.visible()
+                        bindingProductDetail?.tvDetailState?.text = getString(R.string.pro_sold_out)
+                        bindingProductDetail?.ctrlFeature?.gone()
+                    }
+                    else -> {
+                        bindingProductDetail?.ctrlFeature?.visible()
+                        bindingProductDetail?.motionLayout?.visible()
+                    }
+                }
                 (activity as MainActivity).handleToolbar()
             }
 
@@ -432,16 +465,22 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         })
 
         cartViewModel?.cartResponse?.observe(viewLifecycleOwner, {
-            if(it.status == true) cartViewModel?.getTotalProduct()
+            if(it.status == true){
+                bindingProductDetail?.motionLayout?.visible()
+                bindingProductDetail?.motionCart?.performClick()
+                cartViewModel?.getTotalProduct()
+            }
             view?.let { it1 -> Snackbar.make(it1, it.message.toString(), Snackbar.LENGTH_SHORT).show() }
         })
         findNavController().currentBackStackEntry?.savedStateHandle?.apply {
             getLiveData<ParamCart>("paramCart").observe(viewLifecycleOwner) {
-                cartViewModel?.addToCart(it.storage, it. image)
+                cartViewModel?.addToCart(it.storage, it. image, it.qty)
             }
 
         }
+
     }
+
     private fun getData(){
         hadData = true
         detailViewModel?.getDetailProduct(product?.id)
@@ -455,7 +494,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         bindingProductDetail?.tvDetaiPriceOld?.paintFlags = bindingProductDetail?.tvDetaiPriceOld?.strikeThrough()!!
 
         this.img = product?.img
-        setImg(product?.img, bindingProductDetail?.ivDetailPhoto)
+//        setImg(product?.img, bindingProductDetail?.ivDetailPhoto)
 
         bindingProductDetail?.chartVote?.ctrlVote?.setOnClickListener {
             if(bindingProductDetail?.chartVote?.lnVote?.visibility == View.GONE) {
@@ -487,6 +526,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         }
     }
     private fun setDetailCateProduct(product: DetailProduct?){
+        nameProductToSetBottomCart = product?.name
         (requireActivity() as MainActivity).supportActionBar?.title = product?.name
         bindingProductDetail?.tvSupplierName?.text = product?.supplier?.name
         setImg(product?.supplier?.logoSupplier, bindingProductDetail?.ivSupplierLogo)
@@ -494,8 +534,13 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         idYT = product?.trailer
         bindingProductDetail?.cbWishList?.isChecked = product?.like?:false
         youtubePlayerFragment?.initialize(Constant.KEY_API_YOUTUBE, this)
+        listColor?.clear()
+        listStorage?.clear()
         listColor?.addAll(product?.listImage?: arrayListOf<String>())
         listStorage?.addAll(product?.listStorage?: arrayListOf<String>())
+        product?.listImage?.let { listImageProduct?.addAll(it) }
+        initSliderImageProduct()
+         state = product?.state
     }
 
     private fun initRecyclerViewRelated(){
@@ -529,6 +574,19 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         bindingProductDetail?.rvVote?.layoutManager = LinearLayoutManager(context)
     }
     //YOUTUBE
+
+    private val playbackEventListener: PlaybackEventListener = object : PlaybackEventListener {
+        override fun onBuffering(arg0: Boolean) {}
+        override fun onPaused() {
+            bindingProductDetail?.motionLayout?.visible()
+        }
+        override fun onPlaying() {
+            bindingProductDetail?.motionLayout?.gone()
+        }
+        override fun onSeekTo(arg0: Int) {}
+        override fun onStopped() {}
+    }
+
     override fun onInitializationSuccess(
             p0: YouTubePlayer.Provider?,
             player: YouTubePlayer?,
@@ -537,6 +595,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         if(!wasRestore){
             player?.cueVideo(idYT)
             player?.fullscreenControlFlags = FULLSCREEN_FLAG_CONTROL_SYSTEM_UI
+            player?.setPlaybackEventListener(playbackEventListener)
         }
 
     }
@@ -652,5 +711,44 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             }
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bindingProductDetail?.cbShare?.isChecked = false
+    }
+    private fun initSliderImageProduct(){
+        sliderImageProductAdapter = SlideShowImageAdapter(listImageProduct){
+            var listAttachment = arrayListOf<Attachment>()
+            listImageProduct?.forEach {
+                listAttachment.add(Attachment(0, it))
+            }
+            startActivity(ActivityPreviewPhoto.intentFor(context, listAttachment,false,  it))
+        }
+        bindingProductDetail?.ivDetailPhoto?.adapter = sliderImageProductAdapter
+        bindingProductDetail?.ivDetailPhoto?.clipToPadding = false
+        bindingProductDetail?.ivDetailPhoto?.clipChildren = false
+        bindingProductDetail?.ivDetailPhoto?.offscreenPageLimit = 3
+        bindingProductDetail?.ivDetailPhoto?.getChildAt(0)?.overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+        bindingProductDetail?.tvNumMaxImageProduct?.text = "/${listImageProduct?.size}"
+        bindingProductDetail?.ivDetailPhoto?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+            }
+
+            override fun onPageSelected(position: Int) {
+                bindingProductDetail?.tvNumImageProduct?.text = (position + 1).toString()
+            }
+        })
+    }
+    private fun closePopup() {
+        bindingProductDetail?.popup?.gone()
+    }
+    private fun showPopup() {
+        bindingProductDetail?.popup?.visible()
     }
 }

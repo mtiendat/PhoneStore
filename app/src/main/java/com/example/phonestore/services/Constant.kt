@@ -3,8 +3,8 @@ package com.example.phonestore.services
 import com.example.phonestore.model.auth.User
 
 object Constant {
-    const val URL_ROOT = "https://ldmobile.cdth18d.asia/"
-    const val URL = "https://ldmobile.cdth18d.asia/api/"
+    const val URL_ROOT = "http://192.168.1.172:8000/"
+    const val URL = "http://192.168.1.172:8000/api/"
     const val URL_API_ADDRESS= "https://thongtindoanhnghiep.co/api/"
     const val KEY_API_YOUTUBE= "AIzaSyDrW8Kp1XXdwddwzkg43LJ3MtJTs8jzuqk"
 
@@ -68,6 +68,12 @@ object Constant {
     const val DELIVERED = "Thành công"
     const val CANCEL = "Đã hủy"
     const val NOTIFICATION = "Thông báo"
+    const val DISCOUNTS = "Mã giảm giá"
+    const val BILL_CONFIRMED = "Đơn đã xác nhận"
+    const val BILL_RECEIVED = "Đơn đã tiếp nhận"
+    const val BILL_SUCCESS = "Giao hàng thành công"
+    const val REPLY = "Phản hồi"
+    const val DIS = "Đã hủy"
     const val NEW_PRODUCT = "Sản phẩm mới"
     const val TITLE_COLOR = "M.Sắc"
     const val TITLE_STORAGE = "D.Lượng"

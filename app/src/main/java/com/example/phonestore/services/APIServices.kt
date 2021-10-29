@@ -74,6 +74,8 @@ interface APIServices {
     @GET("total-notification/{id}")
     fun getTotalNotification(@Path("id") idUser: Int?= 0): Call<NotificationResponse>
 
+    @GET("info-product")
+    fun getInfoProduct(@Query("dungluong") storage: String?, @Query("hinhanh") image: String?): Call<ProductNotListResponse>
     @GET("slideshow")
     fun getSlideshow(): Call<SlideshowResponse>
     @GET("hotsale")
@@ -111,13 +113,20 @@ interface APIServices {
     @GET("total-product-in-cart/{id}")
     fun getTotalProductInCart(@Path("id") idUser: Int?= 0): Call<CartResponse>
     @POST("add-to-cart")
-    fun addToCart(@Query("id_user") idUser: Int?=0, @Query("dungluong") storage: String?, @Query("hinhanh") image: String?): Call<CartResponse>
+    fun addToCart(@Query("id_user") idUser: Int?=0, @Query("dungluong") storage: String?, @Query("hinhanh") image: String?, @Query("qty") qty: Int?): Call<CartResponse>
     @GET("my-cart/{id}")
     fun getMyCart(@Path("id") idUser: Int?= 0): Call<DetailCartResponse>
     @DELETE("delete-product-in-cart/{id}")
     fun deleteItem(@Path("id")idCart: Int?= 0): Call<DetailCartResponse>
     @PUT("update-cart/{id}")
     fun updateProductInCart(@Path("id") idProduct: Int?= 0, @Query("plusOrMin") method: String?): Call<CartResponse>
+
+    @GET("check-qty-product-in-warehouse")
+    fun checkQtyProductInWareHouse(@Query("hinhanh") image: String?, @Query("dungluong") storage: String?): Call<QtyResponse>
+
+    @GET("check-qty-product-by-color-storage/{id}")
+    fun checkQtyProductByColorStorage(@Path("id") id: Int?= 0, @Query("color") color: String?, @Query("storage") storage: String?): Call<ProductCartResponse>
+
     @GET("my-voucher/{id}")
     fun getMyVoucher(@Path("id") idUser: Int?= 0): Call<VoucherResponse>
     @DELETE("delete-voucher/{id}")

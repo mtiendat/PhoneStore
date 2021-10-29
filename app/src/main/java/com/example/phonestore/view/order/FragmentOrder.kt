@@ -1,5 +1,6 @@
 package com.example.phonestore.view.order
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Handler
 import android.os.Looper
@@ -36,6 +37,7 @@ import com.example.phonestore.services.Constant.PAYMENT
 import com.example.phonestore.services.Constant.SHIPPING
 import com.example.phonestore.services.adapter.DetailProductAdapter
 import com.example.phonestore.services.payment.ZaloPayHelper
+import com.example.phonestore.view.MainActivity
 import com.example.phonestore.view.cart.FragmentDialog
 import com.example.phonestore.view.cart.FragmentMyVoucher
 import com.example.phonestore.viewmodel.CartViewModel
@@ -49,6 +51,7 @@ import vn.zalopay.sdk.ZaloPaySDK
 import vn.zalopay.sdk.listeners.PayOrderListener
 import java.util.*
 import java.util.regex.Pattern
+import kotlin.collections.ArrayList
 
 class FragmentOrder: BaseFragment() {
     private var bindingOrderBinding: FragmentOrderBinding? = null
@@ -67,6 +70,7 @@ class FragmentOrder: BaseFragment() {
     private var isFragmentFollowOrder: Boolean? = false
     private var idItem: Int? = null
     private var address: Address? = null
+    private var fromNotificaiton = false
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingOrderBinding = FragmentOrderBinding.inflate(inflater, container, false)
         return bindingOrderBinding?.root
@@ -239,40 +243,75 @@ class FragmentOrder: BaseFragment() {
             }
             }
         })
-
+        orderViewModel?.detailOrder?.observe(viewLifecycleOwner, {
+            infoOrder = it.order
+            followOrdeR(it.order?.state)
+            totalMoneyPre = totalMoney
+            bindingOrderBinding?.rvOrderProduct?.isNestedScrollingEnabled = false
+            initRecyclerView(it.listProduct)
+            setOnClickListener()
+            setInfoOrder()
+        })
     }
 
     override fun setUI() {
+        (activity as MainActivity).supportActionBar?.title = "Kiểm tra đơn hàng"
         isFragmentFollowOrder = arguments?.getBoolean("key", false)
         val state  = arguments?.getString("state")
         listProductOrder = arguments?.getParcelableArrayList("listProduct")
         idOrder = arguments?.getInt("idOrder")
         voucher = arguments?.getParcelable("voucher")
         infoOrder = arguments?.getParcelable("info")
-        if(isFragmentFollowOrder==true){
+        fromNotificaiton = arguments?.getBoolean("FROMNOTIFICATION", false) == true
+        if(fromNotificaiton){
+            orderViewModel?.getListProductOrder(idOrder)
+        }else{
+            followOrdeR(state)
+            totalMoneyPre = totalMoney
+            bindingOrderBinding?.rvOrderProduct?.isNestedScrollingEnabled = false
+            initRecyclerView()
+            setOnClickListener()
+            setInfoOrder()
+        }
+
+
+
+    }
+    private fun followOrdeR(state : String?){
+        if(isFragmentFollowOrder == true){
             bindingOrderBinding?.btnDiscountOption?.isEnabled = false
             bindingOrderBinding?.btnOrderShippingOption?.isEnabled = false
             bindingOrderBinding?.btnPaymentOption?.isEnabled = false
             bindingOrderBinding?.tvChangeAddress?.gone()
-            if(state==Constant.CANCEL){
+            if(state == Constant.CANCEL){
                 bindingOrderBinding?.btnCancelOrder?.visible()
                 context?.let { ContextCompat.getColor(it, R.color.dray) }?.let { bindingOrderBinding?.btnCancelOrder?.setBackgroundColor(it) }
                 bindingOrderBinding?.btnCancelOrder?.text = Constant.CANCEL
-                bindingOrderBinding?.btnCancelOrder?.enabled()
-            }else if(state==Constant.RECEIVED){
+                bindingOrderBinding?.btnCancelOrder?.disable()
+            }else if(state == Constant.RECEIVED){
                 bindingOrderBinding?.btnCancelOrder?.visible()
             }
             bindingOrderBinding?.ctrlOrder?.gone()
             totalMoney = infoOrder?.totalMoney
+            bindingOrderBinding?.tvStateOrder?.text = state
+            when(state){
+                Constant.RECEIVED -> {
+                    bindingOrderBinding?.tvStateInfo?.text = "Đơn hàng đã được tiếp nhận, chúng tôi sẽ sớm liên hệ với bạn."
+                }
+                Constant.CONFIRMED -> {
+                    bindingOrderBinding?.tvStateInfo?.text = "Chúng tôi sẽ sớm giao hàng đến bạn."
+                }
+                Constant.DELIVERED -> {
+                    bindingOrderBinding?.tvStateInfo?.text = "Kiện hàng đã được giao thành công đến bạn!"
+                    bindingOrderBinding?.tvStateOrder?.setTextColor(ContextCompat.getColor(requireContext(), R.color.green))
+                }
+            }
         }else {
             totalMoney = arguments?.getInt("totalMoney", 0)
             if(address==null) orderViewModel?.getMyAddress()
+            bindingOrderBinding?.ctrlState?.gone()
         }
-        totalMoneyPre = totalMoney
-        bindingOrderBinding?.rvOrderProduct?.isNestedScrollingEnabled = false
-        initRecyclerView()
-        setOnClickListener()
-        setInfoOrder()
+
     }
     fun setOnClickListener(){
         bindingOrderBinding?.btnOrderFinish?.setOnClickListener {
@@ -355,7 +394,7 @@ class FragmentOrder: BaseFragment() {
             bindingOrderBinding?.tvFeeShip?.gone()
             bindingOrderBinding?.tvOrderAddress?.text = infoOrder?.address
         }
-
+        closePopup()
     }
 
     private fun updateAddress(address: Address){
@@ -386,8 +425,11 @@ class FragmentOrder: BaseFragment() {
         bindingOrderBinding?.tvOrderAddress?.text = ""
     }
 
-    private fun initRecyclerView(){
-        orderAdapter = DetailProductAdapter(listProductOrder)
+    private fun initRecyclerView(listProOrder: ArrayList<ProductOrder>? = arrayListOf()){
+        if(fromNotificaiton){
+            orderAdapter = DetailProductAdapter(listProOrder)
+        }else  orderAdapter = DetailProductAdapter(listProductOrder)
+
         orderAdapter?.deleteItemCart = { it, position->
             AppEvent.notifyShowPopUp()
             cartViewModel.deleteItem(it)
@@ -528,4 +570,10 @@ class FragmentOrder: BaseFragment() {
         cartViewModel.flag = 1
     }
 
+    private fun closePopup() {
+        bindingOrderBinding?.popup?.gone()
+    }
+    private fun onShowPopup() {
+        bindingOrderBinding?.popup?.visible()
+    }
 }

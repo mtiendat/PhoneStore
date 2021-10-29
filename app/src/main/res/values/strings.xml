@@ -91,4 +91,6 @@
     <string name="shipping_at_home">Giao hàng tận nơi</string>
     <string name="edittext_hint"><font size="14">Nhập phản hồi</font></string>
     <string name="back_exit">Nhấn back 1 lần nữa để thoát</string>
+    <string name="pro_coming_soon">Hàng sắp về</string>
+    <string name="pro_sold_out">Tạm hết hàng</string>
 </resources>

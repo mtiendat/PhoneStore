@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "955601097502",
-    "project_id": "phone-store-32830",
-    "storage_bucket": "phone-store-32830.appspot.com"
+    "project_number": "285654392090",
+    "project_id": "ldmobileauth-eb072",
+    "storage_bucket": "ldmobileauth-eb072.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:955601097502:android:572d7fdf96925882846f0f",
+        "mobilesdk_app_id": "1:285654392090:android:06ff982ebcf3a875d660a3",
         "android_client_info": {
           "package_name": "com.example.phonestore"
         }
       },
       "oauth_client": [
         {
-          "client_id": "955601097502-5qkdejj3m87upg8ggm5votaucvv745m0.apps.googleusercontent.com",
+          "client_id": "285654392090-7hbr8khas14gt6rcjp9m16mh0j85ocph.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.phonestore",
@@ -22,20 +22,28 @@
           }
         },
         {
-          "client_id": "955601097502-aql94o081o3pgv7id6ohs0hm6jbsnccc.apps.googleusercontent.com",
+          "client_id": "285654392090-p0i6s17ka36r7a3f12c2rvnal4e6hdht.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.phonestore",
+            "certificate_hash": "5edefb86404e0644bd6ee6c1613edf9863636d18"
+          }
+        },
+        {
+          "client_id": "285654392090-n9vofunfb0irt6mks6da92on8lch9t5s.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD7vaUjZ4f-U6SDUfozZUNg8uYQW5ruJPw"
+          "current_key": "AIzaSyCqzBQHWN762uNJj6Q-_zSwb3lWr_eNffU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "955601097502-aql94o081o3pgv7id6ohs0hm6jbsnccc.apps.googleusercontent.com",
+              "client_id": "285654392090-n9vofunfb0irt6mks6da92on8lch9t5s.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -2,15 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ctrlAddToCart"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/tvStorageTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="Dung lượng"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +35,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Màu sắc"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvChooseStorage" />
 
@@ -47,18 +49,89 @@
         app:layout_constraintStart_toStartOf="@+id/textView17"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="73dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="16dp"
+        android:text="Số lượng"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/qty"
+        app:layout_constraintTop_toBottomOf="@+id/rvChooseColor" />
+
+    <include
+        android:id="@+id/qty"
+        layout="@layout/layout_quantity_button"
+        android:layout_width="160dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnAddToCart"
         style="@style/ButtonRectangleStyle"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:background="@color/dray"
+        android:enabled="false"
         android:text="Thêm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvErrorAddToCart" />
+
+    <TextView
+        android:id="@+id/tvErrorAddToCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        app:layout_constraintStart_toStartOf="@+id/qty"
+        app:layout_constraintTop_toBottomOf="@+id/qty" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/popup"
+        android:layout_width="80dp"
+        android:layout_height="60dp"
+        android:background="@drawable/bg_ctrl_stroke_corner_black"
+        android:translationZ="4dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.example.phonestore.services.widget.HorizontalDottedProgress
+            android:id="@+id/progressBarSplashScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Giá bán"
+        app:layout_constraintStart_toStartOf="@+id/rvChooseColor"
         app:layout_constraintTop_toBottomOf="@+id/rvChooseColor" />
+
+    <TextView
+        android:id="@+id/tvPriceAddToCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/textView16"
+        app:layout_constraintTop_toTopOf="@+id/qty" />
 </androidx.constraintlayout.widget.ConstraintLayout>

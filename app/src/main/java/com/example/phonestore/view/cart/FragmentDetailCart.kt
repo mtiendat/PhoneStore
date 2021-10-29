@@ -12,6 +12,10 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.CompositePageTransformer
+import androidx.viewpager2.widget.MarginPageTransformer
+import androidx.viewpager2.widget.ViewPager2
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentDetailCartBinding
@@ -20,8 +24,9 @@ import com.example.phonestore.model.ProductOrder
 import com.example.phonestore.model.cart.Cart
 import com.example.phonestore.model.cart.Voucher
 import com.example.phonestore.services.Constant
-import com.example.phonestore.services.widget.SwipeHelper
 import com.example.phonestore.services.adapter.DetailProductAdapter
+import com.example.phonestore.services.adapter.SlideshowAdapter
+import com.example.phonestore.services.widget.SwipeHelper
 import com.example.phonestore.view.MainActivity
 import com.example.phonestore.viewmodel.CartViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -126,8 +131,6 @@ class FragmentDetailCart: BaseFragment() {
                     listProduct?.addAll(it)
                     detailCartAdapter?.setItems(it)
                 }
-
-
                 it?.forEach { item ->
                     listProductChoose?.add(ProductOrder(item, item.qty))
                 }
@@ -309,18 +312,25 @@ class FragmentDetailCart: BaseFragment() {
         builder.setCancelable(false)
         builder.setPositiveButton(Constant.YES) { _, _ ->
             isDelete = true
-            detailCartViewModel.deleteItem(id)
+
             if(hasDiscount==0){
                 bindingDetailCart?.tvTotalMoney?.text = (totalMoney?.minus(listProduct?.get(position)?.price?.times(listProduct?.get(position)?.qty?:0)?:0)).toVND()
                 bindingDetailCart?.tvTotalPreDetail?.text = (totalMoney?.minus(listProduct?.get(position)?.price?.times(listProduct?.get(position)?.qty?:0)?:0)).toVND()
             }else updateTotalHasDiscount()
+            for (i in 0 until listProduct?.size!!) {
+               if(listProduct?.get(i)?.id == id){
+                    listProduct?.removeAt(i)
+                    detailCartAdapter?.notifyItemRemoved(i)
+                   break
+                }
+            }
 
-            listProduct?.removeIf{n ->n.id == id}
             listProductChoose?.removeIf {n -> n.product?.id == id }
-            detailCartAdapter?.notifyDataSetChanged()
+
             context.let { it1 -> MainActivity.icon?.let { it2 ->
                 MainActivity.setBadgeCount(it1, icon = it2, listProduct?.size.toString())
             }
+                detailCartViewModel.deleteItem(id)
             }
         }
         builder.setNegativeButton(Constant.NO) { dialog, _ ->

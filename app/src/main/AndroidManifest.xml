@@ -28,7 +28,7 @@
         </service>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAPc11oT_N-ljv8DTgcd-5zmNM1htEhIn4" />
+            android:value="AIzaSyCqzBQHWN762uNJj6Q-_zSwb3lWr_eNffU" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
@@ -51,6 +51,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".view.auth.ActivityLogin" />
         <activity android:name=".view.auth.ActivitySignUp" android:parentActivityName=".view.auth.ActivitySignUpVerify" android:screenOrientation="nosensor">
             <meta-data android:name="android.support.PARRENT_ACTIVITY"
@@ -63,8 +64,13 @@
         <activity android:name=".view.MainActivity"
             android:parentActivityName=".view.auth.ActivityLogin"
             android:windowSoftInputMode="adjustResize" android:screenOrientation="nosensor">
+            <nav-graph android:value="@navigation/nav_graph" />
             <meta-data android:name="android.support.PARRENT_ACTIVITY"
                 android:value=".view.ActivityLogin"/>
+            <intent-filter>
+                <action android:name="fragmentOrder" />
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
         <activity android:name=".view.auth.ActivitySignUpInputPhone" android:parentActivityName=".view.auth.ActivityLogin" android:screenOrientation="nosensor">
             <meta-data android:name="android.support.PARRENT_ACTIVITY"
@@ -75,8 +81,8 @@
                 android:value=".view.ActivitySignUpInputPhone"/>
         </activity>
         <activity android:name=".view.order.ActivityChooseInfoAddress" />
-        <activity android:name=".view.productDetail.ActivityCompareProduct" />
-        <activity android:name=".view.productDetail.ActivityPreviewPhoto" />
+        <activity android:name=".view.product.ActivityCompareProduct" />
+        <activity android:name=".view.product.ActivityPreviewPhoto" />
         <activity android:name=".view.auth.ActivityCropPhoto" />
     </application>
 
