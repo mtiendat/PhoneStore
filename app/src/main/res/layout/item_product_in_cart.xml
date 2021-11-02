@@ -203,7 +203,7 @@
         android:layout_height="0dp"
         android:background="@color/black50"
         android:gravity="center"
-        android:text="Hết hàng"
+        android:text="Tạm Hết hàng"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:visibility="gone"

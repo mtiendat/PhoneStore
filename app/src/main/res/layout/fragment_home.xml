@@ -213,7 +213,7 @@
                 android:background="@color/white"
                 android:fontFamily="@font/sf_pro_text_semibold"
                 android:padding="8dp"
-                android:text="Sản phẩm nổi bật"
+                android:text="Sản phẩm mới nhất"
                 android:textAlignment="viewStart"
                 android:textAllCaps="true"
                 android:textColor="@color/blue"

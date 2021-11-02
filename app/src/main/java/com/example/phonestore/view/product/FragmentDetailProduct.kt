@@ -4,6 +4,7 @@ import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -98,6 +99,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     private var listStorage: ArrayList<String>? = arrayListOf()
     private var listImageProduct: ArrayList<String>? = arrayListOf()
     private var state: Int? = 1
+    private var isAddToCart = false
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingProductDetail = FragmentDetailProductBinding.inflate(inflater, container, false)
 
@@ -153,6 +155,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     }
     private fun setOnClickListener(){
         bindingProductDetail?.btnAddToCart?.setOnClickListener {
+            isAddToCart = true
             bindingProductDetail?.motionLayout?.visible()
             it.findNavController().navigate(R.id.action_fragmentDetailProduct_to_bottomSheetCart, bundleOf(IMAGE to listColor, STORAGE to listStorage, "color" to color, "storage" to storage, "nameProduct" to nameProductToSetBottomCart, "idProduct" to product?.idCate, "ACTION_CART" to true))
 //            if(checkSelectSpinner()){
@@ -321,7 +324,7 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         })
         detailViewModel?.technologyCompareResponse?.observe(viewLifecycleOwner, {
             //view?.findNavController()?.navigate(R.id.action_fragmentDetailProduct_to_fragmentCompareProduct, bundleOf("technology1" to technology, "technology2" to it.technology, "iv1" to product?.img, "iv2" to img2))
-            activity?.startActivity(ActivityCompareProduct.intentFor(context, product?.img, img2, technology, it.technology))
+            if(it != null) activity?.startActivity(ActivityCompareProduct.intentFor(context, product?.img, img2, technology, it.technology))
         })
 
         detailViewModel?.listColor?.observe(viewLifecycleOwner, {
@@ -359,12 +362,15 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             isStorageOrColor = true
         })
         detailViewModel?.idProduct?.observe(viewLifecycleOwner, {
-            product?.id = it
-            if(isStorage){
-                detailViewModel?.checkComment(it)
-                detailViewModel?.getListComment(it)
+            it?.let{
+                product?.id = it
+                if(isStorage){
+                    detailViewModel?.checkComment(it)
+                    detailViewModel?.getListComment(it)
+                }
+                idProduct = it
             }
-            idProduct = it
+
 
         })
         detailViewModel?.checkComment?.observe(viewLifecycleOwner, {
@@ -383,8 +389,10 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
             detailViewModel?.getCompareProduct(product?.idCate, product?.price)
         })
         detailViewModel?.compareProduct?.observe(viewLifecycleOwner,{
-            compareAdapter?.setItems(it)
-            detailViewModel?.getListComment(product?.id)
+            it?.let {
+                compareAdapter?.setItems(it)
+                detailViewModel?.getListComment(product?.id)
+            }
 
         })
         detailViewModel?.listComment?.observe(viewLifecycleOwner, {
@@ -432,25 +440,45 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         })
 
         detailViewModel?.statusComment?.observe(viewLifecycleOwner, {
-            if(it?.status == true){
-                view?.let { it1 -> Snackbar.make(it1, Constant.SUCCESS_VOTED, Snackbar.LENGTH_SHORT).show() }
-            }else view?.let { it1 -> Snackbar.make(it1, Constant.ERROR_VOTED, Snackbar.LENGTH_SHORT).show() }
+            it?.let {
+                if(it.status == true){
+                    view?.let { it1 -> Snackbar.make(it1, Constant.SUCCESS_VOTED, Snackbar.LENGTH_SHORT).show() }
+                }else view?.let { it1 -> Snackbar.make(it1, Constant.ERROR_VOTED, Snackbar.LENGTH_SHORT).show() }
+            }
+
         })
         detailViewModel?.statusReply?.observe(viewLifecycleOwner, {
-            if(it == true){
-                view?.let { it1 -> Snackbar.make(it1, Constant.SUCCESS_REPLY, Snackbar.LENGTH_SHORT).show() }
-                detailViewModel?.getListReply(idComment)
-            }else view?.let { it1 -> Snackbar.make(it1, Constant.ERROR_VOTED, Snackbar.LENGTH_SHORT).show() }
+            it?.let {
+                if (it) {
+                    view?.let { it1 ->
+                        Snackbar.make(
+                            it1,
+                            Constant.SUCCESS_REPLY,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                    detailViewModel?.getListReply(idComment)
+                } else view?.let { it1 ->
+                    Snackbar.make(
+                        it1,
+                        Constant.ERROR_VOTED,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
         })
         detailViewModel?.statusDeleteComment?.observe(viewLifecycleOwner, {
-            if(it.status){
-                view?.let { it1 -> Snackbar.make(it1, it.message?:"", Snackbar.LENGTH_SHORT).show() }
-                positionDelete?.let {
-                        it1 -> commentAdapter?.listComment?.removeAt(it1)
-                    commentAdapter?.notifyItemRemoved(it1)
-                }
+            it?.let {
+                if(it.status){
+                    view?.let { it1 -> Snackbar.make(it1, it.message?:"", Snackbar.LENGTH_SHORT).show() }
+                    positionDelete?.let {
+                            it1 -> commentAdapter?.listComment?.removeAt(it1)
+                        commentAdapter?.notifyItemRemoved(it1)
+                    }
 
-            }else view?.let { it1 -> Snackbar.make(it1, "", Snackbar.LENGTH_SHORT).show() }
+                }else view?.let { it1 -> Snackbar.make(it1, "", Snackbar.LENGTH_SHORT).show() }
+            }
+
         })
     }
     private fun setObserveCartViewModel(){
@@ -465,16 +493,22 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
         })
 
         cartViewModel?.cartResponse?.observe(viewLifecycleOwner, {
-            if(it.status == true){
-                bindingProductDetail?.motionLayout?.visible()
-                bindingProductDetail?.motionCart?.performClick()
-                cartViewModel?.getTotalProduct()
+            it?.let {
+                if(it.status == true){
+                    bindingProductDetail?.motionLayout?.visible()
+                    bindingProductDetail?.motionCart?.performClick()
+                    cartViewModel?.getTotalProduct()
+                }
+                view?.let { it1 -> Snackbar.make(it1, it.message.toString(), Snackbar.LENGTH_SHORT).show() }
             }
-            view?.let { it1 -> Snackbar.make(it1, it.message.toString(), Snackbar.LENGTH_SHORT).show() }
+
         })
         findNavController().currentBackStackEntry?.savedStateHandle?.apply {
             getLiveData<ParamCart>("paramCart").observe(viewLifecycleOwner) {
-                cartViewModel?.addToCart(it.storage, it. image, it.qty)
+                if(isAddToCart){
+                    cartViewModel?.addToCart(it.storage, it. image, it.qty)
+                    isAddToCart = false
+                }
             }
 
         }
@@ -750,5 +784,18 @@ class FragmentDetailProduct: BaseFragment(), YouTubePlayer.OnInitializedListener
     }
     private fun showPopup() {
         bindingProductDetail?.popup?.visible()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        detailViewModel?.technologyCompareResponse?.value = null
+        detailViewModel?.statusComment?.value = null
+        detailViewModel?.statusReply?.value = null
+        detailViewModel?.statusDeleteComment?.value = null
+        detailViewModel?.compareProduct?.value = null
+        detailViewModel?.idProduct?.value = null
+        cartViewModel?.cartResponse?.value = null
+        isSetImgFirst = true
+        detailViewModel?.idProduct?.value = null
     }
 }

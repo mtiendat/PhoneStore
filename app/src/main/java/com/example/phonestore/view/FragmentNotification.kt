@@ -14,9 +14,12 @@ import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentNotificationBinding
 import com.example.phonestore.extendsion.AppEvent
+import com.example.phonestore.extendsion.gone
+import com.example.phonestore.extendsion.visible
 import com.example.phonestore.model.Notification
 import com.example.phonestore.services.Constant
 import com.example.phonestore.services.adapter.DetailProductAdapter
+import com.example.phonestore.services.adapter.NotificationAdapter
 import com.example.phonestore.services.widget.SwipeHelper
 import com.example.phonestore.viewmodel.UserViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -24,12 +27,13 @@ import com.google.android.material.snackbar.Snackbar
 class FragmentNotification: BaseFragment() {
     private var bindingNotification: FragmentNotificationBinding? = null
     private var notificationViewModel: UserViewModel? = null
-    private var notificationAdapter: DetailProductAdapter<Notification>? = null
+    private lateinit var notificationAdapter: NotificationAdapter
     private var listNotification: ArrayList<Notification>? = arrayListOf()
     private var isDelete: Boolean = false
     private var position: Int = -1
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingNotification = FragmentNotificationBinding.inflate(inflater, container, false)
+        bindingNotification?.pb?.popup?.gone()
         return bindingNotification?.root
     }
 
@@ -38,10 +42,15 @@ class FragmentNotification: BaseFragment() {
     }
 
     override fun setObserve() {
+        notificationViewModel?.status?.observe(viewLifecycleOwner, {
+            if(it){
+                bindingNotification?.pb?.popup?.gone()
+            }
+        })
         notificationViewModel?.listNotification?.observe(viewLifecycleOwner, {
             it?.let {
                 listNotification?.addAll(it)
-                notificationAdapter?.setItems(it)
+                notificationAdapter?.notifyDataSetChanged()
             }
         })
         notificationViewModel?.notificationResponse?.observe(viewLifecycleOwner, {
@@ -68,6 +77,7 @@ class FragmentNotification: BaseFragment() {
         initRecyclerView()
         notificationViewModel?.getNotification()
         notificationAdapter?.updateNotification = {
+            bindingNotification?.pb?.popup?.visible()
             notificationViewModel?.updateNotification(it)
             updateBadgeNotification()
         }
@@ -80,11 +90,10 @@ class FragmentNotification: BaseFragment() {
         }
     }
     fun initRecyclerView(){
-        notificationAdapter = DetailProductAdapter(listNotification)
+        notificationAdapter = NotificationAdapter(listNotification)
         bindingNotification?.rvNotification?.adapter = notificationAdapter
         bindingNotification?.rvNotification?.layoutManager = LinearLayoutManager(context)
         bindingNotification?.rvNotification?.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-        bindingNotification?.rvNotification?.layoutManager = LinearLayoutManager(context)
         val itemTouchHelper = ItemTouchHelper(object : SwipeHelper(bindingNotification?.rvNotification!!) {
             override fun instantiateUnderlayButton(position: Int): List<UnderlayButton> {
                 val deleteButton = deleteButton()

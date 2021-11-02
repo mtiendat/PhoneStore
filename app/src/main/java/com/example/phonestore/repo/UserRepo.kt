@@ -74,10 +74,10 @@ class UserRepo {
             onError = {e -> onError.invoke(e)}
         )
     }
-    fun callUpdateNotification(idNotification: Int?, onError: (String?)->Unit){
+    fun callUpdateNotification(idNotification: Int?,onSuccess: (Boolean)-> Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
             call = APIServices.getInstance()?.updateNotification(idNotification),
-            onSuccess = {},
+            onSuccess = {results -> results?.status?.let { onSuccess.invoke(it) } },
             onError = {e -> onError.invoke(e)}
         )
     }

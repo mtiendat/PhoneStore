@@ -1,5 +1,6 @@
 package com.example.phonestore.repo
 
+import com.example.phonestore.model.QueueResponse
 import com.example.phonestore.model.cart.Cart
 import com.example.phonestore.model.cart.CartResponse
 import com.example.phonestore.model.cart.VoucherResponse

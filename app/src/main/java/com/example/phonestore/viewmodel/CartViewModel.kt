@@ -3,15 +3,17 @@ package com.example.phonestore.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.phonestore.model.QueueResponse
 import com.example.phonestore.model.cart.*
 import com.example.phonestore.repo.CartRepo
+import kotlin.reflect.jvm.internal.impl.load.java.Constant
 
 class CartViewModel: ViewModel() {
     var resultAddToCart: MutableLiveData<Boolean> = MutableLiveData()
     var resultDeleteItem: MutableLiveData<Boolean>? = MutableLiveData()
     var message: MutableLiveData<String> = MutableLiveData()
     var cartResponse: MutableLiveData<CartResponse> = MutableLiveData()
-    var totalProduct: MutableLiveData<Int> = MutableLiveData()
+    var totalProduct: MutableLiveData<Int?> = MutableLiveData()
     var totalNotification: MutableLiveData<Int> = MutableLiveData()
     var voucher: MutableLiveData<Voucher?> = MutableLiveData()
     var listProduct: MutableLiveData<ArrayList<Cart>?> = MutableLiveData()

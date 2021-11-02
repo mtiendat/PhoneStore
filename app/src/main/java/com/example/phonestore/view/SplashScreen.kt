@@ -2,19 +2,13 @@ package com.example.phonestore.view
 
 import android.Manifest
 import android.app.AlertDialog
-import android.content.ContentValues
-import android.content.Context
-import android.content.DialogInterface
-import android.content.SharedPreferences
+import android.content.*
 import android.content.pm.PackageManager
-import android.net.ConnectivityManager
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -27,11 +21,12 @@ import com.example.phonestore.extendsion.visible
 import com.example.phonestore.model.auth.FormLogin
 import com.example.phonestore.services.Constant
 import com.example.phonestore.services.CustomToast
+import com.example.phonestore.services.OnClearFromRecentService
 import com.example.phonestore.view.auth.ActivityLogin
 import com.example.phonestore.viewmodel.UserViewModel
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
-import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
+
 
 class SplashScreen :AppCompatActivity() {
     private var loginViewModel: UserViewModel? = null
@@ -56,6 +51,14 @@ class SplashScreen :AppCompatActivity() {
             // Get new FCM registration token
             token = task.result
         })
+        //lằng nghe trong nền: kill app
+        ContextCompat.startForegroundService(
+            this,
+            Intent(
+                baseContext,
+                OnClearFromRecentService::class.java
+            )
+        )
     }
     private fun hideSystemUI() {
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN

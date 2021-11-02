@@ -223,7 +223,7 @@
         android:id="@+id/fragmentFollowOrder"
         android:name="com.example.phonestore.view.order.FragmentFollowOrder"
         tools:layout="@layout/fragment_follow_order"
-        android:label="Đơn hàng của bạn" >
+        android:label="Lịch sử đơn hàng" >
         <action
             android:id="@+id/action_fragmentFollowOrder_to_fragmentOrder"
             app:destination="@id/fragmentOrder"

@@ -68,7 +68,7 @@ interface APIServices {
     @GET("notification/{id}")
     fun getNotification(@Path("id") idUser: Int?= 0): Call<NotificationResponse>
     @PUT("notification/{id}")
-    fun updateNotification(@Path("id") idNotification: Int?= 0): Call<NotificationResponse>
+    fun updateNotification(@Path("id") idNotification: Int?= 0): Call<DefaultResponse>
     @DELETE("notification/{id}")
     fun deleteNotification(@Path("id") idNotification: Int?= 0): Call<NotificationResponse>
     @GET("total-notification/{id}")

@@ -219,7 +219,7 @@ class FragmentOrder: BaseFragment() {
                 orderViewModel?.createOrder(newOrder())
             }else{
                 AppEvent.notifyClosePopUp()
-                for(id in it?.check?.listIDNonExist!!){
+                for(i in it?.check?.listIDNonExist!!){
                 var i = 0
                 listProductOrder?.forEach { product ->
                     if(id.toInt()== product.product?.idProduct){
@@ -473,7 +473,7 @@ class FragmentOrder: BaseFragment() {
 
         alertDialog.show()
     }
-    fun createOrder(){
+    private fun createOrder(){
         var zaloPayHelper = ZaloPayHelper()
         val appTime = Date().time
         val param = ZaloPayCreateOrderParam(
@@ -568,12 +568,13 @@ class FragmentOrder: BaseFragment() {
         cartViewModel.voucher.value = null
         cartViewModel.resultDeleteItem?.value = null
         cartViewModel.flag = 1
+        orderViewModel?.updateInQueue(Constant.idUser, "delete")
     }
 
     private fun closePopup() {
-        bindingOrderBinding?.popup?.gone()
+        bindingOrderBinding?.pb?.popup?.gone()
     }
     private fun onShowPopup() {
-        bindingOrderBinding?.popup?.visible()
+        bindingOrderBinding?.pb?.popup?.visible()
     }
 }

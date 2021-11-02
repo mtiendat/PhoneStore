@@ -100,7 +100,8 @@ class FragmentWarranty: BaseFragment() {
             val currentDate = formatter.format(time)
             val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")
             val startDateValue: LocalDate = LocalDate.parse(currentDate, dateFormatter)
-            val endDateValue: LocalDate = LocalDate.parse(warranty?.dateEnd, dateFormatter)
+            val dateFormatterEnd: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+            val endDateValue: LocalDate = LocalDate.parse(warranty?.dateEnd, dateFormatterEnd)
             bindingWarranty.tvWarrantyTime.text = "${ChronoUnit.DAYS.between(startDateValue, endDateValue).toString()} ngày"
         }else {
             bindingWarranty.tvWarrantyState.text = "Hết bảo hành"

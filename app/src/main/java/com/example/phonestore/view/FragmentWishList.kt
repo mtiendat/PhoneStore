@@ -37,6 +37,9 @@ class FragmentWishList: BaseFragment() {
                 it.listProduct?.let { it1 -> adapter.setItems(it1) }
                 binding.shimmerLayoutWishList.stopShimmer()
                 binding.shimmerLayoutWishList.gone()
+                if(it.listProduct?.size == 0){
+                    binding.tvNoWishList.visible()
+                }
             }
         })
     }

@@ -34,7 +34,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
     var clickMaxMin: ((Int?, Boolean)->Unit)? = null
     var updateProductInList: ((Cart?, Int)-> Unit)? = null
     var nextInfoOrder: ((Int, String?)-> Unit)? = null
-    var updateNotification: ((Int?)-> Unit)? = null
+
     var updateItemCart: ((Int?, Boolean?)-> Unit)? = null
     var deleteItemCart: ((Int, Int)-> Unit)? = null
     fun setItems(listItem: ArrayList<T>) {
@@ -52,7 +52,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
     class ItemProductOrderViewHolder(val bindingProductOrder: ItemProductOrderBinding): RecyclerView.ViewHolder(bindingProductOrder.root)
     class ItemMyOrderViewHolder(val bindingMyOrder: ItemOrderBinding): RecyclerView.ViewHolder(bindingMyOrder.root)
 
-    class ItemNotificationViewHolder(val bindingItemNotification: ItemNotificationBinding): RecyclerView.ViewHolder(bindingItemNotification.root)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             Constant.VIEW_MYCART -> {
@@ -63,15 +63,6 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             }
             Constant.VIEW_MY_ORDER -> {
                 ItemMyOrderViewHolder(ItemOrderBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-            }
-            Constant.NOTIFICATION_ID -> {
-                ItemNotificationViewHolder(
-                        ItemNotificationBinding.inflate(
-                                LayoutInflater.from(parent.context),
-                                parent,
-                                false
-                        )
-                )
             }
 
             else -> {ItemProductInCartViewHolder(ItemProductInCartBinding.inflate(LayoutInflater.from(parent.context), parent, false))}
@@ -144,17 +135,25 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
                     .into(holder.bindingProductInCart.ivProInCart)
             if(item.qtyInWH?:99 == 0){
                holder.bindingProductInCart.tvOutOfStock.visible()
-                holder.bindingProductInCart.cbItemCart.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.context, R.color.dray))
+                holder.bindingProductInCart.cbItemCart.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.context, R.color.little_dray))
                 holder.bindingProductInCart.cbItemCart.isChecked = false
                 holder.bindingProductInCart.cbItemCart.isEnabled = false
                 holder.bindingProductInCart.tvProInCartName.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.dray))
                 holder.bindingProductInCart.tvProInCartPrice.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.dray))
+
             }else if(item.qtyInWH?:99 <=5){
                 holder.bindingProductInCart.tvErrorCart.visible()
                 holder.bindingProductInCart.tvErrorCart.text = "*Chỉ còn ${item.qtyInWH} sản phẩm"
                 holder.bindingProductInCart.qty.btnIncrease.enableText()
                 holder.bindingProductInCart.qty.btnDecrease.enableText()
                 holder.bindingProductInCart.qty.tvNumItem.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.black))
+            }else if(item.qtyInWH?:99 == 99){
+                holder.bindingProductInCart.tvOutOfStock.gone()
+                holder.bindingProductInCart.cbItemCart.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(holder.itemView.context, R.color.blue))
+                holder.bindingProductInCart.cbItemCart.isChecked = true
+                holder.bindingProductInCart.cbItemCart.isEnabled = true
+                holder.bindingProductInCart.tvProInCartName.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.black))
+                holder.bindingProductInCart.tvProInCartPrice.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.black))
             }else{
                 holder.bindingProductInCart.qty.btnIncrease.enableText()
                 holder.bindingProductInCart.qty.btnDecrease.enableText()
@@ -190,65 +189,7 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             }
         }
 
-        if(holder is ItemNotificationViewHolder && item is Notification){
-            holder.bindingItemNotification.tvNotiTitle.text = item.title
-            holder.bindingItemNotification.tvNotiContent.text = HtmlCompat.fromHtml(item.content?:"", HtmlCompat.FROM_HTML_MODE_LEGACY)
-            holder.bindingItemNotification.tvNotiTime.text = item.time
-            holder.bindingItemNotification.cvNotification.setOnClickListener {
-                holder.bindingItemNotification.apply {
-                    tvNotiTitle.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.dray))
-                    tvNotiContent.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.dray))
-                    tvNotiTime.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.dray))
-                }
-                holder.bindingItemNotification.cvNotification.isEnabled = true
-                updateNotification?.invoke(item.id)
-            }
-            if(item.send == 1){
-                holder.bindingItemNotification.apply {
-                    tvNotiTitle.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.dray))
-                    tvNotiContent.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.dray))
-                    tvNotiTime.setTextColor(ContextCompat.getColor(holder.itemView.context, R.color.dray))
-                }
-            }
-            when(item.title){
-                Constant.BILL_RECEIVED -> {
-                    holder.bindingItemNotification.iconNotiBill.visible()
-                    holder.bindingItemNotification.iconNotiBillSuccess.gone()
-                    holder.bindingItemNotification.iconNotiBillConfirm.gone()
-                    holder.bindingItemNotification.iconNotiDiscount.gone()
-                    holder.bindingItemNotification.iconNotiReply.gone()
-                }
-                Constant.BILL_SUCCESS -> {
-                    holder.bindingItemNotification.iconNotiBillSuccess.visible()
-                    holder.bindingItemNotification.iconNotiBill.gone()
-                    holder.bindingItemNotification.iconNotiBillConfirm.gone()
-                    holder.bindingItemNotification.iconNotiDiscount.gone()
-                    holder.bindingItemNotification.iconNotiReply.gone()
-                }
-                Constant.BILL_CONFIRMED -> {
-                    holder.bindingItemNotification.iconNotiBillConfirm.visible()
-                    holder.bindingItemNotification.iconNotiBill.gone()
-                    holder.bindingItemNotification.iconNotiDiscount.gone()
-                    holder.bindingItemNotification.iconNotiReply.gone()
-                    holder.bindingItemNotification.iconNotiBillSuccess.gone()
-                }
-                Constant.DISCOUNTS -> {
-                    holder.bindingItemNotification.iconNotiDiscount.visible()
-                    holder.bindingItemNotification.iconNotiReply.gone()
-                    holder.bindingItemNotification.iconNotiBillSuccess.gone()
-                    holder.bindingItemNotification.iconNotiBill.gone()
-                    holder.bindingItemNotification.iconNotiBillConfirm.gone()
-                }
-                Constant.REPLY -> {
-                    holder.bindingItemNotification.iconNotiReply.visible()
-                    holder.bindingItemNotification.iconNotiBillSuccess.gone()
-                    holder.bindingItemNotification.iconNotiBill.gone()
-                    holder.bindingItemNotification.iconNotiBillConfirm.gone()
-                    holder.bindingItemNotification.iconNotiDiscount.gone()
-                }
-            }
 
-        }
     }
 
     override fun getItemCount(): Int {
@@ -260,7 +201,6 @@ class DetailProductAdapter<T>(var list: ArrayList<T>?): RecyclerView.Adapter<Rec
             is Cart -> Constant.VIEW_MYCART
             is ProductOrder -> Constant.VIEW_PRODUCT_ORDER
             is MyOrder -> Constant.VIEW_MY_ORDER
-            is Notification -> Constant.NOTIFICATION_ID
             else -> 1
         }
     }

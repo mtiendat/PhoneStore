@@ -93,4 +93,5 @@
     <string name="back_exit">Nhấn back 1 lần nữa để thoát</string>
     <string name="pro_coming_soon">Hàng sắp về</string>
     <string name="pro_sold_out">Tạm hết hàng</string>
+    <string name="sold_out">Một số sản phẩm hiện tạm thời hết hàng\nVui lòng thử lại sau</string>
 </resources>

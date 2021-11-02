@@ -113,9 +113,10 @@ object Constant {
     const val QUESTION_DELETE = "Bạn có muốn xóa sản phẩm?"
     const val QUESTION_DELETE_VOUCHER = "Bạn có muốn xóa voucher?"
     const val QUESTION_DELETE_ADDRESS = "Bạn có muốn xóa địa chỉ này?"
-    const val WARNING_VOUCHER = "Giá trị đơn hàng chưa đủ điều kiện"
+    const val WARNING_VOUCHER = "Giá trị đơn hàng chưa đủ điều kiện để sử dụng mã giảm giá này"
+    const val WARNING_ORDER = "Bạn đang thanh toán ở nơi khác. Vui lòng thử lại sau"
     const val WARNING_ADDRESS_STORE = "Bạn chưa chọn địa chỉ cửa hàng"
     const val WARNING_CITY= "Bạn chưa chọn tỉnh/thành phố"
     const val WARNING_DISTRICT= "Bạn chưa chọn quận/huyện"
-
+    const val OUT_OF_STOCK = "Một số sản phẩm hiện tạm thời hết hàng/nVui lòng thử lại sau"
 }

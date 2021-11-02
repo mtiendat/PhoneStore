@@ -43,7 +43,7 @@ class UserViewModel: ViewModel() {
         userRepo.callGetNotification(this::onNotificationSuccess, this::onError)
     }
     fun updateNotification(idNotification: Int?){
-        userRepo.callUpdateNotification(idNotification,  this::onError)
+        userRepo.callUpdateNotification(idNotification, this::onNotificationReadSuccess,  this::onError)
     }
     fun deleteNotification(idNotification: Int?){
         userRepo.callDeleteNotification(idNotification, this::onDeleteNotificationSuccess, this::onError)
@@ -90,6 +90,9 @@ class UserViewModel: ViewModel() {
     }
     private fun onNotificationSuccess(list: ArrayList<Notification>?){
         listNotification.value = list
+    }
+    private fun onNotificationReadSuccess(b: Boolean){
+        status.value = b
     }
     private fun onError(err: String?){
       message.value = err

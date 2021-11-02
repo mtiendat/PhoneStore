@@ -2,20 +2,17 @@ package com.example.phonestore.view.cart
 
 import android.app.AlertDialog
 import android.content.Context
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.CompositePageTransformer
-import androidx.viewpager2.widget.MarginPageTransformer
-import androidx.viewpager2.widget.ViewPager2
 import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentDetailCartBinding
@@ -25,7 +22,6 @@ import com.example.phonestore.model.cart.Cart
 import com.example.phonestore.model.cart.Voucher
 import com.example.phonestore.services.Constant
 import com.example.phonestore.services.adapter.DetailProductAdapter
-import com.example.phonestore.services.adapter.SlideshowAdapter
 import com.example.phonestore.services.widget.SwipeHelper
 import com.example.phonestore.view.MainActivity
 import com.example.phonestore.viewmodel.CartViewModel
@@ -43,8 +39,14 @@ class FragmentDetailCart: BaseFragment() {
     private var totalMoneyPrevious: Int? = 0
     private var isDelete = false
     private var flag = 0
+    private var click = false
+    private var listIDs = arrayListOf<Int>()
+    private var listProductWasDelete = arrayListOf<ProductOrder>()
+    private var condition: Int = 0
+    private var listIDsException = arrayListOf<Int>()
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingDetailCart = FragmentDetailCartBinding.inflate(inflater, container, false)
+        closePopup()
         return bindingDetailCart?.root
     }
 
@@ -80,8 +82,10 @@ class FragmentDetailCart: BaseFragment() {
 
     override fun setEvents() {
         bindingDetailCart?.btnOrder?.setOnClickListener {
-            val item = bundleOf("listProduct" to listProductChoose, "voucher" to voucher, "totalMoney" to totalMoneyPrevious)
-            it.findNavController().navigate(R.id.action_fragmentDetailCart_to_fragmentOrder, item)
+            onShowPopup()
+            click = true
+            detailCartViewModel?.updateInQueue( "add")
+
             //listProductChoose?.clear()
         }
         bindingDetailCart?.btnChooseDiscount?.setOnClickListener {
@@ -149,7 +153,7 @@ class FragmentDetailCart: BaseFragment() {
         })
         detailCartViewModel.voucher.observe(viewLifecycleOwner, {
             if(it!=null){
-                if(totalMoney!! >= it?.condition!!){
+                if(totalMoney!! >= it.condition!!){
                     voucher = it
                     totalMoneyPrevious = totalMoney
                     hasDiscount = it.discount
@@ -160,14 +164,93 @@ class FragmentDetailCart: BaseFragment() {
                     bindingDetailCart?.btnChooseDiscount?.text =""
                     totalMoney = (totalMoney?.minus(priceDiscount))
                     bindingDetailCart?.tvTotalMoney?.text = totalMoney.toVND()
+                    condition = it.condition!!
                 }else{
                     activity?.let { it1 -> FragmentDialog.newInstance(it1, "Thông báo", Constant.WARNING_VOUCHER,"Đóng") }
                 }
             }
 
+        })
+        detailCartViewModel.status.observe(viewLifecycleOwner, {
+                if(click){
+                    if(it){
+                        if(listIDsException.isNotEmpty()){
+                            detailCartViewModel.checkProductInQueue(listIDsException)
+                        }else detailCartViewModel.checkProductInQueue(null)
+                    }else activity?.let {
+                            it1 -> FragmentDialog.newInstance(it1, "Thông báo", Constant.WARNING_ORDER,"OK")
+                            closePopup()
+                    }
+
+                }
+        })
+        detailCartViewModel.responseCheckInQueue.observe(viewLifecycleOwner, {
+            if(click){
+                if(it.status == true){
+//                    if(listIDs.isNotEmpty() && !checkNew(it.listIDs)){
+//                        enableProduct(listIDs)
+//                    }
+                    closePopup()
+                    //detailCartViewModel?.updateInQueue(Constant.idUser, "add")
+                    android.os.Handler(Looper.getMainLooper()).postDelayed({
+                        goToOrder()
+                    }, 1000)
+                }else {
+                    if(checkNew(it.listIDs)){
+                        click = true
+                        detailCartViewModel.updateInQueue( "add")
+                    }else{
+                        disableProduct(it.listIDs)
+                        listIDs = it.listIDs?: arrayListOf()
+                        closePopup()
+                        context?.let { it1 -> alertNotification(it1) }
+                    }
+
+                }
+                click  = false
+            }
 
         })
 
+    }
+    private fun checkNew(newListID: ArrayList<Int>?): Boolean{
+        if(listIDs == newListID){
+            return true
+        }
+        return false
+    }
+    private fun disableProduct(listIDs: ArrayList<Int>?){
+        for(i in 0 until detailCartAdapter?.list?.size!!){
+            listIDs?.forEach { id ->
+                if(detailCartAdapter?.list?.get(i)?.idProduct ==  id) {
+                    if(detailCartAdapter?.list?.get(i)?.qtyInWH!! > 0){
+                        detailCartAdapter?.list?.get(i)?.qtyInWH = 0
+                        detailCartAdapter?.notifyItemChanged(i)
+                        listProductChoose?.forEach { n ->
+                            if(n.product?.idProduct ==  id){
+                                listProductWasDelete.add(n)
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+    private fun enableProduct(listIDs: ArrayList<Int>?){
+        for(i in 0 until detailCartAdapter?.list?.size!!){
+            listIDs?.forEach { id ->
+                if(detailCartAdapter?.list?.get(i)?.idProduct ==  id) {
+                    detailCartAdapter?.list?.get(i)?.qtyInWH = 99
+                    detailCartAdapter?.notifyItemChanged(i)
+                    listProductChoose?.addAll(listProductWasDelete.filter { n -> n.product?.idProduct == id })
+                }
+            }
+        }
+    }
+    private fun goToOrder(){
+        val item = bundleOf("listProduct" to listProductChoose, "voucher" to voucher, "totalMoney" to totalMoneyPrevious)
+        NavHostFragment.findNavController(this).navigate(R.id.action_fragmentDetailCart_to_fragmentOrder, item)
     }
     private fun initRecyclerView(){
         detailCartAdapter = DetailProductAdapter(listProduct)
@@ -196,6 +279,7 @@ class FragmentDetailCart: BaseFragment() {
             }
             if (state) {
                 totalMoney = totalMoney?.plus(total)
+                listIDsException.removeIf { n -> n == product.idProduct }
                 if(!checkExist(product.id)){
                     val productOrder = ProductOrder(product, qty)
                     if(total>0) {
@@ -206,6 +290,7 @@ class FragmentDetailCart: BaseFragment() {
             } else {
                 totalMoney = totalMoney?.minus(total)
                 val productOrder = ProductOrder(product, qty)
+                product.idProduct?.let { listIDsException.add(it) }
                 listProductChoose?.removeIf { n ->(n.product?.id == productOrder.product?.id) }//remove dùng removeIf để tránh ngoại lệ ConcurrentModificationException và "main" java.lang.IndexOutOfBoundsException
             }
             updateTotalHasDiscount()
@@ -299,12 +384,31 @@ class FragmentDetailCart: BaseFragment() {
             bindingDetailCart?.tvDiscountDetail?.text = priceDiscount.toVND()
             bindingDetailCart?.tvTotalMoney?.text = (totalMoney?.minus(priceDiscount!!)).toVND()
             totalMoneyPrevious = totalMoney
+            if(condition > totalMoney?.minus(priceDiscount)!!){
+                activity?.let { it1 -> FragmentDialog.newInstance(it1, "Thông báo", Constant.WARNING_VOUCHER,"Đóng") }
+                bindingDetailCart?.ivClearDiscount?.performClick()
+                condition = 0
+            }
         }else{
             bindingDetailCart?.tvTotalMoney?.text = totalMoney.toVND()
             bindingDetailCart?.tvTotalPreDetail?.text = totalMoney.toVND()
         }
     }
-
+    private fun alertNotification(context: Context){
+        val builder = AlertDialog.Builder(context, R.style.MyDialogTheme)
+        builder.setMessage(getText(R.string.sold_out))
+        builder.setTitle(Constant.NOTIFICATION)
+        builder.setCancelable(false)
+        builder.setPositiveButton("OK") { dialog, _ ->
+            dialog.cancel()
+        }
+        val alertDialog = builder.create()
+        alertDialog.setOnShowListener {
+            context.let {alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
+                ContextCompat.getColor(it, R.color.blue))}
+        }
+        alertDialog.show()
+    }
     private fun alertDelete(context: Context, id: Int?, position: Int){
         val builder = AlertDialog.Builder(context, R.style.MyDialogTheme)
         builder.setMessage(Constant.QUESTION_DELETE)
@@ -326,7 +430,7 @@ class FragmentDetailCart: BaseFragment() {
             }
 
             listProductChoose?.removeIf {n -> n.product?.id == id }
-
+            listIDsException.removeIf { n -> n == id }
             context.let { it1 -> MainActivity.icon?.let { it2 ->
                 MainActivity.setBadgeCount(it1, icon = it2, listProduct?.size.toString())
             }
@@ -352,6 +456,7 @@ class FragmentDetailCart: BaseFragment() {
         detailCartViewModel.voucher.value = null
         detailCartViewModel.listProduct.value = null
         detailCartViewModel.resultDeleteItem?.value = null
+        listIDsException.clear()
     }
 
     private fun setViewNoneProduct(){
@@ -370,6 +475,12 @@ class FragmentDetailCart: BaseFragment() {
     private fun enabledBtnOrder(){
         bindingDetailCart?.btnOrder?.isEnabled = true
         bindingDetailCart?.btnOrder?.setBackgroundResource(R.color.red_light)
+    }
+    private fun closePopup() {
+        bindingDetailCart?.pb?.popup?.gone()
+    }
+    private fun onShowPopup() {
+        bindingDetailCart?.pb?.popup?.visible()
     }
 
 }

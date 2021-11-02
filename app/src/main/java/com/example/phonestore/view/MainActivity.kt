@@ -74,12 +74,13 @@ class MainActivity : BaseActivity() {
         cartViewModel = ViewModelProvider(this@MainActivity).get(CartViewModel::class.java)
         cartViewModel?.totalProduct?.observe(this@MainActivity, {
                 icon?.let {
-                        it1 -> setBadgeCount(this, icon = it1, it.toString())
+                        it1 ->
+                    it?.toString()?.let { it2 -> setBadgeCount(this, icon = it1, it2) }
                 }
         })
 
         cartViewModel?.totalNotification?.observe(this@MainActivity, {
-            if(it>0) {
+            if(it?:0 >0) {
                 badgeNotification = bottomNav!!.getOrCreateBadge(R.id.fragmentNotification)
                 badgeNotification?.isVisible = true
                 badgeNotification?.number = it
