@@ -84,16 +84,16 @@ class ActivitySignUpVerify: BaseActivity() {
         }
     }
     override fun setBinding() {
-
         binding = ActivitySignUpVerifyBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        timer.start()
         number = intent.getStringExtra("phone")
         auth = FirebaseAuth.getInstance()
         auth.useAppLanguage()
         //auth.firebaseAuthSettings.setAppVerificationDisabledForTesting(true)
         //auth.firebaseAuthSettings.setAutoRetrievedSmsCodeForPhoneNumber(formatPhone(number), "123456");
         binding.groupTimer.visible()
-        timer.start()
+
     }
     override fun setUI() {
         binding.btnVerify.setOnClickListener {

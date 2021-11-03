@@ -44,9 +44,6 @@ class FragmentFollowOrderConfirmed: BaseFragment() {
         bindingOrderConfirmed.shimmerOrderConfirmed.startShimmer()
         initRecyclerView()
         orderViewModel?.getMyOrder(Constant.CONFIRMED)
-        myOrderAdapter?.nextInfoOrder = { it, _ ->
-            orderViewModel?.getListProductOrder(it)
-        }
     }
     override fun setObserve() {
         val allOrderObserve = Observer<ArrayList<MyOrder>?>{

@@ -34,6 +34,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:buttonTint="@color/blue"
+            android:checked="true"
             android:drawableStart="@drawable/bg_ic_ship"
             android:drawablePadding="10dp"
             android:paddingStart="10dp"

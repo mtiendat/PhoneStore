@@ -12,7 +12,7 @@ import com.example.phonestore.services.Constant
 
 class FragmentPaymentOption: BaseFragment() {
     private var bindingPaymentOption: FragmentPaymentOptionsBinding? = null
-    private var payment: Int = 0
+    private var payment: Int = 1
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingPaymentOption = FragmentPaymentOptionsBinding.inflate(inflater, container, false)
         return bindingPaymentOption?.root

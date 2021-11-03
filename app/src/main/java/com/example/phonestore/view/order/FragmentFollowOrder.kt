@@ -25,13 +25,12 @@ class FragmentFollowOrder: BaseFragment() {
                 FragmentFollowOrderAll(),
                 FragmentFollowOrderReceived(),
                 FragmentFollowOrderConfirmed(),
-                FragmentFollowOrderTransported(),
                 FragmentFollowOrderDelivered()
         )
         val adapter = activity?.let { TabLayoutAdapter(listFragment, it.supportFragmentManager, lifecycle) }
         bindingFollowOrder?.vp2Order?.adapter = adapter
 
-        val names: ArrayList<String> = arrayListOf(Constant.ALL,Constant.RECEIVED, Constant.CONFIRMED, Constant.TRANSPORTED, Constant.DELIVERED)
+        val names: ArrayList<String> = arrayListOf(Constant.ALL,Constant.RECEIVED, Constant.CONFIRMED, Constant.DELIVERED)
         bindingFollowOrder?.tabLayoutOrder?.let {
             bindingFollowOrder?.vp2Order?.let { it1 ->
                 TabLayoutMediator(it, it1){ tab, position ->

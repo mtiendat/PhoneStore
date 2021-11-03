@@ -8,10 +8,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.Toolbar
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
 import com.example.phonestore.R
@@ -50,7 +52,7 @@ class MainActivity : BaseActivity() {
             icon.setDrawableByLayerId(R.id.ic_badge, badge)
         }
     }
-    private var bindingMain: ActivityMainBinding? = null
+    private lateinit var bindingMain: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
     var cartViewModel: CartViewModel? = null
@@ -64,9 +66,10 @@ class MainActivity : BaseActivity() {
             cartViewModel?.postView()
         }
     }
+    var isHome: Boolean = true
     override fun setBinding() {
         bindingMain = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(bindingMain?.root)
+        setContentView(bindingMain.root)
 
     }
 
@@ -98,13 +101,13 @@ class MainActivity : BaseActivity() {
                 R.id.fragmentMe
         )
                 .build()
-        setSupportActionBar(bindingMain?.toolbarMain?.toolbar)
+        setSupportActionBar(bindingMain.toolbarMain.toolbar)
         navController.addOnDestinationChangedListener { _, _, _ ->
-            bindingMain?.toolbarMain?.appBarLayout?.setExpanded(true, true)
+            bindingMain.toolbarMain.appBarLayout.setExpanded(true, true)
         }
         setupActionBarWithNavController(navController, appBarConfiguration)
-        bottomNav = bindingMain?.bottomNavigationView
-        bindingMain?.bottomNavigationView?.setupWithNavController(navController)
+        bottomNav = bindingMain.bottomNavigationView
+        bindingMain.bottomNavigationView.setupWithNavController(navController)
         visibilityNavElements(navController)
     }
 
@@ -115,9 +118,9 @@ class MainActivity : BaseActivity() {
         return NavigationUI.navigateUp(navController, appBarConfiguration)
     }
 
-    private fun visibilityNavElements(navController: NavController){
+    private fun visibilityNavElements(navController: NavController) {
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            when(destination.id){
+            when (destination.id) {
                 R.id.fragmentDetailProduct -> {
                     hideBottomNavigation()
                     hideIconSearch()
@@ -171,56 +174,56 @@ class MainActivity : BaseActivity() {
                     showIconSearch()
                     showIconCart()
                 }
-                R.id.fragmentHelper ->{
+                R.id.fragmentHelper -> {
                     hideBottomNavigation()
                     showIconCart()
                     showIconSearch()
                 }
-                R.id.fragmentShippingOption ->{
+                R.id.fragmentShippingOption -> {
                     hideBottomNavigation()
                     hideIconCart()
                     hideIconSearch()
                 }
-                R.id.fragmentReply ->{
+                R.id.fragmentReply -> {
                     hideBottomNavigation()
                     hideIconCart()
                     hideIconSearch()
                 }
-                R.id.fragmentPaymentOption ->{
+                R.id.fragmentPaymentOption -> {
                     hideBottomNavigation()
                     hideIconCart()
                     hideIconSearch()
                 }
-                R.id.fragmentFollowOrder ->{
+                R.id.fragmentFollowOrder -> {
                     hideIconCart()
                     hideIconSearch()
                     hideBottomNavigation()
                 }
-                R.id.fragmentWarranty ->{
+                R.id.fragmentWarranty -> {
                     hideIconCart()
                     hideIconSearch()
                     hideBottomNavigation()
                 }
-                R.id.fragmentSelectAddress ->{
+                R.id.fragmentSelectAddress -> {
                     hideIconCart()
                     hideIconSearch()
                     hideBottomNavigation()
                 }
 
-                R.id.fragmentDetailTechnology ->{
+                R.id.fragmentDetailTechnology -> {
                     hideIconCart()
                     hideIconSearch()
                     hideBottomNavigation()
                 }
-                R.id.fragmentAllProduct ->{
+                R.id.fragmentAllProduct -> {
                     hideBottomNavigation()
                 }
-                R.id.fragmentEditAddress ->{
+                R.id.fragmentEditAddress -> {
                     hideIconCart()
                     hideIconSearch()
                     hideBottomNavigation()
                 }
-                R.id.fragmentComment ->{
+                R.id.fragmentComment -> {
                     hideIconCart()
                     hideIconSearch()
                     hideBottomNavigation()
@@ -230,7 +233,7 @@ class MainActivity : BaseActivity() {
                     hideIconSearch()
                     hideBottomNavigation()
                 }
-                else-> {
+                else -> {
                     showBottomNavigation()
                     showIconCart()
                     showIconSearch()

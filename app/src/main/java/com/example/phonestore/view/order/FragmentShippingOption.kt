@@ -67,64 +67,9 @@ class FragmentShippingOption: BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        GpsUtils(requireContext()).turnGPSOn(object : GpsUtils.onGpsListener {
-            override fun gpsStatus(isGPSEnable: Boolean) {
-                // turn on GPS
-                isGPS = isGPSEnable
-            }
-        })
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(activity)
-        locationRequest = LocationRequest.create()
-        locationRequest?.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest?.interval = 2 * 1000
-        locationRequest?.fastestInterval = 2 * 1000
-        locationCallback = (object: LocationCallback(){
-            override fun onLocationResult(locationResult: LocationResult) {
-                for (location: Location in locationResult.locations) {
-                    currentLatitude = location.latitude
-                    currentLongitude = location.longitude
-                    if (mFusedLocationClient != null) {
-                        mFusedLocationClient?.removeLocationUpdates(locationCallback)
-                    }
-                }
-            }
-        })
-        getLocation()
     }
 
-    private fun getLocation() {
-        context?.let {
-                if (ActivityCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.ACCESS_FINE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                        requireContext(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    requestMultiplePermissions.launch(
-                        arrayOf(
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                            Manifest.permission.ACCESS_FINE_LOCATION
-                        )
-                    )
-                    return
-                }
-                if(isGPS){
-                    mFusedLocationClient?.lastLocation?.addOnSuccessListener(requireActivity()) { location ->
-                        if (location != null) {
-                            currentLatitude = location.latitude
-                            currentLongitude = location.longitude
 
-                        }
-                    }
-                }else {
-                    CustomToast(requireContext(), "Vui lòng bật vị trí")
-                    mFusedLocationClient?.requestLocationUpdates(locationRequest, locationCallback, null);
-                }
-            }
-
-    }
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingShippingOption = FragmentShippingOptionsBinding.inflate(inflater, container, false)
         return bindingShippingOption?.root
@@ -141,7 +86,7 @@ class FragmentShippingOption: BaseFragment() {
 
         }
         bindingShippingOption?.btnShipConfirm?.setOnClickListener {
-            if(!isClick&&addressStore==null){
+            if(!isClick && addressStore==null){
                 activity?.let { it1 -> FragmentDialog.newInstance(it1, "Thông báo", Constant.WARNING_ADDRESS_STORE,"Đóng") }
             }else{
                 if(isStore) {

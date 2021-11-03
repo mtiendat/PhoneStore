@@ -60,7 +60,7 @@ class FragmentFollowOrderReceived: BaseFragment() {
             bindingOrderReceived.shimmerOrder.stopShimmer()
             bindingOrderReceived.shimmerOrder.gone()
             if(it.size > 0){
-                listMyOrder.addAll(listMyOrder)
+                listMyOrder.addAll(it)
                 myOrderAdapter?.setItems(it)
             }else bindingOrderReceived.ivBillReceived.visible()
 

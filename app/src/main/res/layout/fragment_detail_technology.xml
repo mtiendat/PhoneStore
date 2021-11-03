@@ -16,6 +16,7 @@
                 android:layout_height="wrap_content"
                 android:text="Thông số kỹ thuật chi tiết"
                 android:textSize="18dp"
+                android:fontFamily="@font/sf_pro_display_bold"
                 android:stateListAnimator="@null"
                 android:background="@color/white"
                 android:paddingStart="18dp"

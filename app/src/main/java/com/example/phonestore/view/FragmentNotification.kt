@@ -105,7 +105,7 @@ class FragmentNotification: BaseFragment() {
     private fun deleteButton() : SwipeHelper.UnderlayButton{
         return SwipeHelper.UnderlayButton(
             this.requireContext(),
-            "Delete",
+            "Xóa",
             14.0f,
             android.R.color.holo_red_light,
             this::handle,

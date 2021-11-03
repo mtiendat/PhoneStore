@@ -15,6 +15,7 @@
         app:tabMode="scrollable"
         android:background="@color/white"
         app:tabIndicatorColor ="@color/blue"
+        app:tabTextColor="@color/black"
         android:theme="@style/tabLayoutStyle">
 
     </com.google.android.material.tabs.TabLayout>

@@ -59,7 +59,7 @@ class FragmentFollowOrderDelivered: BaseFragment() {
             if(it?.size?:0 >0) {
                 if (it != null) {
                     listMyOrder?.addAll(it)
-                    myOrderAdapter?.setItems(it)
+                    myOrderAdapter?.notifyDataSetChanged()
                 }
             }else bindingDeliveredOrder.ivBillDelivered.visible()
         })

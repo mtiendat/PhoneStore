@@ -254,6 +254,9 @@ class FragmentBottomSheetCart: BottomSheetDialogFragment(){
                 isPlus = true
 
         }
+        binding?.ivClose?.setOnClickListener {
+            dismiss()
+        }
     }
 //    private fun checkSelectSpinner(): Boolean{
 //        var string = ""
