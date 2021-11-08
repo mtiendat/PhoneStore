@@ -20,6 +20,7 @@ import com.google.firebase.messaging.RemoteMessage
 
 
 class MyFirebaseMessagingService: FirebaseMessagingService() {
+    private var notificationBuilder: NotificationCompat.Builder? = null
     override fun onNewToken(token: String) {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
@@ -35,25 +36,36 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
 //            this, 0 /* Request code */, intent,
 //            PendingIntent.FLAG_ONE_SHOT
 //        )
-        val first = p0.notification?.body?.indexOf("#")
-        val second  = p0.notification?.body?.substring(first?.plus(1)!!)
-        val third = second?.indexOf(" ")
-        var idOrder = second?.substring(0, third!!)
+        if(p0.notification?.body?.contains("phản hồi") == true){
+            val channelId = Constant.CHANNEL_ID
+            notificationBuilder = NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.mipmap.logo)
+                .setContentTitle(p0.notification?.title)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(p0.notification?.body))
+                .setContentText(p0.notification?.body)
+                .setAutoCancel(true)
+        }else{
+            val first = p0.notification?.body?.indexOf("#")
+            val second  = p0.notification?.body?.substring(first?.plus(1)!!)
+            val third = second?.indexOf(" ")
+            var idOrder = second?.substring(0, third!!)
+            val channelId = Constant.CHANNEL_ID
+            notificationBuilder = NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.mipmap.logo)
+                .setContentTitle(p0.notification?.title)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(p0.notification?.body))
+                .setContentText(p0.notification?.body)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent(this, idOrder))
+        }
 
-        val channelId = Constant.CHANNEL_ID
-        val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.mipmap.logo)
-            .setContentTitle(p0.notification?.title)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(p0.notification?.body))
-            .setContentText(p0.notification?.body)
-            .setAutoCancel(true)
-            .setContentIntent(pendingIntent(this, idOrder))
+
         val name = getString(R.string.app_name)
         val channel = NotificationChannel(getString(R.string.default_notification_channel_id), name, NotificationManager.IMPORTANCE_HIGH)
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(
             Constant.NOTIFICATION_ID /* ID of notification */,
-            notificationBuilder.build()
+            notificationBuilder?.build()
         )
     }
 
@@ -68,5 +80,6 @@ class MyFirebaseMessagingService: FirebaseMessagingService() {
             .setArguments(bundleOf("idOrder" to idOrder?.toInt(), "key" to true, "FROMNOTIFICATION" to true))
             .createPendingIntent()
     }
+
 
 }

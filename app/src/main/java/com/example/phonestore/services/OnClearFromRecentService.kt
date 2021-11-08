@@ -26,8 +26,14 @@ class OnClearFromRecentService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d("ClearFromRecentService", "Service Started")
-        return START_NOT_STICKY
+        startForeground()
+        if (intent == null) {
+            return START_NOT_STICKY;
+        }
+
+        // Do any additional setup and work herre
+
+        return START_STICKY
     }
 
     override fun onDestroy() {
@@ -52,12 +58,15 @@ class OnClearFromRecentService : Service() {
     }
     private fun startForeground() {
         val channelId = "my_service"
-        val notificationBuilder = NotificationCompat.Builder(this, channelId )
-        val notification = notificationBuilder
-            .setSmallIcon(R.mipmap.ic_launcher)
-            .setPriority(PRIORITY_MIN)
-            .build()
-        startForeground(101, notification)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createNotificationChannel(channelId, "My Background Service");
+            val notificationBuilder = NotificationCompat.Builder(this, channelId)
+            val notification = notificationBuilder
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setPriority(PRIORITY_MIN)
+                .build()
+            startForeground(1023123121, notification)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

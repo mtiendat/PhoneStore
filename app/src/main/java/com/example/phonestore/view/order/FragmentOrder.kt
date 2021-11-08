@@ -71,6 +71,7 @@ class FragmentOrder: BaseFragment() {
     private var idItem: Int? = null
     private var address: Address? = null
     private var fromNotificaiton = false
+    private var click = false
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         bindingOrderBinding = FragmentOrderBinding.inflate(inflater, container, false)
         return bindingOrderBinding?.root
@@ -313,7 +314,7 @@ class FragmentOrder: BaseFragment() {
         }
 
     }
-    fun setOnClickListener(){
+    private fun setOnClickListener(){
         bindingOrderBinding?.btnOrderFinish?.setOnClickListener {
             if(checkProductInOrder()) {
                 AppEvent.notifyShowPopUp()
@@ -338,18 +339,23 @@ class FragmentOrder: BaseFragment() {
             alertCancel()
         }
         bindingOrderBinding?.tvChangeAddress?.setOnClickListener {
+            click = true
             it.findNavController().navigate(R.id.action_fragmentOrder_to_fragmentSelectAddress)
         }
         bindingOrderBinding?.ctrlAddress?.setOnClickListener {
+            click = true
             if(isFragmentFollowOrder==false) it.findNavController().navigate(R.id.action_fragmentOrder_to_fragmentSelectAddress)
         }
         bindingOrderBinding?.btnOrderShippingOption?.setOnClickListener {
+            click = true
             it.findNavController().navigate(R.id.action_fragmentOrder_to_fragmentShippingOption, bundleOf("listProductOrder" to listProductOrder))
         }
         bindingOrderBinding?.btnPaymentOption?.setOnClickListener {
+            click = true
             it.findNavController().navigate(R.id.action_fragmentOrder_to_fragmentPaymentOption)
         }
         bindingOrderBinding?.btnDiscountOption?.setOnClickListener {
+            click = true
             val dialog = FragmentMyVoucher()
             activity?.supportFragmentManager?.let { it1 -> dialog.show(it1, "Discount") }
         }
@@ -474,6 +480,7 @@ class FragmentOrder: BaseFragment() {
         alertDialog.show()
     }
     private fun createOrder(){
+        click = true
         var zaloPayHelper = ZaloPayHelper()
         val appTime = Date().time
         val param = ZaloPayCreateOrderParam(
@@ -568,7 +575,10 @@ class FragmentOrder: BaseFragment() {
         cartViewModel.voucher.value = null
         cartViewModel.resultDeleteItem?.value = null
         cartViewModel.flag = 1
-        orderViewModel?.updateInQueue(Constant.idUser, "delete")
+        if(!click){
+            orderViewModel?.updateInQueue(Constant.idUser, "delete")
+        }else click = false
+
     }
 
     private fun closePopup() {
