@@ -25,6 +25,7 @@ import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentEditAddressBinding
 import com.example.phonestore.extendsion.AppEvent
+import com.example.phonestore.model.Location
 import com.example.phonestore.model.order.Address
 import com.example.phonestore.model.order.Item
 import com.example.phonestore.services.Constant
@@ -40,8 +41,9 @@ class FragmentEditAddress: BaseFragment() {
     private var isEdit: Boolean? = false
     private var isName: Boolean = false
     private var isNew: Boolean? = false
-    private var item: Item? = null
-    private var listID: ArrayList<String>? = arrayListOf()
+    private var item: Location? = null
+    private var idLocation: Int? = null
+    private var isDistrict: Boolean = false
     private var wasValidate: Boolean= false
     override fun setBinding(inflater: LayoutInflater, container: ViewGroup?): View? {
         binding = FragmentEditAddressBinding.inflate(inflater, container, false)
@@ -65,26 +67,29 @@ class FragmentEditAddress: BaseFragment() {
             }
         }
         binding.btnProvince.setOnClickListener {
-            resultsInfoAddress.launch(context?.let { it1 -> ActivityChooseInfoAddress.intentFor(it1, "") })
+            resultsInfoAddress.launch(context?.let { it1 -> ActivityChooseInfoAddress.intentFor(it1, -1) })
         }
         binding.btnDistrict.setOnClickListener {
             if(isEdit==true){
-                resultsInfoAddress.launch(context?.let { it1 -> ActivityChooseInfoAddress.intentFor(it1, listID?.get(0), true) })
+                isDistrict = true
+                address?.city?.let { viewModel.getSearchCity(it) }
             }else {
-                if(item?.id.isNullOrEmpty()){
+                if(item?.code == null){
                     activity?.let { it1 -> FragmentDialog.newInstance(it1, "Thông báo", Constant.WARNING_CITY,"Đóng") }
-                }else resultsInfoAddress.launch(context?.let { it1 -> ActivityChooseInfoAddress.intentFor(it1, item?.id, true) })
+                }else resultsInfoAddress.launch(context?.let { it1 -> ActivityChooseInfoAddress.intentFor(it1,
+                    item?.code!!, true) })
             }
         }
         binding.btnTown.setOnClickListener {
             if(isEdit==true) {
-                resultsInfoAddress.launch(context?.let { it1 -> ActivityChooseInfoAddress.intentFor(it1, listID?.get(1)) })
+                isDistrict = false
+                address?.district?.let { viewModel.getSearchDistrict(it) }
             }else {
-                if(item?.id.isNullOrEmpty()){
+                if(item?.code == null){
                     activity?.let { it1 -> FragmentDialog.newInstance(it1, "Thông báo", Constant.WARNING_CITY,"Đóng") }
                 }else if(binding.tvDistrict.text.isNullOrEmpty()){
                     activity?.let { it1 -> FragmentDialog.newInstance(it1, "Thông báo", Constant.WARNING_DISTRICT,"Đóng") }
-                } else resultsInfoAddress.launch(context?.let { it1 -> ActivityChooseInfoAddress.intentFor(it1, item?.id, ) })
+                } else resultsInfoAddress.launch(context?.let { it1 -> ActivityChooseInfoAddress.intentFor(it1, item?.code!!, ) })
             }
         }
         binding.btnFullName.setOnClickListener {
@@ -132,9 +137,14 @@ class FragmentEditAddress: BaseFragment() {
                     clearValidate()
                     wasValidate = false
                 }
-                val data = result.data?.extras?.get("data") as Item
+                val data = result.data?.extras?.get("data") as Location
                 when(result.data?.extras?.getString("is") as String){
-                    "city"-> binding.tvCity.text = data.name
+                    "city"-> {
+                        binding.tvCity.text = data.name
+                        binding.tvDistrict.text =""
+                        binding.tvWard.text = ""
+                        isEdit = false
+                    }
                     "district"-> binding.tvDistrict.text = data.name
                     "ward"-> binding.tvWard.text = data.name
                }
@@ -149,7 +159,7 @@ class FragmentEditAddress: BaseFragment() {
             binding.tvPhone.text = address?.phone
             binding.edtAddress.setText(address?.address)
             binding.swDefault.isChecked = address?.default==1
-            viewModel.getIDCityAndDistrict(address?.city, address?.district)
+
         }
     }
 
@@ -160,8 +170,9 @@ class FragmentEditAddress: BaseFragment() {
                 NavHostFragment.findNavController(this).popBackStack()
             }
         })
-        viewModel.listId.observe(viewLifecycleOwner, {
-            listID = it
+        viewModel.listLocation.observe(viewLifecycleOwner, {
+            if(isDistrict) resultsInfoAddress.launch(context?.let { it1 -> ActivityChooseInfoAddress.intentFor(it1, it?.get(0)?.code!!, true) })
+            else resultsInfoAddress.launch(context?.let { it1 -> ActivityChooseInfoAddress.intentFor(it1, it?.get(0)?.code!!) })
         })
     }
 

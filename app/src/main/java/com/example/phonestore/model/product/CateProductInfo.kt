@@ -1,5 +1,6 @@
-package com.example.phonestore.model
+package com.example.phonestore.model.product
 
+import com.example.phonestore.model.Supplier
 import com.google.gson.annotations.SerializedName
 
 class CateProductInfo(var id: Int = 1,

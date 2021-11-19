@@ -7,7 +7,6 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.phonestore.R
 import com.example.phonestore.databinding.ItemSearchNameBinding
-import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.model.ProductInfo
 
 class SearchAdapter<E>(var listProduct: ArrayList<E?>?): RecyclerView.Adapter<RecyclerView.ViewHolder>() {

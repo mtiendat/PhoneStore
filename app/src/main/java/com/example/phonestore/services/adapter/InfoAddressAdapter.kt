@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.phonestore.databinding.ItemCityBinding
+import com.example.phonestore.model.Location
 import com.example.phonestore.model.order.Item
 
-class InfoAddressAdapter(val list: ArrayList<Item>? = arrayListOf()): RecyclerView.Adapter<InfoAddressAdapter.ItemCityAddressViewModel>() {
-    var itemClick: ((Item?)->Unit)?=null
-    fun setItems(listItem: ArrayList<Item>?) {
+class InfoAddressAdapter(val list: ArrayList<Location>? = arrayListOf()): RecyclerView.Adapter<InfoAddressAdapter.ItemCityAddressViewModel>() {
+    var itemClick: ((Location?)->Unit)?=null
+    fun setItems(listItem: ArrayList<Location>?) {
         val currentSize: Int? = list?.size
         list?.clear()
         if (listItem != null) {

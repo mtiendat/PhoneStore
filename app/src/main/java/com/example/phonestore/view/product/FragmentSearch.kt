@@ -1,24 +1,22 @@
-package com.example.phonestore.view
+package com.example.phonestore.view.product
 
 import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.phonestore.R
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentSearchBinding
 import com.example.phonestore.extendsion.gone
 import com.example.phonestore.extendsion.visible
 import com.example.phonestore.model.ProductInfo
 import com.example.phonestore.services.adapter.SearchAdapter
+import com.example.phonestore.view.MainActivity
 import com.example.phonestore.viewmodel.ProductViewModel
-import com.jpardogo.android.googleprogressbar.library.FoldingCirclesDrawable
 
 
 class FragmentSearch: BaseFragment() {

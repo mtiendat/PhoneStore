@@ -95,7 +95,7 @@ class FragmentReply: BaseFragment() {
             if(it == true){
                 view?.let { it1 -> Snackbar.make(it1, Constant.SUCCESS_REPLY, Snackbar.LENGTH_SHORT).show() }
                 val time = Calendar.getInstance().time
-                val formatter = SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault())
+                val formatter = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
                 val currentDate = formatter.format(time)
                 comment?.listReply?.add(Reply(
                     idUser = Constant.idUser,

@@ -48,6 +48,7 @@
             android:inputType="textEmailAddress"
             android:paddingTop="10dp"
             android:paddingBottom="12dp"
+            android:textColor="@color/black"
             android:textSize="14sp"
             android:theme="@style/ChangeEditTextCursor" />
     </com.google.android.material.textfield.TextInputLayout>

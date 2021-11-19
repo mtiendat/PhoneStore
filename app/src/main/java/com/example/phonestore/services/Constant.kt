@@ -8,7 +8,7 @@ object Constant {
 
     const val URL_ROOT = "https://ldmobile.cdth18d.asia/"
     const val URL = "https://ldmobile.cdth18d.asia/api/"
-    const val URL_API_ADDRESS= "https://thongtindoanhnghiep.co/api/"
+    const val URL_API_ADDRESS= "https://provinces.open-api.vn/api/"
     const val KEY_API_YOUTUBE= "AIzaSyDrW8Kp1XXdwddwzkg43LJ3MtJTs8jzuqk"
 
     const val APP_ID = 553

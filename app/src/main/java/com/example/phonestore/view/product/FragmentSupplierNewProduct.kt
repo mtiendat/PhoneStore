@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentSupplierNewProductBinding
-import com.example.phonestore.model.CateProductInfo
+import com.example.phonestore.model.product.CateProductInfo
 import com.example.phonestore.model.Supplier
 import com.example.phonestore.services.adapter.ProductAdapter
 import com.example.phonestore.viewmodel.ProductViewModel

@@ -1,8 +1,12 @@
 package com.example.phonestore.repo
 
+import com.example.phonestore.model.District
+import com.example.phonestore.model.DistrictParam
+import com.example.phonestore.model.Location
 import com.example.phonestore.model.order.Address
 import com.example.phonestore.model.order.Item
 import com.example.phonestore.model.order.ListMyAddressResponse
+import com.example.phonestore.services.APILocation
 import com.example.phonestore.services.APIRequest
 import com.example.phonestore.services.APIServices
 import com.example.phonestore.services.Constant
@@ -68,12 +72,12 @@ class AddressRepo {
             }
         )
     }
-    fun callCity(onSuccess: (ArrayList<Item>?)->Unit, onError: (String?)->Unit){
+    fun callCity(onSuccess: (ArrayList<Location>?)->Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.getCity(),
+            call = APILocation.getInstance()?.getCity(),
             onSuccess = {
                 it?.let {
-                    onSuccess.invoke(it.list)
+                    onSuccess.invoke(it)
                 }
             },
             onError = {
@@ -83,12 +87,13 @@ class AddressRepo {
             }
         )
     }
-    fun callDistrict(id: String?, onSuccess: (ArrayList<Item>?)->Unit, onError: (String?)->Unit){
+
+    fun callDistrict(code: Int, onSuccess: (ArrayList<Location>?)->Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.getDistrict(id.toString()),
+            call = APILocation.getInstance()?.getDistrict(code),
             onSuccess = {
                 it?.let {
-                    onSuccess.invoke(it.list)
+                    onSuccess.invoke(it.districts)
                 }
             },
             onError = {
@@ -98,12 +103,12 @@ class AddressRepo {
             }
         )
     }
-    fun callWard(id: String?, onSuccess: (ArrayList<Item>?)->Unit, onError: (String?)->Unit){
+    fun callWard(code: Int, onSuccess: (ArrayList<Location>?)->Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.getWard(id.toString()),
+            call = APILocation.getInstance()?.getWard(code),
             onSuccess = {
                 it?.let {
-                    onSuccess.invoke(it.list)
+                    onSuccess.invoke(it.wards)
                 }
             },
             onError = {
@@ -113,9 +118,24 @@ class AddressRepo {
             }
         )
     }
-    fun callIdCityAndDistrict(city: String?, district: String?, onSuccess: (ArrayList<String>?)->Unit, onError: (String?)->Unit){
+    fun callSearchCity(name: String, onSuccess: (ArrayList<Location>?)->Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.getIdCityAndDistrict(city, district),
+            call = APILocation.getInstance()?.searchCity(name),
+            onSuccess = {
+                it?.let {
+                    onSuccess.invoke(it)
+                }
+            },
+            onError = {
+                it?.let {
+                    onError.invoke(it)
+                }
+            }
+        )
+    }
+    fun callSearchDistrict(name: String, onSuccess: (ArrayList<Location>?)->Unit, onError: (String?)->Unit){
+        APIRequest.callRequest(
+            call = APILocation.getInstance()?.searchDistrict(name),
             onSuccess = {
                 it?.let {
                     onSuccess.invoke(it)

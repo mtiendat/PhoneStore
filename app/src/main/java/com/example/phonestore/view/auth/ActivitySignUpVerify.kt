@@ -100,6 +100,7 @@ class ActivitySignUpVerify: BaseActivity() {
             if(binding.edtOtp.text.toString().isNotEmpty()) {
                 binding.btnVerify.isEnabled = false
                 verifyVerificationCode(binding.edtOtp.text.toString().trim())
+                AppEvent.notifyShowPopUp()
             }
             //startActivity(ActivitySignUp.intentFor(this, number))
         }
@@ -155,7 +156,7 @@ class ActivitySignUpVerify: BaseActivity() {
                     if(isForgotPassword){
                         startActivity(ActivityForgotPassword.intentFor(this, number, false))
                     }else startActivity(ActivitySignUp.intentFor(this, number))
-
+                    finish()
                 } else {
                     // Sign in failed, display a message and update the UI
 

@@ -7,9 +7,9 @@ import com.bumptech.glide.Glide
 import com.example.phonestore.R
 import com.example.phonestore.databinding.ItemCommentReplyBinding
 import com.example.phonestore.databinding.ItemViewAllBinding
-import com.example.phonestore.databinding.ItemVoteCommentBinding
-import com.example.phonestore.model.Comment
 import com.example.phonestore.model.Reply
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ReplyAdapter(var listReply: ArrayList<Reply>? = arrayListOf()): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     class ItemReplyViewHolder(val binding: ItemCommentReplyBinding): RecyclerView.ViewHolder(binding.root)
@@ -31,7 +31,10 @@ class ReplyAdapter(var listReply: ArrayList<Reply>? = arrayListOf()): RecyclerVi
         val item = listReply?.get(position)
         if(holder is ItemReplyViewHolder) {
             holder.binding.tvName.text = item?.name
-            holder.binding.tvDate.text = item?.date
+            val fmt = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
+            val date = fmt.parse(item?.date)
+            val fmtOut = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+            holder.binding.tvDate.text =  fmtOut.format(date)
             holder.binding.tvContentReply.text = item?.content
 
             Glide.with(holder.itemView.context)

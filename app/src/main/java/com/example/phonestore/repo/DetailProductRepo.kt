@@ -31,7 +31,7 @@ class DetailProductRepo {
     }
     fun callRelatedProduct(idCate: Int? = 0, onSuccess: (ArrayList<ProductInfo?>?) -> Unit, onError: (String?)->Unit){
         APIRequest.callRequest(
-            call = APIServices.getInstance()?.getRelatedProduct(Constant.idUser),
+            call = APIServices.getInstance()?.getRelatedProduct(idCate),
             onSuccess = {results -> onSuccess.invoke(results?.listProduct)},
             onError = {message -> onError.invoke(message)}
         )

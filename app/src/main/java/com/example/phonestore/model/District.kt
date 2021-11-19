@@ -1,4 +1,4 @@
 package com.example.phonestore.model
 
-class District {
+class District(var name: String? , var code: Int?, ){
 }

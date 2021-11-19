@@ -95,6 +95,7 @@ class FragmentOrder: BaseFragment() {
                         bindingOrderBinding?.tvShip?.text = "Giao hàng tận nơi"
                         bindingOrderBinding?.tvFeeShip?.visible()
                         isAtStore = false
+                        address?.let { it1 -> updateAddress(it1) }
                     }
                     else -> {
                         isAtStore = true
@@ -113,30 +114,7 @@ class FragmentOrder: BaseFragment() {
                     else -> getString(R.string.payment_cash)
                 }
             }
-            getLiveData<CheckProductID>(LISTCHECK).observe(viewLifecycleOwner) {
-                for(id in it.listIDNonExist!!){
-                    var i = 0
-                    listProductOrder?.forEach { product ->
-                        if(id.toInt()== product.product?.idProduct){
-                            product.product?.isAvailable = false
-                            orderAdapter?.notifyItemChanged(i)
-                        }
-                        i++
-                    }
-                    i=0
-                }
-                for(id in it.listIDDownOne!!){
-                    var i = 0
-                    listProductOrder?.forEach { product ->
-                        if(id.toInt()== product.product?.idProduct){
-                            product.product?.isQtyAvailable = false
-                            orderAdapter?.notifyItemChanged(i)
-                        }
-                        i++
-                    }
-                    i=0
-                }
-            }
+
         }
         orderViewModel?.resultOrder?.observe(viewLifecycleOwner, {
             if(it==true){

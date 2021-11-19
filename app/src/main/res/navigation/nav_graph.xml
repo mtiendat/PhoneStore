@@ -245,7 +245,7 @@
         app:popExitAnim="@anim/slide_out_right"/>
     <fragment
         android:id="@+id/fragmentSearch"
-        android:name="com.example.phonestore.view.FragmentSearch"
+        android:name="com.example.phonestore.view.product.FragmentSearch"
         android:label=""
         tools:layout="@layout/fragment_search"/>
     <action android:id="@+id/action_global_fragmentDetailProduct"
@@ -349,7 +349,7 @@
         android:label="Thông số kỹ thuật chi tiết" />
     <fragment
         android:id="@+id/fragmentAllProduct"
-        android:name="com.example.phonestore.view.FragmentAllProduct"
+        android:name="com.example.phonestore.view.product.FragmentAllProduct"
         tools:layout="@layout/fragment_all_product"
         android:label="Tất cả sản phẩm" />
     <fragment
@@ -382,7 +382,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentWishList"
-        android:name="com.example.phonestore.view.FragmentWishList"
+        android:name="com.example.phonestore.view.product.FragmentWishList"
         tools:layout="@layout/fragment_wish_list"
         android:label="Danh sách yêu thích" >
         <action

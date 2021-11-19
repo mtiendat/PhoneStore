@@ -146,14 +146,16 @@
             android:background="@color/white"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtAddress"
-            style="@style/Widget.AppCompat.EditText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:textSize="14sp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtAddress"
+                style="@style/Widget.AppCompat.EditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 

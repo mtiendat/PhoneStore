@@ -64,7 +64,7 @@ class FragmentFollowOrderDelivered: BaseFragment() {
             }else bindingDeliveredOrder.ivBillDelivered.visible()
         })
         orderViewModel?.detailOrder?.observe(viewLifecycleOwner, {
-            val item = bundleOf("listProduct" to it.listProduct, "key" to true, "info" to it.order)
+            val item = bundleOf("listProduct" to it.listProduct, "key" to true, "info" to it.order, "state" to Constant.DELIVERED)
             view?.findNavController()?.navigate(R.id.action_fragmentFollowOrder_to_fragmentOrder, item)
         })
     }

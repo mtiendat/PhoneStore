@@ -8,6 +8,7 @@ import com.example.phonestore.model.cart.CartResponse
 import com.example.phonestore.model.cart.DetailCartResponse
 import com.example.phonestore.model.cart.VoucherResponse
 import com.example.phonestore.model.order.*
+import com.example.phonestore.model.product.CateProductResponse
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -29,7 +30,8 @@ interface APIServices {
                     .readTimeout(20, TimeUnit.SECONDS)
                     .connectTimeout(20,TimeUnit.SECONDS)
             httpClient.addInterceptor(logging).addNetworkInterceptor(RateLimitInterceptor())
-                return Retrofit.Builder()
+                
+            return Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create())
                     .baseUrl(Constant.URL)
                     .client(httpClient.build())

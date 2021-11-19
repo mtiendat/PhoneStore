@@ -1,4 +1,4 @@
-package com.example.phonestore.model
+package com.example.phonestore.model.product
 
 import com.google.gson.annotations.SerializedName
 

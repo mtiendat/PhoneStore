@@ -1,4 +1,4 @@
-package com.example.phonestore.view
+package com.example.phonestore.view.product
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,8 +19,8 @@ import com.example.phonestore.model.Filter
 import com.example.phonestore.model.ProductInfo
 import com.example.phonestore.services.widget.EndlessRecyclerViewScrollListener
 import com.example.phonestore.services.adapter.AllProductAdapter
+import com.example.phonestore.view.FragmentDialogFilter
 import com.example.phonestore.viewmodel.AllProductViewModel
-import okhttp3.internal.notify
 
 class FragmentAllProduct : BaseFragment() {
     private lateinit var dialog: FragmentDialogFilter

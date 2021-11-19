@@ -57,7 +57,7 @@ class FragmentFollowOrderConfirmed: BaseFragment() {
         orderViewModel?.listMyOrder?.observe(viewLifecycleOwner, allOrderObserve)
 
         orderViewModel?.detailOrder?.observe(viewLifecycleOwner, {
-            val item = bundleOf("listProduct" to it, "key" to true, "info" to it.order)
+            val item = bundleOf("listProduct" to it, "key" to true, "info" to it.order,  "state" to Constant.CONFIRMED)
             view?.findNavController()?.navigate(R.id.action_fragmentFollowOrder_to_fragmentOrder, item)
         })
     }

@@ -93,7 +93,6 @@ class FragmentShippingOption: BaseFragment() {
                     NavHostFragment.findNavController(this).apply {
                         previousBackStackEntry?.savedStateHandle?.apply {
                             set(Constant.SHIPPING, addressStore)
-                            set(Constant.LISTCHECK, checkedList)
                         }
                         popBackStack()
                     }
@@ -147,6 +146,7 @@ class FragmentShippingOption: BaseFragment() {
             }
             isStore = true
             adapter?.setData(list, childAdapter)
+           
             checkedList = it.check
 
         })

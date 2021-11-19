@@ -8,10 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.phonestore.R
 import com.example.phonestore.databinding.ItemRelatedProductBinding
-import com.example.phonestore.extendsion.ratingBar
 import com.example.phonestore.extendsion.strikeThrough
 import com.example.phonestore.extendsion.toVND
-import com.example.phonestore.model.CateProductInfo
 import com.example.phonestore.model.ProductInfo
 
 class RelatedProductAdapter(val listRelatedProduct: ArrayList<ProductInfo?>?):

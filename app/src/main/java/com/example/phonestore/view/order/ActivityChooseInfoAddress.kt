@@ -14,18 +14,18 @@ import com.example.phonestore.viewmodel.AddressViewModel
 
 class ActivityChooseInfoAddress: BaseActivity() {
     companion object{
-        fun intentFor(context: Context, id: String? = "", isDistrict: Boolean = false): Intent =
+        fun intentFor(context: Context, id: Int, isDistrict: Boolean = false): Intent =
             Intent(context, ActivityChooseInfoAddress::class.java).putExtra("id", id).putExtra("isDistrict", isDistrict)
     }
     private lateinit var binding: ActivityChooseInfoAddressBinding
     private var adapter: InfoAddressAdapter  = InfoAddressAdapter()
     private var viewModel: AddressViewModel? = null
-    private var id: String? = ""
+    private var id: Int?= null
     private var isDistrict: Boolean = false
     override fun setBinding() {
         binding = ActivityChooseInfoAddressBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        id = intent.getStringExtra("id")
+        id = intent.getIntExtra("id", -1)
         isDistrict = intent.getBooleanExtra("isDistrict", false)
     }
 
@@ -34,7 +34,7 @@ class ActivityChooseInfoAddress: BaseActivity() {
     }
 
     override fun setObserve() {
-        viewModel?.listCity?.observe(this, {
+        viewModel?.listLocation?.observe(this, {
             adapter.setItems(it)
             binding.progressBar2.gone()
         })
@@ -42,7 +42,7 @@ class ActivityChooseInfoAddress: BaseActivity() {
 
     override fun setUI() {
         adapter.itemClick = {
-            if(id.equals("")){
+            if(id == -1){
                 val resultIntent = Intent()
                 resultIntent.putExtra("data", it).putExtra("is", "city")
                 setResult(RESULT_OK, resultIntent)
@@ -65,18 +65,18 @@ class ActivityChooseInfoAddress: BaseActivity() {
         }
         binding.rvAddress.layoutManager = LinearLayoutManager(this)
         binding.rvAddress.adapter = adapter
-        if(id.equals("")){
+        if(id == -1){
             viewModel?.getCity()
         }else {
             if(isDistrict){
-                viewModel?.getDistrict(id)
-            }else viewModel?.getWard(id)
+                viewModel?.getDistrict(id!!)
+            }else viewModel?.getWard(id!!)
         }
 
     }
 
     override fun setToolBar() {
-        if(id.equals("")){
+        if(id == -1){
             binding.toolbarAddress.toolbar.title = Constant.CITY
         }else {
             if(isDistrict){

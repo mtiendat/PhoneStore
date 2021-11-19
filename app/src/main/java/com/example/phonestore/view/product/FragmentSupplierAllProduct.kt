@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.phonestore.base.BaseFragment
 import com.example.phonestore.databinding.FragmentSupplierAllProductBinding
-import com.example.phonestore.model.CateProductInfo
+import com.example.phonestore.model.product.CateProductInfo
 import com.example.phonestore.model.Supplier
 import com.example.phonestore.services.adapter.ProductAdapter
 import com.example.phonestore.viewmodel.ProductViewModel
